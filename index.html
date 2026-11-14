@@ -266,7 +266,7 @@ var witnesses=[
 var saved={};
 try{saved=JSON.parse(localStorage.getItem("mysteryManorCuteV1")||"{}")||{}}catch(err){}
 var maxUnlocked=Math.max(0,Math.min(2,Number(saved.chapter)||0));
-var caseProgress=Math.max(0,Math.min(3,Number(saved.caseProgress)||0,maxUnlocked));
+var caseProgress=Math.max(0,Math.min(3,Math.max(Number(saved.caseProgress)||0,maxUnlocked)));
 var caseSolved=!!saved.caseSolved;
 var best=Math.max(0,Number(saved.best)||0);
 var s,token=0,audio=null,sound=false,pointer=null,swallow=0,musicTimer=null,musicStep=0,nextNote=0;
@@ -385,7 +385,7 @@ return '<button type="button" class="'+cl+'" data-i="'+i+'" style="--hi:'+bg[0]+
 $("score").textContent=s.score.toLocaleString();
 $("moves").textContent=s.moves;
 $("best").textContent=Math.max(best,s.score).toLocaleString();
-$("clue-num").textContent=s.level+"/3";
+$("clue-num").textContent=caseProgress+"/3";
 $("hint-label").textContent="HINT · "+s.hints;
 $("shuffle-label").textContent="SHUFFLE · "+s.shuffles;
 $("hint").disabled=s.busy||s.ended||s.hints<1;
