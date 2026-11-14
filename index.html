@@ -75,6 +75,47 @@ button:focus-visible{outline:3px solid #fff1be;outline-offset:2px}
 .dialog h2{font:29px Georgia,serif;color:#ffe2b1;margin:10px 0}
 .dialog p{font-size:13px;line-height:1.65;color:#f4dfec;white-space:pre-line}
 .primary{border:1px solid #ffe2ae;border-radius:23px;background:linear-gradient(#f6d69e,#d99a86);color:#35213a;font-weight:900;padding:13px 19px;font-size:13px;box-shadow:0 3px #6c4759;margin-top:7px}
+
+/* The manor is a living, gently eerie scene. */
+.hero-art:after{content:"";position:absolute;pointer-events:none;inset:48% -40% -15%;background:radial-gradient(ellipse at 35% 80%,#f6dbef7a,transparent 62%),radial-gradient(ellipse at 75% 55%,#efd7ee66,transparent 60%);filter:blur(14px);animation:manor-fog 15s ease-in-out infinite alternate}
+@keyframes manor-fog{from{transform:translateX(-8%);opacity:.32}to{transform:translateX(7%);opacity:.68}}
+.hero-art svg g[fill="#ffc77e"]{animation:windows 3.5s steps(2,end) infinite alternate}
+@keyframes windows{0%,70%,100%{opacity:1}80%{opacity:.65}87%{opacity:.9}}
+.sound{font-size:11px;box-shadow:0 3px 12px #1b103c88}
+.tile.falling{animation:fall .29s cubic-bezier(.24,.84,.30,1.14) both}
+@keyframes fall{from{transform:translateY(var(--fall));filter:brightness(1.16)}70%{transform:translateY(4%)}to{transform:translateY(0);filter:none}}
+.tile.swapping{animation:swap-in .19s ease-out both}
+@keyframes swap-in{from{transform:translate(var(--from-x),var(--from-y))}to{transform:translate(0,0)}}
+.tile.invalid{animation:bad-swap .25s ease-in-out}
+@keyframes bad-swap{25%,75%{transform:translateX(-5%)}50%{transform:translateX(5%)}}
+.board-wrap.flash{animation:witch-flash .34s ease-out}
+@keyframes witch-flash{30%{box-shadow:0 0 34px #d2ffda,0 0 70px #b35dff;filter:brightness(1.2)}to{filter:none}}
+.witness,.evidence-case{border:1px solid #9b77a1;background:linear-gradient(140deg,#58375d,#29203e);border-radius:16px;margin:12px 0;box-shadow:0 4px 16px #140c2770;overflow:hidden}
+.witness{display:flex;align-items:center;gap:12px;padding:12px}
+.witness-art{width:90px;height:104px;flex:0 0 90px;border-radius:13px;background:radial-gradient(circle at center,#9471a3,#402b59);border:1px solid #bd8fa8;overflow:hidden}
+.witness-art svg{height:100%;width:100%;display:block}
+.witness-details{min-width:0;flex:1}
+.witness-details .tiny{font-size:9px;color:#efc59c;letter-spacing:1.5px;font-weight:900}
+.witness-details h3{font:20px Georgia,serif;color:#ffe0af;margin:4px 0}
+.witness-details p{font:12px/1.5 Georgia,serif;color:#e8d1dc;margin:4px 0 9px}
+.witness-details button{font:800 11px system-ui,sans-serif;color:#35213f;border:1px solid #f3d6b0;border-radius:22px;padding:9px 12px;background:linear-gradient(#ffdfac,#d6a1b0)}
+.evidence-case{padding:14px}
+.evidence-case h2{font:21px Georgia,serif;color:#ffe0ad;margin:2px 0 5px}
+.evidence-case p{font-size:11px;line-height:1.5;color:#d9bbd8;margin:5px 0 11px}
+.clue-list{display:grid;gap:7px}
+.clue-item{border:1px solid #80638e;background:#2f2343;color:#ead4e5;border-radius:10px;padding:10px 11px;text-align:left;font:12px system-ui,sans-serif;display:flex;align-items:center;gap:8px}
+.clue-item .clue-seal{font-size:20px;display:grid;place-items:center;width:33px;height:33px;background:#483459;border-radius:50%;flex:0 0 33px}
+.clue-item strong{display:block;color:#f8dfbc;margin-bottom:2px}
+.clue-item small{display:block;font-size:10px;color:#c4a9cb}
+.clue-item.unlocked{border-color:#c99b8d;background:#56405c}
+.solve-case{width:100%;margin-top:12px;padding:13px;border-radius:12px;border:1px solid #ffe2b7;background:linear-gradient(#f6dba4,#dcad8c);color:#422641;font:900 12px system-ui,sans-serif}
+.solve-case:disabled{opacity:.55;background:#6b5670;color:#dec8dc;border-color:#8d7995}
+.deduct-options{display:grid;gap:8px;text-align:left;margin:15px 0}
+.deduct-options button{background:#ead7bd;border:1px solid #f5e8d0;color:#523751;padding:13px 11px;border-radius:11px;font:700 13px/1.35 system-ui,sans-serif;text-align:left}
+.deduct-options button:active{transform:scale(.99)}
+.deduct-note{color:#eed3da;font:12px/1.5 Georgia,serif}
+@media(max-width:390px){.witness-art{width:72px;flex-basis:72px;height:94px}.witness-details h3{font-size:18px}.witness{gap:9px;padding:10px}}
+
 @media(max-width:380px){body{padding:6px 6px 22px}.hero-art{height:142px}.board{gap:2px;padding:4px}.tile{border-radius:7px}.stat b{font-size:23px}.story-visual{width:85px}.case strong{font-size:20px}.goal svg{width:32px;height:32px}}
 @media(prefers-reduced-motion:reduce){.tile,.tile.boo{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
@@ -143,7 +184,7 @@ button:focus-visible{outline:3px solid #fff1be;outline-offset:2px}
 </svg>
 <div class="shell">
 <header class="hero">
-<div class="top-actions"><button type="button" class="sound" id="sound">♫ OFF</button></div>
+<div class="top-actions"><button type="button" class="sound" id="sound" aria-pressed="false">♫ MUSIC OFF</button></div>
 <div class="hero-art" aria-hidden="true">
 <svg viewBox="0 0 500 200" preserveAspectRatio="xMidYMid slice">
 <defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#7568cf"/><stop offset="1" stop-color="#c57aaf"/></linearGradient><linearGradient id="hill" x2="0" y2="1"><stop stop-color="#483e75"/><stop offset="1" stop-color="#342c63"/></linearGradient></defs>
@@ -175,15 +216,37 @@ button:focus-visible{outline:3px solid #fff1be;outline-offset:2px}
 <div class="notice" id="notice" aria-live="polite">Swap two neighboring charms to make a match!</div>
 <section class="goal-card"><h2 class="section-title">✧ Collect the Evidence ✧</h2><div id="goals" class="goals"></div></section>
 <div class="tools"><button id="hint"><strong>🔎</strong><span id="hint-label">HINT · 3</span></button><button id="shuffle"><strong>🔮</strong><span id="shuffle-label">SHUFFLE · 2</span></button><button id="restart"><strong>↻</strong>RESTART</button></div>
-<p class="tip">Tap two neighboring tiles or swipe to match 3+. Make a <b>2×2 square</b> to summon a cute <b>Boo Blast</b>! Tap it to clear a 3×3 area.</p>
+<p class="tip">Tap two neighboring tiles or swipe to match 3+. Make a <b>2×2 square</b> to summon a cute <b>Hex Bomb</b>! Tap it to clear a 3×3 area.</p>
 <section class="story"><div class="story-top"><div class="story-visual" aria-hidden="true">
 <svg viewBox="0 0 105 90"><rect width="105" height="90" fill="#59416a"/><rect x="62" y="5" width="35" height="65" rx="17" fill="#3d4777" stroke="#ae88b0" stroke-width="4"/><circle cx="82" cy="25" r="12" fill="#ded7f6"/><path d="M68 7V68M62 38H97" stroke="#a18bb2" stroke-width="3"/><path d="M2 77L103 76" stroke="#ac7f6c" stroke-width="9"/><rect x="12" y="23" width="39" height="49" fill="#5a344e" stroke="#b3827f" stroke-width="4"/><path d="M15 42H48M15 60H48" stroke="#dbac85" stroke-width="4"/><g fill="#da8890"><rect x="17" y="28" width="5" height="12"/><rect x="25" y="26" width="6" height="14"/><rect x="34" y="29" width="9" height="11"/></g><path d="M53 73V52" stroke="#efc69c" stroke-width="6"/><path d="M53 51Q44 43 53 34Q62 43 53 51Z" fill="#ffdea2"/></svg>
 </div><div><span class="eyebrow">THE STORY SO FAR</span><strong id="story-title">A Locked Library</strong><p id="story-text">The candles are still warm, but the librarian has vanished.</p></div></div><div class="story-bottom" id="story-footer">Solve puzzles to find clues and bring the manor back to life.</div></section>
+
+<section class="witness" aria-label="Witness interview">
+<div class="witness-art" id="witness-art" aria-hidden="true"></div>
+<div class="witness-details"><div class="tiny" id="witness-role">NEW WITNESS · THE LIBRARY</div><h3 id="witness-name">Mallow the Familiar</h3><p id="witness-teaser">Someone heard something after midnight...</p><button type="button" id="witness-talk">💬 Ask About Midnight</button></div>
+</section>
+<section class="evidence-case" aria-label="The detective case file">
+<div class="eyebrow">✦ THE DETECTIVE'S NOTEBOOK</div><h2>Clues &amp; Witnesses</h2>
+<p id="evidence-summary">Complete each matching level to recover one clue. Talk to witnesses before you accuse anyone.</p>
+<div class="clue-list" id="clue-list"></div>
+<button type="button" id="deduce" class="solve-case" disabled>🔒 Find All Three Clues to Solve the Case</button>
+</section>
 <div class="footer">☕ A little magic. A little mystery. Just one more match.</div>
 </div>
 <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
 <div class="dialog"><div class="icon" id="modal-icon">🗝️</div><h2 id="modal-title">A New Clue!</h2><p id="modal-copy"></p><button class="primary" id="modal-button">Continue the Story →</button></div>
 </div>
+
+<div class="overlay" id="deduce-overlay" role="dialog" aria-modal="true" aria-labelledby="deduce-title">
+<div class="dialog"><div class="icon">🔎</div><h2 id="deduce-title">Who Made the Librarian Vanish?</h2>
+<p>Three clues. Three witnesses. Only one explanation fits everything.</p>
+<div class="deduct-options">
+<button data-guess="ghost">👻 A ghost kidnapped her through the library window.</button>
+<button data-guess="keeper">🌿 The groundskeeper locked her in the attic.</button>
+<button data-guess="passage">🗝️ She entered a hidden passage to protect something.</button>
+</div>
+<p class="deduct-note">⚠️ A wrong accusation loses the case. Review your notebook first.</p>
+<button class="primary" id="deduce-back">Review My Evidence</button></div></div>
 <script>
 (function(){
 "use strict";
@@ -191,21 +254,72 @@ var $=function(id){return document.getElementById(id)};
 var N=7, iconIds=["pumpkin","ghost","hat","book","orb","potion","boo"];
 var palette=[["#ffb04d","#e96b37"],["#cda8ff","#8154b5"],["#a78bfc","#6845b8"],["#fc9baf","#b34c83"],["#96c8ff","#6961cc"],["#8bdfb1","#379d85"]];
 var chapters=[
-{name:"The Missing Librarian",place:"THE LIBRARY",short:"A Locked Library",copy:"The candles are still warm, but the librarian has vanished.",goal:{"3":8,"1":9,"5":7},moves:28,clue:"A dusty brass key was tucked inside a spellbook. It opens a door no one remembers.",footer:"Restore the library and discover who was here after midnight."},
-{name:"The Stopped Clock",place:"THE WEST HALL",short:"The Clock Strikes Thirteen",copy:"Every clock in the manor stopped at the same impossible hour.",goal:{"0":9,"2":8,"4":7},moves:29,clue:"A secret compartment hides a note: Meet me where the moon touches the roof.",footer:"Follow the strange ticking into the manor's west hall."},
-{name:"The Moonlit Attic",place:"THE ATTIC",short:"The Secret Above",copy:"Footsteps echo overhead, but the attic has been locked for years.",goal:{"3":10,"4":9,"5":8},moves:30,clue:"The librarian was protecting an enchanted map. She left a message: The real mystery begins tonight.",footer:"Reveal the attic's last secret to complete this cozy mystery."}
+{name:"The Missing Librarian",place:"THE LIBRARY",short:"A Locked Library",copy:"The candles are still warm, but the librarian has vanished.",goal:{"3":8,"1":9,"5":7},moves:28,clue:"A spellbook has slipped off the shelf. Beneath it: soot brushed from a hidden seam along the fireplace.",footer:"Complete the board to discover the first clue."},
+{name:"The Stopped Clock",place:"THE WEST HALL",short:"The Clock Strikes Thirteen",copy:"Nobody has heard the grandfather clock chime for a century. Until tonight.",goal:{"0":9,"2":8,"4":7},moves:29,clue:"The clock stopped at 12:13. Behind its face is a mechanism linked to the fireplace. The front door's wax seal is intact.",footer:"Another clock, another secret. Who could have passed the sealed door?"},
+{name:"The Moonlit Attic",place:"THE ATTIC",short:"Footsteps Above",copy:"A whisper drifts down from the attic. Is it a warning—or a trap?",goal:{"3":10,"4":9,"5":8},moves:30,clue:"A note in the librarian's handwriting: 'I have hidden the star map. I must reach the passage before the collector returns.'",footer:"One more clue, then you must decide what really happened."}
+];
+var witnesses=[
+{name:"Mallow",role:"THE LIBRARIAN'S CAT",teaser:"A black cat with golden eyes and a suspiciously good memory.",advice:"I heard stone scraping behind the fireplace after midnight. I watched the door the whole time—no one used it. Also, four matching charms in a square make a Hex Bomb. Purrrfectly useful.",followup:"Mallow kneads the carpet beside the hearth. There are tiny scratches in the soot, as though a panel slid sideways."},
+{name:"Fern",role:"THE MANOR GROUNDSKEEPER",teaser:"Fern found muddy footprints but insists she never saw an intruder.",advice:"The front door still has my wax seal from yesterday. Nobody could have used it without breaking the seal. I did find a little mud on the hearthstones—not the attic stairs.",followup:"Fern swears the cellar tunnel was sealed years ago... but remembers a hidden lever beneath the mantel clock."},
+{name:"Miss Wisp",role:"THE FRIENDLY HOUSE GHOST",teaser:"The manor's resident ghost may know who walked the halls.",advice:"People blame ghosts for everything! I was dusting the attic when a living figure walked toward the fireplace. I heard a click, and then silence. I certainly didn't abduct anyone.",followup:"Miss Wisp shows you a star-shaped mark beside the fireplace. The librarian used it to open a concealed passage."}
 ];
 var saved={};
 try{saved=JSON.parse(localStorage.getItem("mysteryManorCuteV1")||"{}")||{}}catch(err){}
 var maxUnlocked=Math.max(0,Math.min(2,Number(saved.chapter)||0));
+var caseProgress=Math.max(0,Math.min(3,Number(saved.caseProgress)||0,maxUnlocked));
+var caseSolved=!!saved.caseSolved;
 var best=Math.max(0,Number(saved.best)||0);
-var s,token=0,audio=null,sound=false,pointer=null,swallow=0;
+var s,token=0,audio=null,sound=false,pointer=null,swallow=0,musicTimer=null,musicStep=0,nextNote=0;
 var sleep=function(ms){return new Promise(function(resolve){setTimeout(resolve,ms)})};
 var random=function(n){return Math.floor(Math.random()*n)};
 var position=function(y,x){return y*N+x};
 var neighbors=function(a,b){return a>=0&&b>=0&&a<N*N&&b<N*N&&Math.abs(Math.floor(a/N)-Math.floor(b/N))+Math.abs(a%N-b%N)===1};
-function persist(){try{localStorage.setItem("mysteryManorCuteV1",JSON.stringify({chapter:maxUnlocked,best:best}))}catch(err){}}
+function persist(){try{localStorage.setItem("mysteryManorCuteV1",JSON.stringify({chapter:maxUnlocked,best:best,caseProgress:caseProgress,caseSolved:caseSolved}))}catch(err){}}
 function tone(freq){if(!sound)return;try{audio=audio||new (window.AudioContext||window.webkitAudioContext)();var osc=audio.createOscillator(),gain=audio.createGain();osc.frequency.value=freq;osc.type="sine";gain.gain.setValueAtTime(.06,audio.currentTime);gain.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.13);osc.connect(gain).connect(audio.destination);osc.start();osc.stop(audio.currentTime+.13)}catch(err){}}
+
+/* Original, locally synthesized spooky-cozy score. Opt-in to meet mobile audio policies. */
+var tune=[293.66,349.23,440,349.23,293.66,261.63,233.08,null,293.66,349.23,466.16,440,349.23,293.66,261.63,null];
+function note(freq,when,duration,volume,shape){
+ if(!audio||!freq)return;
+ var o=audio.createOscillator(),g=audio.createGain(),filter=audio.createBiquadFilter();
+ o.type=shape||"sine";o.frequency.setValueAtTime(freq,when);
+ filter.type="lowpass";filter.frequency.value=1600;
+ g.gain.setValueAtTime(0.0001,when);
+ g.gain.exponentialRampToValueAtTime(Math.max(.0002,volume),when+.06);
+ g.gain.exponentialRampToValueAtTime(.0001,when+duration);
+ o.connect(filter);filter.connect(g);g.connect(audio.destination);
+ o.start(when);o.stop(when+duration+.03);
+}
+function scheduleMusic(){
+ if(!sound||!audio||audio.state!=="running")return;
+ var beat=.42;
+ while(nextNote<audio.currentTime+.7){
+  var idx=musicStep%16,pitch=tune[idx];
+  if(pitch){note(pitch,nextNote,.54,.019,"sine");if(idx%4===0)note(pitch/2,nextNote,1.55,.010,"triangle")}
+  if(idx===0||idx===8){note(idx===0?146.83:174.61,nextNote,2.6,.007,"triangle");note(220,nextNote+.3,1.9,.004,"sine")}
+  if(idx===3||idx===11)note(880,nextNote,.36,.004,"sine");
+  musicStep++;nextNote+=beat;
+ }
+}
+function startMusic(){
+ if(!sound)return;
+ try{
+  audio=audio||new (window.AudioContext||window.webkitAudioContext)();
+  var go=audio.resume();
+  if(go&&go.catch)go.catch(function(){});
+  clearInterval(musicTimer);
+  nextNote=audio.currentTime+.05;
+  scheduleMusic();musicTimer=setInterval(scheduleMusic,180);
+ }catch(err){sound=false}
+ $("sound").textContent=sound?"♫ MUSIC ON":"♫ MUSIC OFF";
+ $("sound").setAttribute("aria-pressed",sound?"true":"false");
+}
+function stopMusic(){
+ clearInterval(musicTimer);musicTimer=null;
+ if(audio&&audio.state==="running"){var p=audio.suspend();if(p&&p.catch)p.catch(function(){})}
+}
+document.addEventListener("visibilitychange",function(){if(document.hidden)stopMusic();else if(sound)startMusic()});
+
 function piece(type){return {type:type,special:type===6}}
 function cloneBoard(board){return board.map(function(p){return p?{type:p.type,special:p.special}:null})}
 function swap(board,a,b){var temp=board[a];board[a]=board[b];board[b]=temp}
@@ -263,9 +377,10 @@ function paint(clear){
 var clears=new Set(clear||[]);
 $("board").innerHTML=s.board.map(function(p,i){
 if(!p)return '<div class="tile"></div>';
-var cl="tile"+(s.selected===i?" selected":"")+(s.hint.indexOf(i)>=0?" hint":"")+(clears.has(i)?" clearing":"")+(p.special?" boo":"");
+var cl="tile"+(s.selected===i?" selected":"")+(s.hint.indexOf(i)>=0?" hint":"")+(clears.has(i)?" clearing":"")+(p.special?" boo":"")+(s.falls&&s.falls[i]?" falling":"")+(s.swapFX&&s.swapFX[i]?" swapping":"")+(s.invalid&&s.invalid.indexOf(i)>=0?" invalid":"");
 var bg=p.special?["#ddbbff","#8354be"]:palette[p.type];
-return '<button type="button" class="'+cl+'" data-i="'+i+'" style="--hi:'+bg[0]+';--lo:'+bg[1]+'" aria-label="'+(p.special?"Boo Blast special":iconIds[p.type])+' at row '+(Math.floor(i/N)+1)+' column '+(i%N+1)+'">'+tileSVG(p.type)+'</button>';
+var effect="";if(s.falls&&s.falls[i])effect+=";--fall:"+(-s.falls[i]*104)+"%";if(s.swapFX&&s.swapFX[i])effect+=";--from-x:"+s.swapFX[i].x+"%;--from-y:"+s.swapFX[i].y+"%";
+return '<button type="button" class="'+cl+'" data-i="'+i+'" style="--hi:'+bg[0]+';--lo:'+bg[1]+effect+'" aria-label="'+(p.special?"Hex Bomb special":iconIds[p.type])+' at row '+(Math.floor(i/N)+1)+' column '+(i%N+1)+'">'+tileSVG(p.type)+'</button>';
 }).join("");
 $("score").textContent=s.score.toLocaleString();
 $("moves").textContent=s.moves;
@@ -282,10 +397,57 @@ var total=c.goal[key],left=s.left[key],done=total-left,idx=Number(key);
 return '<div class="goal">'+tileSVG(idx)+'<span class="gname">'+["Pumpkins","Ghosts","Witch Hats","Spellbooks","Crystal Orbs","Potions"][idx]+'</span><div class="progress"><i style="width:'+(100*done/total)+'%"></i></div><span class="count">'+done+' / '+total+(left===0?" ✓":"")+'</span></div>';
 }).join("");
 }
+
+function portrait(index){
+ var body='<rect width="100" height="110" rx="12" fill="#765580"/><circle cx="76" cy="26" r="20" fill="#ecddbd" opacity=".75"/><path d="M0 100Q50 65 100 100V110H0Z" fill="#4e385f"/>';
+ if(index===0){
+ body+='<path d="M19 79Q12 43 28 25L35 9L51 27L69 9L81 30Q89 68 76 85L50 98Z" fill="#29263a" stroke="#c5a9b9" stroke-width="2"/><ellipse cx="39" cy="53" rx="8" ry="10" fill="#ffda84"/><ellipse cx="63" cy="53" rx="8" ry="10" fill="#ffda84"/><ellipse cx="40" cy="54" rx="2.5" ry="7" fill="#332b40"/><ellipse cx="62" cy="54" rx="2.5" ry="7" fill="#332b40"/><path d="m46 68 5 4 5-4M43 76Q51 81 59 76M37 72L7 69M37 78L10 82M65 72L91 69M65 78L92 82" fill="none" stroke="#f6d6bd" stroke-width="2" stroke-linecap="round"/>';
+ }else if(index===1){
+ body+='<path d="M20 103V78Q24 65 51 65Q80 65 83 80V103Z" fill="#85a376" stroke="#d4d2a0" stroke-width="3"/><circle cx="51" cy="51" r="28" fill="#edbd9f"/><path d="M21 43Q20 23 51 23Q80 23 79 45" fill="#573f4b"/><path d="M13 35L25 19H75L87 35Z" fill="#65845a" stroke="#c4b77b" stroke-width="3"/><rect x="28" y="15" width="46" height="9" rx="4" fill="#648a62"/><circle cx="40" cy="50" r="3" fill="#483547"/><circle cx="63" cy="50" r="3" fill="#483547"/><path d="M42 65Q51 72 60 65" fill="none" stroke="#b77b75" stroke-width="2.5"/>';
+ }else{
+ body+='<path d="M18 90V47Q16 16 51 17Q87 20 83 52V94L68 86L52 100L35 86Z" fill="#e7e0ff" opacity=".93" stroke="#c5b3fa" stroke-width="3"/><path d="M25 29Q35 14 51 20Q70 21 78 38" fill="none" stroke="#faf1ff" stroke-width="5" opacity=".7"/><ellipse cx="42" cy="55" rx="4" ry="7" fill="#63578a"/><ellipse cx="62" cy="55" rx="4" ry="7" fill="#63578a"/><path d="M46 71Q52 76 58 71" fill="none" stroke="#977fab" stroke-width="2.5"/><ellipse cx="28" cy="69" rx="7" ry="4" fill="#eea7d0" opacity=".65"/><ellipse cx="75" cy="69" rx="7" ry="4" fill="#eea7d0" opacity=".65"/>';
+ }
+ return '<svg viewBox="0 0 100 110" aria-hidden="true">'+body+'</svg>';
+}
+function updateCaseFile(){
+ var level=s?s.level:0;
+ $("witness-art").innerHTML=portrait(level);
+ $("witness-role").textContent="NEW WITNESS · "+witnesses[level].role;
+ $("witness-name").textContent=witnesses[level].name;
+ $("witness-teaser").textContent=witnesses[level].teaser;
+ $("clue-num").textContent=caseProgress+"/3";
+ $("clue-list").innerHTML=chapters.map(function(ch,i){
+ var unlocked=i<caseProgress;
+ return '<button type="button" class="clue-item'+(unlocked?' unlocked':'')+'" data-clue="'+i+'" '+(unlocked?'':'disabled')+'><span class="clue-seal">'+(unlocked?["🗝️","🕰️","📜"][i]:"?")+'</span><span><strong>Clue '+(i+1)+' · '+ch.name+'</strong><small>'+(unlocked?'Tap to examine the recovered evidence':'Complete level '+(i+1)+' to unlock')+'</small></span></button>';
+ }).join("");
+ $("evidence-summary").textContent=caseSolved?"Mystery solved! You uncovered the truth.":caseProgress===3?"You found all three clues. Question the witnesses, then choose carefully: one wrong accusation loses the case.":"Complete each matching level to recover one clue. Question witnesses before accusing anyone.";
+ $("deduce").disabled=caseProgress<3||caseSolved;
+ $("deduce").textContent=caseSolved?"✓ CASE SOLVED":caseProgress<3?"🔒 Find All Three Clues to Solve the Case":"🔎 CONNECT THE CLUES · ACCUSE";
+}
+function talkToWitness(){
+ var w=witnesses[s.level];
+ showModal("💬",w.name+" Speaks",w.advice,"close","Back to Matching");
+}
+function reviewClue(i){
+ if(i<0||i>=caseProgress)return;
+ showModal(["🗝️","🕰️","📜"][i],"Evidence "+(i+1)+": "+chapters[i].name,chapters[i].clue+"\n\nWitness: "+witnesses[i].name+"\n"+witnesses[i].followup,"close","Back to the Case File");
+}
+function accuse(answer){
+ if(caseProgress<3||caseSolved)return;
+ $("deduce-overlay").classList.remove("open");
+ if(answer==="passage"){
+  caseSolved=true;persist();updateCaseFile();
+  showModal("🌙","The Mystery Is Solved!","The librarian was never kidnapped. She entered a hidden passage behind the fireplace to protect the enchanted star map. Mallow heard the stones move, Fern found an unbroken door seal, and Miss Wisp saw a living figure. You followed the evidence!","replay-case","Replay the Mystery ↻");
+ }else{
+  s.ended=true;
+  showModal("🕸️","Wrong Accusation — Case Lost",answer==="ghost"?"The window was latched and the ghost had an alibi. The wrong accusation ends your investigation.":"The attic was empty, and no evidence pointed to the groundskeeper. The wrong accusation ends your investigation.","lose-case","Restart the Case ↻");
+ }
+}
+
 function initialize(level){
 token++;
 var c=chapters[level];
-s={level:level,board:[],score:0,moves:c.moves,left:Object.assign({},c.goal),hints:3,shuffles:2,selected:-1,hint:[],busy:false,ended:false,boomCount:0};
+s={level:level,board:[],score:0,moves:c.moves,left:Object.assign({},c.goal),hints:3,shuffles:2,selected:-1,hint:[],busy:false,ended:false,boomCount:0,falls:null,swapFX:null,invalid:[]};
 fillBoard();
 $("overlay").classList.remove("open");
 $("chapter-label").textContent="CHAPTER "+(level+1)+" · "+c.place;
@@ -295,22 +457,27 @@ $("story-title").textContent=c.short;
 $("story-text").textContent=c.copy;
 $("story-footer").textContent=c.footer;
 message("Swap two neighboring charms to make a match!");
-paint();
+updateCaseFile();paint();
 }
 function showModal(icon,title,desc,action,label){
 $("modal-icon").textContent=icon;$("modal-title").textContent=title;$("modal-copy").textContent=desc;$("modal-button").dataset.action=action;$("modal-button").textContent=label;$("overlay").classList.add("open");
 }
 function finish(win){
 s.ended=true;s.busy=false;
+best=Math.max(best,s.score);
 if(win){
-maxUnlocked=Math.max(maxUnlocked,Math.min(2,s.level+1));
-best=Math.max(best,s.score);persist();
-$("story-text").textContent=chapters[s.level].clue;
-$("story-footer").textContent="✦ Mystery clue found! The manor glows a little brighter.";
-$("clue-num").textContent=(s.level+1)+"/3";
-var isLast=s.level===2;
-showModal(isLast?"🏰":"🗝️",isLast?"The Mystery Unfolds!":"A New Clue!",chapters[s.level].clue+"\n\n"+(isLast?"Chapter one complete! The enchanted manor has more secrets to uncover.":"The next room of the manor is ready."),isLast?"replay":"next",isLast?"Play Again ↻":"Next Chapter →");
-}else{best=Math.max(best,s.score);persist();showModal("🌙","The Spell Faded","You've run out of moves. The mystery isn't going anywhere—give this room another try.","retry","Try Again ↻")}
+ caseProgress=Math.max(caseProgress,s.level+1);
+ maxUnlocked=Math.max(maxUnlocked,Math.min(2,s.level+1));
+ persist();
+ $("story-text").textContent=chapters[s.level].clue;
+ $("story-footer").textContent="✦ The evidence is recovered. A witness is ready to talk.";
+ updateCaseFile();
+ var last=s.level===2;
+ showModal("📜","Clue "+(s.level+1)+" Recovered!",chapters[s.level].clue+"\n\n"+witnesses[s.level].name+" says:\n“"+witnesses[s.level].followup+"”",last?"see-case":"next",last?"Open the Case File →":"Next Level →");
+}else{
+ persist();
+ showModal("🌙","The Spell Faded","You ran out of moves before uncovering the clue. Try the level again.","retry","Try Again ↻");
+}
 paint();
 }
 function updateProgress(indices){
@@ -320,10 +487,16 @@ if(p&&Object.prototype.hasOwnProperty.call(s.left,p.type))s.left[p.type]=Math.ma
 }
 }
 function gravity(){
-for(var col=0;col<N;col++){
-var kept=[];for(var row=N-1;row>=0;row--){var v=s.board[position(row,col)];if(v)kept.push(v)}
-for(var row=N-1;row>=0;row--){var at=position(row,col),k=N-1-row;s.board[at]=k<kept.length?kept[k]:piece(random(6))}
-}
+ s.falls={};
+ for(var col=0;col<N;col++){
+  var kept=[];
+  for(var row=N-1;row>=0;row--){var p=s.board[position(row,col)];if(p)kept.push({piece:p,origin:row})}
+  for(var row=N-1;row>=0;row--){
+   var idx=position(row,col),k=N-1-row;
+   if(k<kept.length){s.board[idx]=kept[k].piece;var fall=row-kept[k].origin;if(fall>0)s.falls[idx]=fall}
+   else{s.board[idx]=piece(random(6));s.falls[idx]=row+1+(k-kept.length)}
+  }
+ }
 }
 async function settle(preferred,activeToken){
 var chain=0;
@@ -332,7 +505,7 @@ var found=scan(s.board,preferred);
 if(!found.remove.length&&!found.anchors.length)break;
 chain++;
 found.anchors.forEach(function(i){s.board[i]=piece(6)});
-if(found.anchors.length){message("👻 BOO! A Boo Blast is born from your square match!");tone(760)}
+if(found.anchors.length){message("👻 HEX BOMB! Four matching charms form a spooky special!");tone(760)}
 paint(found.remove);
 await sleep(210);if(activeToken!==token)return;
 updateProgress(found.remove);
@@ -340,7 +513,8 @@ found.remove.forEach(function(i){s.board[i]=null});
 s.score+=found.remove.length*60*chain+found.anchors.length*210;
 gravity();
 paint();
-await sleep(160);if(activeToken!==token)return;
+await sleep(310);if(activeToken!==token)return;
+s.falls=null;
 preferred=-1;
 }
 if(chain>1)message("✨ Magical cascade! "+chain+" matches in a row!");
@@ -358,13 +532,14 @@ var j=position(row,col);affected.add(j);
 if(s.board[j]&&s.board[j].special&&!triggered.has(j))queue.push(j);
 }
 }
-message("💥 BOO BLAST! A little ghostly magic clears the way!");
+message("💥 HEX BOMB! Ghostly magic clears a 3×3 area!");
+var flash=document.querySelector(".board-wrap");flash.classList.remove("flash");void flash.offsetWidth;flash.classList.add("flash");
 tone(330);
 paint(Array.from(affected));await sleep(260);if(activeToken!==token)return;
 updateProgress(Array.from(affected));
 affected.forEach(function(i){s.board[i]=null});
 s.score+=affected.size*90;s.boomCount++;
-gravity();paint();await sleep(140);if(activeToken!==token)return;
+gravity();paint();await sleep(310);if(activeToken!==token)return;s.falls=null;
 await settle(-1,activeToken);
 }
 function endCheck(){
@@ -374,21 +549,29 @@ if(!possible(s.board)){fillBoard();message("✨ The manor shuffled the charms fo
 best=Math.max(best,s.score);persist();paint();
 }
 async function trySwap(a,b){
-if(s.busy||s.ended||!neighbors(a,b))return;
-s.busy=true;s.hint=[];s.selected=-1;
-swap(s.board,a,b);paint();
-var activeToken=token;
-await sleep(140);if(activeToken!==token)return;
-var sa=s.board[a]&&s.board[a].special,sb=s.board[b]&&s.board[b].special;
-var m=scan(s.board,b);
-if(!sa&&!sb&&!m.remove.length&&!m.anchors.length){
-swap(s.board,a,b);s.busy=false;paint();message("Those charms won't connect. Try another pair!");tone(210);return;
-}
-s.moves--;
-if(sa||sb)await explode(sb?b:a,activeToken);
-else await settle(b,activeToken);
-if(activeToken!==token)return;
-s.busy=false;endCheck();
+ if(s.busy||s.ended||!neighbors(a,b))return;
+ s.busy=true;s.hint=[];s.selected=-1;
+ var dx=((b%N)-(a%N))*104,dy=(Math.floor(b/N)-Math.floor(a/N))*104;
+ s.swapFX={};s.swapFX[a]={x:dx,y:dy};s.swapFX[b]={x:-dx,y:-dy};
+ swap(s.board,a,b);paint();
+ var activeToken=token;
+ await sleep(205);if(activeToken!==token)return;
+ s.swapFX=null;
+ var sa=s.board[a]&&s.board[a].special,sb=s.board[b]&&s.board[b].special;
+ var m=scan(s.board,b);
+ if(!sa&&!sb&&!m.remove.length&&!m.anchors.length){
+  s.swapFX={};s.swapFX[a]={x:dx,y:dy};s.swapFX[b]={x:-dx,y:-dy};
+  swap(s.board,a,b);paint();await sleep(195);if(activeToken!==token)return;
+  s.swapFX=null;s.invalid=[a,b];paint();
+  message("Those charms won't connect. Try another pair!");tone(210);
+  await sleep(180);if(activeToken!==token)return;
+  s.invalid=[];s.busy=false;paint();return;
+ }
+ s.moves--;
+ if(sa||sb)await explode(sb?b:a,activeToken);
+ else await settle(b,activeToken);
+ if(activeToken!==token)return;
+ s.busy=false;endCheck();
 }
 async function activate(i){
 if(s.busy||s.ended||!s.board[i]||!s.board[i].special)return;
@@ -430,14 +613,21 @@ if(s.busy||s.ended||!s.shuffles)return;
 s.shuffles--;s.hint=[];s.selected=-1;fillBoard();paint();message("🔮 The crystal ball has rearranged the charms!");
 });
 $("restart").addEventListener("click",function(){if(!s.busy)initialize(s.level)});
-$("sound").addEventListener("click",function(){sound=!sound;$("sound").textContent=sound?"♫ ON":"♫ OFF";tone(650)});
+$("sound").addEventListener("click",function(){sound=!sound;if(sound)startMusic();else{stopMusic();$("sound").textContent="♫ MUSIC OFF";$("sound").setAttribute("aria-pressed","false")}});
 $("modal-button").addEventListener("click",function(){
 var action=this.dataset.action;
 if(action==="next")initialize(Math.min(2,s.level+1));
-else if(action==="replay")initialize(0);
+else if(action==="see-case"){$("overlay").classList.remove("open");updateCaseFile();$("deduce").scrollIntoView({behavior:"smooth",block:"center"});}
+else if(action==="close")$("overlay").classList.remove("open");
+else if(action==="lose-case"||action==="replay-case"){caseProgress=0;maxUnlocked=0;caseSolved=false;persist();initialize(0);}
 else initialize(s.level);
 });
-window.MysteryManorTest={get:function(){return{level:s.level,board:s.board.map(function(x){return x?x.type:null}),moves:s.moves,score:s.score,goals:Object.assign({},s.left),ended:s.ended,busy:s.busy}},swap:trySwap,activate:activate,reset:function(){initialize(0)},scan:function(){return scan(s.board,-1)}};
+$("witness-talk").addEventListener("click",talkToWitness);
+$("clue-list").addEventListener("click",function(e){var b=e.target.closest("[data-clue]");if(b)reviewClue(Number(b.dataset.clue))});
+$("deduce").addEventListener("click",function(){if(caseProgress===3&&!caseSolved)$("deduce-overlay").classList.add("open")});
+$("deduce-back").addEventListener("click",function(){$("deduce-overlay").classList.remove("open")});
+document.querySelectorAll("[data-guess]").forEach(function(b){b.addEventListener("click",function(){accuse(b.dataset.guess)})});
+window.MysteryManorTest={get:function(){return{caseProgress:caseProgress,caseSolved:caseSolved,level:s.level,board:s.board.map(function(x){return x?x.type:null}),moves:s.moves,score:s.score,goals:Object.assign({},s.left),ended:s.ended,busy:s.busy}},swap:trySwap,activate:activate,reset:function(){initialize(0)},scan:function(){return scan(s.board,-1)}};
 initialize(maxUnlocked);
 })();
 </script>
