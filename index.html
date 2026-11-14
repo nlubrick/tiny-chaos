@@ -2,296 +2,191 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#23283f">
-<meta name="description" content="Tiny Chaos: one small decision changes a living town.">
-<title>Tiny Chaos · Every Life Connects</title>
+<meta name="theme-color" content="#191828">
+<title>Mystery Manor — The Vanishing at Thorne House</title>
 <style>
-:root{color-scheme:dark;font-family:ui-rounded,"Trebuchet MS",system-ui,sans-serif;background:#192135;color:#fff0e1}
-*{box-sizing:border-box}body{margin:0;min-height:100dvh;background:radial-gradient(ellipse at 50% 0%,#435168 0%,#28324c 34%,#192135 85%)}button{font:inherit;cursor:pointer}button:disabled{opacity:.5;cursor:default}
-.wrap{max-width:570px;margin:auto;padding:16px 14px 32px}
-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:4px 2px 16px}
-.logo{font-weight:1000;letter-spacing:-1.5px;font-size:25px;color:#ffe7c1}.logo span{color:#ffb78c}
-.pill{font-size:10px;letter-spacing:.7px;color:#cbd2eb;background:#35425c;padding:8px 10px;border:1px solid #62728b;border-radius:30px;font-weight:900}
-h1{font-size:28px;line-height:1.09;margin:3px 0 7px;color:#fff1d8;letter-spacing:-.8px}
-.sub{font-size:13px;color:#d9d6e0;line-height:1.5;margin:0 0 15px}
-.mapcard{background:#d2bea7;border-radius:19px;overflow:hidden;border:3px solid #e4b68e;box-shadow:0 8px 0 #12192a,0 14px 35px #05071277;position:relative}
-.topbar{background:#35475a;color:#fff2dc;display:flex;justify-content:space-between;padding:10px 12px;font-size:11px;letter-spacing:1px;font-weight:900;align-items:center}
-.clock{background:#233143;padding:5px 9px;border-radius:8px;color:#ffe0aa}
-#town{display:block;width:100%;height:auto;touch-action:manipulation;background:#a6c1b2}
-.bottom-bar{display:flex;justify-content:space-between;background:#2c3c51;padding:10px 12px;font-size:10px;font-weight:900;color:#dae1df;gap:10px}
-.mapnote{font-weight:800;color:#f9d68f}
-.panel{background:#293650;border:1px solid #54627a;border-radius:16px;padding:14px;margin-top:16px}
-.panel h2{font-size:12px;letter-spacing:1.25px;color:#ffdfac;margin:0 0 9px}.intro{font-size:12px;line-height:1.5;color:#e0ddec;margin:0 0 12px}
-.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.choice{background:#34445e;border:2px solid #566881;color:#f5e7e3;text-align:left;border-radius:13px;padding:10px 10px 11px;min-height:86px}
-.choice.selected{background:#65546c;border-color:#ffcf88;box-shadow:0 0 0 2px #ffcf8833}
-.choice strong{display:block;font-size:13px;margin:0 0 4px}.choice small{font-size:11px;line-height:1.38;color:#d7ced9}
-.actions{display:flex;gap:8px;margin-top:12px}.actions button{border:0;border-radius:11px;padding:13px 12px;font-weight:900;font-size:12px}
-#go{flex:1;color:#3c2b3b;background:linear-gradient(#ffe8ae,#f6b87d)}#reset,#speed,#pause{background:#485b71;color:#fff2e2;border:1px solid #708297}.extras{display:flex;gap:8px;margin-top:8px}.extras button{flex:1;padding:10px;border-radius:10px;font-size:12px;font-weight:850}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:13px 0}
-.stat{background:#29364d;border:1px solid #55617b;border-radius:12px;text-align:center;padding:9px 5px}.stat strong{display:block;font-size:22px;color:#ffdea7}.stat span{font-size:9px;font-weight:800;letter-spacing:.4px;color:#c4d0df}
-.feed{max-height:240px;min-height:65px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;scrollbar-color:#637991 transparent}
-.event{display:flex;gap:9px;align-items:flex-start;font-size:12px;line-height:1.4;background:#344359;padding:9px;border-radius:10px}
-.event-time{font-size:10px;color:#ffe0ad;background:#475775;padding:5px 6px;border-radius:6px;flex-shrink:0}
-.event b{color:#fff0da}.event small{display:block;color:#bfcddd;font-size:10px;margin-top:3px}
-.empty{color:#c5ccd8;font-size:12px;margin:4px 0}
-.personcard{background:#394965;border:1px solid #657992;border-radius:12px;padding:10px;margin-top:10px;display:flex;align-items:center;gap:11px}
-.personcard .avatar{width:37px;height:37px;border-radius:50%;display:grid;place-items:center;background:#ceb2a8;color:#263045;font-size:14px;font-weight:900}
-.personcard strong{font-size:13px}.personcard p{font-size:11px;margin:3px 0 0;color:#d5dce5;line-height:1.45}
-.result{border:1px solid #a18b76;background:#403f56;border-radius:13px;padding:12px;margin-top:12px;display:none}
-.result strong{display:block;font-size:14px;color:#ffe3a4}.result p{font-size:12px;line-height:1.5;margin:6px 0 0;color:#f0e3dd}
-#compare{background:#50677a;color:#fff0db;border:0;border-radius:11px;padding:11px 12px;font-weight:900;font-size:12px;display:none;margin-top:8px;width:100%}
-#comparison{display:none;margin-top:10px;font-size:11px;line-height:1.5;color:#e4e3eb}
-footer{text-align:center;color:#aeb7cb;font-size:10px;margin-top:20px;letter-spacing:1px}
-#town .citizen{cursor:pointer;outline:none}#town .citizen:focus-visible .focus-ring{opacity:1}
-@media(max-width:380px){.wrap{padding-left:9px;padding-right:9px}.choice{min-height:94px}.choice strong{font-size:12px}h1{font-size:24px}.pill{font-size:8px}}
+:root{font-family:ui-rounded,'Trebuchet MS',system-ui,sans-serif;color:#fff3d9;background:#181727;font-synthesis:none}
+*{box-sizing:border-box}body{margin:0;min-height:100dvh;background:radial-gradient(ellipse at 50% -10%,#554361 0%,#27233e 45%,#191727 92%);padding:14px 10px 28px}
+.shell{max-width:505px;margin:auto;position:relative}.mast{display:flex;justify-content:space-between;align-items:center;margin:0 3px 13px}.brand{font-size:22px;font-weight:1000;letter-spacing:-1px;color:#ffe6bd}.brand span{color:#e3aeeb}.tag{background:#50425e;border:1px solid #8e7194;color:#efe2ff;font-size:9px;letter-spacing:1px;font-weight:1000;padding:7px 10px;border-radius:30px}
+.hero{background:linear-gradient(125deg,#49405d,#2e304d);border:1px solid #816881;border-radius:17px 17px 0 0;padding:14px 14px 10px;position:relative;overflow:hidden}.hero:before{content:'✧';position:absolute;font-size:105px;color:#ffffff0c;right:15px;top:-30px;line-height:1}.eyebrow{font-size:9px;letter-spacing:2.2px;color:#ebbfda;font-weight:1000;margin-bottom:6px}.hero h1{position:relative;font-size:24px;margin:0 0 4px;color:#ffecd2;letter-spacing:-.8px}.hero p{position:relative;margin:0;color:#d8cbd9;font-size:11.5px;line-height:1.45}
+.status{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;background:#24213a;padding:10px;border-inline:1px solid #816881}.meter{background:#39344e;border:1px solid #69566d;border-radius:10px;padding:7px 5px;text-align:center}.meter .num{font-size:21px;font-weight:1000;color:#ffe1a6;display:block}.meter .label{font-size:8px;text-transform:uppercase;letter-spacing:1px;color:#e1bfd7;font-weight:900;display:block}
+.board-shell{position:relative;padding:9px;border:1px solid #a5828f;border-top:0;background:radial-gradient(circle at 50% 40%,#66546e,#382d4b);border-radius:0 0 17px 17px;box-shadow:0 7px 0 #0e0c1c,0 15px 40px #08061488}.gameboard{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;border-radius:12px;padding:7px;aspect-ratio:1;background:linear-gradient(130deg,#2c2847,#211e37);box-shadow:inset 0 3px 12px #120d2499;touch-action:none;user-select:none;-webkit-user-select:none}
+.tile{position:relative;min-width:0;min-height:0;border:1px solid #ffffff12;border-radius:11px;display:grid;place-items:center;background:linear-gradient(145deg,var(--hi),var(--lo));box-shadow:inset 0 2px 2px #ffffff26,inset 0 -3px 0 #00000023,0 2px 4px #0a071a44;cursor:pointer;padding:3px;transition:box-shadow .15s,filter .15s,transform .15s;touch-action:none}.tile svg{display:block;width:88%;height:88%;filter:drop-shadow(0 2px 2px #130e2144);pointer-events:none}.tile:active{filter:brightness(1.17)}.tile.selected{outline:3px solid #ffe59a;outline-offset:-2px;transform:scale(.94);z-index:2;box-shadow:0 0 15px #ffecb58c}.tile.hint{animation:hint .95s infinite alternate}.tile.invalid{animation:shiver .25s}.tile.enter{animation:appear .22s ease-out both}.tile.clearing{animation:vanish .24s ease-in forwards;pointer-events:none}.tile.witchlight{--hi:#5e477e!important;--lo:#252c4d!important;border:2px solid #e2b975;box-shadow:inset 0 0 12px #4ff5c94d,0 0 12px #b1f2aa75;animation:glow 1.2s ease-in-out infinite alternate}.tile.witchlight svg{width:93%;height:93%;filter:drop-shadow(0 0 9px #69f8d4aa)}
+@keyframes glow{to{box-shadow:inset 0 0 15px #7bfed685,0 0 18px #c5f7a5b0}}@keyframes shiver{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}@keyframes hint{to{box-shadow:0 0 0 3px #e9cf93,0 0 17px #ffdb86}}@keyframes appear{from{transform:translateY(-12px) scale(.84);opacity:.3}to{transform:none;opacity:1}}@keyframes vanish{to{transform:scale(.15) rotate(16deg);opacity:0;filter:brightness(2)}}
+#burst{position:absolute;z-index:4;pointer-events:none;border-radius:50%;border:4px solid #b4ffd6;box-shadow:0 0 20px 11px #afffc078,inset 0 0 20px #72fcd7;opacity:0;transform:scale(.25)}#burst.fire{animation:blast .42s ease-out}@keyframes blast{0%{opacity:1;transform:scale(.25)}100%{opacity:0;transform:scale(2.2)}}
+.message{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;padding:12px 13px;background:#342d4d;border:1px solid #665878;border-radius:13px;min-height:60px}.message strong{font-size:12px;color:#ffe4bb}.message p{font-size:11px;color:#dfcedd;margin:3px 0 0;line-height:1.4}.hintb{flex-shrink:0;background:#615175;color:#fff0d4;border:1px solid #96839f;border-radius:9px;padding:10px;font-weight:900;font-size:11px;cursor:pointer}
+.rules{display:flex;gap:11px;margin-top:12px;align-items:center;padding:12px;background:#25253b;border:1px solid #504763;border-radius:13px}.ruleicon{width:50px;height:48px;border-radius:12px;background:linear-gradient(125deg,#66547c,#3e3b60);border:1px solid #94748f;display:grid;place-items:center;flex-shrink:0}.ruleicon svg{width:39px;height:39px;filter:drop-shadow(0 0 5px #9cfcd2)}.rules strong{display:block;color:#ffdeb0;font-size:13px;margin-bottom:4px}.rules p{color:#cbbdd6;font-size:11px;line-height:1.48;margin:0}.controls{display:flex;gap:8px;margin-top:12px}.controls button{flex:1;background:#55445c;border:1px solid #8c7394;border-radius:11px;color:#fff0dd;padding:11px;font-size:12px;font-weight:900;cursor:pointer}
+.finish{display:none;position:absolute;inset:0;z-index:9;background:#130e22ce;border-radius:16px;padding:30px;align-items:center;justify-content:center;text-align:center}.finish.open{display:flex}.finish .modal{padding:22px 18px;max-width:320px;border:2px solid #dcb379;background:linear-gradient(145deg,#4c3b5b,#242a49);border-radius:19px;box-shadow:0 13px 40px #0009}.finish .star{font-size:43px;color:#f9db94;line-height:1}.finish h2{font-size:25px;margin:12px 0 6px}.finish p{font-size:13px;line-height:1.5;color:#dfd2e5}.finish button{border:0;background:#f1ca8d;color:#3b294c;font-weight:1000;border-radius:12px;padding:13px 20px;cursor:pointer}.foot{text-align:center;color:#ad9db8;font-size:9px;letter-spacing:1.2px;margin:18px 0 0;font-weight:900}
+@media(max-width:390px){.gameboard{gap:4px;padding:5px}.tile{border-radius:8px}.hero h1{font-size:22px}.shell{max-width:100%}}
+@media(prefers-reduced-motion:reduce){.tile,.tile.witchlight{animation-duration:.01ms!important}}
+
+/* The case file: clues are unlocked by play, not arbitrary reward points. */
+.case-intro{background:linear-gradient(120deg,#5a435c,#34344d);border:1px solid #8e7690;border-radius:15px;margin:14px 0 10px;padding:14px 15px;position:relative;overflow:hidden}
+.case-intro:after{content:'✦';font-size:112px;color:#ddc5e311;position:absolute;right:2px;top:-37px}
+.case-intro .eyebrow{margin-bottom:5px}.case-intro strong{font-family:Georgia,serif;display:block;font-size:21px;color:#ffe2b2;line-height:1.12;position:relative}
+.case-intro p{font-size:11.5px;line-height:1.52;color:#eddaeb;max-width:355px;margin:8px 0 0;position:relative}
+.case-intro em{color:#ffdaab;font-style:normal;font-weight:900}
+.caseboard{margin-top:16px;border-radius:17px;background:linear-gradient(145deg,#443247,#2d293d);border:1px solid #95728e;padding:14px;box-shadow:0 6px 16px #06071344}
+.caseboard-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:11px}
+.caseboard h2{font:700 18px Georgia,serif;margin:0;color:#ffe1af}.caseboard .casecount{font-size:10px;font-weight:900;color:#e5cba7;letter-spacing:1px}
+.evidence{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.evidence button{background:linear-gradient(150deg,#514259,#322f4b);border:1px dashed #8d7892;color:#f6e2d5;border-radius:11px;text-align:center;min-height:120px;padding:10px 6px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:7px}
+.evidence button .seal{width:45px;height:45px;border-radius:50%;background:#554559;border:2px solid #ae8290;display:grid;place-items:center;font-size:23px;color:#dcbed7;font-family:Georgia,serif}
+.evidence button strong{font-size:11px;line-height:1.2}.evidence button small{font-size:10px;color:#d7c4d5;line-height:1.3}
+.evidence button.found{background:linear-gradient(145deg,#7e666d,#54465c);border:1px solid #e9bd9b;box-shadow:inset 0 0 12px #f6d2ad1a}.evidence button.found .seal{background:#e2bf97;color:#44364a;border-color:#ffe6bd}
+.caseboard .casecopy{color:#d9c0d2;font-size:11px;line-height:1.5;margin:12px 1px}
+.deduce{width:100%;border:0;border-radius:11px;background:linear-gradient(#fbe3ac,#e7b17a);color:#3c2b40;font-weight:1000;padding:13px;letter-spacing:.3px}
+.deduce:disabled{background:#635569;color:#b9a8bd}
+.overlay{position:fixed;z-index:50;inset:0;background:#0c0b1bd9;display:none;align-items:center;justify-content:center;padding:16px}.overlay.open{display:flex}
+.paper{background:linear-gradient(160deg,#fff0d3,#e9d0b0);color:#50404b;width:min(100%,420px);border-radius:14px;padding:23px 21px;border:5px double #bd987f;box-shadow:0 20px 60px #000c;position:relative}
+.paper:before{content:'✥';position:absolute;right:18px;top:10px;color:#b99b84;font-size:34px}.paper .kicker{color:#976c72;letter-spacing:2px;font-size:10px;font-weight:1000}.paper h2{font:700 27px Georgia,serif;margin:11px 0 10px;color:#65475a}
+.paper p{font:16px/1.55 Georgia,serif;margin:0 0 16px}.paper .artifact{border:1px dashed #b58c7e;padding:13px;font:italic 16px/1.55 Georgia,serif;background:#f9e7c9;margin:10px 0 15px;border-radius:8px}
+.paper button{background:#6b5064;color:#fff1d9;border:0;padding:12px 17px;border-radius:10px;font-weight:900;cursor:pointer}
+.guess-group{display:grid;gap:9px;margin:12px 0}.guess-group button{background:#f0d9b9;color:#5e4b53;border:1px solid #b28b81;padding:12px;text-align:left;border-radius:10px;font:700 13px system-ui,sans-serif}
+.guess-group button:hover,.guess-group button:focus-visible{outline:3px solid #ae7f82}.guess-feedback{font:14px/1.5 Georgia,serif;color:#9a515b;min-height:30px}
+@media(max-width:390px){.evidence button{min-height:108px}.evidence button small{font-size:9px}.paper h2{font-size:23px}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header><div class="logo">✦ tiny chaos<span>.</span></div><div class="pill">THE TOWN EFFECT · v0.3</div></header>
-<h1>One moment changes<br>everyone's day.</h1>
-<p class="sub">A little town. Eight strangers with their own plans. Change what happens at the crosswalk, then follow the ripple through their lives.</p>
-<div class="mapcard">
-<div class="topbar"><span>◉ MAPLEWOOD · MAIN STREET</span><span id="clock" class="clock">8:15 AM</span></div>
-<svg id="town" viewBox="0 0 430 600" role="img" aria-label="Illustrated living town with shops, streets, eight residents and a bus">
+<!-- Illustrated SVG game piece artwork; no emoji placeholders -->
+<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
 <defs>
-<linearGradient id="grass" x2="0" y2="1"><stop stop-color="#afcdb9"/><stop offset="1" stop-color="#8eac9f"/></linearGradient>
-<linearGradient id="roof" x2="0" y2="1"><stop stop-color="#f1a99a"/><stop offset="1" stop-color="#db8c86"/></linearGradient>
-<filter id="soft"><feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#25334b" flood-opacity=".20"/></filter>
+  <linearGradient id="moonG" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff3ba"/><stop offset="1" stop-color="#eebd7c"/></linearGradient>
+  <linearGradient id="vialG" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#9af8c7"/><stop offset="1" stop-color="#399e94"/></linearGradient>
+  <linearGradient id="gemG" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fae2ff"/><stop offset="1" stop-color="#9b75d5"/></linearGradient>
+  <linearGradient id="lanG" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fdf7ca"/><stop offset=".5" stop-color="#9ef0c0"/><stop offset="1" stop-color="#3e94a9"/></linearGradient>
 </defs>
-<rect width="430" height="600" fill="url(#grass)"/>
-<path d="M0 0h430v600H0Z" fill="#b8cdbc" opacity=".25"/>
-<path d="M173 0h84v600h-84z" fill="#5f7180"/><path d="M182 0h66v600h-66z" fill="#687d89"/>
-<path d="M213 0v600" stroke="#eddaa3" stroke-width="3" stroke-dasharray="22 25"/>
-<rect x="168" width="5" height="600" fill="#e0d8c7"/><rect x="257" width="5" height="600" fill="#e0d8c7"/>
-<path d="M164 0v600M266 0v600" stroke="#d6bfaa" stroke-width="8"/>
-<path d="M178 270h75v57h-75z" fill="#e9e4d3" opacity=".30"/>
-<g fill="#f4e7d0"><rect x="181" y="279" width="69" height="6" rx="2"/><rect x="181" y="293" width="69" height="6" rx="2"/><rect x="181" y="307" width="69" height="6" rx="2"/><rect x="181" y="321" width="69" height="6" rx="2"/></g>
-<g id="buildings"></g><g id="busLayer"></g><g id="people"></g><g id="particles"></g>
-<g id="speech" style="display:none"><rect x="48" y="15" width="334" height="39" rx="16" fill="#fff2d9" stroke="#b98b86" stroke-width="3"/><text id="speechText" x="215" y="40" fill="#4d455b" font-size="12" font-weight="900" text-anchor="middle"></text></g>
+<symbol id="t-moon" viewBox="0 0 64 64"><path d="M43 8c-16 7-23 19-19 31 3 11 13 17 27 13C43 60 28 61 17 53 4 43 4 24 17 13 26 6 35 5 43 8Z" fill="url(#moonG)" stroke="#ffe6bb" stroke-width="2.3"/><path d="m44 14 2 6 6 2-6 2-2 6-2-6-6-2 6-2zM52 35l1.3 4 4 1.3-4 1.3-1.3 4-1.3-4-4-1.3 4-1.3z" fill="#fff5c6"/></symbol>
+<symbol id="t-vial" viewBox="0 0 64 64"><path d="M25 7h14v11h-3v9c8 9 15 16 13 24-2 8-33 8-35 0-2-8 5-15 14-24v-9h-3z" fill="url(#vialG)" stroke="#daf8df" stroke-width="3"/><path d="M21 40q12 7 23-1l3 11q-15 9-30 0z" fill="#50b995"/><rect x="23" y="6" width="18" height="9" rx="4" fill="#f9c6a5" stroke="#f6e5c9" stroke-width="2"/><circle cx="28" cy="34" r="3" fill="#f6ffe2"/><circle cx="39" cy="43" r="3" fill="#f6ffe2"/><circle cx="29" cy="50" r="2" fill="#f6ffe2"/></symbol>
+<symbol id="t-skull" viewBox="0 0 64 64"><path d="M15 31c0-13 7-22 18-22S52 18 52 31c0 9-6 13-10 15v8H24v-8c-6-4-9-8-9-15Z" fill="#fff1de" stroke="#d7b7a9" stroke-width="3"/><ellipse cx="25" cy="32" rx="6" ry="7" fill="#514260"/><ellipse cx="41" cy="32" rx="6" ry="7" fill="#514260"/><path d="m33 39-4 6h8z" fill="#957c89"/><path d="M27 51v5m6-5v5m6-5v5" stroke="#ad8f95" stroke-width="2.4"/></symbol>
+<symbol id="t-eye" viewBox="0 0 64 64"><path d="M7 32Q31 4 57 32 33 61 7 32Z" fill="#f0c2b9" stroke="#d88f98" stroke-width="3"/><circle cx="32" cy="32" r="16" fill="#bba5f6" stroke="#f1dffd" stroke-width="3"/><circle cx="32" cy="32" r="9" fill="#593b87"/><circle cx="34" cy="31" r="5" fill="#222845"/><circle cx="29" cy="27" r="3" fill="#fff5f5"/><path d="M17 15l-2-5m15 3v-6m15 9 3-5" stroke="#e7bfc4" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="t-bat" viewBox="0 0 64 64"><path d="M30 22 24 16Q8 12 5 27q9-3 13 6-1 10 8 11l6 9 6-9q9-1 8-11 5-9 13-6Q55 12 40 16l-6 6-2-8Z" fill="#c4a0e5" stroke="#f0c7e2" stroke-width="2.5"/><path d="M32 24v20" stroke="#6e578e" stroke-width="2.2"/><circle cx="27" cy="31" r="2" fill="#fff1ca"/><circle cx="37" cy="31" r="2" fill="#fff1ca"/></symbol>
+<symbol id="t-book" viewBox="0 0 64 64"><path d="M12 14h33l9 7v30H21L12 43Z" fill="#a35e7a" stroke="#e9a6a7" stroke-width="3"/><path d="M12 14v29l8 8V22z" fill="#724762"/><path d="M20 22h34v30H20z" fill="#c78c9e"/><rect x="25" y="26" width="24" height="20" rx="3" fill="#8e5876"/><path d="m37 29 3 6 7 1-5 4 1 6-6-3-6 3 1-6-5-4 7-1z" fill="#f4d19e"/></symbol>
+<symbol id="t-lantern" viewBox="0 0 64 64"><path d="M26 15v-5a6 6 0 0 1 12 0v5" fill="none" stroke="#f4cd88" stroke-width="4"/><path d="M21 20h22l5 9v25H16V29Z" fill="#343954" stroke="#f3d09d" stroke-width="3.4"/><path d="M25 20v34m14-34v34" stroke="#edc98a" stroke-width="2.7"/><path d="M18 25h28" stroke="#f7d3a3" stroke-width="3.5"/><path d="M32 25q15 13 4 24-10 7-17-5 11 4 9-8 5 6 4-11Z" fill="url(#lanG)" stroke="#d1ffe5" stroke-width="1.6"/><path d="M31 38q5 7 0 12-6-2-5-7z" fill="#fff2b0"/><path d="M14 56h36" stroke="#efc78e" stroke-width="4" stroke-linecap="round"/><circle cx="11" cy="18" r="2" fill="#a7ffe4"/><circle cx="53" cy="41" r="2" fill="#a7ffe4"/><path d="m49 13 2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#ccffda"/></symbol>
 </svg>
-<div class="bottom-bar"><span id="phase">TIME IS FROZEN</span><span class="mapnote" id="mapnote">TAP A PERSON TO MEET THEM</span></div>
-</div>
-<section class="panel">
-<h2>THE FIRST MOMENT · 8:15 AM</h2>
-<p class="intro">Leo is walking beside the crosswalk as the bus approaches. Choose one tiny intervention. The town will carry the consequences.</p>
-<div class="choices" id="choices">
-<button class="choice selected" data-choice="push"><strong>↗ Jostle Leo</strong><small>He stumbles toward the road.</small></button>
-<button class="choice" data-choice="warn"><strong>✦ Warn Leo</strong><small>He pauses to listen to you.</small></button>
-<button class="choice" data-choice="none"><strong>◯ Do nothing</strong><small>Let everyone's day unfold.</small></button>
-<button class="choice" data-choice="bike"><strong>↶ Distract Ava</strong><small>Catch the cyclist's attention.</small></button>
-</div>
-<div class="actions"><button id="go">▶ LET TIME MOVE</button><button id="reset" title="Restart the scene">↺ RESTART</button></div>
-<div class="extras"><button id="pause" disabled>Ⅱ PAUSE</button><button id="speed">2× SPEED: OFF</button></div>
-<div class="result" id="result"><strong id="resultTitle"></strong><p id="resultText"></p></div>
-<button id="compare">COMPARE THIS WITH THE PREVIOUS TIMELINE</button><div id="comparison"></div>
-</section>
-<div class="stats"><div class="stat"><strong id="peopleCount">0</strong><span>LIVES AFFECTED</span></div><div class="stat"><strong id="eventCount">0</strong><span>RIPPLE EVENTS</span></div><div class="stat"><strong id="threadCount">0</strong><span>CONNECTIONS</span></div></div>
-<section class="panel"><h2>FOLLOW THE RIPPLE</h2><div class="feed" id="feed"><p class="empty">Time is frozen. Every resident has plans. What will you change?</p></div>
-<div class="personcard"><div id="portrait" class="avatar">L</div><div><strong id="personName">Leo · Bookshop assistant</strong><p id="personInfo">He needs to make the 8:20 bus. Tap any character on the town map to follow their story.</p></div></div></section>
-<footer>EARLY PROTOTYPE · BRANCHING STORIES · A SMALL TOWN WITH BIG CONSEQUENCES</footer>
-</div>
+<main class="shell">
+<header class="mast"><div class="brand">✦ Mystery <span>Manor</span></div><div class="tag">THE WITCHING HOUR</div></header>
+<section class="hero"><div class="eyebrow">CASE 001 · THORNE HOUSE · 12:07 AM</div><h1>The woman who vanished.</h1><p>In a locked room, beneath a clock that stopped at midnight, Mrs. Thorne disappeared. No broken lock. No witness. Just three secrets waiting in the walls.</p></section>
+<section class="case-intro"><div class="eyebrow">YOUR INVESTIGATION</div><strong>What really happened in the locked room?</strong><p>Match charms to restore a torn note. Make a <em>2×2 square</em> to awaken a Witchlight. Use its glow to reveal what the darkness hid. Only then can you solve the case.</p></section>
+<section class="status"><div class="meter"><span id="moves" class="num">24</span><span class="label">Moves left</span></div><div class="meter"><span id="lit" class="num">0</span><span class="label">Lanterns used</span></div><div class="meter"><span id="score" class="num">0</span><span class="label">Spirit score</span></div></section>
+<section class="board-shell"><div id="board" class="gameboard" role="grid" aria-label="Match-3 spooky symbols on a seven by seven board"></div><div id="burst"></div></section>
+<section class="message"><div><strong id="notice-title">A secret waits in the tiles</strong><p id="notice-body">Try swapping the two charms near the center to make a square.</p></div><button class="hintb" id="hint">✧ HINT</button></section>
+<section class="rules"><div class="ruleicon"><svg viewBox="0 0 64 64"><use href="#t-lantern"/></svg></div><div><strong>NEW SPECIAL · THE WITCHLIGHT</strong><p>Match <b>four identical charms in a 2×2 square</b> to summon a Witchlight. Tap it to blast a 3×3 area. Nearby Witchlights can trigger each other.</p></div></section>
+<section class="caseboard" id="caseboard"><div class="caseboard-head"><h2>✥ The Evidence Wall</h2><span id="cluecount" class="casecount">0 OF 3 CLUES</span></div>
+<div class="evidence"><button data-clue="0" aria-label="Evidence one sealed"><span class="seal">?</span><strong>Behind the Wallpaper</strong><small>Make your first match</small></button><button data-clue="1" aria-label="Evidence two sealed"><span class="seal">?</span><strong>Inside the Clock</strong><small>Make a 2×2 square</small></button><button data-clue="2" aria-label="Evidence three sealed"><span class="seal">?</span><strong>Under the Portrait</strong><small>Use a Witchlight</small></button></div>
+<p class="casecopy" id="casecopy">The manor remembers everything. But its memories are scattered among the charms.</p>
+<button class="deduce" id="deduce" disabled>✧ CONNECT THE CLUES · LOCKED</button></section>
+<div class="controls"><button id="restart">↺ NEW BOARD</button><button id="sound">♫ SOUND OFF</button></div>
+<div class="foot">MYSTERY MANOR · CASE 001 · THE VANISHING · PLAYABLE PROTOTYPE</div>
+<div id="finish" class="finish"><div class="modal"><div class="star">✧ ✦ ✧</div><h2 id="finishTitle">The attic awakens</h2><p id="finishDesc"></p><button id="again">PLAY AGAIN</button></div></div>
+<div class="overlay" id="clueOverlay" role="dialog" aria-modal="true" aria-labelledby="clueTitle"><div class="paper"><div class="kicker" id="clueKicker">EVIDENCE DISCOVERED</div><h2 id="clueTitle">A hidden note</h2><div class="artifact" id="clueArtifact"></div><p id="clueDescription"></p><button id="clueClose">RETURN TO THE MANOR</button></div></div>
+<div class="overlay" id="deduceOverlay" role="dialog" aria-modal="true" aria-labelledby="deduceTitle"><div class="paper"><div class="kicker">THE MOMENT OF TRUTH</div><h2 id="deduceTitle">What happened to Mrs. Thorne?</h2><p>Three clues. One explanation. Which story fits all the evidence?</p><div class="guess-group"><button data-guess="butler">The butler locked her in and stole the key.</button><button data-guess="ghost">A spirit took her through the window.</button><button data-guess="passage">Mrs. Thorne escaped through a hidden passage.</button></div><div class="guess-feedback" id="guessFeedback"></div><button id="deduceClose">BACK TO MY EVIDENCE</button></div></div>
+</main>
 <script>
 (function(){
-'use strict';
-const $=id=>document.getElementById(id), ns='http://www.w3.org/2000/svg', colors={leo:'#49759a',ava:'#b65c77',maya:'#e5a14f',june:'#7d94a2',eli:'#668c72',noa:'#a37caf',doc:'#c67b6a',iris:'#d4a565'};
-const peopleData=[
-{id:'leo',name:'Leo',job:'Bookshop assistant',desc:'Needs the morning bus; he has not seen the cyclist behind him.',x:151,y:265,skin:'#b87f60',hair:'#3a3541'},
-{id:'ava',name:'Ava',job:'Cyclist',desc:'Delivers newspapers every morning. Her route passes the flower shop.',x:309,y:301,skin:'#c58d75',hair:'#6d414a'},
-{id:'maya',name:'Maya',job:'Florist',desc:'Preparing flowers for a surprise party, and counting on a timely pickup.',x:102,y:238,skin:'#986345',hair:'#3a2f38'},
-{id:'june',name:'June',job:'Café owner',desc:'Her first order decides whether the café opens on time.',x:95,y:412,skin:'#d3a48a',hair:'#573c42'},
-{id:'eli',name:'Eli',job:'Courier',desc:'A delivery rider whose timing affects three different businesses.',x:335,y:428,skin:'#9d765f',hair:'#2c3942'},
-{id:'noa',name:'Noa',job:'Job applicant',desc:'Waiting for the bus that leads to an important interview.',x:316,y:529,skin:'#b98579',hair:'#624b58'},
-{id:'doc',name:'Dr. Ellis',job:'Clinic doctor',desc:'Has a full morning of appointments, until a neighbor needs help.',x:329,y:170,skin:'#d5a17d',hair:'#8b6d60'},
-{id:'iris',name:'Iris',job:'Photographer',desc:'Looking for a story worth sharing with the town.',x:105,y:528,skin:'#99755e',hair:'#3d383b'}];
-const destinations={crossing:[214,291],bookshop:[99,100],clinic:[322,96],flowers:[105,233],cafe:[100,408],courier:[325,410],busstop:[305,515],park:[90,540],office:[321,535],street:[238,310]};
-const blurbs={
-leo_pushed:['Leo stumbles into the road.','leo','The jostle pushes Leo off his usual path.'],
-bus_brakes:['The bus brakes sharply!','leo','The driver avoids Leo—but everyone behind the bus must react.'],
-ava_swerves:['Ava swerves around the bus.','ava','Ava cuts past the florist instead of continuing her route.'],
-flowers_scatter:['The flower cart tips over.','maya','Maya has to gather the bouquets and loses her delivery window.'],
-maya_delayed:['Maya misses the pickup.','maya','The party flowers will be late.'],
-eli_waits:['Eli waits for the flowers.','eli','His next delivery is now behind schedule.'],
-iris_photo:['Iris photographs the street scene.','iris','A ripple from the crosswalk becomes tomorrow’s front-page story.'],
-noa_misses_bus:['Noa misses the delayed bus.','noa','Her interview starts without her.'],
-doc_helps:['Dr. Ellis stops to help Leo.','doc','The clinic appointments are pushed back.'],
-clinic_delayed:['A patient must reschedule.','doc','One small event now affects someone who was nowhere near the bus.'],
-june_cancels:['June cancels the party cake.','june','Without the flowers arriving, June changes her bakery order.'],
-leo_warned:['Leo stops before the crossing.','leo','He stays on the sidewalk and spots Noa waiting for the bus.'],
-leo_helps_noa:['Leo tells Noa which bus to catch.','noa','They meet because Leo stopped walking.'],
-bus_on_time:['The bus arrives on schedule.','noa','Everyone at the stop can continue with their plans.'],
-noa_boards:['Noa catches her bus.','noa','The interview is suddenly possible.'],
-noa_interview:['Noa arrives for her interview.','noa','A chance encounter has changed who walks through the office door.'],
-noa_hired:['Noa gets the job!','noa','The café is about to gain a new regular customer.'],
-june_customer:['Noa visits June’s café.','june','June gets an unexpected order before the morning rush.'],
-maya_party:['Maya gets a last-minute order.','maya','June calls the florist after meeting Noa.'],
-eli_delivers:['Eli delivers the flowers early.','eli','The party can start earlier than planned.'],
-iris_celebrates:['Iris catches a happy reunion.','iris','A good-news photograph makes its way across town.'],
-leo_crosses:['Leo crosses when it is safe.','leo','Nobody interferes with Leo’s morning.'],
-leo_wallet:['Leo finds Ava’s dropped wallet.','leo','He stops to return it rather than going straight to work.'],
-ava_thanks:['Ava thanks Leo.','ava','She decides to change her newspaper route.'],
-ava_cafe:['Ava stops at June’s café.','june','A small tip and a warm conversation improve June’s day.'],
-june_gift:['June gives Ava a cake.','june','She thanks Ava with a little surprise.'],
-ava_shares:['Ava brings the cake to Maya.','maya','The florist gets a treat on her busiest morning.'],
-iris_catches:['Iris photographs an unexpected friendship.','iris','The whole town eventually sees the kindness.'],
-bike_distracted:['Ava stops her bike to answer you.','ava','A second lost at the crossing changes her route.'],
-ava_waits:['Ava waits for the bus to pass.','ava','She can no longer take her usual shortcut.'],
-flowers_early:['Ava helps Maya unload flowers.','maya','With two pairs of hands, the shop finishes early.'],
-party_early:['The party is ready ahead of time.','maya','Maya needs the courier earlier than planned.'],
-eli_rushes:['Eli reroutes to the party.','eli','Another delivery now has to wait.'],
-office_misses:['The office gets its parcel late.','noa','Noa’s interview is delayed for paperwork.'],
-noa_meets_doc:['Noa meets Dr. Ellis while waiting.','doc','An unexpected conversation creates a new opportunity.'],
-iris_party:['Iris covers the neighborhood party.','iris','A distraction at the crossing led to a new photograph.']};
-const paths={
-push:['leo_pushed','bus_brakes','ava_swerves','flowers_scatter','maya_delayed','eli_waits','iris_photo','noa_misses_bus','doc_helps','clinic_delayed','june_cancels'],
-warn:['leo_warned','leo_helps_noa','bus_on_time','noa_boards','noa_interview','noa_hired','june_customer','maya_party','eli_delivers','iris_celebrates'],
-none:['leo_crosses','leo_wallet','ava_thanks','ava_cafe','june_gift','ava_shares','iris_catches'],
-bike:['bike_distracted','ava_waits','flowers_early','party_early','eli_rushes','office_misses','noa_meets_doc','iris_party']};
-const goals={
-leo_pushed:{leo:'crossing'},bus_brakes:{leo:'crossing',doc:'street'},ava_swerves:{ava:'flowers'},flowers_scatter:{maya:'flowers',ava:'flowers'},maya_delayed:{maya:'flowers'},eli_waits:{eli:'flowers'},iris_photo:{iris:'crossing'},noa_misses_bus:{noa:'busstop'},doc_helps:{doc:'crossing'},clinic_delayed:{doc:'clinic'},june_cancels:{june:'cafe'},
-leo_warned:{leo:'busstop'},leo_helps_noa:{leo:'busstop',noa:'busstop'},bus_on_time:{noa:'busstop'},noa_boards:{noa:'street'},noa_interview:{noa:'office'},noa_hired:{noa:'cafe'},june_customer:{june:'cafe',noa:'cafe'},maya_party:{maya:'flowers'},eli_delivers:{eli:'flowers'},iris_celebrates:{iris:'cafe'},
-leo_crosses:{leo:'bookshop'},leo_wallet:{leo:'crossing'},ava_thanks:{ava:'crossing'},ava_cafe:{ava:'cafe'},june_gift:{june:'cafe',ava:'cafe'},ava_shares:{ava:'flowers'},iris_catches:{iris:'flowers'},
-bike_distracted:{ava:'crossing'},ava_waits:{ava:'crossing'},flowers_early:{ava:'flowers',maya:'flowers'},party_early:{maya:'flowers'},eli_rushes:{eli:'flowers'},office_misses:{eli:'courier',noa:'office'},noa_meets_doc:{noa:'clinic',doc:'clinic'},iris_party:{iris:'flowers'}};
-let townChoice='push',playing=false,paused=false,completed=false,elapsed=0,lastStamp=0,speed=1,events=[],previous=null,lastOutcome=null,people=[],bus={y:-100,stopUntil:0},frameId=null,bubbleUntil=0;
-const svgEl=(tag,attrs,parent,text)=>{const e=document.createElementNS(ns,tag);Object.keys(attrs||{}).forEach(k=>e.setAttribute(k,attrs[k]));if(text!=null)e.textContent=text;(parent||$('town')).appendChild(e);return e};
-function building(x,y,name,detail,color){
-const group=$('buildings');
-svgEl('rect',{x:x+3,y:y+8,width:135,height:104,rx:11,fill:'#537a75',opacity:'.2'},group);
-svgEl('rect',{x,y:y+8,width:135,height:104,rx:9,fill:'#fff0d6',stroke:'#9f8f8e','stroke-width':3,filter:'url(#soft)'},group);
-svgEl('path',{d:'M'+(x-5)+' '+(y+17)+' L'+(x+13)+' '+(y-6)+' H'+(x+123)+' L'+(x+141)+' '+(y+17)+'Z',fill:color,stroke:'#956f80','stroke-width':2},group);
-svgEl('rect',{x:x+15,y:y+37,width:34,height:35,rx:5,fill:'#b2d8d7',stroke:'#c3a1a0','stroke-width':3},group);
-svgEl('rect',{x:x+87,y:y+37,width:31,height:35,rx:5,fill:'#b2d8d7',stroke:'#c3a1a0','stroke-width':3},group);
-svgEl('rect',{x:x+58,y:y+65,width:23,height:46,rx:4,fill:'#bd8c7c'},group);
-svgEl('circle',{cx:x+76,cy:y+90,r:2.5,fill:'#f4dbc3'},group);
-svgEl('rect',{x:x+10,y:y+17,width:115,height:21,rx:8,fill:'#fff5dd',opacity:'.95'},group);
-svgEl('text',{x:x+67,y:y+32,'text-anchor':'middle',fill:'#52495b','font-size':12,'font-weight':900},group,name);
-svgEl('text',{x:x+67,y:y+127,'text-anchor':'middle',fill:'#536c6c','font-size':10,'font-weight':900},group,detail);
+const size=7,n=size*size,types=['moon','vial','skull','eye','bat','book'];
+const color={moon:['#b78d82','#7b5665'],vial:['#669d86','#466e79'],skull:['#ba9a9c','#7b657f'],eye:['#876fac','#564e83'],bat:['#a280ab','#705579'],book:['#aa718d','#754b6c']};
+const $=id=>document.getElementById(id),boardEl=$('board');
+let tiles=[],selected=-1,moves=24,lit=0,score=0,busy=false,ended=false,sound=false,stamp=1,hinted=[];
+let clues=new Set(),caseSolved=false;
+const clueData=[
+ {label:'Behind the Wallpaper',title:'A letter never sent',artifact:'“Meet me where the winter roses grow. No doors, only shadows.”',detail:'The handwriting belongs to Mrs. Thorne. Was she expecting to leave the room?',icon:'✉'},
+ {label:'Inside the Clock',title:'The untouched key',artifact:'A brass key, tangled in the hands of the clock. Rust on its teeth. Dust in every groove.',detail:'Nobody opened that locked door. So how could anyone have gotten out?',icon:'⚿'},
+ {label:'Under the Portrait',title:'Footsteps beneath the floor',artifact:'Behind the portrait, a narrow stair. Dusty footprints lead DOWN toward the glass conservatory.',detail:'There was another way out. The room was locked because the door was never used.',icon:'⌁'}];
+function showClue(i){const d=clueData[i];if(!clues.has(i))return;$('clueKicker').textContent='CASE 001 · EVIDENCE '+(i+1);$('clueTitle').textContent=d.title;$('clueArtifact').textContent=d.artifact;$('clueDescription').textContent=d.detail;$('clueOverlay').classList.add('open')}
+function unlock(i){if(clues.has(i))return;clues.add(i);const b=document.querySelector('[data-clue="'+i+'"]');b.classList.add('found');b.querySelector('.seal').textContent=clueData[i].icon;b.querySelector('small').textContent='TAP TO EXAMINE';b.setAttribute('aria-label','Discovered clue '+clueData[i].title);$('cluecount').textContent=clues.size+' OF 3 CLUES';$('casecopy').textContent=clues.size===3?'You have the evidence. Study it, then decide how Mrs. Thorne vanished.':'A piece of the mystery has surfaced. Keep investigating.';if(clues.size===3){$('deduce').disabled=false;$('deduce').textContent='✧ CONNECT THE CLUES · SOLVE THE CASE';}showClue(i)}
+
+let ac;
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const rand=arr=>arr[Math.floor(Math.random()*arr.length)];
+const at=(r,c)=>r*size+c;
+const row=i=>Math.floor(i/size),col=i=>i%size;
+const near=(a,b)=>a>=0&&b>=0&&a<n&&b<n&&Math.abs(row(a)-row(b))+Math.abs(col(a)-col(b))===1;
+const piece=t=>({type:t,special:t==='lantern',id:stamp++});
+function setMsg(t,d){$('notice-title').textContent=t;$('notice-body').textContent=d;}
+function playTone(freq=520,duration=.1){if(!sound)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();const osc=ac.createOscillator(),vol=ac.createGain();osc.type='sine';osc.frequency.value=freq;vol.gain.setValueAtTime(.09,ac.currentTime);vol.gain.exponentialRampToValueAtTime(.001,ac.currentTime+duration);osc.connect(vol).connect(ac.destination);osc.start();osc.stop(ac.currentTime+duration);}catch(e){}}
+function matches(a,preferred=-1){let clear=new Set(),squares=[],anchors=[];
+  for(let r=0;r<size-1;r++)for(let c=0;c<size-1;c++){const cells=[at(r,c),at(r,c+1),at(r+1,c),at(r+1,c+1)],t=a[cells[0]]?.type;if(t&&t!=='lantern'&&cells.every(i=>a[i]&&a[i].type===t))squares.push(cells)}
+  for(let r=0;r<size;r++){let c=0;while(c<size){const st=c,t=a[at(r,c)]?.type;if(!t||t==='lantern'){c++;continue}while(c<size&&a[at(r,c)]?.type===t)c++;if(c-st>=3)for(let j=st;j<c;j++)clear.add(at(r,j));}}
+  for(let c=0;c<size;c++){let r=0;while(r<size){const st=r,t=a[at(r,c)]?.type;if(!t||t==='lantern'){r++;continue}while(r<size&&a[at(r,c)]?.type===t)r++;if(r-st>=3)for(let j=st;j<r;j++)clear.add(at(j,c));}}
+  const taken=new Set();for(const cells of squares){if(cells.some(i=>taken.has(i)))continue;cells.forEach(i=>taken.add(i));const anchor=cells.includes(preferred)?preferred:cells[3];anchors.push(anchor);cells.forEach(i=>{if(i!==anchor)clear.add(i)})}
+  anchors.forEach(i=>clear.delete(i));return {clear,anchors,squares:squares.length};
 }
-building(15,25,'BOOKSHOP','MAPLE BOOKS','#b88eaf');
-building(279,25,'CLINIC','HEALTH & CARE','#86b6b2');
-building(15,166,'FLOWERS','MAYA’S SHOP','#e6a18a');
-building(279,166,'MARKET','MORNING GOODS','#ddba77');
-building(15,332,'CAFÉ','JUNE’S','#cfa68e');
-building(279,332,'COURIER','DELIVERY HUB','#b5a1b9');
-building(15,465,'PARK','TOWN SQUARE','#98b8a2');
-building(279,465,'OFFICE','INTERVIEW TODAY','#8faac2');
-svgEl('circle',{cx:32,cy:578,r:17,fill:'#75a885'},$('buildings'));
-svgEl('circle',{cx:67,cy:580,r:14,fill:'#80b08f'},$('buildings'));
-svgEl('circle',{cx:390,cy:578,r:18,fill:'#90ac7b'},$('buildings'));
-for(let i=0;i<6;i++){svgEl('circle',{cx:142+i%2*15,cy:182+i*8,r:3,fill:i%2?'#e9d291':'#dd9698'},$('buildings'))}
-function makeBus(){
-const g=svgEl('g',{id:'bus'},$('busLayer'));svgEl('rect',{x:189,y:0,width:51,height:112,rx:12,fill:'#f3bf79',stroke:'#b46b69','stroke-width':3,filter:'url(#soft)'},g);
-svgEl('rect',{x:195,y:14,width:39,height:24,rx:5,fill:'#8db8bd'},g);
-svgEl('rect',{x:195,y:48,width:39,height:39,rx:5,fill:'#ffe0a4'},g);
-svgEl('rect',{x:199,y:56,width:31,height:22,rx:3,fill:'#8da6a7'},g);
-svgEl('rect',{x:193,y:93,width:43,height:10,rx:4,fill:'#b86f6a'},g);
-svgEl('text',{x:214,y:12,'font-size':8,'font-weight':900,'text-anchor':'middle',fill:'#6e4d60'},g,'MAPLE');
-g.setAttribute('transform','translate(0 -150)');
+function valid(a){return matches(a).clear.size>0}
+function generate(){for(let attempt=0;attempt<1000;attempt++){const a=[];for(let r=0;r<size;r++)for(let c=0;c<size;c++){let choices=[...types].filter(t=>!(c>1&&a[at(r,c-1)]?.type===t&&a[at(r,c-2)]?.type===t)&&!(r>1&&a[at(r-1,c)]?.type===t&&a[at(r-2,c)]?.type===t)&&!(r>0&&c>0&&a[at(r-1,c)]?.type===t&&a[at(r,c-1)]?.type===t&&a[at(r-1,c-1)]?.type===t));a.push(piece(rand(choices.length?choices:types)))}
+  // A near-complete 2x2 in the center ensures the special is discoverable.
+  const target='moon';a[at(2,2)]=piece(target);a[at(2,3)]=piece(target);a[at(3,2)]=piece(target);a[at(3,3)]=piece('eye');a[at(3,4)]=piece(target);
+  if(valid(a))continue;
+  const test=a.slice();[test[at(3,3)],test[at(3,4)]]=[test[at(3,4)],test[at(3,3)]];
+  if(matches(test,at(3,3)).anchors.includes(at(3,3)))return a;
+}throw Error('Could not create a starting board')}
+function render(fresh=false){boardEl.innerHTML='';const frag=document.createDocumentFragment();for(let i=0;i<n;i++){const p=tiles[i],b=document.createElement('button');b.type='button';b.setAttribute('role','gridcell');b.dataset.i=i;b.className='tile'+(p?.special?' witchlight':'')+(selected===i?' selected':'')+(hinted.includes(i)?' hint':'')+(p?.clearing?' clearing':'')+(fresh?' enter':'');if(p){b.style.setProperty('--hi',color[p.type]?.[0]||'#605084');b.style.setProperty('--lo',color[p.type]?.[1]||'#2b3657');b.setAttribute('aria-label',(p.special?'Witchlight lantern':p.type)+' row '+(row(i)+1)+' column '+(col(i)+1));b.innerHTML='<svg viewBox="0 0 64 64" aria-hidden="true"><use href="#t-'+(p.special?'lantern':p.type)+'"/></svg>';}else b.setAttribute('aria-label','Empty space');frag.appendChild(b)}boardEl.appendChild(frag);$('moves').textContent=moves;$('lit').textContent=lit;$('score').textContent=score.toLocaleString();}
+function burst(i){const b=$('burst'),cell=boardEl.children[i];if(!cell)return;const a=cell.getBoundingClientRect(),root=document.querySelector('.board-shell').getBoundingClientRect();b.style.left=(a.left-root.left+a.width/2-22)+'px';b.style.top=(a.top-root.top+a.height/2-22)+'px';b.style.width='44px';b.style.height='44px';b.classList.remove('fire');void b.offsetWidth;b.classList.add('fire')}
+function gravity(){for(let c=0;c<size;c++){const keep=[];for(let r=size-1;r>=0;r--)if(tiles[at(r,c)])keep.push(tiles[at(r,c)]);for(let r=size-1;r>=0;r--)tiles[at(r,c)]=keep[size-1-r]||piece(rand(types));}}
+async function resolve(preferred=-1){let chain=0;while(chain<16){const m=matches(tiles,preferred);if(!m.clear.size&&!m.anchors.length)break;chain++;
+  if(m.anchors.length)unlock(1);
+  if(m.clear.size||m.anchors.length)unlock(0);
+  for(const i of m.anchors){tiles[i]=piece('lantern');score+=160;setMsg('A WITCHLIGHT AWAKENS!','Four charms formed a square. Tap the glowing lantern to release a spectral blast.');playTone(800,.25)}
+  for(const i of m.clear)if(tiles[i])tiles[i].clearing=true;
+  score+=m.clear.size*(chain>1?75:50);render();await sleep(240);
+  for(const i of m.clear)tiles[i]=null;
+  gravity();render(true);await sleep(210);
+  preferred=-1;
+  if(chain>1)setMsg('THE HAUNTING CONTINUES!',`Chain reaction ×${chain}. The falling charms made another match!`);
 }
-makeBus();
-function makeCitizen(p){
-const g=svgEl('g',{class:'citizen',tabindex:0,role:'button','aria-label':p.name+' the '+p.job,'data-person':p.id},$('people'));
-svgEl('ellipse',{cx:0,cy:9,rx:11,ry:4,fill:'#40545f',opacity:'.23'},g);
-svgEl('circle',{cx:0,cy:-19,r:17,fill:'#ffeacb',stroke:p.id==='leo'?'#fff4c3':'#d6b7aa','stroke-width':p.id==='leo'?3:1},g);
-svgEl('rect',{x:-8,y:-13,width:16,height:20,rx:6,fill:colors[p.id],stroke:'#555e6a','stroke-width':1},g);
-svgEl('circle',{cx:0,cy:-23,r:8,fill:p.skin},g);
-svgEl('path',{d:'M-8 -25 Q-6 -37 3 -32 Q12 -30 8 -23 Q3 -29 -5 -25Z',fill:p.hair},g);
-svgEl('circle',{cx:-3,cy:-22,r:1,fill:'#48353d'},g);svgEl('circle',{cx:3,cy:-22,r:1,fill:'#48353d'},g);
-svgEl('rect',{x:-12,y:-5,width:7,height:3,rx:2,fill:colors[p.id]},g);
-svgEl('rect',{x:5,y:-5,width:7,height:3,rx:2,fill:colors[p.id]},g);
-svgEl('text',{x:0,y:-43,'text-anchor':'middle','font-size':11,'font-weight':900,fill:'#25384b',stroke:'#fff3d9','stroke-width':3,'paint-order':'stroke'},g,p.name);
-g.addEventListener('click',()=>selectPerson(p.id));
-g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectPerson(p.id)}});
-p.g=g;p.affected=false;p.tx=p.x;p.ty=p.y;p.note=p.desc;
 }
-people=peopleData.map(p=>Object.assign({},p));people.forEach(makeCitizen);
-const moveGoal=(id,location)=>{const p=people.find(x=>x.id===id),dst=destinations[location];if(p&&dst){p.tx=dst[0]+((p.id.length*11)%13-6);p.ty=dst[1]+((p.id.length*7)%9-4)}};
-function selectPerson(id){
-const p=people.find(x=>x.id===id);if(!p)return;
-$('portrait').textContent=p.name[0];$('portrait').style.background=colors[id];
-$('personName').textContent=p.name+' · '+p.job;$('personInfo').textContent=p.note;
-for(const x of people)x.g.querySelector('circle').setAttribute('stroke',x.id===id?'#ffdf91':'#d6b7aa');
+async function detonate(initial){let hit=new Set(),queue=[initial],used=new Set();while(queue.length){const i=queue.shift();if(used.has(i))continue;used.add(i);for(let r=Math.max(0,row(i)-1);r<=Math.min(size-1,row(i)+1);r++)for(let c=Math.max(0,col(i)-1);c<=Math.min(size-1,col(i)+1);c++){const k=at(r,c);hit.add(k);if(tiles[k]?.special&&!used.has(k))queue.push(k)}}
+  lit+=used.size;score+=hit.size*100+used.size*250;unlock(2);burst(initial);playTone(660,.24);setMsg(used.size>1?'CHAIN OF WITCHLIGHTS!':'THE WITCHLIGHT BURSTS!',`${used.size} lantern${used.size>1?'s':''} cleared ${hit.size} spaces with ghostly light.`);
+  for(const i of hit)if(tiles[i])tiles[i].clearing=true;render();await sleep(250);for(const i of hit)tiles[i]=null;gravity();render(true);await sleep(220);await resolve();
 }
-selectPerson('leo');
-function timeText(t){const m=Math.floor(t*2.2);let total=8*60+15+m;let hr=Math.floor(total/60);let min=total%60;return ((hr-1)%12+1)+':'+String(min).padStart(2,'0')+' AM'}
-function reset(keepChoice){
-playing=false;paused=false;completed=false;elapsed=0;events=[];bus.y=130;bus.stopUntil=0;bubbleUntil=0;
-$('clock').textContent='8:15 AM';$('phase').textContent='TIME IS FROZEN';$('mapnote').textContent='TAP A PERSON TO MEET THEM';
-$('speech').style.display='none';$('feed').innerHTML='<p class="empty">Time is frozen. Every resident has plans. What will you change?</p>';
-$('peopleCount').textContent=0;$('eventCount').textContent=0;$('threadCount').textContent=0;
-$('result').style.display='none';$('compare').style.display='none';$('comparison').style.display='none';$('go').disabled=false;$('go').textContent='▶ LET TIME MOVE';
-$('pause').disabled=true;$('pause').textContent='Ⅱ PAUSE';
-people.forEach((p,i)=>{p.x=peopleData[i].x;p.y=peopleData[i].y;p.tx=p.x;p.ty=p.y;p.note=p.desc;p.affected=false});
-if(!keepChoice)townChoice='push';$('choices').querySelectorAll('button').forEach(b=>{b.disabled=false;b.classList.toggle('selected',b.dataset.choice===townChoice)});
-draw();
+function endCheck(){render();if(moves<=0){ended=true;if(clues.size===3){setMsg('THE CLOCK STRIKES TWELVE','All clues are collected. Solve the mystery from the Evidence Wall.');}else openEnd(false)}}
+function openEnd(win){$('finishTitle').textContent=win?'The passage opens!':'The spirits grow quiet...';$('finishDesc').textContent=win?'Mrs. Thorne escaped through the old stair. But in the conservatory, you find a note addressed to YOU: “I knew you would come.” To be continued…':'You ran out of moves before uncovering all three clues. Try completing a square and using the Witchlight!';$('finish').classList.add('open');}
+async function trySwap(a,b){if(busy||ended||!near(a,b))return false;busy=true;hinted=[];selected=-1;[tiles[a],tiles[b]]=[tiles[b],tiles[a]];render();await sleep(160);
+  const specialA=tiles[a]?.special,specialB=tiles[b]?.special;
+  if(!specialA&&!specialB&&!valid(tiles)){[tiles[a],tiles[b]]=[tiles[b],tiles[a]];render();boardEl.children[a]?.classList.add('invalid');boardEl.children[b]?.classList.add('invalid');setMsg('The charms resist...','That swap did not create a match. Try another pair.');playTone(230,.08);busy=false;return false;}
+  moves--;if(specialA||specialB){const spot=specialB?b:a;await detonate(spot)}else{setMsg('A SPELL CLICKS INTO PLACE','Those charms are connected. Watch what happens next.');playTone(490,.1);await resolve(b)}
+  busy=false;endCheck();return true;
 }
-$('choices').addEventListener('click',e=>{const b=e.target.closest('button[data-choice]');if(!b||playing||completed)return;townChoice=b.dataset.choice;$('choices').querySelectorAll('button').forEach(btn=>btn.classList.toggle('selected',btn===b));});
-function produce(key,parent){
-const entry=blurbs[key];if(!entry)return;
-const evt={key,time:elapsed,parent,person:entry[1],description:entry[0]};
-events.push(evt);const p=people.find(x=>x.id===entry[1]);if(p){p.affected=true;p.note=entry[2]}
-const moves=goals[key]||{};Object.keys(moves).forEach(id=>moveGoal(id,moves[id]));
-if(key==='bus_brakes')bus.stopUntil=elapsed+3.7;
-$('speech').style.display='block';$('speechText').textContent=entry[0].length>47?entry[0].slice(0,44)+'…':entry[0];bubbleUntil=elapsed+2.2;
-if(events.length===1)$('feed').innerHTML='';
-const node=document.createElement('div');node.className='event';const t=document.createElement('span');t.className='event-time';t.textContent=timeText(elapsed);
-const content=document.createElement('div');const bold=document.createElement('b');bold.textContent=entry[0];const cause=document.createElement('small');cause.textContent=parent?'Because: '+(blurbs[parent]||['Your choice'])[0]:'Your intervention';
-content.append(bold,cause);node.append(t,content);$('feed').append(node);$('feed').scrollTop=$('feed').scrollHeight;
-$('eventCount').textContent=events.length;$('peopleCount').textContent=people.filter(x=>x.affected).length;
-$('threadCount').textContent=events.filter(x=>x.parent).length;
-if(p&&$('personName').textContent.startsWith(p.name+' ·'))$('personInfo').textContent=p.note;
-}
-const patterns={
-push:[0,2.6,4.5,6.3,9,11.7,14,15.3,17.8,20.2,23],
-warn:[0,2,4.2,6.5,9,12,15,18,21,24],
-none:[0,3.6,6.5,10,13,16,20],
-bike:[0,3,5,8,11,14,17,21]};
-let next=0;
-function start(){
-if(playing)return;
-if(completed){previous=lastOutcome;reset(true)}
-playing=true;paused=false;next=0;elapsed=0;$('phase').textContent='THE TOWN IS LIVING';$('go').disabled=true;$('go').textContent='DAY IN PROGRESS';$('pause').disabled=false;
-$('choices').querySelectorAll('button').forEach(b=>b.disabled=true);lastStamp=performance.now();
-}
-function finish(){
-playing=false;completed=true;$('pause').disabled=true;$('go').disabled=false;$('go').textContent='▶ REPLAY THIS CHOICE';$('phase').textContent='ONE DAY · MANY CONSEQUENCES';$('speech').style.display='none';
-const endings={
-push:['A morning nobody expected','A stumble caused a near miss, interrupted a delivery, changed an interview, and reached the clinic. One moment crossed into seven lives.'],
-warn:['A chance encounter','One warning kept the bus on schedule. Leo met Noa, whose interview led to a new job—and a chain of celebrations across town.'],
-none:['Ordinary days can be extraordinary','Without intervention, a lost wallet brought two neighbors together. Their small kindness connected the café, flower shop, and a photographer.'],
-bike:['The detour','Distracting a cyclist helped a florist finish early—but shifted a delivery and changed who Noa met during her delayed interview.']};
-$('resultTitle').textContent=endings[townChoice][0];$('resultText').textContent=endings[townChoice][1];$('result').style.display='block';
-const current={choice:townChoice,events:events.map(x=>x.key),names:people.filter(x=>x.affected).map(x=>x.name)};
-if(previous&&previous.choice!==townChoice){$('compare').style.display='block'}else{$('compare').style.display='none';$('comparison').style.display='none'}
-lastOutcome=current;
-}
-function tick(ts){
-if(!lastStamp)lastStamp=ts;
-const dt=Math.max(0,Math.min(.07,(ts-lastStamp)/1000));lastStamp=ts;
-if(playing&&!paused){
-elapsed+=dt*speed;
-const route=paths[townChoice],times=patterns[townChoice];
-while(next<route.length&&elapsed>=times[next]){const key=route[next],parent=next?route[next-1]:null;produce(key,parent);next++}
-const busSpeed=townChoice==='push'?29:38;
-if(bus.y<650&&elapsed>1&&elapsed>=bus.stopUntil)bus.y+=dt*speed*busSpeed;
-for(const p of people){const dx=p.tx-p.x,dy=p.ty-p.y,d=Math.hypot(dx,dy);if(d>.5){const a=Math.min(d,dt*speed*(p.id==='ava'?55:28));p.x+=dx/d*a;p.y+=dy/d*a}}
-$('clock').textContent=timeText(elapsed);$('mapnote').textContent=events.length?'RIPPLES: '+events.length:'EVERYONE HAS A DESTINATION';
-if(elapsed>bubbleUntil)$('speech').style.display='none';
-if(next>=route.length&&elapsed>times[times.length-1]+4.8)finish();
-}
-draw();frameId=requestAnimationFrame(tick);
-}
-function draw(){for(const p of people){p.g.setAttribute('transform','translate('+p.x.toFixed(1)+' '+p.y.toFixed(1)+')');p.g.style.opacity=p.affected?1:.85;}
-$('bus').setAttribute('transform','translate(0 '+bus.y.toFixed(1)+')');
-}
-$('go').addEventListener('click',start);
-$('reset').addEventListener('click',()=>{if(completed)previous=lastOutcome;reset(true)});
-$('pause').addEventListener('click',()=>{if(!playing)return;paused=!paused;$('pause').textContent=paused?'▶ RESUME':'Ⅱ PAUSE';$('phase').textContent=paused?'TIME IS PAUSED':'THE TOWN IS LIVING'});
-$('speed').addEventListener('click',()=>{speed=speed===1?2:1;$('speed').textContent='2× SPEED: '+(speed===2?'ON':'OFF')});
-$('compare').addEventListener('click',()=>{if(!previous||!lastOutcome)return;const c=$('comparison');c.textContent='PREVIOUS ('+previous.choice+'): '+previous.events.length+' events, '+previous.names.join(', ')+'. CURRENT ('+lastOutcome.choice+'): '+lastOutcome.events.length+' events, '+lastOutcome.names.join(', ')+'.';c.style.display=c.style.display==='block'?'none':'block'});
-window.TinyChaosDebug={getState:()=>({choice:townChoice,elapsed,playing,completed,events:events.map(x=>x.key),affected:people.filter(x=>x.affected).map(x=>x.id),busY:bus.y}),choose:(choice)=>{const b=document.querySelector('[data-choice="'+choice+'"]');if(b)b.click()},start,reset:()=>reset(true)};
-reset(true);frameId=requestAnimationFrame(tick);
+async function activate(i){if(busy||ended||!tiles[i]?.special)return;busy=true;selected=-1;hinted=[];moves--;await detonate(i);busy=false;endCheck();}
+function choose(i){if(busy||ended)return;if(tiles[i]?.special){activate(i);return}if(selected<0){selected=i;render();return}if(selected===i){selected=-1;render();return}if(near(selected,i)){const first=selected;selected=-1;trySwap(first,i)}else{selected=i;render()}}
+let ptr=null;
+boardEl.addEventListener('pointerdown',e=>{const b=e.target.closest('.tile');if(!b||busy||ended)return;ptr={i:+b.dataset.i,x:e.clientX,y:e.clientY,id:e.pointerId};});
+boardEl.addEventListener('pointerup',e=>{if(!ptr)return;const p=ptr;ptr=null;if(busy||ended)return;const dx=e.clientX-p.x,dy=e.clientY-p.y;if(Math.hypot(dx,dy)>15){let target=-1;if(Math.abs(dx)>Math.abs(dy)){const c=col(p.i)+(dx>0?1:-1);if(c>=0&&c<size)target=at(row(p.i),c)}else{const r=row(p.i)+(dy>0?1:-1);if(r>=0&&r<size)target=at(r,col(p.i))}if(target>=0)trySwap(p.i,target);else choose(p.i)}else choose(p.i);});
+boardEl.addEventListener('pointercancel',()=>ptr=null);
+boardEl.addEventListener('keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const b=e.target.closest('.tile');if(!b)return;e.preventDefault();choose(+b.dataset.i)});
+$('hint').addEventListener('click',()=>{
+ if(busy||ended)return;hinted=[];
+ const special=tiles.findIndex(p=>p?.special);
+ if(special>=0)hinted=[special];
+ if(!hinted.length){
+  outer:for(let i=0;i<n;i++)for(const b of [i+1,i+size]){
+   if(!near(i,b))continue;
+   const a=tiles.slice();[a[i],a[b]]=[a[b],a[i]];
+   if(matches(a,b).anchors.length){hinted=[i,b];break outer}
+  }
+ }
+ if(!hinted.length){
+  outer2:for(let i=0;i<n;i++)for(const b of [i+1,i+size]){
+   if(!near(i,b))continue;
+   const a=tiles.slice();[a[i],a[b]]=[a[b],a[i]];
+   if(valid(a)){hinted=[i,b];break outer2}
+  }
+ }
+ if(hinted.length){setMsg('A WHISPER FROM THE WALL','The spirits are pointing you toward a possible move.');render()}
+ else setMsg('THE BOARD FALLS SILENT','Try a fresh board to continue your investigation.');
+});
+$('clueClose').onclick=()=>$('clueOverlay').classList.remove('open');
+$('deduceClose').onclick=()=>$('deduceOverlay').classList.remove('open');
+$('deduce').onclick=()=>{if(clues.size<3)return;$('guessFeedback').textContent='';$('deduceOverlay').classList.add('open')};
+document.querySelectorAll('[data-clue]').forEach(b=>b.onclick=()=>showClue(+b.dataset.clue));
+document.querySelectorAll('[data-guess]').forEach(b=>b.onclick=()=>{
+ if(b.dataset.guess==='passage'){
+  caseSolved=true;ended=true;$('deduceOverlay').classList.remove('open');openEnd(true);$('deduce').textContent='✓ CASE SOLVED';
+ }else $('guessFeedback').textContent=b.dataset.guess==='ghost'?'The window was sealed with unbroken wax. Look again at the footprints.':'The key was untouched and rusted. Nobody used that door. Try connecting the clues again.';
+});
+$('restart').onclick=reset;$('again').onclick=reset;$('sound').onclick=()=>{sound=!sound;$('sound').textContent=sound?'♫ SOUND ON':'♫ SOUND OFF';if(sound)playTone(550,.08)};
+function reset(){if(busy)return;clues.clear();caseSolved=false;document.querySelectorAll('[data-clue]').forEach((b,i)=>{b.classList.remove('found');b.querySelector('.seal').textContent='?';b.querySelector('small').textContent=['Make your first match','Make a 2×2 square','Use a Witchlight'][i]});$('cluecount').textContent='0 OF 3 CLUES';$('casecopy').textContent='The manor remembers everything. But its memories are scattered among the charms.';$('deduce').disabled=true;$('deduce').textContent='✧ CONNECT THE CLUES · LOCKED';$('clueOverlay').classList.remove('open');$('deduceOverlay').classList.remove('open');tiles=generate();selected=-1;hinted=[];moves=24;score=0;lit=0;busy=false;ended=false;$('finish').classList.remove('open');setMsg('A secret waits in the tiles','Look for three matching charms near the middle, then complete their square.');render(true)}
+window.MysteryManorTest={get:()=>({tiles:tiles.map(p=>p?.type),moves,lit,score,busy,ended,clues:[...clues],caseSolved}),swap:trySwap,activate,match:()=>matches(tiles),reset};
+reset();
 })();
 </script>
 </body>
