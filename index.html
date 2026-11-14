@@ -216,7 +216,7 @@ for(const x of people)x.g.querySelector('circle').setAttribute('stroke',x.id===i
 selectPerson('leo');
 function timeText(t){const m=Math.floor(t*2.2);let total=8*60+15+m;let hr=Math.floor(total/60);let min=total%60;return ((hr-1)%12+1)+':'+String(min).padStart(2,'0')+' AM'}
 function reset(keepChoice){
-playing=false;paused=false;completed=false;elapsed=0;events=[];bus.y=-140;bus.stopUntil=0;bubbleUntil=0;
+playing=false;paused=false;completed=false;elapsed=0;events=[];bus.y=130;bus.stopUntil=0;bubbleUntil=0;
 $('clock').textContent='8:15 AM';$('phase').textContent='TIME IS FROZEN';$('mapnote').textContent='TAP A PERSON TO MEET THEM';
 $('speech').style.display='none';$('feed').innerHTML='<p class="empty">Time is frozen. Every resident has plans. What will you change?</p>';
 $('peopleCount').textContent=0;$('eventCount').textContent=0;$('threadCount').textContent=0;
