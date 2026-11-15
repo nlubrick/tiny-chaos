@@ -232,6 +232,119 @@ body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opac
 .tile.empty:after{display:none}
 @media(prefers-reduced-motion:reduce){.tile.conjure:before,.tile.conjure svg{animation:none!important}}
 .music-volume{display:flex;align-items:center;gap:5px;position:absolute;right:0;top:44px;padding:5px 7px;background:#312445ec;border:1px solid #9476a6;border-radius:10px;color:#f6deca;font:800 9px Arial,sans-serif;letter-spacing:1px}.music-volume[hidden]{display:none}.music-volume input{width:76px;accent-color:#f9c995;height:16px;cursor:pointer}
+
+/* PREMIUM VERTICAL SLICE: the entire interface lives in a single illustrated library */
+body{padding:8px 8px 28px;background:radial-gradient(ellipse at 50% 12%,#5c4169,#151628 80%);color:#f9e5d5}
+.premium-shell{max-width:570px}
+.manor-room{isolation:isolate;position:relative;overflow:hidden;border-radius:27px;background:#3c2f51;box-shadow:0 0 0 1px #bb9ba4,0 16px 65px #0d081bc7,inset 0 0 50px #110f2f;min-height:920px;padding:0 13px 28px}
+.manor-room:before{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,#181b3899 0%,#241c3e55 22%,#33213c40 44%,#1b162b9c 100%);pointer-events:none}
+.library-world{position:absolute;z-index:-1;inset:0;width:100%;height:100%;pointer-events:none}
+.room-vignette{position:absolute;z-index:0;inset:0;pointer-events:none;box-shadow:inset 0 0 130px 33px #140f2b99}
+.world-fog{pointer-events:none;position:absolute;z-index:0;left:-20%;right:-20%;height:160px;opacity:.43;filter:blur(21px);background:radial-gradient(ellipse at 45% 50%,#eac5e16e,transparent 73%);animation:world-drift 14s ease-in-out infinite alternate}
+.world-fog-back{top:290px}.world-fog-front{top:700px;animation-delay:-5s;opacity:.24}
+@keyframes world-drift{0%{transform:translateX(-13%)}100%{transform:translateX(17%)}}
+.library-chandelier{transform-origin:270px 0;animation:chandelier-sway 8s ease-in-out infinite alternate}
+.library-flame{animation:library-flicker 2.7s ease-in-out infinite alternate}
+.library-curtain-left{transform-origin:183px 145px;animation:curtain-sway 9s ease-in-out infinite alternate}
+.library-curtain-right{transform-origin:358px 145px;animation:curtain-sway 7s ease-in-out -2s infinite alternate}
+.library-portrait-eyes{animation:eye-peek 7s steps(2) infinite}
+.library-sparks{animation:dust-drift 12s ease-in-out infinite alternate}
+@keyframes chandelier-sway{to{transform:rotate(2deg)}}
+@keyframes library-flicker{25%{opacity:.65;transform:scale(.92)}70%{opacity:.92;transform:scale(1.08)}}
+@keyframes curtain-sway{to{transform:skewX(2deg) scaleX(.96)}}
+@keyframes eye-peek{0%,27%,100%{transform:translateX(0)}33%,56%{transform:translateX(3px)}}
+@keyframes dust-drift{to{transform:translate(-8px,19px);opacity:.2}}
+.room-header,.room-case,.living-cast,.manor-voice,.desk-space,.room-foot{position:relative;z-index:2}
+.room-header{display:flex;justify-content:space-between;align-items:flex-start;padding:22px 8px 8px;gap:8px}
+.room-brand{text-align:left;filter:drop-shadow(0 3px 6px #090820)}
+.room-eyebrow{font:800 9px/1.4 Arial,sans-serif;letter-spacing:2.3px;color:#efd5a5}
+.room-brand h1{font:900 43px/.83 Georgia,serif;letter-spacing:-1.5px;margin:10px 0 12px;color:#ffecd0;text-shadow:0 3px #613d68,0 0 23px #f8b2a469}
+.room-brand h1 em{font-style:italic;color:#ffcd9e;font-weight:700}
+.room-tagline{font:800 9px/1.5 Arial,sans-serif;letter-spacing:1.3px;color:#e7cad1}
+.audio-widget{position:relative;flex-shrink:0;z-index:4}
+.audio-widget .sound{position:relative;background:#241d3bc9;border:1px solid #c4a0b4;color:#fceac7;box-shadow:0 4px 13px #0b0b26af;white-space:nowrap}
+.audio-widget .music-volume{right:0;top:43px}
+.room-case{margin:14px 2px 0;border:0;border-top:1px solid #d2adab4d;border-bottom:1px solid #d2adab4d;border-radius:0;padding:12px 5px;background:linear-gradient(90deg,#21193374,#4e314b55,#21193374);box-shadow:none;gap:8px}
+.room-case small{color:#edc99c}.room-case strong{font-size:21px;line-height:1.1;color:#ffebc9}
+.room-case p{color:#edcbdb}.room-case .clue-tag{background:#e5b98713;border:1px solid #d6b49e63;min-width:65px;box-shadow:none;padding:7px}
+.living-cast{display:flex;align-items:flex-end;justify-content:space-around;gap:0;height:184px;padding:0;margin:-5px -9px 0}
+.cast-character{position:relative;border:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;width:33.333%;height:100%;background:transparent!important;color:#ffe8c7;padding:0 2px 2px;opacity:1;overflow:visible}
+.cast-character:before{content:"";position:absolute;inset:11% 10% 15%;background:radial-gradient(ellipse at 50% 60%,#ffb1c35e,transparent 68%);opacity:.3;filter:blur(8px)}
+.cast-character.selected:before,.cast-character.reacting:before{opacity:.95;filter:blur(5px)}
+.cast-character.locked{opacity:.6;filter:grayscale(.45)}
+.cast-glow{position:absolute;bottom:18px;left:12%;width:76%;height:24px;border-radius:50%;background:#1d17339e;filter:blur(10px)}
+.cast-figure{position:relative;z-index:1;width:min(100%,142px);height:149px;display:grid;place-items:end center;filter:drop-shadow(0 9px 9px #140f258c);animation:person-idle 4.3s ease-in-out infinite alternate}
+.cast-character:nth-child(2) .cast-figure{animation-delay:-1.8s}.cast-character:nth-child(3) .cast-figure{animation-delay:-3s}
+.cast-figure svg{display:block;height:100%;width:100%;overflow:visible}
+.cast-label{position:relative;z-index:3;background:linear-gradient(100deg,#432a53d9,#6d4568db,#432a53d9);border:1px solid #d1a4b1a3;border-radius:30px;box-shadow:0 3px 11px #160d2a94;padding:6px 10px;color:#ffe3b7;font:900 9px Arial,sans-serif;white-space:nowrap;letter-spacing:.7px;margin-top:-10px}
+.cast-dot{color:#aef1c4;font-size:7px;margin-left:3px}.cast-character.locked .cast-dot{color:#b9a5bc}
+.cast-character.reacting .cast-figure{animation:character-react .8s cubic-bezier(.22,.6,.26,1.1)}
+.cast-character.nervous .cast-figure{animation:character-worry .75s ease-in-out}
+.cast-character.victory .cast-figure{animation:character-celebrate 1.15s ease-out}
+@keyframes person-idle{0%{transform:translateY(2px) rotate(-1.5deg)}100%{transform:translateY(-5px) rotate(1.3deg)}}
+@keyframes character-react{0%,100%{transform:translateY(0)}35%{transform:translateY(-15px) rotate(-5deg)}65%{transform:translateY(-6px) rotate(5deg)}}
+@keyframes character-worry{0%,100%{transform:rotate(0)}20%,70%{transform:rotate(-5deg)}45%,90%{transform:rotate(5deg)}}
+@keyframes character-celebrate{0%{transform:translateY(0)}35%{transform:translateY(-18px) scale(1.1)}55%{transform:translateY(0) scale(.93)}80%{transform:translateY(-7px)}}
+.cast-character .cat-tail{transform-origin:80px 106px;animation:cat-tail-sway 2.8s ease-in-out infinite alternate}
+.cast-character .ghost-float{animation:ghost-hover 3.5s ease-in-out infinite alternate}
+.cast-character .fern-hand{transform-origin:78px 81px;animation:fern-wave 6.5s ease-in-out infinite}
+.cast-character .cast-eye{transform-box:fill-box;transform-origin:center;animation:character-blink 5.2s infinite}
+.cast-character:nth-child(2) .cast-eye{animation-delay:-1.9s}
+@keyframes cat-tail-sway{to{transform:rotate(18deg)}}
+@keyframes ghost-hover{to{transform:translateY(-7px) rotate(1.3deg)}}
+@keyframes fern-wave{0%,78%,100%{transform:rotate(0)}84%{transform:rotate(-11deg)}90%{transform:rotate(5deg)}}
+.manor-voice{position:relative;display:flex;align-items:center;gap:9px;background:linear-gradient(125deg,#f4dcbbf7,#d6b7b6f1);border-radius:14px 14px 19px 19px;border:1px solid #fff2d5;color:#452f4c;box-shadow:0 6px 17px #160f2ac7,inset 0 1px #fff8f0;min-height:76px;padding:10px;margin:2px 7px -8px;z-index:4}
+.manor-voice:before{content:"";position:absolute;top:-9px;left:14%;height:15px;width:16px;background:#edd4b9;transform:rotate(45deg);border-left:1px solid #fff2d5;border-top:1px solid #fff2d5}
+.voice-avatar{height:48px;width:48px;flex:0 0 48px;border-radius:50%;background:#9674a0;overflow:hidden;box-shadow:0 2px 6px #5b375a7b}
+.voice-avatar svg{width:100%;height:100%;display:block}
+.voice-content{min-width:0;flex:1}.voice-eyebrow{font:900 9px Arial,sans-serif;color:#815873;letter-spacing:1px}
+.voice-content strong{display:block;font:18px Georgia,serif;margin:2px 0 0;color:#51364a}
+.voice-content p{font:12px/1.35 Georgia,serif;color:#6e5060;margin:3px 0 0}
+.voice-ask{flex:0 0 auto;background:#66496a;border:1px solid #835d80;color:#ffe4bd;border-radius:12px;padding:10px 9px;font:900 10px Arial,sans-serif;box-shadow:0 3px #37263f}
+.voice-ask span{font-size:20px;vertical-align:middle}
+.desk-space{position:relative;background:linear-gradient(155deg,#a77c6e,#6a4757 5%,#49314c 50%,#65435c 94%,#c09183);border:4px solid #ae8277;border-radius:28px 28px 35px 35px;padding:12px 9px 13px;margin:17px -5px 0;box-shadow:0 10px 0 #402936,0 18px 28px #100d27c7,inset 0 3px #e5b4a6,inset 0 -9px #231734a1}
+.desk-space:before{content:"";position:absolute;inset:7px;border:1px solid #e4bea37a;border-radius:22px;pointer-events:none}
+.desk-top{display:flex;align-items:center;justify-content:space-between;margin:0 8px 7px;gap:8px;color:#f1d1ae}
+.desk-caption{font:900 10px Arial,sans-serif;letter-spacing:2px;text-align:center}
+.desk-rune{color:#ddb38a;font-size:12px;white-space:nowrap}
+.desk-space .stats{margin:5px 0 11px;gap:6px}
+.desk-space .stat{border:1px solid #e4b69773;background:#2d233b96;border-radius:12px;box-shadow:inset 0 1px #ffffff2b;padding:8px 3px 6px}
+.desk-space .stat b{font:26px Georgia,serif;color:#ffe1aa}
+.desk-space .board-wrap{margin:0;border:3px solid #d2a68e;padding:7px;border-radius:18px;background:linear-gradient(140deg,#907493,#5a457c);box-shadow:inset 0 2px 5px #e4c8e886,0 3px 0 #33233f,0 9px 16px #18112b8c}
+.desk-space .board{border-radius:12px;padding:4px;background:#1d203df0;box-shadow:inset 0 2px 15px #110d288c}
+.action-caption{font:900 10px Arial,sans-serif;letter-spacing:1.15px;text-align:center;color:#f4d6a1;min-height:20px;padding-top:8px;text-shadow:0 2px 4px #281934}
+.notice{color:#fce9d0;min-height:28px;padding:4px 8px 6px;font:12px/1.5 Georgia,serif}
+.goal-card{margin:3px 0 4px;padding:10px 4px 7px;border:0;border-top:1px solid #e5bba45a;border-radius:0;background:transparent}
+.section-title{margin:0 0 8px;font:italic 17px Georgia,serif;color:#ffdfa8}
+.goals{gap:7px}.goal{border:1px solid #d4a99373;background:linear-gradient(#765572bd,#4e3b60aa);box-shadow:inset 0 1px #fff2d826;padding:7px 3px;border-radius:13px}
+.goal svg{width:32px;height:32px}
+.desk-space .tools{margin:10px 0 0;gap:8px}
+.tools button{border:1px solid #eac29ba1;background:linear-gradient(#62466b,#3b304c);box-shadow:inset 0 1px #fff4dd35,0 3px #362039;border-radius:11px;min-height:50px;color:#f7e7ce}
+.room-foot{padding:0 3px}
+.casebook-door{margin:25px 2px 10px;width:calc(100% - 4px);display:flex;align-items:center;gap:10px;text-align:left;padding:12px 13px;background:linear-gradient(120deg,#ead0a9,#c9a38f);border:2px solid #f6d9ae;border-radius:12px;box-shadow:0 6px 0 #744c59,0 14px 18px #0d09288f;color:#513448}
+.book-icon{font-size:31px}.casebook-door>span:nth-child(2){flex:1;min-width:0}
+.casebook-door b{display:block;font:900 12px Arial,sans-serif;letter-spacing:1.1px}.casebook-door small{display:block;color:#735065;font:11px/1.4 Georgia,serif;margin-top:4px}
+.book-arrow{font-size:24px}
+.room-foot .story{background:linear-gradient(140deg,#3c2b44b8,#2a2537ac);border:1px solid #ad879080;border-radius:0;border-left:0;border-right:0;margin:15px 5px 8px;box-shadow:none}
+.room-foot .story-visual{display:grid;place-items:center;background:radial-gradient(circle,#e9caa1 0,#8d6d8e 35%,#4a335b 70%);font-size:35px;border-radius:50%;width:66px;height:66px}
+.room-foot .story-bottom{background:transparent}
+.room-foot .tip{color:#e9c6d3;font:11px/1.6 Georgia,serif;margin:16px 6px}
+.room-signoff{text-align:center;margin:22px 0 0;color:#d6bbad;font:900 10px Arial,sans-serif;letter-spacing:3.5px}
+.dossier-overlay{z-index:24;align-items:center}
+.dossier-dialog{width:min(100%,480px);background:linear-gradient(145deg,#e9d7ae,#d7bb9d 65%,#b89180);color:#54374c;box-shadow:0 16px 75px #040310e8,inset 0 1px #fff1d6;border:4px solid #b88d79;border-radius:19px;max-height:88dvh;overflow-y:auto;padding:16px 15px}
+.dossier-bookhead{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #8d667266;padding:3px 0 12px;font:900 10px Arial,sans-serif;letter-spacing:1.7px;color:#6f495f}
+.dossier-bookhead button{border:1px solid #ac8582;border-radius:50%;width:32px;height:32px;background:#eacbaa;color:#634756;font-size:16px}
+.dossier-dialog .evidence-case{background:none;border:0;box-shadow:none;padding:14px 3px;color:#53334a}
+.dossier-dialog .evidence-case h2{color:#59364b;font-size:27px}
+.dossier-dialog .evidence-case p{color:#765c67}
+.dossier-dialog .clue-item{background:#eddab7;border-color:#ad8d78;color:#5f4956}
+.dossier-dialog .clue-item strong{color:#6a4155}.dossier-dialog .clue-item small{color:#816977}
+.dossier-dialog .clue-item.unlocked{background:#e0c29c;border-color:#976d75}
+.dossier-dialog .solve-case{box-shadow:0 3px #9d746e}
+.dossier-quote{font:italic 13px Georgia,serif;text-align:center;color:#705166;border-top:1px solid #a78789;padding-top:14px}
+@media(min-width:560px){.manor-room{padding-left:24px;padding-right:24px}.living-cast{height:215px}.cast-figure{height:181px;width:170px}.manor-voice{margin-top:5px}.room-header{padding-top:28px}}
+@media(max-width:390px){body{padding:3px}.manor-room{padding:0 9px 20px;border-radius:17px}.room-header{padding:18px 4px 5px}.room-brand h1{font-size:35px}.room-eyebrow{font-size:8px;letter-spacing:1.5px}.room-tagline{font-size:8px}.room-case{margin-top:9px}.living-cast{height:150px}.cast-figure{height:126px}.cast-label{font-size:8px;padding:5px 7px}.manor-voice{padding:8px;min-height:68px;margin-left:2px;margin-right:2px}.voice-avatar{width:41px;flex-basis:41px;height:41px}.voice-content strong{font-size:16px}.voice-content p{font-size:11px}.voice-ask{padding:8px}.desk-space{margin-left:-5px;margin-right:-5px;padding:10px 6px 12px}.desk-top .desk-rune{font-size:10px}.desk-caption{font-size:9px;letter-spacing:1.1px}}
+@media(prefers-reduced-motion:reduce){.world-fog,.library-chandelier,.library-flame,.library-curtain-left,.library-curtain-right,.library-portrait-eyes,.library-sparks,.cast-figure,.cat-tail,.ghost-float,.fern-hand,.cast-eye{animation:none!important}}
 </style>
 </head>
 <body>
@@ -296,115 +409,128 @@ body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opac
 <path d="M30 40Q33 43 36 40" fill="none" stroke="#ab769d" stroke-width="2"/>
 </symbol>
 </svg>
-<div class="shell">
-<header class="hero">
-<div class="top-actions"><button type="button" class="sound" id="sound" aria-pressed="false" disabled>♫ LOADING MUSIC</button><label class="music-volume" id="music-volume-box" hidden>VOL <input id="music-volume" aria-label="Music volume" type="range" min="0" max="100" value="45"></label><div id="music-fallback" class="music-fallback" hidden><span>Music blocked? Tap play here:</span><div id="music-controls"></div></div></div>
-<div class="hero-art" aria-hidden="true">
-<svg viewBox="0 0 500 235" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-<defs>
-<linearGradient id="mm-night" x2=".2" y2="1"><stop stop-color="#292a65"/><stop offset=".49" stop-color="#66528d"/><stop offset="1" stop-color="#ad718b"/></linearGradient>
-<linearGradient id="mm-stone" x2="1" y2="1"><stop stop-color="#8c7696"/><stop offset=".6" stop-color="#675070"/><stop offset="1" stop-color="#423952"/></linearGradient>
-<linearGradient id="mm-roof" x2="1" y2="1"><stop stop-color="#38436d"/><stop offset="1" stop-color="#272747"/></linearGradient>
-<linearGradient id="mm-hills" x2="0" y2="1"><stop stop-color="#645981"/><stop offset="1" stop-color="#292b54"/></linearGradient>
-<linearGradient id="mm-moon" x2=".7" y2="1"><stop stop-color="#fffce2"/><stop offset="1" stop-color="#ecd1bd"/></linearGradient>
-<radialGradient id="mm-halo"><stop stop-color="#ffecdc" stop-opacity=".55"/><stop offset="1" stop-color="#e9bcd9" stop-opacity="0"/></radialGradient>
-<radialGradient id="mm-window"><stop stop-color="#ffe9a0"/><stop offset=".73" stop-color="#f5ac76"/><stop offset="1" stop-color="#dd8595"/></radialGradient>
-<linearGradient id="mm-mist" x2="0" y2="1"><stop stop-color="#c8a6d2" stop-opacity="0"/><stop offset=".7" stop-color="#e9cde2" stop-opacity=".31"/><stop offset="1" stop-color="#c9a7d4" stop-opacity=".54"/></linearGradient>
-</defs>
-<rect width="500" height="235" fill="url(#mm-night)"/>
-<g class="mm-stars" fill="#fff3df">
-<circle cx="22" cy="18" r="1.4"/><circle cx="76" cy="44" r="1.8"/><circle cx="144" cy="20" r="1.2"/><circle cx="214" cy="10" r="1.5"/><circle cx="305" cy="21" r="1.1"/><circle cx="353" cy="47" r="1.6"/><circle cx="480" cy="20" r="1.4"/><circle cx="470" cy="91" r="1.2"/><circle cx="117" cy="82" r="1.2"/><circle cx="325" cy="73" r="1.3"/>
-</g>
-<g class="mm-twinkle" stroke="#fceacb" stroke-width="1.5"><path d="M123 29V39M118 34H128M338 16V28M332 22H344M455 111V125M448 118H462"/></g>
-<circle cx="415" cy="52" r="77" fill="url(#mm-halo)" class="mm-moon-halo"/>
-<circle cx="418" cy="51" r="32" fill="url(#mm-moon)"/><circle cx="427" cy="41" r="29" fill="#53517e"/>
-<g fill="#231f43" opacity=".62">
-<path d="M0 173Q36 146 72 167Q103 132 154 166Q180 148 211 164L211 235H0Z"/>
-<path d="M310 165Q362 136 407 165Q444 140 500 157V235H310Z"/>
-</g>
-<path d="M0 197Q54 157 111 195Q178 155 226 186Q291 151 354 186Q435 159 500 184V235H0Z" fill="url(#mm-hills)"/>
-<g class="mm-trees" fill="#272642" stroke="#272642">
-<path d="M28 222L38 114L45 80L42 151L58 121L54 144L69 135L53 156L42 172L39 223Z"/>
-<path d="M37 139L8 106L0 72L16 105L40 130M40 159L77 104L97 88L83 110L48 174M26 183L2 160" stroke-width="7" stroke-linecap="round" fill="none"/>
-<path d="M452 226L450 143L437 116L447 129L449 159L475 113L461 168L469 224Z"/>
-<path d="M453 151L490 106L499 84M450 174L420 140L410 105M461 181L497 163" stroke-width="7" stroke-linecap="round" fill="none"/>
-</g>
-<g transform="translate(130 20)">
-<!-- manor foundations and towers -->
-<path d="M26 189V98H224V189Z" fill="url(#mm-stone)" stroke="#aa8ca1" stroke-width="3"/>
-<path d="M44 92V41H91V189H44Z" fill="#65516e" stroke="#a88ea5" stroke-width="3"/>
-<path d="M39 43L67 2L97 43Z" fill="url(#mm-roof)" stroke="#a49abe" stroke-width="3"/>
-<path d="M170 189V55H221V189H170Z" fill="#5b5076" stroke="#a88ca4" stroke-width="3"/>
-<path d="M164 57L195 4L226 57Z" fill="url(#mm-roof)" stroke="#a49abe" stroke-width="3"/>
-<path d="M95 98V78H160V189H95Z" fill="#746080" stroke="#b69aa4" stroke-width="3"/>
-<path d="M90 82L125 37L164 82Z" fill="#38395e" stroke="#aca0b8" stroke-width="3"/>
-<path d="M19 100L31 72L46 100M217 100L232 72L246 100" fill="#373350" stroke="#b29dac" stroke-width="3"/>
-<path d="M19 189H229" stroke="#bd9cab" stroke-width="8"/>
-<path d="M119 188V148Q119 125 140 125Q161 125 161 148V188Z" fill="#2e2948" stroke="#d5a68e" stroke-width="5"/>
-<circle cx="150" cy="163" r="3" fill="#f7d69e"/>
-<path d="M118 130Q140 116 161 130" fill="none" stroke="#f1caa6" stroke-width="4"/>
-<!-- copper-ish roof trim -->
-<path d="M39 43H97M164 57H226M90 82H164" stroke="#d0a3b6" stroke-width="4" stroke-linecap="round"/>
-<g class="mm-windows" fill="url(#mm-window)" stroke="#deb9a7" stroke-width="2.4">
-<path d="M53 60Q67 42 82 60V86H53Z"/>
-<path d="M179 72Q195 53 212 72V96H179Z"/>
-<path d="M112 94Q126 79 141 94V114H112Z"/>
-<rect x="44" y="119" width="24" height="35" rx="12"/>
-<rect x="178" y="123" width="25" height="37" rx="12"/>
-<rect x="92" y="135" width="18" height="27" rx="9"/>
-<rect x="211" y="139" width="13" height="22" rx="6"/>
-</g>
-<g stroke="#745978" stroke-width="3">
-<path d="M67 52V85M53 73H82M195 62V96M179 82H212M126 86V114M112 101H141M56 121V153M44 137H68M190 125V158M178 142H203"/>
-</g>
-<path d="M63 101H85M170 108H220" stroke="#b8a1b2" stroke-width="3" opacity=".55"/>
-<path d="M25 189H228" stroke="#42344a" stroke-width="6"/>
-<!-- a friendly ghost appearing at one window -->
-<g class="mm-peeking-ghost"><path d="M178 88Q177 72 188 70Q200 68 201 84V91L194 87L188 92L182 88Z" fill="#fff0f8" opacity=".94"/><ellipse cx="186" cy="82" rx="2" ry="3" fill="#694a81"/><ellipse cx="194" cy="82" rx="2" ry="3" fill="#694a81"/></g>
-</g>
-<!-- ancient cobblestone path -->
-<path d="M233 205L270 205L338 235H164Z" fill="#766178" opacity=".9"/>
-<path d="M240 209H262M224 216H277M201 224H304M185 233H325" stroke="#ddbdbe" stroke-width="2" opacity=".55"/>
-<!-- lantern posts and pumpkins -->
-<g stroke="#e8bb8f" stroke-width="4" fill="#fbc781">
-<path d="M132 217V187M370 217V187" fill="none"/>
-<path d="M122 184H142L139 203H125Z" fill="#facf80" stroke="#b68d85" stroke-width="2"/>
-<path d="M361 184H381L377 203H365Z" fill="#facf80" stroke="#b68d85" stroke-width="2"/>
-</g>
-<g class="mm-pumpkin"><path d="M386 225Q374 209 389 203Q404 197 415 209Q432 208 427 224Q413 239 390 230Z" fill="#f2a05c" stroke="#f8d49c" stroke-width="2"/><path d="M405 206L408 198" stroke="#618861" stroke-width="4"/><path d="M392 217L399 215L397 222M412 216L419 220L412 223" fill="#5b3650"/><path d="M397 226Q407 230 415 225" fill="none" stroke="#6e3851" stroke-width="2"/></g>
-<!-- cat in foreground -->
-<g transform="translate(57 178)" fill="#242039"><path d="M10 52Q-8 37 5 15L13 25L25 8L36 27Q54 39 39 54Z"/><path d="M38 48Q68 53 66 28" fill="none" stroke="#242039" stroke-width="8" stroke-linecap="round"/><ellipse cx="17" cy="36" rx="3" ry="4" fill="#ffda85"/><ellipse cx="30" cy="36" rx="3" ry="4" fill="#ffda85"/></g>
-<g class="mm-bats" fill="#292445"><path d="M300 36Q289 20 279 35Q291 30 298 44Q302 50 307 43Q316 28 328 36Q316 18 305 35L303 30Z"/><path d="M111 46Q98 35 91 47Q102 42 108 53Q112 56 116 51Q122 41 132 46Q123 34 115 44Z"/></g>
-<g class="mm-fog-back"><path d="M-60 196Q50 180 143 196Q255 173 349 197Q460 184 560 193V236H-60Z" fill="url(#mm-mist)"/></g>
-<g class="mm-fog-front"><path d="M-60 217Q62 199 162 218Q270 194 364 213Q449 192 560 219V243H-60Z" fill="#eacbe3" opacity=".29"/></g>
-</svg></div>
-<div class="brand"><div class="kicker">✦ A COZY MATCHING MYSTERY ✦</div><h1>Mystery Manor<br>Matches</h1><p>PLAY • INVESTIGATE • RESTORE</p></div>
-</header>
-<section class="case">
-<div class="case-left"><small id="chapter-label">CHAPTER 1 · THE LIBRARY</small><strong id="chapter-title">The Missing Librarian</strong><p id="chapter-copy">Something strange happened after midnight...</p></div>
-<div class="clue-tag"><b id="clue-num">0/3</b><span>CLUES</span></div>
-</section>
-<div class="stats"><div class="stat"><span>⭐ SCORE</span><b id="score">0</b></div><div class="stat"><span>🕯️ MOVES</span><b id="moves">28</b></div><div class="stat"><span>✨ BEST</span><b id="best">0</b></div></div>
-<section class="board-wrap"><div id="board" class="board" aria-label="Seven by seven spooky match three game board"></div><div id="fx-layer" class="fx-layer" aria-hidden="true"></div></section>
-<div class="notice" id="notice" aria-live="polite">Swap two neighboring charms to make a match!</div>
-<section class="goal-card"><h2 class="section-title">✧ Collect the Evidence ✧</h2><div id="goals" class="goals"></div></section>
-<div class="tools"><button id="hint"><strong>🔎</strong><span id="hint-label">HINT · 3</span></button><button id="shuffle"><strong>🔮</strong><span id="shuffle-label">SHUFFLE · 2</span></button><button id="restart"><strong>↻</strong>RESTART</button></div>
-<p class="tip">Tap two neighboring tiles or swipe to match 3+. Match <b>4 in a row, column, or 2×2 square</b> to summon a cute <b>Hex Bomb</b>! Tap it to clear a 3×3 area.</p>
-<section class="story"><div class="story-top"><div class="story-visual" aria-hidden="true">
-<svg viewBox="0 0 105 90"><rect width="105" height="90" fill="#59416a"/><rect x="62" y="5" width="35" height="65" rx="17" fill="#3d4777" stroke="#ae88b0" stroke-width="4"/><circle cx="82" cy="25" r="12" fill="#ded7f6"/><path d="M68 7V68M62 38H97" stroke="#a18bb2" stroke-width="3"/><path d="M2 77L103 76" stroke="#ac7f6c" stroke-width="9"/><rect x="12" y="23" width="39" height="49" fill="#5a344e" stroke="#b3827f" stroke-width="4"/><path d="M15 42H48M15 60H48" stroke="#dbac85" stroke-width="4"/><g fill="#da8890"><rect x="17" y="28" width="5" height="12"/><rect x="25" y="26" width="6" height="14"/><rect x="34" y="29" width="9" height="11"/></g><path d="M53 73V52" stroke="#efc69c" stroke-width="6"/><path d="M53 51Q44 43 53 34Q62 43 53 51Z" fill="#ffdea2"/></svg>
-</div><div><span class="eyebrow">THE STORY SO FAR</span><strong id="story-title">A Locked Library</strong><p id="story-text">The candles are still warm, but the librarian has vanished.</p></div></div><div class="story-bottom" id="story-footer">Solve puzzles to find clues and bring the manor back to life.</div></section>
-
-<section class="witness" aria-label="Witness interview">
-<div class="witness-art" id="witness-art" aria-hidden="true"></div>
-<div class="witness-details"><div class="tiny" id="witness-role">NEW WITNESS · THE LIBRARY</div><h3 id="witness-name">Mallow the Familiar</h3><p id="witness-teaser">Someone heard something after midnight...</p><button type="button" id="witness-talk">💬 Ask About Midnight</button></div>
-</section>
-<section class="evidence-case" aria-label="The detective case file">
-<div class="eyebrow">✦ THE DETECTIVE'S NOTEBOOK</div><h2>Clues &amp; Witnesses</h2>
-<p id="evidence-summary">Complete each matching level to recover one clue. Talk to witnesses before you accuse anyone.</p>
-<div class="clue-list" id="clue-list"></div>
-<button type="button" id="deduce" class="solve-case" disabled>🔒 Find All Three Clues to Solve the Case</button>
-</section>
-<div class="footer">☕ A little magic. A little mystery. Just one more match.</div>
+<div class="shell premium-shell">
+ <main class="manor-room" id="manor-room">
+  <svg class="library-world" viewBox="0 0 540 1380" preserveAspectRatio="xMidYMin slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+   <defs>
+    <linearGradient id="lib-wall" x1="0" y1="0" x2=".55" y2="1"><stop stop-color="#232446"/><stop offset=".36" stop-color="#493a64"/><stop offset=".75" stop-color="#684764"/><stop offset="1" stop-color="#32283f"/></linearGradient>
+    <linearGradient id="lib-night" x2="0" y2="1"><stop stop-color="#172c56"/><stop offset=".5" stop-color="#66609a"/><stop offset="1" stop-color="#a57b98"/></linearGradient>
+    <radialGradient id="lib-moon"><stop stop-color="#fff7da" stop-opacity=".8"/><stop offset=".6" stop-color="#fcdfa9" stop-opacity=".16"/><stop offset="1" stop-color="#e4bdf5" stop-opacity="0"/></radialGradient>
+    <linearGradient id="lib-wood" x2=".6" y2="1"><stop stop-color="#ac746b"/><stop offset=".5" stop-color="#74485b"/><stop offset="1" stop-color="#2f243c"/></linearGradient>
+    <linearGradient id="lib-floor" x2="0" y2="1"><stop stop-color="#503651"/><stop offset="1" stop-color="#201b33"/></linearGradient>
+    <radialGradient id="lib-candle"><stop stop-color="#fff5b7" stop-opacity=".9"/><stop offset=".45" stop-color="#eeaa87" stop-opacity=".26"/><stop offset="1" stop-color="#e7a780" stop-opacity="0"/></radialGradient>
+    <pattern id="lib-wallgrain" width="64" height="62" patternUnits="userSpaceOnUse"><path d="M0 0H64M0 30H64M25 0V30M45 30V62" fill="none" stroke="#dbb0cc" stroke-width="1.1" opacity=".075"/></pattern>
+    <pattern id="lib-carpet" width="56" height="44" patternUnits="userSpaceOnUse"><path d="M28 0L56 22L28 44L0 22Z" fill="none" stroke="#b17a8c" stroke-width="1.7" opacity=".2"/><circle cx="28" cy="22" r="3" fill="#dab6ae" opacity=".15"/></pattern>
+   </defs>
+   <rect width="540" height="1380" fill="url(#lib-wall)"/><rect width="540" height="780" fill="url(#lib-wallgrain)"/>
+   <path d="M0 22Q270 -22 540 22V72Q270 25 0 72Z" fill="#382946" stroke="#b48ca8" stroke-width="6"/>
+   <path d="M0 96H540" stroke="#c69eb2" stroke-width="7" opacity=".45"/>
+   <!-- dramatic moonlit arched window -->
+   <path d="M180 520V208Q180 98 270 90Q360 98 360 208V520Z" fill="#151d3e" stroke="#a489ac" stroke-width="16"/>
+   <path d="M198 505V208Q198 126 270 118Q342 126 342 208V505Z" fill="url(#lib-night)"/>
+   <circle cx="282" cy="210" r="110" fill="url(#lib-moon)" class="library-moon"/><circle cx="282" cy="207" r="39" fill="#fcf0cd"/>
+   <path d="M201 447Q242 359 302 415Q331 379 345 398V510H197Z" fill="#313355"/>
+   <path d="M267 122V510M198 293H343" stroke="#8d82ab" stroke-width="10"/>
+   <path d="M193 211Q201 133 271 122Q339 139 346 211" fill="none" stroke="#c1a1bd" stroke-width="5"/>
+   <path d="M183 139Q157 290 193 515Q238 397 215 189Z" fill="#824e79" stroke="#cca1b6" stroke-width="4" class="library-curtain-left"/>
+   <path d="M358 139Q386 273 357 515Q318 400 337 189Z" fill="#70486f" stroke="#b18aab" stroke-width="4" class="library-curtain-right"/>
+   <!-- crooked library bookcases -->
+   <path d="M-13 126L154 103L154 609L-10 655Z" fill="#30293f" stroke="#bc8d86" stroke-width="13"/>
+   <path d="M386 104L551 134V650L385 603Z" fill="#32283f" stroke="#b18d8d" stroke-width="13"/>
+   <g fill="#503751" stroke="#a77c85" stroke-width="5">
+    <path d="M3 248L150 230M3 365L150 346M3 484L150 470M387 232L535 251M387 350L537 367M387 468L538 485"/>
+   </g>
+   <g id="library-books">
+   <rect x="4" y="160" width="16" height="36" rx="2" fill="#b87878" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="24" y="149" width="14" height="47" rx="2" fill="#7ca2a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="44" y="138" width="14" height="58" rx="2" fill="#9b79a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="64" y="155" width="14" height="41" rx="2" fill="#d4b17b" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="84" y="144" width="16" height="52" rx="2" fill="#6b9b86" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="104" y="133" width="14" height="63" rx="2" fill="#a47893" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="124" y="150" width="14" height="46" rx="2" fill="#b1a28f" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="390" y="261" width="14" height="57" rx="2" fill="#b87878" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="410" y="278" width="16" height="40" rx="2" fill="#7ca2a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="430" y="267" width="14" height="51" rx="2" fill="#9b79a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="450" y="256" width="14" height="62" rx="2" fill="#d4b17b" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="470" y="273" width="14" height="45" rx="2" fill="#6b9b86" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="490" y="262" width="16" height="56" rx="2" fill="#a47893" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="510" y="279" width="14" height="39" rx="2" fill="#b1a28f" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="4" y="378" width="14" height="50" rx="2" fill="#b87878" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="24" y="367" width="14" height="61" rx="2" fill="#7ca2a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="44" y="384" width="16" height="44" rx="2" fill="#9b79a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="64" y="373" width="14" height="55" rx="2" fill="#d4b17b" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="84" y="390" width="14" height="38" rx="2" fill="#6b9b86" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="104" y="379" width="14" height="49" rx="2" fill="#a47893" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="124" y="368" width="16" height="60" rx="2" fill="#b1a28f" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="390" y="159" width="14" height="43" rx="2" fill="#b87878" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="410" y="148" width="14" height="54" rx="2" fill="#7ca2a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="430" y="165" width="14" height="37" rx="2" fill="#9b79a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="450" y="154" width="16" height="48" rx="2" fill="#d4b17b" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="470" y="143" width="14" height="59" rx="2" fill="#6b9b86" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="490" y="160" width="14" height="42" rx="2" fill="#a47893" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="510" y="149" width="14" height="53" rx="2" fill="#b1a28f" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="4" y="276" width="16" height="36" rx="2" fill="#b87878" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="24" y="265" width="14" height="47" rx="2" fill="#7ca2a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="44" y="254" width="14" height="58" rx="2" fill="#9b79a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="64" y="271" width="14" height="41" rx="2" fill="#d4b17b" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="84" y="260" width="16" height="52" rx="2" fill="#6b9b86" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="104" y="249" width="14" height="63" rx="2" fill="#a47893" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="124" y="266" width="14" height="46" rx="2" fill="#b1a28f" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="390" y="377" width="14" height="57" rx="2" fill="#b87878" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="410" y="394" width="16" height="40" rx="2" fill="#7ca2a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="430" y="383" width="14" height="51" rx="2" fill="#9b79a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="450" y="372" width="14" height="62" rx="2" fill="#d4b17b" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="470" y="389" width="14" height="45" rx="2" fill="#6b9b86" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="490" y="378" width="16" height="56" rx="2" fill="#a47893" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="510" y="395" width="14" height="39" rx="2" fill="#b1a28f" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/>
+   </g>
+   <!-- antique architecture -->
+   <path d="M0 617Q270 593 540 617V649H0Z" fill="#6c4963" stroke="#b78b94" stroke-width="6"/>
+   <path d="M0 648H540V1380H0Z" fill="url(#lib-floor)"/>
+   <path d="M0 760H540M0 940H540M0 1120H540" stroke="#b88693" opacity=".13" stroke-width="8"/>
+   <path d="M-90 915Q270 803 630 915V1380H-90Z" fill="#55344e" opacity=".48"/>
+   <path d="M-90 915Q270 803 630 915V1380H-90Z" fill="url(#lib-carpet)"/>
+   <path d="M-70 971Q270 867 610 971" stroke="#d5a9a6" stroke-width="5" opacity=".2" fill="none"/>
+   <!-- floating dust motes and orbs -->
+   <g class="library-sparks" fill="#ffe5b1" opacity=".55">
+    <circle cx="173" cy="190" r="2.5"/><circle cx="368" cy="302" r="2"/><circle cx="211" cy="387" r="1.5"/>
+    <circle cx="322" cy="488" r="2"/><circle cx="74" cy="689" r="1.5"/><circle cx="446" cy="736" r="2"/>
+    <circle cx="363" cy="982" r="1.5"/><circle cx="120" cy="1131" r="2.5"/>
+   </g>
+   <!-- hanging moonstone chandelier -->
+   <g class="library-chandelier">
+    <path d="M270 4V102" stroke="#b99395" stroke-width="6"/><path d="M202 115Q270 160 338 115" stroke="#9a7188" stroke-width="8" fill="none"/>
+    <path d="M222 116V95M270 139V109M318 116V95" stroke="#c7a3a1" stroke-width="5"/>
+    <circle cx="222" cy="91" r="8" fill="#ffebbb"/><circle cx="270" cy="105" r="8" fill="#ffebbb"/><circle cx="318" cy="91" r="8" fill="#ffebbb"/>
+    <circle cx="222" cy="90" r="37" fill="url(#lib-candle)" class="library-flame"/><circle cx="270" cy="104" r="37" fill="url(#lib-candle)" class="library-flame"/><circle cx="318" cy="90" r="37" fill="url(#lib-candle)" class="library-flame"/>
+   </g>
+   <!-- ornate picture frames watching player -->
+   <path d="M24 655V710H95V655Z" fill="#453043" stroke="#c29f79" stroke-width="9"/>
+   <path d="M443 655V710H516V655Z" fill="#4b3148" stroke="#c9a077" stroke-width="9"/>
+   <g class="library-portrait-eyes" fill="#f4ce91"><ellipse cx="53" cy="687" rx="4" ry="2.5"/><ellipse cx="66" cy="687" rx="4" ry="2.5"/><ellipse cx="469" cy="687" rx="4" ry="2.5"/><ellipse cx="486" cy="687" rx="4" ry="2.5"/></g>
+   <!-- antique rug and carved desk base -->
+   <path d="M-15 1020Q270 982 555 1020V1366H-15Z" fill="#6c4c62" opacity=".3"/>
+   <path d="M-10 1225Q270 1195 550 1225V1380H-10Z" fill="#412c3a" stroke="#b17d72" stroke-width="9"/>
+   <path d="M16 1248H524M36 1310H502" stroke="#d6a086" stroke-width="4" opacity=".32"/>
+  </svg>
+  <div class="world-fog world-fog-back"></div>
+  <div class="world-fog world-fog-front"></div>
+  <div class="room-vignette"></div>
+  <header class="room-header">
+   <div class="room-brand"><span class="room-eyebrow">✦ THE ENCHANTED CASE FILE ✦</span><h1>Mystery<br><em>Manor</em></h1><span class="room-tagline">EVERY MATCH HIDES A SECRET</span></div>
+   <div class="audio-widget">
+    <button type="button" class="sound" id="sound" aria-pressed="false" disabled>♫ LOADING MUSIC</button>
+    <label class="music-volume" id="music-volume-box" hidden>VOL <input id="music-volume" aria-label="Music volume" type="range" min="0" max="100" value="45"></label>
+    <div class="music-fallback" id="music-fallback" hidden><span>Music blocked? Tap play here:</span><div id="music-controls"></div></div>
+   </div>
+  </header>
+  <section class="case room-case">
+   <div class="case-left"><small id="chapter-label">CHAPTER 1 · THE LIBRARY</small><strong id="chapter-title">The Missing Librarian</strong><p id="chapter-copy">Something strange happened after midnight...</p></div>
+   <div class="clue-tag"><b id="clue-num">0/3</b><span>CLUES</span></div>
+  </section>
+  <section class="living-cast" aria-label="Witnesses in the manor">
+   <button class="cast-character unlocked" type="button" data-person="0" aria-label="Talk to Mallow the cat">
+    <span class="cast-glow"></span><span class="cast-figure" id="cast-figure-0"></span><span class="cast-label">MALLOW <span class="cast-dot">●</span></span>
+   </button>
+   <button class="cast-character" type="button" data-person="1" aria-label="Meet Fern the groundskeeper">
+    <span class="cast-glow"></span><span class="cast-figure" id="cast-figure-1"></span><span class="cast-label">FERN <span class="cast-dot">●</span></span>
+   </button>
+   <button class="cast-character" type="button" data-person="2" aria-label="Meet Miss Wisp the ghost">
+    <span class="cast-glow"></span><span class="cast-figure" id="cast-figure-2"></span><span class="cast-label">MISS WISP <span class="cast-dot">●</span></span>
+   </button>
+  </section>
+  <section class="manor-voice" id="manor-voice">
+   <span class="voice-avatar" id="witness-art" aria-hidden="true"></span>
+   <div class="voice-content"><span class="voice-eyebrow" id="witness-role">NEW WITNESS · THE LIBRARY</span><strong id="witness-name">Mallow</strong><p id="witness-teaser">Mallow seems to know something about midnight.</p></div>
+   <button type="button" id="witness-talk" class="voice-ask" aria-label="Ask witness a question">ASK <span>›</span></button>
+  </section>
+  <section class="desk-space" aria-label="Magical matching puzzle">
+   <div class="desk-top"><span class="desk-rune">☽ ✧ ✦</span><span class="desk-caption">THE ENCHANTED EVIDENCE TABLE</span><span class="desk-rune">✦ ✧ ☾</span></div>
+   <div class="stats"><div class="stat"><span>✦ SCORE</span><b id="score">0</b></div><div class="stat"><span>🕯 MOVES</span><b id="moves">28</b></div><div class="stat"><span>✧ BEST</span><b id="best">0</b></div></div>
+   <section class="board-wrap"><div id="board" class="board" aria-label="Seven by seven spooky match three game board"></div><div id="fx-layer" class="fx-layer" aria-hidden="true"></div></section>
+   <div class="action-caption" id="action-caption" aria-live="polite">SWAP CHARM → FIND MATCH → FOLLOW THE CLUES</div>
+   <div class="notice" id="notice" aria-live="polite">Swap neighboring charms to begin.</div>
+   <section class="goal-card"><h2 class="section-title">✧ Collect the Evidence ✧</h2><div id="goals" class="goals"></div></section>
+   <div class="tools"><button id="hint"><strong>✦</strong><span id="hint-label">HINT · 3</span></button><button id="shuffle"><strong>🔮</strong><span id="shuffle-label">SHUFFLE · 2</span></button><button id="restart"><strong>↻</strong>RESTART</button></div>
+  </section>
+  <div class="room-foot">
+   <button class="casebook-door" type="button" id="casefile-open"><span class="book-icon">📖</span><span><b>DETECTIVE'S NOTEBOOK</b><small>Inspect evidence • Question witnesses • Solve the case</small></span><span class="book-arrow">›</span></button>
+   <section class="story"><div class="story-top"><div class="story-visual" aria-hidden="true">☽</div><div><span class="eyebrow">THE STORY SO FAR</span><strong id="story-title">A Locked Library</strong><p id="story-text">The candles are still warm, but the librarian has vanished.</p></div></div><div class="story-bottom" id="story-footer">Three clues. Three witnesses. One truth.</div></section>
+   <p class="tip">Slide charms to match three. <b>Four in a line or 2×2 square</b> summons a Hex Bomb—tap it to clear 3×3!</p>
+   <p class="room-signoff">✦ THE MANOR REMEMBERS ✦</p>
+  </div>
+ </main>
+</div>
+<div class="overlay dossier-overlay" id="casefile-overlay" role="dialog" aria-modal="true" aria-labelledby="dossier-heading">
+ <div class="dossier-dialog">
+  <div class="dossier-bookhead"><span>✦ THE DETECTIVE'S JOURNAL</span><button type="button" id="casefile-close" aria-label="Close notebook">✕</button></div>
+  <section class="evidence-case" aria-label="The detective case file">
+   <div class="eyebrow">THE MANOR'S SECRETS</div><h2 id="dossier-heading">Clues &amp; Witnesses</h2>
+   <p id="evidence-summary">Complete each matching level to recover one clue. Talk to witnesses before you accuse anyone.</p>
+   <div class="clue-list" id="clue-list"></div>
+   <button type="button" id="deduce" class="solve-case" disabled>🔒 Find All Three Clues to Solve the Case</button>
+  </section>
+  <div class="dossier-quote">“In this house, the truth is never quite where it appears.”</div>
+ </div>
 </div>
 <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
 <div class="dialog"><div id="dialog-portrait" class="dialog-portrait" hidden></div><div class="icon" id="modal-icon">🗝️</div><div id="clue-preview" class="clue-preview" hidden></div><h2 id="modal-title">A New Clue!</h2><p id="modal-copy"></p><button class="primary" id="modal-button">Continue the Story →</button></div>
