@@ -216,7 +216,7 @@ button:focus-visible{outline:3px solid #fff1be;outline-offset:2px}
 <div class="notice" id="notice" aria-live="polite">Swap two neighboring charms to make a match!</div>
 <section class="goal-card"><h2 class="section-title">✧ Collect the Evidence ✧</h2><div id="goals" class="goals"></div></section>
 <div class="tools"><button id="hint"><strong>🔎</strong><span id="hint-label">HINT · 3</span></button><button id="shuffle"><strong>🔮</strong><span id="shuffle-label">SHUFFLE · 2</span></button><button id="restart"><strong>↻</strong>RESTART</button></div>
-<p class="tip">Tap two neighboring tiles or swipe to match 3+. Make a <b>2×2 square</b> to summon a cute <b>Hex Bomb</b>! Tap it to clear a 3×3 area.</p>
+<p class="tip">Tap two neighboring tiles or swipe to match 3+. Match <b>4 in a row, column, or 2×2 square</b> to summon a cute <b>Hex Bomb</b>! Tap it to clear a 3×3 area.</p>
 <section class="story"><div class="story-top"><div class="story-visual" aria-hidden="true">
 <svg viewBox="0 0 105 90"><rect width="105" height="90" fill="#59416a"/><rect x="62" y="5" width="35" height="65" rx="17" fill="#3d4777" stroke="#ae88b0" stroke-width="4"/><circle cx="82" cy="25" r="12" fill="#ded7f6"/><path d="M68 7V68M62 38H97" stroke="#a18bb2" stroke-width="3"/><path d="M2 77L103 76" stroke="#ac7f6c" stroke-width="9"/><rect x="12" y="23" width="39" height="49" fill="#5a344e" stroke="#b3827f" stroke-width="4"/><path d="M15 42H48M15 60H48" stroke="#dbac85" stroke-width="4"/><g fill="#da8890"><rect x="17" y="28" width="5" height="12"/><rect x="25" y="26" width="6" height="14"/><rect x="34" y="29" width="9" height="11"/></g><path d="M53 73V52" stroke="#efc69c" stroke-width="6"/><path d="M53 51Q44 43 53 34Q62 43 53 51Z" fill="#ffdea2"/></svg>
 </div><div><span class="eyebrow">THE STORY SO FAR</span><strong id="story-title">A Locked Library</strong><p id="story-text">The candles are still warm, but the librarian has vanished.</p></div></div><div class="story-bottom" id="story-footer">Solve puzzles to find clues and bring the manor back to life.</div></section>
@@ -324,17 +324,28 @@ function piece(type){return {type:type,special:type===6}}
 function cloneBoard(board){return board.map(function(p){return p?{type:p.type,special:p.special}:null})}
 function swap(board,a,b){var temp=board[a];board[a]=board[b];board[b]=temp}
 function scan(board,preferred){
-var remove=new Set(),anchors=[],claimed=new Set();
-for(var y=0;y<N;y++){var x=0;while(x<N){var i=position(y,x),p=board[i];if(!p||p.special){x++;continue}var end=x+1;while(end<N&&board[position(y,end)]&&!board[position(y,end)].special&&board[position(y,end)].type===p.type)end++;if(end-x>=3)for(var j=x;j<end;j++)remove.add(position(y,j));x=end}}
-for(var x=0;x<N;x++){var y=0;while(y<N){var i=position(y,x),p=board[i];if(!p||p.special){y++;continue}var end=y+1;while(end<N&&board[position(end,x)]&&!board[position(end,x)].special&&board[position(end,x)].type===p.type)end++;if(end-y>=3)for(var j=y;j<end;j++)remove.add(position(j,x));y=end}}
-for(var y=0;y<N-1;y++)for(var x=0;x<N-1;x++){
-var box=[position(y,x),position(y,x+1),position(y+1,x),position(y+1,x+1)],first=board[box[0]];
-if(!first||first.special||!box.every(function(i){return board[i]&&!board[i].special&&board[i].type===first.type}))continue;
-if(box.some(function(i){return claimed.has(i)}))continue;
-box.forEach(function(i){claimed.add(i)});
-var anchor=box.indexOf(preferred)>=0?preferred:box[3];
-anchors.push(anchor);box.forEach(function(i){if(i!==anchor)remove.add(i)});
+var remove=new Set(),anchors=[],groups=[],claimed=new Set();
+function collect(list){list.forEach(function(i){remove.add(i)});if(list.length>=4)groups.push(list)}
+for(var y=0;y<N;y++)for(var x=0;x<N;){
+ var p=board[position(y,x)];if(!p||p.special){x++;continue}
+ var end=x+1;while(end<N&&board[position(y,end)]&&!board[position(y,end)].special&&board[position(y,end)].type===p.type)end++;
+ if(end-x>=3){var list=[];for(var j=x;j<end;j++)list.push(position(y,j));collect(list)}x=end;
 }
+for(var x=0;x<N;x++)for(var y=0;y<N;){
+ var p=board[position(y,x)];if(!p||p.special){y++;continue}
+ var end=y+1;while(end<N&&board[position(end,x)]&&!board[position(end,x)].special&&board[position(end,x)].type===p.type)end++;
+ if(end-y>=3){var list=[];for(var j=y;j<end;j++)list.push(position(j,x));collect(list)}y=end;
+}
+for(var y=0;y<N-1;y++)for(var x=0;x<N-1;x++){
+ var box=[position(y,x),position(y,x+1),position(y+1,x),position(y+1,x+1)],p=board[box[0]];
+ if(p&&!p.special&&box.every(function(i){return board[i]&&!board[i].special&&board[i].type===p.type})){box.forEach(function(i){remove.add(i)});groups.push(box)}
+}
+groups.sort(function(a,b){return Number(b.includes(preferred))-Number(a.includes(preferred))||b.length-a.length});
+groups.forEach(function(cells){
+ if(cells.some(function(i){return claimed.has(i)}))return;
+ cells.forEach(function(i){claimed.add(i)});
+ anchors.push(cells.includes(preferred)?preferred:cells[Math.floor((cells.length-1)/2)]);
+});
 anchors.forEach(function(i){remove.delete(i)});
 return{remove:Array.from(remove),anchors:anchors};
 }
@@ -505,7 +516,7 @@ var found=scan(s.board,preferred);
 if(!found.remove.length&&!found.anchors.length)break;
 chain++;
 found.anchors.forEach(function(i){s.board[i]=piece(6)});
-if(found.anchors.length){message("👻 HEX BOMB! Four matching charms form a spooky special!");tone(760)}
+if(found.anchors.length){message("👻 HEX BOMB! Four matching charms in a line or square!");tone(760)}
 paint(found.remove);
 await sleep(210);if(activeToken!==token)return;
 updateProgress(found.remove);
