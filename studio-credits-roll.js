@@ -12,7 +12,7 @@
     const replay = root.querySelector("[data-fe-credits-replay]");
     if (!viewport || !pause || !replay) return null;
 
-    let active = false, open = false, raf = 0, lastFrame = null, started = 0, completed = false;
+    let active = false, open = false, raf = 0, lastFrame = null, started = 0, completed = false, resumeOnReturn = false;
     // Long credits need to move visibly right away, rather than after a long blank lead-in.
     const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const pixelsPerSecond = reduced ? 44 : 76;
@@ -91,7 +91,13 @@
     const observer = new MutationObserver(() => root.hidden ? hide() : show());
     observer.observe(root, { attributes: true, attributeFilter: ["hidden"] });
     document.addEventListener("visibilitychange", () => {
-      if (document.hidden && active) halt();
+      if (document.hidden) {
+        resumeOnReturn = active;
+        if (active) halt();
+      } else if (resumeOnReturn && open && !root.hidden) {
+        resumeOnReturn = false;
+        resume();
+      }
     });
     const api = { show, hide, restart, resume };
     controllers.set(root, api);
