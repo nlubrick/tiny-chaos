@@ -117,6 +117,7 @@ button:focus-visible{outline:3px solid #fff1be;outline-offset:2px}
 @media(max-width:390px){.witness-art{width:72px;flex-basis:72px;height:94px}.witness-details h3{font-size:18px}.witness{gap:9px;padding:10px}}
 
 .music-fallback{position:absolute;right:8px;top:52px;z-index:4;max-width:210px;background:#3e2a55ed;border:1px solid #b891bb;border-radius:9px;padding:7px;color:#ffe3c8;font:11px/1.4 Arial,sans-serif}.music-fallback[hidden]{display:none}.music-fallback audio{width:188px;max-width:100%;height:35px;display:block;margin-top:5px}
+.clue-preview{display:block;margin:7px auto 12px;width:100%;border:2px solid #e9b794;border-radius:13px;overflow:hidden;box-shadow:0 5px 20px #1b0e2880}.clue-preview[hidden]{display:none}.clue-preview svg{display:block;width:100%;height:auto}.clue-item .clue-seal.art{width:74px;flex:0 0 74px;height:44px;border-radius:7px;overflow:hidden;background:#30223d;border:1px solid #dbb29d}.clue-item .clue-seal.art svg{width:100%;height:100%;display:block}
 @media(max-width:380px){body{padding:6px 6px 22px}.hero-art{height:142px}.board{gap:2px;padding:4px}.tile{border-radius:7px}.stat b{font-size:23px}.story-visual{width:85px}.case strong{font-size:20px}.goal svg{width:32px;height:32px}}
 @media(prefers-reduced-motion:reduce){.tile,.tile.boo{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
@@ -235,7 +236,7 @@ button:focus-visible{outline:3px solid #fff1be;outline-offset:2px}
 <div class="footer">☕ A little magic. A little mystery. Just one more match.</div>
 </div>
 <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-<div class="dialog"><div class="icon" id="modal-icon">🗝️</div><h2 id="modal-title">A New Clue!</h2><p id="modal-copy"></p><button class="primary" id="modal-button">Continue the Story →</button></div>
+<div class="dialog"><div class="icon" id="modal-icon">🗝️</div><div id="clue-preview" class="clue-preview" hidden></div><h2 id="modal-title">A New Clue!</h2><p id="modal-copy"></p><button class="primary" id="modal-button">Continue the Story →</button></div>
 </div>
 
 <div class="overlay" id="deduce-overlay" role="dialog" aria-modal="true" aria-labelledby="deduce-title">
@@ -422,7 +423,7 @@ function updateCaseFile(){
  $("clue-num").textContent=caseProgress+"/3";
  $("clue-list").innerHTML=chapters.map(function(ch,i){
  var unlocked=i<caseProgress;
- return '<button type="button" class="clue-item'+(unlocked?' unlocked':'')+'" data-clue="'+i+'" '+(unlocked?'':'disabled')+'><span class="clue-seal">'+(unlocked?["🗝️","🕰️","📜"][i]:"?")+'</span><span><strong>Clue '+(i+1)+' · '+ch.name+'</strong><small>'+(unlocked?'Tap to examine the recovered evidence':'Complete level '+(i+1)+' to unlock')+'</small></span></button>';
+ return '<button type="button" class="clue-item'+(unlocked?' unlocked':'')+'" data-clue="'+i+'" '+(unlocked?'':'disabled')+'><span class="clue-seal'+(unlocked?' art':'')+'">'+(unlocked?clueImages[i]:'?')+'</span><span><strong>Clue '+(i+1)+' · '+ch.name+'</strong><small>'+(unlocked?'Tap to examine the recovered evidence':'Complete level '+(i+1)+' to unlock')+'</small></span></button>';
  }).join("");
  $("evidence-summary").textContent=caseSolved?"Mystery solved! You uncovered the truth.":caseProgress===3?"You found all three clues. Question the witnesses, then choose carefully: one wrong accusation loses the case.":"Complete each matching level to recover one clue. Question witnesses before accusing anyone.";
  $("deduce").disabled=caseProgress<3||caseSolved;
@@ -434,7 +435,7 @@ function talkToWitness(){
 }
 function reviewClue(i){
  if(i<0||i>=caseProgress)return;
- showModal(["🗝️","🕰️","📜"][i],"Evidence "+(i+1)+": "+chapters[i].name,chapters[i].clue+"\n\nWitness: "+witnesses[i].name+"\n"+witnesses[i].followup,"close","Back to the Case File");
+ showModal(["🗝️","🕰️","📜"][i],"Evidence "+(i+1)+": "+chapters[i].name,chapters[i].clue+"\n\nWitness: "+witnesses[i].name+"\n"+witnesses[i].followup,"close","Back to the Case File",i);
 }
 function accuse(answer){
  if(caseProgress<3||caseSolved)return;
@@ -463,7 +464,15 @@ $("story-footer").textContent=c.footer;
 message("Swap two neighboring charms to make a match!");
 updateCaseFile();paint();
 }
-function showModal(icon,title,desc,action,label){
+var clueImages=["<svg viewBox=\"0 0 340 175\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"An open spellbook at the foot of a fireplace with a hidden stone seam\"><rect width=\"340\" height=\"175\" fill=\"#624963\"/><path d=\"M0 139H340V175H0Z\" fill=\"#463443\"/><g stroke=\"#a4888c\" opacity=\".38\" stroke-width=\"3\"><path d=\"M0 45H340M0 94H340M70 0V45M212 45V94\"/></g><path d=\"M195 153V61Q195 23 264 23Q324 23 327 65V152\" fill=\"#251729\" stroke=\"#c8a5a2\" stroke-width=\"11\"/><path d=\"M225 141Q220 104 250 87Q251 64 270 53Q291 79 284 103Q311 80 312 140Z\" fill=\"#ec9764\" stroke=\"#ffe0a3\" stroke-width=\"4\"/><path d=\"M199 38V154\" stroke=\"#22182a\" stroke-width=\"5\" stroke-dasharray=\"6 5\"/><path d=\"M15 144L111 111L180 139L81 171Z\" fill=\"#a45b7d\" stroke=\"#f1baa8\" stroke-width=\"4\"/><path d=\"M22 132Q65 110 111 133V160Q67 140 21 157Z\" fill=\"#ead4ae\" stroke=\"#a58277\" stroke-width=\"3\"/><path d=\"M111 133Q155 110 176 142V158Q142 139 111 160Z\" fill=\"#f2dbb4\" stroke=\"#a58277\" stroke-width=\"3\"/><path d=\"M39 134Q72 124 97 138M38 144Q64 133 94 149M124 134L159 146\" stroke=\"#b39686\" stroke-width=\"2\" fill=\"none\"/><g fill=\"#312233\"><circle cx=\"184\" cy=\"145\" r=\"5\"/><circle cx=\"181\" cy=\"128\" r=\"3\"/><circle cx=\"197\" cy=\"133\" r=\"2\"/></g><path d=\"M97 117L111 111L124 119\" fill=\"none\" stroke=\"#fff0d3\" opacity=\".8\"/></svg>","<svg viewBox=\"0 0 340 175\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"A grandfather clock frozen at twelve thirteen next to a sealed letter\"><rect width=\"340\" height=\"175\" fill=\"#615174\"/><path d=\"M0 157H340\" stroke=\"#89728b\" stroke-width=\"15\"/><path d=\"M16 172V14H145V172Z\" fill=\"#765167\" stroke=\"#cca184\" stroke-width=\"9\"/><circle cx=\"80\" cy=\"61\" r=\"38\" fill=\"#ebdac1\" stroke=\"#f1e5ce\" stroke-width=\"4\"/><circle cx=\"80\" cy=\"61\" r=\"30\" fill=\"none\" stroke=\"#ac8c85\" stroke-dasharray=\"3 5\" stroke-width=\"3\"/><path d=\"M80 61L80 34M80 61L100 50\" stroke=\"#74526d\" stroke-width=\"5\" stroke-linecap=\"round\"/><circle cx=\"80\" cy=\"61\" r=\"5\" fill=\"#aa7c79\"/><rect x=\"56\" y=\"110\" width=\"48\" height=\"46\" rx=\"8\" fill=\"#39253b\" stroke=\"#bd937b\" stroke-width=\"4\"/><path d=\"M80 114V136\" stroke=\"#e7ba80\" stroke-width=\"4\"/><circle cx=\"80\" cy=\"141\" r=\"10\" fill=\"#ddc18f\"/><path d=\"M191 28H316V150H191Z\" fill=\"#e8cdab\" stroke=\"#c19c8b\" stroke-width=\"7\"/><path d=\"M207 52L294 51M208 67L289 67M207 85L297 85\" stroke=\"#b3908e\" stroke-width=\"3\"/><path d=\"M211 31L302 120\" stroke=\"#d1a99e\" stroke-width=\"2\"/><circle cx=\"256\" cy=\"116\" r=\"20\" fill=\"#b34a71\" stroke=\"#eec49e\" stroke-width=\"3\"/><path d=\"M245 115L255 126L270 103\" stroke=\"#ffdbc5\" fill=\"none\" stroke-width=\"4\"/></svg>","<svg viewBox=\"0 0 340 175\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"A handwritten secret note and a glittering enchanted star map\"><rect width=\"340\" height=\"175\" fill=\"#534678\"/><circle cx=\"276\" cy=\"26\" r=\"24\" fill=\"#f6e4ba\"/><g fill=\"#f9e8c6\"><circle cx=\"232\" cy=\"58\" r=\"2\"/><circle cx=\"319\" cy=\"66\" r=\"2\"/><circle cx=\"179\" cy=\"23\" r=\"2\"/></g><path d=\"M24 22L198 18L218 161L42 163Z\" fill=\"#efd6ae\" stroke=\"#bb947f\" stroke-width=\"5\"/><path d=\"M52 49Q87 42 126 53L166 47M55 68L186 67M56 84L184 85M60 104L182 103M63 120L160 121\" stroke=\"#a78483\" fill=\"none\" stroke-width=\"3\" stroke-dasharray=\"14 5\"/><circle cx=\"175\" cy=\"142\" r=\"14\" fill=\"#ac5272\" stroke=\"#f7d7b2\" stroke-width=\"3\"/><path d=\"M175 133L178 141L186 144L180 148L181 156L175 151L169 155L171 147L165 142L172 140Z\" fill=\"#ffe2a8\"/><path d=\"M220 105L313 94L327 159L228 168Z\" fill=\"#6f6087\" stroke=\"#ddc2bf\" stroke-width=\"4\"/><path d=\"M237 140L253 121L272 135L292 111L311 129\" fill=\"none\" stroke=\"#f1d6a4\" stroke-width=\"3\" stroke-dasharray=\"5 4\"/><circle cx=\"237\" cy=\"140\" r=\"5\" fill=\"#e2bbe7\"/><circle cx=\"311\" cy=\"129\" r=\"5\" fill=\"#e2bbe7\"/></svg>"];
+function pictureClue(i){
+ var shown=typeof i==="number"&&i>=0&&i<clueImages.length;
+ $("clue-preview").hidden=!shown;
+ $("clue-preview").innerHTML=shown?clueImages[i]:"";
+ $("modal-icon").hidden=shown;
+}
+function showModal(icon,title,desc,action,label,pictureIndex){
+pictureClue(pictureIndex);
 $("modal-icon").textContent=icon;$("modal-title").textContent=title;$("modal-copy").textContent=desc;$("modal-button").dataset.action=action;$("modal-button").textContent=label;$("overlay").classList.add("open");
 }
 function finish(win){
@@ -477,7 +486,7 @@ if(win){
  $("story-footer").textContent="✦ The evidence is recovered. A witness is ready to talk.";
  updateCaseFile();
  var last=s.level===2;
- showModal("📜","Clue "+(s.level+1)+" Recovered!",chapters[s.level].clue+"\n\n"+witnesses[s.level].name+" says:\n“"+witnesses[s.level].followup+"”",last?"see-case":"next",last?"Open the Case File →":"Next Level →");
+ showModal("📜","Clue "+(s.level+1)+" Recovered!",chapters[s.level].clue+"\n\n"+witnesses[s.level].name+" says:\n“"+witnesses[s.level].followup+"”",last?"see-case":"next",last?"Open the Case File →":"Next Level →",s.level);
 }else{
  persist();
  showModal("🌙","The Spell Faded","You ran out of moves before uncovering the clue. Try the level again.","retry","Try Again ↻");
