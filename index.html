@@ -139,6 +139,42 @@ body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opac
 @keyframes bat-fly{from{transform:translate(-12px,3px)}to{transform:translate(19px,-10px)}}
 @keyframes pumpkin-bob{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
 @media(prefers-reduced-motion:reduce){.hero-art *,body:before{animation:none!important}}
+
+/* Candy-like, springy movement and visibly bursting tile fragments */
+.tile.falling{animation:fall-spring .47s cubic-bezier(.22,.83,.27,1.03) both;animation-delay:var(--delay,0ms)}
+@keyframes fall-spring{
+ 0%{transform:translateY(var(--fall)) scale(.88);opacity:.7;filter:brightness(1.35)}
+ 66%{transform:translateY(8%) scale(1.06,.92);opacity:1}
+ 80%{transform:translateY(-6%) scale(.97,1.06)}
+ 100%{transform:translateY(0) scale(1);filter:none}
+}
+.tile.swapping{animation:swap-soft .22s cubic-bezier(.22,.86,.33,1.08) both}
+@keyframes swap-soft{
+ from{transform:translate(var(--from-x),var(--from-y)) scale(.93)}
+ 72%{transform:translate(-2%,-2%) scale(1.04)}
+ to{transform:translate(0,0) scale(1)}
+}
+.tile.clearing{animation:charm-burst .27s ease-in forwards;z-index:3}
+@keyframes charm-burst{
+ 0%{opacity:1;transform:scale(1) rotate(0)}
+ 34%{opacity:1;transform:scale(1.21) rotate(-5deg);filter:brightness(1.7)}
+ 65%{opacity:.85;transform:scale(.7) rotate(7deg);filter:brightness(2)}
+ 100%{opacity:0;transform:scale(.02) rotate(15deg);filter:brightness(2.5)}
+}
+.fx-layer{position:absolute;inset:7px;z-index:6;pointer-events:none;overflow:hidden;border-radius:14px;contain:paint}
+.fx-spark{position:absolute;left:0;top:0;width:8px;height:8px;border-radius:40%;background:var(--spark-color,#ffe29f);box-shadow:0 0 10px var(--spark-color,#ffe29f);pointer-events:none;transform:translate(-50%,-50%);animation:fx-spark .62s ease-out forwards;will-change:transform,opacity}
+.fx-spark.star{clip-path:polygon(50% 0%,62% 36%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 36%);border-radius:0;width:13px;height:13px}
+.fx-spark.smoke{width:13px;height:13px;border-radius:50%;filter:blur(2px);opacity:.8}
+@keyframes fx-spark{
+ 0%{transform:translate(-50%,-50%) scale(.4) rotate(0);opacity:0}
+ 22%{opacity:1;transform:translate(-50%,-50%) scale(1.25) rotate(16deg)}
+ 100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(.08) rotate(var(--rot));opacity:0}
+}
+.fx-ring{position:absolute;width:80px;height:80px;border:4px solid #fce4ad;border-radius:50%;box-shadow:0 0 22px #e4acff,inset 0 0 18px #d2b1ff;transform:translate(-50%,-50%) scale(.2);animation:fx-ring .48s ease-out forwards}
+@keyframes fx-ring{0%{opacity:1;transform:translate(-50%,-50%) scale(.2)}100%{opacity:0;transform:translate(-50%,-50%) scale(2.4)}}
+.fx-combo{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);white-space:nowrap;color:#fff4b4;font:900 22px Georgia,serif;text-shadow:0 2px #6a3d7f,0 0 12px #ffe1a4;animation:fx-combo .8s ease-out forwards}
+@keyframes fx-combo{0%{opacity:0;transform:translate(-50%,10%) scale(.5)}23%{opacity:1;transform:translate(-50%,-50%) scale(1.25)}100%{opacity:0;transform:translate(-50%,-130%) scale(1)}}
+@media(prefers-reduced-motion:reduce){.tile.falling,.tile.swapping,.tile.clearing,.fx-spark,.fx-ring,.fx-combo{animation-duration:.01ms!important}}
 @media(max-width:380px){body{padding:6px 6px 22px}.hero-art{height:174px}.board{gap:2px;padding:4px}.tile{border-radius:7px}.stat b{font-size:23px}.story-visual{width:85px}.case strong{font-size:20px}.goal svg{width:32px;height:32px}}
 @media(prefers-reduced-motion:reduce){.tile,.tile.boo{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
@@ -294,7 +330,7 @@ body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opac
 <div class="clue-tag"><b id="clue-num">0/3</b><span>CLUES</span></div>
 </section>
 <div class="stats"><div class="stat"><span>⭐ SCORE</span><b id="score">0</b></div><div class="stat"><span>🕯️ MOVES</span><b id="moves">28</b></div><div class="stat"><span>✨ BEST</span><b id="best">0</b></div></div>
-<section class="board-wrap"><div id="board" class="board" aria-label="Seven by seven spooky match three game board"></div></section>
+<section class="board-wrap"><div id="board" class="board" aria-label="Seven by seven spooky match three game board"></div><div id="fx-layer" class="fx-layer" aria-hidden="true"></div></section>
 <div class="notice" id="notice" aria-live="polite">Swap two neighboring charms to make a match!</div>
 <section class="goal-card"><h2 class="section-title">✧ Collect the Evidence ✧</h2><div id="goals" class="goals"></div></section>
 <div class="tools"><button id="hint"><strong>🔎</strong><span id="hint-label">HINT · 3</span></button><button id="shuffle"><strong>🔮</strong><span id="shuffle-label">SHUFFLE · 2</span></button><button id="restart"><strong>↻</strong>RESTART</button></div>
@@ -464,7 +500,7 @@ $("board").innerHTML=s.board.map(function(p,i){
 if(!p)return '<div class="tile"></div>';
 var cl="tile"+(s.selected===i?" selected":"")+(s.hint.indexOf(i)>=0?" hint":"")+(clears.has(i)?" clearing":"")+(p.special?" boo":"")+(s.falls&&s.falls[i]?" falling":"")+(s.swapFX&&s.swapFX[i]?" swapping":"")+(s.invalid&&s.invalid.indexOf(i)>=0?" invalid":"");
 var bg=p.special?["#ddbbff","#8354be"]:palette[p.type];
-var effect="";if(s.falls&&s.falls[i])effect+=";--fall:"+(-s.falls[i]*104)+"%";if(s.swapFX&&s.swapFX[i])effect+=";--from-x:"+s.swapFX[i].x+"%;--from-y:"+s.swapFX[i].y+"%";
+var effect="";if(s.falls&&s.falls[i])effect+=";--fall:"+(-s.falls[i]*104)+"%;--delay:"+((i%N)*19)+"ms";if(s.swapFX&&s.swapFX[i])effect+=";--from-x:"+s.swapFX[i].x+"%;--from-y:"+s.swapFX[i].y+"%";
 return '<button type="button" class="'+cl+'" data-i="'+i+'" style="--hi:'+bg[0]+';--lo:'+bg[1]+effect+'" aria-label="'+(p.special?"Hex Bomb special":iconIds[p.type])+' at row '+(Math.floor(i/N)+1)+' column '+(i%N+1)+'">'+tileSVG(p.type)+'</button>';
 }).join("");
 $("score").textContent=s.score.toLocaleString();
@@ -573,6 +609,54 @@ if(win){
 }
 paint();
 }
+
+/* Spark fragments are drawn over each tile as it bursts. */
+function burstCells(indices,large){
+ if(!indices||!indices.length||!document.createElement)return;
+ if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+ var layer=$("fx-layer"),board=$("board");
+ if(!layer||!board||!layer.getBoundingClientRect)return;
+ var bounds=layer.getBoundingClientRect(),created=[];
+ for(var n=0;n<Math.min(indices.length,large?20:14);n++){
+  var i=indices[n],cell=board.children[i];
+  if(!cell||!cell.getBoundingClientRect)continue;
+  var rect=cell.getBoundingClientRect();
+  var x=rect.left+rect.width/2-bounds.left,y=rect.top+rect.height/2-bounds.top;
+  var type=s.board[i]?s.board[i].type:0;
+  var colors=["#ffd27e","#d6b5fa","#fff1ae","#f2a9cc","#a7e7ff","#b7ffd0","#fff1b3"];
+  var count=large?7:4;
+  for(var k=0;k<count;k++){
+   var angle=(k/count)*Math.PI*2+(i%4)*.3;
+   var length=(large?30:16)+(k%3)*7;
+   var p=document.createElement("span");
+   p.className="fx-spark"+(k%3===0?" star":k%4===0?" smoke":"");
+   p.style.left=x+"px";p.style.top=y+"px";
+   p.style.setProperty("--dx",(Math.cos(angle)*length)+"px");
+   p.style.setProperty("--dy",(Math.sin(angle)*length-(large?6:13))+"px");
+   p.style.setProperty("--rot",(45+k*55)+"deg");
+   p.style.setProperty("--spark-color",colors[type]||"#ffeab2");
+   layer.appendChild(p);created.push(p);
+  }
+ }
+ if(large){
+  var ring=document.createElement("span");ring.className="fx-ring";
+  var origin=indices[Math.floor(indices.length/2)],tile=board.children[origin];
+  if(tile&&tile.getBoundingClientRect){
+   var p=tile.getBoundingClientRect();
+   ring.style.left=(p.left+p.width/2-bounds.left)+"px";
+   ring.style.top=(p.top+p.height/2-bounds.top)+"px";
+   layer.appendChild(ring);created.push(ring);
+  }
+ }
+ setTimeout(function(){created.forEach(function(x){if(x.parentNode)x.parentNode.removeChild(x)})},800);
+}
+function comboBurst(n){
+ if(n<2||!document.createElement)return;
+ var layer=$("fx-layer"),span=document.createElement("span");
+ span.className="fx-combo";span.textContent="✧ "+n+"× COMBO! ✧";
+ layer.appendChild(span);setTimeout(function(){if(span.parentNode)span.parentNode.removeChild(span)},850);
+}
+
 function updateProgress(indices){
 for(var i=0;i<indices.length;i++){
 var idx=indices[i],p=s.board[idx];
@@ -600,17 +684,18 @@ chain++;
 found.anchors.forEach(function(i){s.board[i]=piece(6)});
 if(found.anchors.length){message("👻 HEX BOMB! Four matching charms in a line or square!");tone(760)}
 paint(found.remove);
-await sleep(210);if(activeToken!==token)return;
+burstCells(found.remove,false);
+await sleep(285);if(activeToken!==token)return;
 updateProgress(found.remove);
 found.remove.forEach(function(i){s.board[i]=null});
 s.score+=found.remove.length*60*chain+found.anchors.length*210;
 gravity();
 paint();
-await sleep(310);if(activeToken!==token)return;
+await sleep(525);if(activeToken!==token)return;
 s.falls=null;
 preferred=-1;
 }
-if(chain>1)message("✨ Magical cascade! "+chain+" matches in a row!");
+if(chain>1){message("✨ Magical cascade! "+chain+" matches in a row!");comboBurst(chain)}
 else if(chain===1)message("Beautiful match! Keep collecting clues.");
 }
 async function explode(index,activeToken){
@@ -628,11 +713,11 @@ if(s.board[j]&&s.board[j].special&&!triggered.has(j))queue.push(j);
 message("💥 HEX BOMB! Ghostly magic clears a 3×3 area!");
 var flash=document.querySelector(".board-wrap");flash.classList.remove("flash");void flash.offsetWidth;flash.classList.add("flash");
 tone(330);
-paint(Array.from(affected));await sleep(260);if(activeToken!==token)return;
+paint(Array.from(affected));burstCells(Array.from(affected),true);await sleep(330);if(activeToken!==token)return;
 updateProgress(Array.from(affected));
 affected.forEach(function(i){s.board[i]=null});
 s.score+=affected.size*90;s.boomCount++;
-gravity();paint();await sleep(310);if(activeToken!==token)return;s.falls=null;
+gravity();paint();await sleep(525);if(activeToken!==token)return;s.falls=null;
 await settle(-1,activeToken);
 }
 function endCheck(){
@@ -648,7 +733,7 @@ async function trySwap(a,b){
  s.swapFX={};s.swapFX[a]={x:dx,y:dy};s.swapFX[b]={x:-dx,y:-dy};
  swap(s.board,a,b);paint();
  var activeToken=token;
- await sleep(205);if(activeToken!==token)return;
+ await sleep(235);if(activeToken!==token)return;
  s.swapFX=null;
  var sa=s.board[a]&&s.board[a].special,sb=s.board[b]&&s.board[b].special;
  var m=scan(s.board,b);
