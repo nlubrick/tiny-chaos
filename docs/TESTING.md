@@ -24,9 +24,9 @@ PUPPETEER=/path/to/node_modules/puppeteer-core node tests/smoke.cjs   # full pla
 - Clearing a warded square breaks the ward
 - Gravity and refill keep the board full with unique pieces (40 moves)
 - A stuck board can be shuffled into a playable one
-- The ward objective is always reachable (40 seeds of random legal play; slowest took 70 moves)
+- The ward objective is always reachable (40 seeds of random legal play; slowest took 38 moves)
 
-`tests/smoke.cjs`: 58 of 58 passed.
+`tests/smoke.cjs`: 59 of 59 passed. (Board is now 6 x 6 with 112-unit squares; a check confirms each square is at least 56 CSS pixels at iPhone landscape size.)
 
 | Brief item | Check | Result |
 |---|---|---|

@@ -12,7 +12,7 @@ const DEFS = (pal) =>
   rad("candle", [[0, "#ffd890", .3], [1, "#ffd890", 0]]) + rad("shade", [[0, "#000", 0], [.7, "#000", .25], [1, "#000", .62]], .5, .45, .75) +
   lin("glass", [[0, "#0a1230", .25], [1, "#0a1230", .05]]) + lin("cloth", [[0, pal.cloth], [1, pal.clothD]]) +
   `<pattern id="dam" width="84" height="120" patternUnits="userSpaceOnUse"><g fill="${pal.motif}" opacity=".13"><path d="M42 8c12 14 18 26 0 46c-18-20-12-32 0-46zM42 60c7 9 9 15 0 26c-9-11-7-17 0-26zM0 68c12 14 18 26 0 46M84 68c-12 14-18 26 0 46M20 40q8 6 4 16q-10-4-4-16zM64 40q-8 6-4 16q10-4 4-16z"/></g><path d="M0 0v120" stroke="${pal.motif}" stroke-width="1" opacity=".07"/></pattern>` +
-  `<filter id="blur6"><feGaussianBlur stdDeviation="6"/></filter><filter id="blur2"><feGaussianBlur stdDeviation="2"/></filter>`;
+  `<filter id="blur6"><feGaussianBlur stdDeviation="6"/></filter><filter id="blur2"><feGaussianBlur stdDeviation="2"/></filter><filter id="blur1"><feGaussianBlur stdDeviation=".7"/></filter>`;
 
 const winPath = (x, y, w, h) => `M${x} ${y + 70} Q${x} ${y} ${x + w / 2} ${y - 12} Q${x + w} ${y} ${x + w} ${y + 70} V${y + h} H${x}Z`;
 function windowFrame(x, y = 96, w = 190, h = 330) {
@@ -60,11 +60,28 @@ function bookshelf(x, w, seed, top = 120) {
   return s + `<rect x="${x - 12}" y="${top - 12}" width="12" height="${WALL_B - top}" fill="url(#woodH)"/><rect x="${x + w}" y="${top - 12}" width="12" height="${WALL_B - top}" fill="url(#woodH)"/><rect x="${x - 16}" y="${WALL_B - 30}" width="${w + 32}" height="30" fill="url(#wood)" stroke="#120604" stroke-width="2"/>`;
 }
 const sconce = (x, y) => `<circle cx="${x}" cy="${y - 30}" r="120" fill="url(#candle)"/><path d="M${x} ${y + 34} q0 -22 -18 -22 M${x} ${y + 34} q0 -22 18 -22" stroke="url(#gold)" stroke-width="5" fill="none"/><ellipse cx="${x}" cy="${y + 38}" rx="10" ry="14" fill="url(#gold)" stroke="#3a2a0c"/><rect x="${x - 24}" y="${y - 8}" width="12" height="22" rx="2" fill="#efe6d0"/><rect x="${x + 12}" y="${y - 8}" width="12" height="22" rx="2" fill="#efe6d0"/><path d="M${x - 28} ${y + 14}h20M${x + 8} ${y + 14}h20" stroke="url(#gold)" stroke-width="4" stroke-linecap="round"/>`;
-function portrait(x, y, w, h, seed, blank) {
-  const r = rng(seed), bg = ["#2a1c1a", "#1c2430", "#2a2418", "#241a2a"][Math.floor(r() * 4)], coat = ["#3a1420", "#1a2a3a", "#24341f", "#3a2f1a", "#1a1a22"][Math.floor(r() * 5)], cx = x + w / 2, hr = w * .15;
-  const sitter = blank ? `<path d="M${x + 14} ${y + 14}L${x + w - 14} ${y + h - 14}M${x + w - 14} ${y + 14}L${x + 14} ${y + h - 14}" stroke="#000" opacity=".25" stroke-width="2"/><path d="M${x + w * .3} ${y + h * .25} l${w * .14} ${h * .5} l${w * .1} -${h * .2} l${w * .16} ${h * .24}" stroke="#0a0606" stroke-width="5" fill="none" opacity=".7"/>`
-    : `<path d="M${cx - w * .36} ${y + h - 12} Q${cx - w * .34} ${y + h * .56} ${cx} ${y + h * .52} Q${cx + w * .34} ${y + h * .56} ${cx + w * .36} ${y + h - 12}Z" fill="${coat}"/><path d="M${cx - hr * .6} ${y + h * .5} l${hr * .6} ${h * .1} l${hr * .6} -${h * .1}z" fill="#d8d0c0" opacity=".85"/><ellipse cx="${cx}" cy="${y + h * .36}" rx="${hr}" ry="${hr * 1.22}" fill="#c79a78"/><path d="M${cx - hr * 1.1} ${y + h * .36} Q${cx - hr * 1.1} ${y + h * .36 - hr * 1.7} ${cx} ${y + h * .36 - hr * 1.6} Q${cx + hr * 1.1} ${y + h * .36 - hr * 1.7} ${cx + hr * 1.1} ${y + h * .36} Q${cx} ${y + h * .36 - hr * 1.1} ${cx - hr * 1.1} ${y + h * .36}Z" fill="${["#2a1a12", "#8a8478", "#4a2a16", "#161216"][Math.floor(r() * 4)]}"/><path d="M${cx - hr * .5} ${y + h * .35}h${hr * .3}M${cx + hr * .2} ${y + h * .35}h${hr * .3}" stroke="#2a1a12" stroke-width="2"/><rect x="${x + 10}" y="${y + 10}" width="${w - 20}" height="${h - 20}" fill="url(#shade)"/>`;
-  return `<rect x="${x - 4}" y="${y + 6}" width="${w + 8}" height="${h + 8}" fill="#000" opacity=".4" filter="url(#blur6)"/><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="url(#gold)" stroke="#3a2a0c" stroke-width="2"/><rect x="${x + 10}" y="${y + 10}" width="${w - 20}" height="${h - 20}" fill="${bg}" stroke="#3a2a0c" stroke-width="2"/>${sitter}<rect x="${x + 5}" y="${y + 5}" width="${w - 10}" height="${h - 10}" rx="2" fill="none" stroke="#fff2c0" stroke-width="1" opacity=".35"/>`;
+/** A framed painting. mode: undefined = generated sitter, "slashed" = canvas cut out, "empty" = frame only (a painted image is hung in it by WorldScene). */
+function portrait(x, y, w, h, seed, mode) {
+  const r = rng(seed), pick = a => a[Math.floor(r() * a.length)], cx = x + w / 2, hr = w * .155, fy = y + h * .37, id = "p" + seed;
+  const bg = pick(["#2a1c1a", "#1c2430", "#2a2418", "#241a2a"]), coat = pick(["#3a1420", "#1a2a3a", "#24341f", "#3a2f1a", "#1a1a22"]), hair = pick(["#2a1a12", "#8a8478", "#4a2a16", "#161216", "#6a3a1c"]), skin = pick(["#d9ab86", "#c99670", "#e2bc9c", "#b98560"]), old = r() < .5, beard = r() < .4;
+  let inner = "";
+  if (mode === "slashed") inner = `<path d="M${x + 14} ${y + 14}L${x + w - 14} ${y + h - 14}M${x + w - 14} ${y + 14}L${x + 14} ${y + h - 14}" stroke="#000" opacity=".25" stroke-width="2"/><path d="M${cx - w * .36} ${y + h - 12} Q${cx - w * .34} ${y + h * .56} ${cx} ${y + h * .52} Q${cx + w * .34} ${y + h * .56} ${cx + w * .36} ${y + h - 12}Z" fill="#1a1a22"/><path d="M${cx - hr * 1.5} ${fy - hr * 1.8} l${hr * 1.2} ${hr * 1.1} l${hr * .5} -${hr * .7} l${hr * 1.3} ${hr * 1.6} l-${hr * .6} ${hr * 1.5} l-${hr * 1.6} ${hr * .3} l-${hr * 1.1} -${hr * 1.9}z" fill="#07050a" stroke="#c8b890" stroke-width="1.5"/>`;
+  else if (mode !== "empty") inner = `<g filter="url(#blur1)">
+    <ellipse cx="${cx}" cy="${fy}" rx="${w * .38}" ry="${h * .34}" fill="url(#${id}l)"/>
+    <path d="M${cx - w * .4} ${y + h - 10} Q${cx - w * .4} ${y + h * .6} ${cx - hr * .8} ${y + h * .55} L${cx + hr * .8} ${y + h * .55} Q${cx + w * .4} ${y + h * .6} ${cx + w * .4} ${y + h - 10}Z" fill="${coat}"/>
+    <path d="M${cx - w * .4} ${y + h - 10} Q${cx - w * .4} ${y + h * .6} ${cx - hr * .8} ${y + h * .55} L${cx - hr * .2} ${y + h - 10}Z" fill="#000" opacity=".3"/>
+    <path d="M${cx - hr * .8} ${y + h * .55} L${cx} ${y + h * .72} L${cx + hr * .8} ${y + h * .55} L${cx + hr * .5} ${y + h * .5} L${cx - hr * .5} ${y + h * .5}Z" fill="#e6dfd0"/><path d="M${cx - hr * .5} ${fy + hr * .9} h${hr} v${hr * .9} h-${hr}z" fill="${skin}"/><path d="M${cx - hr * .5} ${fy + hr * 1.1} h${hr} v${hr * .5} h-${hr}z" fill="#000" opacity=".28"/>
+    <ellipse cx="${cx}" cy="${fy}" rx="${hr}" ry="${hr * 1.25}" fill="url(#${id}s)"/>
+    <path d="M${cx - hr * 1.08} ${fy + hr * .1} Q${cx - hr * 1.2} ${fy - hr * 1.75} ${cx} ${fy - hr * 1.6} Q${cx + hr * 1.2} ${fy - hr * 1.75} ${cx + hr * 1.08} ${fy + hr * .1} Q${cx + hr * .9} ${fy - hr * .9} ${cx + hr * .2} ${fy - hr * .95} Q${cx - hr * .7} ${fy - hr * .9} ${cx - hr * 1.08} ${fy + hr * .1}Z" fill="${old ? "#9a948a" : hair}"/>
+    ${beard ? `<path d="M${cx - hr * .9} ${fy + hr * .3} Q${cx - hr * .8} ${fy + hr * 1.7} ${cx} ${fy + hr * 1.8} Q${cx + hr * .8} ${fy + hr * 1.7} ${cx + hr * .9} ${fy + hr * .3} Q${cx} ${fy + hr * .9} ${cx - hr * .9} ${fy + hr * .3}Z" fill="${old ? "#b8b2a8" : hair}"/>` : ""}
+    <ellipse cx="${cx - hr * .4}" cy="${fy - hr * .08}" rx="${hr * .17}" ry="${hr * .1}" fill="#f4eee0"/><ellipse cx="${cx + hr * .4}" cy="${fy - hr * .08}" rx="${hr * .17}" ry="${hr * .1}" fill="#f4eee0"/><circle cx="${cx - hr * .38}" cy="${fy - hr * .08}" r="${hr * .09}" fill="#1a120c"/><circle cx="${cx + hr * .42}" cy="${fy - hr * .08}" r="${hr * .09}" fill="#1a120c"/>
+    <path d="M${cx - hr * .62} ${fy - hr * .3} q${hr * .22} -${hr * .14} ${hr * .46} 0M${cx + hr * .16} ${fy - hr * .3} q${hr * .24} -${hr * .14} ${hr * .46} 0" stroke="${old ? "#6a645a" : hair}" stroke-width="${hr * .11}" fill="none" stroke-linecap="round"/>
+    <path d="M${cx + hr * .04} ${fy - hr * .05} q-${hr * .16} ${hr * .42} ${hr * .02} ${hr * .5} q${hr * .12} ${hr * .03} ${hr * .18} -${hr * .04}" stroke="#7a4a30" stroke-width="${hr * .07}" fill="none" stroke-linecap="round" opacity=".8"/>
+    ${beard ? "" : `<path d="M${cx - hr * .28} ${fy + hr * .72} q${hr * .3} ${hr * .1} ${hr * .58} 0" stroke="#7a3a30" stroke-width="${hr * .1}" fill="none" stroke-linecap="round"/>`}
+    <path d="M${cx - hr} ${fy - hr * .6} Q${cx - hr * .5} ${fy} ${cx - hr * .6} ${fy + hr * 1.1} Q${cx - hr * 1.05} ${fy + hr * .5} ${cx - hr} ${fy - hr * .6}Z" fill="#000" opacity=".3"/></g>
+    <rect x="${x + 10}" y="${y + 10}" width="${w - 20}" height="${h - 20}" fill="url(#shade)"/>`;
+  const grads = mode ? "" : `<defs><radialGradient id="${id}l" cx=".6" cy=".3" r=".7"><stop offset="0" stop-color="#c8a878" stop-opacity=".34"/><stop offset="1" stop-color="#c8a878" stop-opacity="0"/></radialGradient><radialGradient id="${id}s" cx=".64" cy=".36" r=".8"><stop offset="0" stop-color="${skin}"/><stop offset=".7" stop-color="${skin}"/><stop offset="1" stop-color="#5a3420"/></radialGradient></defs>`;
+  return `${grads}<rect x="${x - 4}" y="${y + 6}" width="${w + 8}" height="${h + 8}" fill="#000" opacity=".4" filter="url(#blur6)"/><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="url(#gold)" stroke="#3a2a0c" stroke-width="2"/><path d="M${x + 5} ${y + h - 5}V${y + 5}H${x + w - 5}" stroke="#fff2c0" stroke-width="1.5" fill="none" opacity=".5"/><rect x="${x + 10}" y="${y + 10}" width="${w - 20}" height="${h - 20}" fill="${mode === "empty" ? "#0a0808" : bg}" stroke="#3a2a0c" stroke-width="2"/>${inner}`;
 }
 const rug = (x, w, c1, c2) => `<path d="M${x + 40} ${WALL_B + 22}H${x + w - 40}L${x + w} ${RH - 18}H${x}Z" fill="${c1}" stroke="#d9b46a" stroke-opacity=".5" stroke-width="2"/><path d="M${x + 62} ${WALL_B + 32}H${x + w - 62}L${x + w - 34} ${RH - 30}H${x + 34}Z" fill="none" stroke="${c2}" stroke-width="6" opacity=".8"/><path d="M${x + 100} ${WALL_B + 46}H${x + w - 100}L${x + w - 86} ${RH - 44}H${x + 86}Z" fill="${c2}" opacity=".28"/>`;
 const doorway = (x, label = true) => `<rect x="${x - 96}" y="196" width="192" height="${WALL_B - 196}" fill="#1a0b07"/><rect x="${x - 110}" y="176" width="220" height="24" rx="4" fill="url(#wood)" stroke="#120604" stroke-width="2"/><rect x="${x - 104}" y="196" width="16" height="${WALL_B - 196}" fill="url(#woodH)"/><rect x="${x + 88}" y="196" width="16" height="${WALL_B - 196}" fill="url(#woodH)"/>`;
@@ -77,7 +94,7 @@ function library() {
   const fire = `
     <rect x="${F - 250}" y="44" width="640" height="${WALL_B - 44}" fill="url(#stoneD)"/><path d="M${F - 250} 44V${WALL_B}M${F + 390} 44V${WALL_B}" stroke="#000" stroke-width="5" opacity=".5"/>
     ${[110, 180, 250, 320, 390, 460, 530].map((y, i) => `<path d="M${F - 250} ${y}H${F + 390}" stroke="#000" opacity=".28" stroke-width="2"/>` + [0, 1, 2, 3, 4].map(k => `<path d="M${F - 250 + k * 150 + (i % 2) * 75} ${y}v70" stroke="#000" opacity=".22" stroke-width="2"/>`).join("")).join("")}
-    ${portrait(F - 92, 84, 184, 176, 7)}
+    ${portrait(F - 80, 54, 160, 218, 7, "empty")}
     <rect x="${F - 196}" y="282" width="392" height="26" rx="4" fill="url(#wood)" stroke="#120604" stroke-width="2.5"/><rect x="${F - 178}" y="308" width="356" height="14" fill="#2c140c" stroke="#120604" stroke-width="2"/>
     <rect x="${F - 170}" y="322" width="340" height="${WALL_B - 322}" fill="url(#stone)" stroke="#1a181e" stroke-width="3"/>
     <path d="M${F - 170} 380H${F + 170}M${F - 170} 450H${F - 96}M${F + 96} 450H${F + 170}M${F - 170} 530H${F - 96}M${F + 96} 530H${F + 170}M${F - 60} 322v58M${F + 60} 322v58M${F} 322v40" stroke="#1a181e" stroke-width="2" opacity=".7"/>
@@ -124,7 +141,7 @@ function hall() {
     <circle cx="${D - 22}" cy="420" r="8" fill="url(#gold)" stroke="#3a2a0c"/><circle cx="${D + 22}" cy="420" r="8" fill="url(#gold)" stroke="#3a2a0c"/>
     <path d="M${D - 44} 356 q44 -14 88 0 l-2 14 q-42 -12 -84 0z" fill="#d8ccb0" stroke="#8a7a5a"/>
     <path d="M${D - 20} 348 q6 -12 20 -10 q16 -4 22 10 q10 10 0 22 q-6 12 -22 10 q-14 4 -22 -10 q-8 -10 2 -22z" fill="#9a1c28" stroke="#4a0a12" stroke-width="2"/><circle cx="${D + 1}" cy="362" r="11" fill="#b82a36" stroke="#6a0f1a"/><path d="M${D - 5} 362 l4 5 l8 -10" stroke="#5a0a14" stroke-width="2.5" fill="none"/>
-    ${portrait(1050, 150, 130, 170, 31)}
+    ${portrait(918, 140, 144, 196, 31, "empty")}
     ${sconce(1250, 250)}
     <!-- hall table and mirror -->
     <g transform="translate(430 0)"><rect x="-90" y="150" width="180" height="230" rx="90" fill="url(#gold)" stroke="#3a2a0c" stroke-width="2"/><rect x="-76" y="164" width="152" height="202" rx="76" fill="#1a2440"/><path d="M-50 200 q30 -30 70 -20" stroke="#8fa8e0" stroke-width="4" fill="none" opacity=".35"/>
@@ -145,7 +162,7 @@ function gallery() {
   const pal = { wallTop: "#2c1420", wallBot: "#190c16", motif: "#d9b46a", cloth: "#5a1e2a", clothD: "#22090f", seed: 41 };
   const extra = `${arch(180)}
     ${portrait(420, 130, 170, 230, 51)} ${portrait(660, 170, 120, 160, 53)} ${portrait(1040, 120, 200, 260, 59)}
-    ${portrait(1730, 130, 170, 230, 67, true)}
+    ${portrait(1730, 130, 170, 230, 67, "slashed")}
     ${sconce(880, 260)}
     <rect x="1752" y="372" width="126" height="22" rx="3" fill="url(#gold)" stroke="#3a2a0c"/>
     <g transform="translate(1080 0)"><rect x="-150" y="540" width="300" height="20" rx="6" fill="url(#cloth)" stroke="#16060a" stroke-width="2"/><rect x="-156" y="558" width="312" height="14" rx="4" fill="url(#wood)" stroke="#120604" stroke-width="2"/><path d="M-136 572v${WALL_B + 30 - 572}M136 572v${WALL_B + 30 - 572}" stroke="#2c140c" stroke-width="10" stroke-linecap="round"/></g>

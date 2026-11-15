@@ -16,9 +16,10 @@ export class BasePuzzle extends Phaser.Scene {
     this.cameras.main.fadeIn(380, 4, 3, 8);
   }
   banner(text) {
-    this.add.text(VIEW_W / 2, 30, text, { fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "34px", color: "#f6e3b8", stroke: "#000", strokeThickness: 5 }).setOrigin(.5, 0).setDepth(50);
+    const at = this.bannerAt || { x: VIEW_W / 2, y: 30 };   // a puzzle that needs the top of the screen can move its title
+    this.add.text(at.x, at.y, text, { fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "34px", color: "#f6e3b8", stroke: "#000", strokeThickness: 5 }).setOrigin(.5, 0).setDepth(50);
   }
-  label(x, y, text, size = 24, color = "#f3e6cf") { return this.add.text(x, y, text, { fontFamily: "Georgia, 'Times New Roman', serif", fontSize: size + "px", color, wordWrap: { width: 380 }, lineSpacing: 6 }); }
+  label(x, y, text, size = 24, color = "#f3e6cf") { return this.add.text(x, y, text, { fontFamily: "Georgia, 'Times New Roman', serif", fontSize: size + "px", color, wordWrap: { width: 560 }, lineSpacing: 6 }); }
   /** Call once when the puzzle's own win condition is met. */
   solved(delay = 900) {
     if (this.done) return; this.done = true;
