@@ -530,6 +530,51 @@ body{background:#0e1118}
 .dossier-dialog{background:linear-gradient(140deg,#e1cb9f,#b99e7d);border-color:#70523d}
 @media(max-width:390px){.one-witness{height:151px}.one-witness .cast-character{height:151px}.one-witness .cast-character.selected .cast-figure{height:140px;width:144px}.music-now-playing{max-width:115px;font-size:7px}}
 @media(prefers-reduced-motion:reduce){.witness-photo,.photo-breathe{animation:none!important}}
+
+/* Published artwork: high-contrast glossy sprite tiles and cinematic original witnesses. */
+.simple-room{
+ background-image:linear-gradient(180deg,#080a0f9c 0%,#1011195b 26%,#100b117e 67%,#0d0c16be 100%),url("assets/mystery_manor_library_bg.webp?v=2")!important;
+ background-position:center top!important;background-size:cover!important;
+}
+.witness-photo-0,.witness-photo-1,.witness-photo-2{
+ background-image:url("assets/mystery_manor_witnesses.webp?v=2")!important;
+ background-size:300% 100%!important;background-repeat:no-repeat!important;
+ filter:none!important;opacity:1!important;
+}
+.witness-photo-0{background-position:0% 50%!important}
+.witness-photo-1{background-position:50% 50%!important}
+.witness-photo-2{background-position:100% 50%!important;box-shadow:inset 0 0 24px #9fb8d55c,0 0 15px #9bafcd5c!important}
+.photo-breathe{mix-blend-mode:screen}
+.charm-art{
+ display:block;position:absolute;inset:0;
+ width:100%;height:100%;border-radius:21%;
+ background-image:url("assets/mystery_manor_icon_atlas.webp?v=2");
+ background-repeat:no-repeat;background-size:300% 300%;
+ pointer-events:none;filter:drop-shadow(0 2px 2px #06080c87);backface-visibility:hidden;
+}
+.charm-art-0{background-position:0% 0%}
+.charm-art-1{background-position:50% 0%}
+.charm-art-2{background-position:100% 0%}
+.charm-art-3{background-position:0% 50%}
+.charm-art-4{background-position:50% 50%}
+.charm-art-5{background-position:100% 50%}
+.charm-art-6{background-position:100% 100%}
+.tile{background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;overflow:visible}
+.tile:before,.tile:after{content:none!important;display:none!important}
+.tile .charm-art{inset:0;width:100%;height:100%;border-radius:20%}
+.tile.selected .charm-art{filter:drop-shadow(0 0 6px #ffdc81) brightness(1.1)}
+.tile.hint .charm-art{filter:drop-shadow(0 0 9px #ffe69f) brightness(1.24)}
+.tile.anticipate .charm-art{filter:drop-shadow(0 0 11px #ffe1a4) brightness(1.23)}
+.tile.boo{background:transparent!important;border:none!important;box-shadow:none!important}
+.tile.boo .charm-art{animation:hex-gem-pulse 1.65s ease-in-out infinite alternate}
+.tile.conjure .charm-art{animation:born-pop .50s cubic-bezier(.18,.8,.3,1.25) both}
+@keyframes hex-gem-pulse{from{filter:drop-shadow(0 0 3px #b06dfa)}to{filter:drop-shadow(0 0 12px #c486ff) brightness(1.16)}}
+.goal .charm-art{position:relative;inset:auto;width:43px;height:43px;flex:0 0 43px;margin:0;filter:drop-shadow(0 2px 3px #0007)}
+.tile.empty{background:transparent!important}
+.witness-photo-0,.witness-photo-1,.witness-photo-2{animation:photo-idle 5.5s ease-in-out infinite alternate!important}
+.story-stage{background:linear-gradient(150deg,#2b251df5,#181b22f4);border-color:#a58964}
+.cast-character .cast-label{z-index:4}
+@media(prefers-reduced-motion:reduce){.witness-photo-0,.witness-photo-1,.witness-photo-2,.tile.boo .charm-art{animation:none!important}}
 </style>
 </head>
 <body>
@@ -699,9 +744,9 @@ body{background:#0e1118}
 <footer class="simple-footer">
  <p>Match three to uncover the clue. Match four in a line or square to make a <strong>Hex Bomb</strong>.</p>
  <p class="simple-case-note" id="story-footer">One room. One witness. One secret.</p>
- <details class="asset-credits"><summary>Soundtrack & photo credits</summary>
+ <details class="asset-credits"><summary>Soundtrack & art credits</summary>
 <p>Music: <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100644" target="_blank" rel="noopener noreferrer">Sneaky Adventure</a>, <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100419" target="_blank" rel="noopener noreferrer">Some Amount of Evil</a>, and <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100510" target="_blank" rel="noopener noreferrer">Machinations</a>, by Kevin MacLeod (incompetech.com), licensed <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>. Tracks are played unmodified.</p>
-<p>Photography courtesy of <a href="https://unsplash.com/photos/dark-old-interior-with-wood-paneled-walls-and-fireplace-Ry4eb1BM-OU" target="_blank" rel="noopener noreferrer">James Wainscoat</a>, <a href="https://unsplash.com/photos/a-close-up-of-a-black-cat-with-yellow-eyes-SVNUTpnIUxs" target="_blank" rel="noopener noreferrer">Łukasz Rawa</a>, <a href="https://unsplash.com/photos/an-elderly-man-wearing-a-flat-cap-looks-forward-JhhlCamZsP4" target="_blank" rel="noopener noreferrer">Domenico Adornato</a>, and <a href="https://unsplash.com/photos/a-black-and-white-photo-of-a-woman-in-the-dark-RuLFl0TLJMs" target="_blank" rel="noopener noreferrer">Vitaliy Shevchenko</a> / Unsplash.</p></details>
+<p>The manor, matching icons, and witness portraits were created for Mystery Manor.</p></details>
 <div class="legacy-text" hidden><span id="score">0</span><span id="best">0</span><span id="story-title"></span><span id="story-text"></span></div>
 </footer>
 </main></div>
@@ -727,12 +772,12 @@ body{background:#0e1118}
 (function(){
 "use strict";
 var $=function(id){return document.getElementById(id)};
-var N=7, iconIds=["pumpkin","ghost","hat","book","orb","potion","boo"];
+var N=7, iconIds=["brass key","spellbook","potion","crystal orb","wax seal","pocket watch","Hex Bomb"];
 var palette=[["#ed9c4a","#a84e2a"],["#7b9f8e","#385f53"],["#a68bb5","#493d68"],["#b85159","#6a2938"],["#6c9dac","#28516f"],["#c5a35e","#746034"]];
 var chapters=[
-{name:"The Missing Librarian",place:"THE LIBRARY",short:"A Locked Library",copy:"The candles are still warm, but the librarian has vanished.",goal:{"3":12},moves:25,clue:"A spellbook has slipped off the shelf. Beneath it: soot brushed from a hidden seam along the fireplace.",footer:"Complete the board to discover the first clue."},
-{name:"The Stopped Clock",place:"THE WEST HALL",short:"The Clock Strikes Thirteen",copy:"Nobody has heard the grandfather clock chime for a century. Until tonight.",goal:{"0":13},moves:26,clue:"The clock stopped at 12:13. Behind its face is a mechanism linked to the fireplace. The front door's wax seal is intact.",footer:"Another clock, another secret. Who could have passed the sealed door?"},
-{name:"The Moonlit Attic",place:"THE ATTIC",short:"Footsteps Above",copy:"A whisper drifts down from the attic. Is it a warning—or a trap?",goal:{"4":12},moves:27,clue:"A note in the librarian's handwriting: 'I have hidden the star map. I must reach the passage before the collector returns.'",footer:"One more clue, then you must decide what really happened."}
+{name:"The Missing Librarian",place:"THE LIBRARY",short:"A Locked Library",copy:"The candles are still warm, but the librarian has vanished.",goal:{"1":10},moves:25,clue:"A spellbook has slipped off the shelf. Beneath it: soot brushed from a hidden seam along the fireplace.",footer:"Complete the board to discover the first clue."},
+{name:"The Stopped Clock",place:"THE WEST HALL",short:"The Clock Strikes Thirteen",copy:"Nobody has heard the grandfather clock chime for a century. Until tonight.",goal:{"5":11},moves:26,clue:"The clock stopped at 12:13. Behind its face is a mechanism linked to the fireplace. The front door's wax seal is intact.",footer:"Another clock, another secret. Who could have passed the sealed door?"},
+{name:"The Moonlit Attic",place:"THE ATTIC",short:"Footsteps Above",copy:"A whisper drifts down from the attic. Is it a warning—or a trap?",goal:{"3":10},moves:27,clue:"A note in the librarian's handwriting: 'I have hidden the star map. I must reach the passage before the collector returns.'",footer:"One more clue, then you must decide what really happened."}
 ];
 var witnesses=[
 {name:"Mallow",role:"THE LIBRARIAN'S CAT",teaser:"A black cat with golden eyes and a suspiciously good memory.",advice:"I heard stone scraping behind the fireplace after midnight. I watched the door the whole time—no one used it. Also, four matching charms in a square make a Hex Bomb. Purrrfectly useful.",followup:"Mallow kneads the carpet beside the hearth. There are tiny scratches in the soot, as though a panel slid sideways."},
@@ -909,7 +954,7 @@ if(scan(test,position(3,3)).anchors.length)return;
 }
 }
 function message(t){$("notice").textContent=t}
-function tileSVG(v){return '<svg viewBox="0 0 64 64" aria-hidden="true"><use href="#i-'+iconIds[v]+'"></use></svg>'}
+function tileSVG(v){return '<span class="charm-art charm-art-'+v+'" aria-hidden="true"></span>'}
 function paint(clear){
  var clears=new Set(clear||[]),board=$("board");
  var canMorph=!!(document.createDocumentFragment&&board.replaceChildren);
@@ -992,10 +1037,10 @@ $("hint").disabled=s.busy||s.ended||s.hints<1;
 $("shuffle").disabled=s.busy||s.ended||s.shuffles<1;
 $("restart").disabled=s.busy;
 var c=chapters[s.level];
-$("simple-goal").textContent="Match "+Object.keys(c.goal).map(function(k){return c.goal[k]+" "+(["pumpkins","ghosts","witch hats","spellbooks","crystal orbs","potions"][Number(k)])}).join(" & ");
+$("simple-goal").textContent="Match "+Object.keys(c.goal).map(function(k){return c.goal[k]+" "+(["brass keys","spellbooks","potions","crystal orbs","wax seals","pocket watches"][Number(k)])}).join(" & ");
  $("goals").innerHTML=Object.keys(c.goal).map(function(key){
 var total=c.goal[key],left=s.left[key],done=total-left,idx=Number(key);
-return '<div class="goal">'+tileSVG(idx)+'<span class="gname">'+["Pumpkins","Ghosts","Witch Hats","Spellbooks","Crystal Orbs","Potions"][idx]+'</span><div class="progress"><i style="width:'+(100*done/total)+'%"></i></div><span class="count">'+done+' / '+total+(left===0?" ✓":"")+'</span></div>';
+return '<div class="goal">'+tileSVG(idx)+'<span class="gname">'+["Brass Keys","Spellbooks","Potions","Crystal Orbs","Wax Seals","Pocket Watches"][idx]+'</span><div class="progress"><i style="width:'+(100*done/total)+'%"></i></div><span class="count">'+done+' / '+total+(left===0?" ✓":"")+'</span></div>';
 }).join("");
 }
 
