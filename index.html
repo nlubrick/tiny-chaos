@@ -2,1734 +2,352 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#35204c">
-<title>Mystery Manor Matches — A Cozy Mystery</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1017">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="description" content="Mystery Manor · The Vanishing at Thorne House. Explore the mansion as Mallow the librarian's cat.">
+<title>Mystery Manor · The Mansion Walk</title>
 <style>
-:root{font-family:ui-rounded,"Trebuchet MS",system-ui,sans-serif;color:#ffead8;background:#1d1330;font-synthesis:none}
+:root{color-scheme:dark;font-family:Georgia,"Times New Roman",serif;background:#0b1017;color:#f8e8d1}
 *{box-sizing:border-box}
-body{margin:0;min-height:100dvh;background:radial-gradient(ellipse at 50% 0,#755296 0,#34244f 32%,#21162e 80%);padding:10px 10px 32px}
-button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
-button:focus-visible{outline:3px solid #fff1be;outline-offset:2px}
-.shell{max-width:510px;margin:auto}
-.hero{position:relative;overflow:hidden;border-radius:23px 23px 14px 14px;background:linear-gradient(145deg,#a97ce2,#6756b5 54%,#353569);border:2px solid #bd94d8;box-shadow:0 8px 28px #100a2799}
-.hero-art{width:100%;height:207px;display:block;position:relative}
-.hero-art svg{height:100%;width:100%;display:block}
-.top-actions{position:absolute;right:12px;top:12px;z-index:2}
-.sound{background:#3c285acc;color:#ffe5c2;border:1px solid #d8afd7;border-radius:11px;padding:8px 10px;font-size:12px;font-weight:900}
-.brand{text-align:center;position:relative;margin-top:-22px;padding:0 10px 12px;text-shadow:0 3px 5px #291547}
-.kicker{font-size:10px;font-weight:900;letter-spacing:2.5px;color:#ffe7b1}
-.brand h1{font:900 clamp(30px,8.5vw,43px) Georgia,serif;color:#fff1d7;margin:4px 0 2px;line-height:1.04;text-shadow:0 3px 1px #492863,0 0 12px #ffcf9a}
-.brand p{font-size:11px;color:#f7d8f7;letter-spacing:1.1px;margin:6px 0}
-.case{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 14px;background:linear-gradient(115deg,#4d2d62,#302143);border:1px solid #aa84ab;border-radius:14px;margin:12px 0;box-shadow:0 4px 12px #0e091b70}
-.case-left{min-width:0}.case small{display:block;letter-spacing:1.3px;font-weight:900;font-size:9px;color:#e8c590}
-.case strong{display:block;font:22px Georgia,serif;color:#ffe7b7;margin-top:3px}
-.case p{font-size:11px;color:#dbc1de;margin:5px 0 0;line-height:1.4}
-.clue-tag{min-width:72px;text-align:center;border:1px solid #ac81ae;background:#251837;border-radius:12px;padding:9px 7px;box-shadow:inset 0 1px #ffffff18}
-.clue-tag b{display:block;font:24px Georgia,serif;color:#ffe7aa}.clue-tag span{font-size:9px;color:#d7bbda;letter-spacing:1px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:12px 0}
-.stat{background:#35234a;border:1px solid #855f9e;border-radius:13px;text-align:center;padding:10px 3px 7px;box-shadow:inset 0 1px #ffffff1b}
-.stat span{display:block;font-size:9px;color:#d5bcd9;letter-spacing:1.2px;font-weight:900}
-.stat b{font:26px Georgia,serif;display:block;color:#ffdb96;margin-top:3px;font-variant-numeric:tabular-nums}
-.board-wrap{border:3px solid #b78acb;background:linear-gradient(140deg,#a479ba,#694b89 20%,#4e376f 85%,#b58bd0);border-radius:20px;padding:7px;box-shadow:0 6px 0 #1b1030,0 14px 25px #0d07218e,inset 0 1px 8px #e8bcf477;position:relative}
-.board{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;padding:5px;background:#261b46;border-radius:13px;aspect-ratio:1;touch-action:none;user-select:none;-webkit-user-select:none;overflow:hidden}
-.tile{position:relative;display:grid;place-items:center;aspect-ratio:1;min-width:0;padding:2px;border:1px solid #fff5;border-radius:9px;background:linear-gradient(148deg,var(--hi),var(--lo));box-shadow:inset 0 2px 1px #fff7,inset 0 -4px 0 #29113f50,0 2px 3px #120b2590;touch-action:none;transition:transform .12s,filter .12s}
-.tile:before{content:"";position:absolute;inset:2px 4px auto 4px;height:29%;border-radius:50%;background:linear-gradient(#ffffff77,transparent);opacity:.55;pointer-events:none}
-.tile svg{width:91%;height:91%;filter:drop-shadow(0 2px 1px #31164177);pointer-events:none}
-.tile.selected{outline:3px solid #ffefae;outline-offset:-3px;transform:scale(.95);z-index:2;filter:brightness(1.15)}
-.tile.hint{animation:hint .7s infinite alternate}
-.tile.clearing{animation:pop .19s forwards;z-index:3}
-.tile.boo{background:linear-gradient(140deg,#e5beff,#7650ae);border:2px solid #ffe7a6;box-shadow:0 0 12px #fff0a1a3,inset 0 0 12px #baffec99;animation:boo 1.2s infinite alternate}
-.tile.boo svg{filter:drop-shadow(0 0 5px #fff4c5)}
-@keyframes hint{to{box-shadow:0 0 0 2px #fff3a7,0 0 17px #ffe397;filter:brightness(1.3)}}
-@keyframes pop{to{transform:scale(.26) rotate(15deg);opacity:.2;filter:brightness(2)}}
-@keyframes boo{to{box-shadow:0 0 20px #ffefb4c2,inset 0 0 12px #c0fffaaa}}
-.notice{min-height:42px;padding:11px 6px;color:#f9d5a5;text-align:center;font-size:12px;line-height:1.5}
-.goal-card{background:#291b3b;border:1px solid #7c5888;border-radius:14px;padding:12px;margin:0 0 12px}
-.section-title{text-align:center;color:#ffddac;font:20px Georgia,serif;margin:0 0 10px}
-.goals{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.goal{padding:8px 5px 9px;border:1px solid #79558b;border-radius:10px;background:#422b54;text-align:center}
-.goal svg{width:38px;height:38px;display:block;margin:0 auto 3px;filter:drop-shadow(0 2px 2px #20102c)}
-.goal .gname{font-size:10px;color:#ead1e7;display:block}
-.goal .count{font-weight:900;color:#fff1c8;font-size:12px;display:block;margin-top:5px}
-.progress{height:6px;border-radius:7px;background:#25172f;overflow:hidden;margin-top:7px}
-.progress i{height:100%;display:block;border-radius:7px;background:linear-gradient(90deg,#d69e6e,#ffe19e);transition:width .18s}
-.tools{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:11px 0}
-.tools button{background:linear-gradient(145deg,#79508d,#503469);border:1px solid #a77cb6;color:#ffe7c7;border-radius:12px;min-height:45px;font-size:11px;font-weight:900}
-.tools button:disabled{opacity:.45}
-.tools button strong{font-size:19px;display:block;margin-bottom:2px}
-.tip{text-align:center;font-size:11px;color:#c9afd0;line-height:1.6;padding:2px 8px 9px}
-.story{border:1px solid #906d8a;background:linear-gradient(130deg,#4c344f,#2c243e);border-radius:15px;overflow:hidden;margin:11px 0}
-.story-top{display:flex;align-items:center;gap:13px;padding:12px}
-.story-visual{width:105px;height:90px;flex-shrink:0;border-radius:12px;background:radial-gradient(circle at 60% 60%,#d08b61aa,transparent 65%),linear-gradient(#6b5172,#2d284e);border:1px solid #a487a1;overflow:hidden}
-.story-visual svg{width:100%;height:100%}
-.story .eyebrow{font-size:9px;letter-spacing:1.5px;color:#e2b881;font-weight:900}
-.story strong{display:block;font:18px Georgia,serif;color:#ffdda8;margin:5px 0}
-.story p{font-size:11px;line-height:1.5;color:#dcc9df;margin:5px 0}
-.story-bottom{padding:10px 12px;background:#271b36d9;border-top:1px solid #644668;color:#eacfb6;font:italic 12px/1.5 Georgia,serif}
-.footer{text-align:center;font:italic 12px Georgia,serif;color:#bd9bc4;padding:10px 8px 15px}
-.overlay{position:fixed;z-index:20;inset:0;background:#100b1ce3;display:none;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(6px)}
-.overlay.open{display:flex}
-.dialog{width:min(100%,390px);border-radius:22px;border:2px solid #e7b88d;background:linear-gradient(145deg,#65436d,#342747 80%);box-shadow:0 20px 70px #090315dd;padding:24px 18px;text-align:center}
-.dialog .icon{font-size:46px;line-height:1.1}
-.dialog h2{font:29px Georgia,serif;color:#ffe2b1;margin:10px 0}
-.dialog p{font-size:13px;line-height:1.65;color:#f4dfec;white-space:pre-line}
-.primary{border:1px solid #ffe2ae;border-radius:23px;background:linear-gradient(#f6d69e,#d99a86);color:#35213a;font-weight:900;padding:13px 19px;font-size:13px;box-shadow:0 3px #6c4759;margin-top:7px}
-
-/* The manor is a living, gently eerie scene. */
-.hero-art:after{content:"";position:absolute;pointer-events:none;inset:48% -40% -15%;background:radial-gradient(ellipse at 35% 80%,#f6dbef7a,transparent 62%),radial-gradient(ellipse at 75% 55%,#efd7ee66,transparent 60%);filter:blur(14px);animation:manor-fog 15s ease-in-out infinite alternate}
-@keyframes manor-fog{from{transform:translateX(-8%);opacity:.32}to{transform:translateX(7%);opacity:.68}}
-.hero-art svg g[fill="#ffc77e"]{animation:windows 3.5s steps(2,end) infinite alternate}
-@keyframes windows{0%,70%,100%{opacity:1}80%{opacity:.65}87%{opacity:.9}}
-.sound{font-size:11px;box-shadow:0 3px 12px #1b103c88}
-.tile.falling{animation:fall .29s cubic-bezier(.24,.84,.30,1.14) both}
-@keyframes fall{from{transform:translateY(var(--fall));filter:brightness(1.16)}70%{transform:translateY(4%)}to{transform:translateY(0);filter:none}}
-.tile.swapping{animation:swap-in .19s ease-out both}
-@keyframes swap-in{from{transform:translate(var(--from-x),var(--from-y))}to{transform:translate(0,0)}}
-.tile.invalid{animation:bad-swap .25s ease-in-out}
-@keyframes bad-swap{25%,75%{transform:translateX(-5%)}50%{transform:translateX(5%)}}
-.board-wrap.flash{animation:witch-flash .34s ease-out}
-@keyframes witch-flash{30%{box-shadow:0 0 34px #d2ffda,0 0 70px #b35dff;filter:brightness(1.2)}to{filter:none}}
-.witness,.evidence-case{border:1px solid #9b77a1;background:linear-gradient(140deg,#58375d,#29203e);border-radius:16px;margin:12px 0;box-shadow:0 4px 16px #140c2770;overflow:hidden}
-.witness{display:flex;align-items:center;gap:12px;padding:12px}
-.witness-art{width:90px;height:104px;flex:0 0 90px;border-radius:13px;background:radial-gradient(circle at center,#9471a3,#402b59);border:1px solid #bd8fa8;overflow:hidden}
-.witness-art svg{height:100%;width:100%;display:block}
-.witness-details{min-width:0;flex:1}
-.witness-details .tiny{font-size:9px;color:#efc59c;letter-spacing:1.5px;font-weight:900}
-.witness-details h3{font:20px Georgia,serif;color:#ffe0af;margin:4px 0}
-.witness-details p{font:12px/1.5 Georgia,serif;color:#e8d1dc;margin:4px 0 9px}
-.witness-details button{font:800 11px system-ui,sans-serif;color:#35213f;border:1px solid #f3d6b0;border-radius:22px;padding:9px 12px;background:linear-gradient(#ffdfac,#d6a1b0)}
-.evidence-case{padding:14px}
-.evidence-case h2{font:21px Georgia,serif;color:#ffe0ad;margin:2px 0 5px}
-.evidence-case p{font-size:11px;line-height:1.5;color:#d9bbd8;margin:5px 0 11px}
-.clue-list{display:grid;gap:7px}
-.clue-item{border:1px solid #80638e;background:#2f2343;color:#ead4e5;border-radius:10px;padding:10px 11px;text-align:left;font:12px system-ui,sans-serif;display:flex;align-items:center;gap:8px}
-.clue-item .clue-seal{font-size:20px;display:grid;place-items:center;width:33px;height:33px;background:#483459;border-radius:50%;flex:0 0 33px}
-.clue-item strong{display:block;color:#f8dfbc;margin-bottom:2px}
-.clue-item small{display:block;font-size:10px;color:#c4a9cb}
-.clue-item.unlocked{border-color:#c99b8d;background:#56405c}
-.solve-case{width:100%;margin-top:12px;padding:13px;border-radius:12px;border:1px solid #ffe2b7;background:linear-gradient(#f6dba4,#dcad8c);color:#422641;font:900 12px system-ui,sans-serif}
-.solve-case:disabled{opacity:.55;background:#6b5670;color:#dec8dc;border-color:#8d7995}
-.deduct-options{display:grid;gap:8px;text-align:left;margin:15px 0}
-.deduct-options button{background:#ead7bd;border:1px solid #f5e8d0;color:#523751;padding:13px 11px;border-radius:11px;font:700 13px/1.35 system-ui,sans-serif;text-align:left}
-.deduct-options button:active{transform:scale(.99)}
-.deduct-note{color:#eed3da;font:12px/1.5 Georgia,serif}
-@media(max-width:390px){.witness-art{width:72px;flex-basis:72px;height:94px}.witness-details h3{font-size:18px}.witness{gap:9px;padding:10px}}
-
-.music-fallback{position:absolute;right:8px;top:52px;z-index:4;max-width:210px;background:#3e2a55ed;border:1px solid #b891bb;border-radius:9px;padding:7px;color:#ffe3c8;font:11px/1.4 Arial,sans-serif}.music-fallback[hidden]{display:none}.music-fallback audio{width:188px;max-width:100%;height:35px;display:block;margin-top:5px}
-.clue-preview{display:block;margin:7px auto 12px;width:100%;border:2px solid #e9b794;border-radius:13px;overflow:hidden;box-shadow:0 5px 20px #1b0e2880}.clue-preview[hidden]{display:none}.clue-preview svg{display:block;width:100%;height:auto}.clue-item .clue-seal.art{width:74px;flex:0 0 74px;height:44px;border-radius:7px;overflow:hidden;background:#30223d;border:1px solid #dbb29d}.clue-item .clue-seal.art svg{width:100%;height:100%;display:block}
-
-body{background:radial-gradient(circle at 12% 15%,#6c4c8655,transparent 35%),radial-gradient(circle at 90% 56%,#94577633,transparent 40%),linear-gradient(170deg,#171a39,#342041 45%,#1a1733) fixed;position:relative}
-body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.45;background-image:radial-gradient(#f0d8e8 1px,transparent 2px),radial-gradient(#f1b7b5 1px,transparent 2px);background-size:87px 121px,141px 173px;background-position:13px 21px,60px 70px}
-.shell{position:relative;z-index:1}
-.hero-art .mm-fog-back{animation:mist-left 15s ease-in-out infinite alternate}
-.hero-art .mm-fog-front{animation:mist-right 12s ease-in-out infinite alternate}
-.hero-art .mm-peeking-ghost{transform-box:fill-box;transform-origin:center;animation:peek 6s ease-in-out infinite}
-.hero-art .mm-windows{animation:window-light 5s ease-in-out infinite}
-.hero-art .mm-twinkle{animation:star-shine 3.1s ease-in-out infinite alternate}
-.hero-art .mm-moon-halo{animation:moon-pulse 8s ease-in-out infinite alternate}
-.hero-art .mm-bats{animation:bat-fly 7s ease-in-out infinite alternate}
-.hero-art .mm-pumpkin{transform-box:fill-box;transform-origin:bottom;animation:pumpkin-bob 4s ease-in-out infinite alternate}
-@keyframes mist-left{from{transform:translateX(-35px);opacity:.45}to{transform:translateX(30px);opacity:.93}}
-@keyframes mist-right{from{transform:translateX(34px);opacity:.15}to{transform:translateX(-24px);opacity:.45}}
-@keyframes peek{0%,15%,60%,100%{opacity:0;transform:translateY(11px)}23%,48%{opacity:1;transform:translateY(0)}}
-@keyframes window-light{0%,35%,49%,64%,100%{opacity:1}43%,61%{opacity:.75}}
-@keyframes star-shine{from{opacity:.25}to{opacity:.95}}
-@keyframes moon-pulse{from{opacity:.65;transform:scale(.97);transform-origin:415px 50px}to{opacity:1;transform:scale(1.08);transform-origin:415px 50px}}
-@keyframes bat-fly{from{transform:translate(-12px,3px)}to{transform:translate(19px,-10px)}}
-@keyframes pumpkin-bob{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
-@media(prefers-reduced-motion:reduce){.hero-art *,body:before{animation:none!important}}
-
-/* Candy-like, springy movement and visibly bursting tile fragments */
-.tile.falling{animation:fall-spring .47s cubic-bezier(.22,.83,.27,1.03) both;animation-delay:var(--delay,0ms)}
-@keyframes fall-spring{
- 0%{transform:translateY(var(--fall)) scale(.88);opacity:.7;filter:brightness(1.35)}
- 66%{transform:translateY(8%) scale(1.06,.92);opacity:1}
- 80%{transform:translateY(-6%) scale(.97,1.06)}
- 100%{transform:translateY(0) scale(1);filter:none}
-}
-.tile.swapping{animation:swap-soft .22s cubic-bezier(.22,.86,.33,1.08) both}
-@keyframes swap-soft{
- from{transform:translate(var(--from-x),var(--from-y)) scale(.93)}
- 72%{transform:translate(-2%,-2%) scale(1.04)}
- to{transform:translate(0,0) scale(1)}
-}
-.tile.clearing{animation:charm-burst .27s ease-in forwards;z-index:3}
-@keyframes charm-burst{
- 0%{opacity:1;transform:scale(1) rotate(0)}
- 34%{opacity:1;transform:scale(1.21) rotate(-5deg);filter:brightness(1.7)}
- 65%{opacity:.85;transform:scale(.7) rotate(7deg);filter:brightness(2)}
- 100%{opacity:0;transform:scale(.02) rotate(15deg);filter:brightness(2.5)}
-}
-.fx-layer{position:absolute;inset:7px;z-index:6;pointer-events:none;overflow:hidden;border-radius:14px;contain:paint}
-.fx-spark{position:absolute;left:0;top:0;width:8px;height:8px;border-radius:40%;background:var(--spark-color,#ffe29f);box-shadow:0 0 10px var(--spark-color,#ffe29f);pointer-events:none;transform:translate(-50%,-50%);animation:fx-spark .62s ease-out forwards;will-change:transform,opacity}
-.fx-spark.star{clip-path:polygon(50% 0%,62% 36%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 36%);border-radius:0;width:13px;height:13px}
-.fx-spark.smoke{width:13px;height:13px;border-radius:50%;filter:blur(2px);opacity:.8}
-@keyframes fx-spark{
- 0%{transform:translate(-50%,-50%) scale(.4) rotate(0);opacity:0}
- 22%{opacity:1;transform:translate(-50%,-50%) scale(1.25) rotate(16deg)}
- 100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(.08) rotate(var(--rot));opacity:0}
-}
-.fx-ring{position:absolute;width:80px;height:80px;border:4px solid #fce4ad;border-radius:50%;box-shadow:0 0 22px #e4acff,inset 0 0 18px #d2b1ff;transform:translate(-50%,-50%) scale(.2);animation:fx-ring .48s ease-out forwards}
-@keyframes fx-ring{0%{opacity:1;transform:translate(-50%,-50%) scale(.2)}100%{opacity:0;transform:translate(-50%,-50%) scale(2.4)}}
-.fx-combo{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);white-space:nowrap;color:#fff4b4;font:900 22px Georgia,serif;text-shadow:0 2px #6a3d7f,0 0 12px #ffe1a4;animation:fx-combo .8s ease-out forwards}
-@keyframes fx-combo{0%{opacity:0;transform:translate(-50%,10%) scale(.5)}23%{opacity:1;transform:translate(-50%,-50%) scale(1.25)}100%{opacity:0;transform:translate(-50%,-130%) scale(1)}}
-@media(prefers-reduced-motion:reduce){.tile.falling,.tile.swapping,.tile.clearing,.fx-spark,.fx-ring,.fx-combo{animation-duration:.01ms!important}}
-@media(max-width:380px){body{padding:6px 6px 22px}.hero-art{height:174px}.board{gap:2px;padding:4px}.tile{border-radius:7px}.stat b{font-size:23px}.story-visual{width:85px}.case strong{font-size:20px}.goal svg{width:32px;height:32px}}
-@media(prefers-reduced-motion:reduce){.tile,.tile.boo{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-
-/* V3: rounded enchanted charms instead of hard-edged blocks. */
-.board-wrap{padding:11px;border-radius:29px;border:3px solid #c6a0cf;background:linear-gradient(145deg,#9c76b8,#604579 25%,#392b62 70%,#b18cce);box-shadow:0 7px 0 #271b48,0 15px 34px #09031bc4,inset 0 2px 8px #e8d1f281}
-.board{padding:5px;gap:2px;border-radius:20px;background-color:#231b43;background-image:radial-gradient(circle,#765ba15e 0 34%,transparent 54%);background-size:calc(100% / 7) calc(100% / 7);box-shadow:inset 0 5px 16px #080c2788}
-.tile{border:0!important;box-shadow:none!important;border-radius:50%!important;background:transparent!important;padding:2px;overflow:visible;transform-origin:center}
-.tile:before{content:"";position:absolute;inset:4%;height:auto;border-radius:50%;background:radial-gradient(circle at 32% 21%,#fffaff98 0,#fff3 17%,transparent 35%),linear-gradient(149deg,var(--hi),var(--lo));border:1.5px solid #ffffff99;box-shadow:inset 0 4px 6px #fff6,inset 0 -6px 7px #28143b40,0 4px 5px #0e092c9c,0 1px 0 #fff7;opacity:1}
-.tile:after{content:"";position:absolute;left:24%;top:11%;width:36%;height:10%;border-radius:50%;background:#fff8;filter:blur(3px);pointer-events:none}
-.tile svg{width:82%;height:82%;position:relative;z-index:1;filter:drop-shadow(0 2px 1px #2d174a7a)}
-.tile.selected{outline:3px solid #ffe7a4;outline-offset:-4px;filter:brightness(1.16);border-radius:50%}
-.tile.boo{background:transparent!important;border:0!important;animation:charm-hex 1.5s ease-in-out infinite alternate}
-.tile.boo:before{background:radial-gradient(circle at 35% 15%,#fff9d7,#e7baff 24%,#a174cd 66%,#53488d 100%);box-shadow:0 0 12px #fff0acaa,0 0 24px #b996ffa6,inset 0 1px 5px #fff}
-.tile.boo svg{width:91%;height:91%;filter:drop-shadow(0 0 6px #fff6ce)}
-@keyframes charm-hex{from{filter:brightness(1)}to{filter:brightness(1.23) drop-shadow(0 0 5px #ffdd98)}}
-.goal{border-radius:14px;background:#49315b;border:1px solid #a27db5}
-.stat{border-radius:17px;background:linear-gradient(155deg,#4b315b,#2d2048);border-color:#aa84bb}
-.case{border-radius:18px;background:linear-gradient(130deg,#654577,#352547);box-shadow:0 5px 17px #1309248a}
-.hero{border-radius:26px 26px 17px 17px;box-shadow:0 14px 35px #110822c0}
-.hero-art{height:235px}
-.board-wrap .fx-layer{inset:11px}
-.witness{padding:16px;gap:16px;border-radius:19px;background:linear-gradient(115deg,#594267,#352745 82%);position:relative}
-.witness:before{content:"";position:absolute;left:-20px;top:7px;width:125px;height:125px;background:radial-gradient(circle,#f1b9dc35,transparent 68%);pointer-events:none}
-.witness-art{width:104px;height:126px;flex-basis:104px;border-radius:19px;overflow:hidden;background:linear-gradient(160deg,#9173a6,#4f3266);border:2px solid #e0b9c3;box-shadow:inset 0 0 25px #fff2c333,0 5px 13px #150b2a77}
-.witness-art svg{width:100%;height:100%;display:block;animation:character-idle 4.3s ease-in-out infinite;transform-origin:center 88%}
-.witness-art .mm-eye,.dialog-portrait .mm-eye{transform-box:fill-box;transform-origin:center;animation:character-blink 5.3s infinite}
-.witness-art .mm-mouth,.dialog-portrait .mm-mouth{transform-box:fill-box;transform-origin:center}
-.witness-art .mm-ear,.dialog-portrait .mm-ear{transform-box:fill-box;transform-origin:bottom;animation:ear-twitch 8s ease-in-out infinite}
-.witness-art .mm-hand{animation:character-wave 6s ease-in-out infinite;transform-box:fill-box;transform-origin:bottom}
-.witness-art .mm-halo,.dialog-portrait .mm-halo{animation:character-halo 4s ease-in-out infinite alternate}
-.dialog-portrait{max-width:132px;height:143px;margin:0 auto 9px;border:2px solid #eac79d;overflow:hidden;border-radius:20px;background:#5c4376;box-shadow:0 5px 20px #1a0b34ac}
-.dialog-portrait[hidden]{display:none}
-.dialog-portrait svg{display:block;width:100%;height:100%;animation:character-idle 3.3s ease-in-out infinite}
-.dialog-portrait.talking .mm-mouth{animation:character-talk .38s ease-in-out infinite alternate}
-.dialog-portrait.talking svg{animation:character-chat 1.15s ease-in-out infinite alternate}
-.dialog-portrait.talking .mm-eye{animation:character-blink 4.5s infinite}
-.witness-details h3{font-size:21px}
-.witness-details p{font:italic 12px/1.5 Georgia,serif;color:#f2dbed}
-.witness-details button{padding:10px 12px;border-radius:22px;box-shadow:0 3px 0 #775269}
-@keyframes character-idle{0%,100%{transform:translateY(1px) rotate(-1deg)}50%{transform:translateY(-5px) rotate(1deg)}}
-@keyframes character-chat{from{transform:translateY(2px) rotate(-2deg)}to{transform:translateY(-4px) rotate(2deg)}}
-@keyframes character-blink{0%,12%,14%,35%,100%{transform:scaleY(1)}13%,35.6%{transform:scaleY(.08)}}
-@keyframes character-talk{from{transform:scaleY(.56)}to{transform:scaleY(1.3)}}
-@keyframes ear-twitch{0%,84%,100%{transform:rotate(0)}87%{transform:rotate(9deg)}91%{transform:rotate(-5deg)}}
-@keyframes character-wave{0%,72%,100%{transform:rotate(0)}78%{transform:rotate(-13deg)}84%{transform:rotate(7deg)}}
-@keyframes character-halo{from{opacity:.32}to{opacity:.8}}
-@media(max-width:390px){.hero-art{height:195px}.witness-art{width:82px;flex-basis:82px;height:110px}.witness{padding:10px;gap:10px}}
-@media(prefers-reduced-motion:reduce){.witness-art svg,.dialog-portrait svg,.mm-eye,.mm-mouth,.mm-ear,.mm-hand,.mm-halo{animation:none!important}}
-
-.tile.conjure:before{animation:born-glow .48s cubic-bezier(.15,.72,.3,1.24) both}
-.tile.conjure svg{animation:born-pop .5s cubic-bezier(.18,.8,.3,1.25) both}
-@keyframes born-glow{from{opacity:.2;transform:scale(.36) rotate(-38deg)}60%{opacity:1;transform:scale(1.2) rotate(8deg)}to{transform:scale(1) rotate(0)}}
-@keyframes born-pop{from{transform:scale(.3) rotate(-45deg)}65%{transform:scale(1.18) rotate(10deg)}to{transform:scale(1) rotate(0)}}
-.tile.empty:before{background:linear-gradient(150deg,#241b46,#493563);border:1px solid #ffffff12;box-shadow:inset 0 3px 9px #0d0b2b85;opacity:.6}
-.tile.empty:after{display:none}
-@media(prefers-reduced-motion:reduce){.tile.conjure:before,.tile.conjure svg{animation:none!important}}
-.music-volume{display:flex;align-items:center;gap:5px;position:absolute;right:0;top:44px;padding:5px 7px;background:#312445ec;border:1px solid #9476a6;border-radius:10px;color:#f6deca;font:800 9px Arial,sans-serif;letter-spacing:1px}.music-volume[hidden]{display:none}.music-volume input{width:76px;accent-color:#f9c995;height:16px;cursor:pointer}
-
-/* PREMIUM VERTICAL SLICE: the entire interface lives in a single illustrated library */
-body{padding:8px 8px 28px;background:radial-gradient(ellipse at 50% 12%,#5c4169,#151628 80%);color:#f9e5d5}
-.premium-shell{max-width:570px}
-.manor-room{isolation:isolate;position:relative;overflow:hidden;border-radius:27px;background:#3c2f51;box-shadow:0 0 0 1px #bb9ba4,0 16px 65px #0d081bc7,inset 0 0 50px #110f2f;min-height:920px;padding:0 13px 28px}
-.manor-room:before{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,#181b3899 0%,#241c3e55 22%,#33213c40 44%,#1b162b9c 100%);pointer-events:none}
-.library-world{position:absolute;z-index:0;inset:0;width:100%;height:100%;pointer-events:none}
-.room-vignette{position:absolute;z-index:0;inset:0;pointer-events:none;box-shadow:inset 0 0 130px 33px #140f2b99}
-.world-fog{pointer-events:none;position:absolute;z-index:0;left:-20%;right:-20%;height:160px;opacity:.43;filter:blur(21px);background:radial-gradient(ellipse at 45% 50%,#eac5e16e,transparent 73%);animation:world-drift 14s ease-in-out infinite alternate}
-.world-fog-back{top:290px}.world-fog-front{top:700px;animation-delay:-5s;opacity:.24}
-@keyframes world-drift{0%{transform:translateX(-13%)}100%{transform:translateX(17%)}}
-.library-chandelier{transform-origin:270px 0;animation:chandelier-sway 8s ease-in-out infinite alternate}
-.library-flame{animation:library-flicker 2.7s ease-in-out infinite alternate}
-.library-curtain-left{transform-origin:183px 145px;animation:curtain-sway 9s ease-in-out infinite alternate}
-.library-curtain-right{transform-origin:358px 145px;animation:curtain-sway 7s ease-in-out -2s infinite alternate}
-.library-portrait-eyes{animation:eye-peek 7s steps(2) infinite}
-.library-sparks{animation:dust-drift 12s ease-in-out infinite alternate}
-@keyframes chandelier-sway{to{transform:rotate(2deg)}}
-@keyframes library-flicker{25%{opacity:.65;transform:scale(.92)}70%{opacity:.92;transform:scale(1.08)}}
-@keyframes curtain-sway{to{transform:skewX(2deg) scaleX(.96)}}
-@keyframes eye-peek{0%,27%,100%{transform:translateX(0)}33%,56%{transform:translateX(3px)}}
-@keyframes dust-drift{to{transform:translate(-8px,19px);opacity:.2}}
-.room-header,.room-case,.living-cast,.manor-voice,.desk-space,.room-foot{position:relative;z-index:2}
-.room-header{display:flex;justify-content:space-between;align-items:flex-start;padding:22px 8px 8px;gap:8px}
-.room-brand{text-align:left;filter:drop-shadow(0 3px 6px #090820)}
-.room-eyebrow{font:800 9px/1.4 Arial,sans-serif;letter-spacing:2.3px;color:#efd5a5}
-.room-brand h1{font:900 43px/.83 Georgia,serif;letter-spacing:-1.5px;margin:10px 0 12px;color:#ffecd0;text-shadow:0 3px #613d68,0 0 23px #f8b2a469}
-.room-brand h1 em{font-style:italic;color:#ffcd9e;font-weight:700}
-.room-tagline{font:800 9px/1.5 Arial,sans-serif;letter-spacing:1.3px;color:#e7cad1}
-.audio-widget{position:relative;flex-shrink:0;z-index:4}
-.audio-widget .sound{position:relative;background:#241d3bc9;border:1px solid #c4a0b4;color:#fceac7;box-shadow:0 4px 13px #0b0b26af;white-space:nowrap}
-.audio-widget .music-volume{right:0;top:43px}
-.room-case{margin:14px 2px 0;border:0;border-top:1px solid #d2adab4d;border-bottom:1px solid #d2adab4d;border-radius:0;padding:12px 5px;background:linear-gradient(90deg,#21193374,#4e314b55,#21193374);box-shadow:none;gap:8px}
-.room-case small{color:#edc99c}.room-case strong{font-size:21px;line-height:1.1;color:#ffebc9}
-.room-case p{color:#edcbdb}.room-case .clue-tag{background:#e5b98713;border:1px solid #d6b49e63;min-width:65px;box-shadow:none;padding:7px}
-.living-cast{display:flex;align-items:flex-end;justify-content:space-around;gap:0;height:184px;padding:0;margin:-5px -9px 0}
-.cast-character{position:relative;border:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;width:33.333%;height:100%;background:transparent!important;color:#ffe8c7;padding:0 2px 2px;opacity:1;overflow:visible}
-.cast-character:before{content:"";position:absolute;inset:11% 10% 15%;background:radial-gradient(ellipse at 50% 60%,#ffb1c35e,transparent 68%);opacity:.3;filter:blur(8px)}
-.cast-character.selected:before,.cast-character.reacting:before{opacity:.95;filter:blur(5px)}
-.cast-character.locked{opacity:.6;filter:grayscale(.45)}
-.cast-glow{position:absolute;bottom:18px;left:12%;width:76%;height:24px;border-radius:50%;background:#1d17339e;filter:blur(10px)}
-.cast-figure{position:relative;z-index:1;width:min(100%,142px);height:149px;display:grid;place-items:end center;filter:drop-shadow(0 9px 9px #140f258c);animation:person-idle 4.3s ease-in-out infinite alternate}
-.cast-character:nth-child(2) .cast-figure{animation-delay:-1.8s}.cast-character:nth-child(3) .cast-figure{animation-delay:-3s}
-.cast-figure svg{display:block;height:100%;width:100%;overflow:visible}
-.cast-label{position:relative;z-index:3;background:linear-gradient(100deg,#432a53d9,#6d4568db,#432a53d9);border:1px solid #d1a4b1a3;border-radius:30px;box-shadow:0 3px 11px #160d2a94;padding:6px 10px;color:#ffe3b7;font:900 9px Arial,sans-serif;white-space:nowrap;letter-spacing:.7px;margin-top:-10px}
-.cast-dot{color:#aef1c4;font-size:7px;margin-left:3px}.cast-character.locked .cast-dot{color:#b9a5bc}
-.cast-character.reacting .cast-figure{animation:character-react .8s cubic-bezier(.22,.6,.26,1.1)}
-.cast-character.nervous .cast-figure{animation:character-worry .75s ease-in-out}
-.cast-character.victory .cast-figure{animation:character-celebrate 1.15s ease-out}
-@keyframes person-idle{0%{transform:translateY(2px) rotate(-1.5deg)}100%{transform:translateY(-5px) rotate(1.3deg)}}
-@keyframes character-react{0%,100%{transform:translateY(0)}35%{transform:translateY(-15px) rotate(-5deg)}65%{transform:translateY(-6px) rotate(5deg)}}
-@keyframes character-worry{0%,100%{transform:rotate(0)}20%,70%{transform:rotate(-5deg)}45%,90%{transform:rotate(5deg)}}
-@keyframes character-celebrate{0%{transform:translateY(0)}35%{transform:translateY(-18px) scale(1.1)}55%{transform:translateY(0) scale(.93)}80%{transform:translateY(-7px)}}
-.cast-character .cat-tail{transform-origin:80px 106px;animation:cat-tail-sway 2.8s ease-in-out infinite alternate}
-.cast-character .ghost-float{animation:ghost-hover 3.5s ease-in-out infinite alternate}
-.cast-character .fern-hand{transform-origin:78px 81px;animation:fern-wave 6.5s ease-in-out infinite}
-.cast-character .cast-eye{transform-box:fill-box;transform-origin:center;animation:character-blink 5.2s infinite}
-.cast-character:nth-child(2) .cast-eye{animation-delay:-1.9s}
-@keyframes cat-tail-sway{to{transform:rotate(18deg)}}
-@keyframes ghost-hover{to{transform:translateY(-7px) rotate(1.3deg)}}
-@keyframes fern-wave{0%,78%,100%{transform:rotate(0)}84%{transform:rotate(-11deg)}90%{transform:rotate(5deg)}}
-.manor-voice{position:relative;display:flex;align-items:center;gap:9px;background:linear-gradient(125deg,#f4dcbbf7,#d6b7b6f1);border-radius:14px 14px 19px 19px;border:1px solid #fff2d5;color:#452f4c;box-shadow:0 6px 17px #160f2ac7,inset 0 1px #fff8f0;min-height:76px;padding:10px;margin:2px 7px -8px;z-index:4}
-.manor-voice:before{content:"";position:absolute;top:-9px;left:14%;height:15px;width:16px;background:#edd4b9;transform:rotate(45deg);border-left:1px solid #fff2d5;border-top:1px solid #fff2d5}
-.voice-avatar{height:48px;width:48px;flex:0 0 48px;border-radius:50%;background:#9674a0;overflow:hidden;box-shadow:0 2px 6px #5b375a7b}
-.voice-avatar svg{width:100%;height:100%;display:block}
-.voice-content{min-width:0;flex:1}.voice-eyebrow{font:900 9px Arial,sans-serif;color:#815873;letter-spacing:1px}
-.voice-content strong{display:block;font:18px Georgia,serif;margin:2px 0 0;color:#51364a}
-.voice-content p{font:12px/1.35 Georgia,serif;color:#6e5060;margin:3px 0 0}
-.voice-ask{flex:0 0 auto;background:#66496a;border:1px solid #835d80;color:#ffe4bd;border-radius:12px;padding:10px 9px;font:900 10px Arial,sans-serif;box-shadow:0 3px #37263f}
-.voice-ask span{font-size:20px;vertical-align:middle}
-.desk-space{position:relative;background:linear-gradient(155deg,#a77c6e,#6a4757 5%,#49314c 50%,#65435c 94%,#c09183);border:4px solid #ae8277;border-radius:28px 28px 35px 35px;padding:12px 9px 13px;margin:17px -5px 0;box-shadow:0 10px 0 #402936,0 18px 28px #100d27c7,inset 0 3px #e5b4a6,inset 0 -9px #231734a1}
-.desk-space:before{content:"";position:absolute;inset:7px;border:1px solid #e4bea37a;border-radius:22px;pointer-events:none}
-.desk-top{display:flex;align-items:center;justify-content:space-between;margin:0 8px 7px;gap:8px;color:#f1d1ae}
-.desk-caption{font:900 10px Arial,sans-serif;letter-spacing:2px;text-align:center}
-.desk-rune{color:#ddb38a;font-size:12px;white-space:nowrap}
-.desk-space .stats{margin:5px 0 11px;gap:6px}
-.desk-space .stat{border:1px solid #e4b69773;background:#2d233b96;border-radius:12px;box-shadow:inset 0 1px #ffffff2b;padding:8px 3px 6px}
-.desk-space .stat b{font:26px Georgia,serif;color:#ffe1aa}
-.desk-space .board-wrap{margin:0;border:3px solid #d2a68e;padding:7px;border-radius:18px;background:linear-gradient(140deg,#907493,#5a457c);box-shadow:inset 0 2px 5px #e4c8e886,0 3px 0 #33233f,0 9px 16px #18112b8c}
-.desk-space .board{border-radius:12px;padding:4px;background:#1d203df0;box-shadow:inset 0 2px 15px #110d288c}
-.action-caption{font:900 10px Arial,sans-serif;letter-spacing:1.15px;text-align:center;color:#f4d6a1;min-height:20px;padding-top:8px;text-shadow:0 2px 4px #281934}
-.notice{color:#fce9d0;min-height:28px;padding:4px 8px 6px;font:12px/1.5 Georgia,serif}
-.goal-card{margin:3px 0 4px;padding:10px 4px 7px;border:0;border-top:1px solid #e5bba45a;border-radius:0;background:transparent}
-.section-title{margin:0 0 8px;font:italic 17px Georgia,serif;color:#ffdfa8}
-.goals{gap:7px}.goal{border:1px solid #d4a99373;background:linear-gradient(#765572bd,#4e3b60aa);box-shadow:inset 0 1px #fff2d826;padding:7px 3px;border-radius:13px}
-.goal svg{width:32px;height:32px}
-.desk-space .tools{margin:10px 0 0;gap:8px}
-.tools button{border:1px solid #eac29ba1;background:linear-gradient(#62466b,#3b304c);box-shadow:inset 0 1px #fff4dd35,0 3px #362039;border-radius:11px;min-height:50px;color:#f7e7ce}
-.room-foot{padding:0 3px}
-.casebook-door{margin:25px 2px 10px;width:calc(100% - 4px);display:flex;align-items:center;gap:10px;text-align:left;padding:12px 13px;background:linear-gradient(120deg,#ead0a9,#c9a38f);border:2px solid #f6d9ae;border-radius:12px;box-shadow:0 6px 0 #744c59,0 14px 18px #0d09288f;color:#513448}
-.book-icon{font-size:31px}.casebook-door>span:nth-child(2){flex:1;min-width:0}
-.casebook-door b{display:block;font:900 12px Arial,sans-serif;letter-spacing:1.1px}.casebook-door small{display:block;color:#735065;font:11px/1.4 Georgia,serif;margin-top:4px}
-.book-arrow{font-size:24px}
-.room-foot .story{background:linear-gradient(140deg,#3c2b44b8,#2a2537ac);border:1px solid #ad879080;border-radius:0;border-left:0;border-right:0;margin:15px 5px 8px;box-shadow:none}
-.room-foot .story-visual{display:grid;place-items:center;background:radial-gradient(circle,#e9caa1 0,#8d6d8e 35%,#4a335b 70%);font-size:35px;border-radius:50%;width:66px;height:66px}
-.room-foot .story-bottom{background:transparent}
-.room-foot .tip{color:#e9c6d3;font:11px/1.6 Georgia,serif;margin:16px 6px}
-.room-signoff{text-align:center;margin:22px 0 0;color:#d6bbad;font:900 10px Arial,sans-serif;letter-spacing:3.5px}
-.dossier-overlay{z-index:24;align-items:center}
-.dossier-dialog{width:min(100%,480px);background:linear-gradient(145deg,#e9d7ae,#d7bb9d 65%,#b89180);color:#54374c;box-shadow:0 16px 75px #040310e8,inset 0 1px #fff1d6;border:4px solid #b88d79;border-radius:19px;max-height:88dvh;overflow-y:auto;padding:16px 15px}
-.dossier-bookhead{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #8d667266;padding:3px 0 12px;font:900 10px Arial,sans-serif;letter-spacing:1.7px;color:#6f495f}
-.dossier-bookhead button{border:1px solid #ac8582;border-radius:50%;width:32px;height:32px;background:#eacbaa;color:#634756;font-size:16px}
-.dossier-dialog .evidence-case{background:none;border:0;box-shadow:none;padding:14px 3px;color:#53334a}
-.dossier-dialog .evidence-case h2{color:#59364b;font-size:27px}
-.dossier-dialog .evidence-case p{color:#765c67}
-.dossier-dialog .clue-item{background:#eddab7;border-color:#ad8d78;color:#5f4956}
-.dossier-dialog .clue-item strong{color:#6a4155}.dossier-dialog .clue-item small{color:#816977}
-.dossier-dialog .clue-item.unlocked{background:#e0c29c;border-color:#976d75}
-.dossier-dialog .solve-case{box-shadow:0 3px #9d746e}
-.dossier-quote{font:italic 13px Georgia,serif;text-align:center;color:#705166;border-top:1px solid #a78789;padding-top:14px}
-@media(min-width:560px){.manor-room{padding-left:24px;padding-right:24px}.living-cast{height:215px}.cast-figure{height:181px;width:170px}.manor-voice{margin-top:5px}.room-header{padding-top:28px}}
-@media(max-width:390px){body{padding:3px}.manor-room{padding:0 9px 20px;border-radius:17px}.room-header{padding:18px 4px 5px}.room-brand h1{font-size:35px}.room-eyebrow{font-size:8px;letter-spacing:1.5px}.room-tagline{font-size:8px}.room-case{margin-top:9px}.living-cast{height:150px}.cast-figure{height:126px}.cast-label{font-size:8px;padding:5px 7px}.manor-voice{padding:8px;min-height:68px;margin-left:2px;margin-right:2px}.voice-avatar{width:41px;flex-basis:41px;height:41px}.voice-content strong{font-size:16px}.voice-content p{font-size:11px}.voice-ask{padding:8px}.desk-space{margin-left:-5px;margin-right:-5px;padding:10px 6px 12px}.desk-top .desk-rune{font-size:10px}.desk-caption{font-size:9px;letter-spacing:1.1px}}
-@media(prefers-reduced-motion:reduce){.world-fog,.library-chandelier,.library-flame,.library-curtain-left,.library-curtain-right,.library-portrait-eyes,.library-sparks,.cast-figure,.cat-tail,.ghost-float,.fern-hand,.cast-eye{animation:none!important}}
-
-/* A beat to recognize matches before the charms shatter. */
-.tile.anticipate{z-index:6;animation:recognize-match .17s ease-in-out both}
-.tile.anticipate:before{box-shadow:0 0 9px 4px #fff2aa,0 0 19px 7px #c69bed,inset 0 3px #fff9;filter:brightness(1.22)}
-.tile.anticipate svg{filter:drop-shadow(0 0 6px #fff3bd) brightness(1.3)}
-@keyframes recognize-match{0%{transform:scale(1)}50%{transform:scale(1.10)}100%{transform:scale(1.055)}}
-.desk-space .board-wrap{position:relative}
-.desk-space .fx-layer{inset:7px}
-@media(prefers-reduced-motion:reduce){.tile.anticipate{animation:none!important}}
-
-.manor-room:after{content:"";pointer-events:none;position:absolute;inset:0;z-index:7;opacity:0}
-.manor-room.room-flash:after{background:radial-gradient(circle at 50% 43%,#c7afff70,transparent 56%);animation:scene-flash .83s ease-out forwards}
-.manor-room.room-clue:after{background:radial-gradient(circle at 50% 34%,#ffd49a66,transparent 55%);animation:scene-flash .83s ease-out forwards}
-@keyframes scene-flash{0%{opacity:0}19%{opacity:.75}100%{opacity:0}}
-@media(prefers-reduced-motion:reduce){.manor-room.room-flash:after,.manor-room.room-clue:after{animation:none}}
-
-/* Quiet, one-action-at-a-time presentation */
-body{background:#151622;padding:0 0 12px}
-.simple-room{border-radius:0;max-width:570px;min-height:100dvh;padding:0 16px 22px;box-shadow:0 15px 55px #060610}
-.simple-room:before{background:linear-gradient(180deg,#141628b0,#17132660 30%,#24182968 70%,#13131ede)}
-.simple-room .library-world{filter:saturate(.8) contrast(1.08);opacity:.9}
-.simple-room .room-vignette{box-shadow:inset 0 0 160px 14px #0a0c20b3}
-.simple-header{padding:19px 2px 8px;align-items:center}
-.simple-header .room-brand h1{font-size:29px;white-space:nowrap;line-height:1;letter-spacing:-.7px;margin:6px 0}
-.simple-header .room-eyebrow{font-size:8px;letter-spacing:1.25px}
-.simple-header .sound{font-size:10px;padding:8px}
-.simple-case{padding:9px 5px;margin:2px 0 5px;background:linear-gradient(90deg,#16152d9e,#35233e77,#16152d8a)}
-.simple-case strong{font-size:19px}
-.simple-case p{font-size:10px;margin:3px 0}
-.simple-case .clue-tag{min-width:65px;color:#ffe4c9;cursor:pointer}
-.one-witness{height:166px;margin:0;justify-content:center;padding:0}
-.one-witness .cast-character{display:none;width:158px;height:168px;position:relative;padding:0}
-.one-witness .cast-character.selected{display:flex}
-.one-witness .cast-character.selected .cast-figure{height:149px;width:144px;filter:drop-shadow(0 9px 13px #131020ae)}
-.one-witness .cast-character .cast-label{padding:5px 14px;margin-top:-14px;letter-spacing:1.3px;font-size:10px}
-.one-witness .cast-character:after{content:"";position:absolute;bottom:26px;width:170px;height:80px;background:radial-gradient(ellipse,#d9b2ad44,transparent 66%);filter:blur(9px);pointer-events:none;z-index:-1}
-.simple-speech{margin:2px 2px 12px;min-height:69px;gap:10px;background:linear-gradient(130deg,#f3dfc6f5,#d2b9aef4);border:0;border-radius:16px;box-shadow:0 4px 12px #0c0b21ad}
-.simple-speech .voice-content strong{font-size:17px}
-.simple-speech .voice-content p{font-size:12px}
-.simple-speech .voice-ask{font-size:10px;padding:9px 10px}
-.simple-speech .voice-avatar{display:none}
-.simple-desk{margin:0 -7px 0;padding:12px 9px;background:linear-gradient(125deg,#9d756c,#593d51 6%,#42314a 54%,#6d4b59 95%,#b78b79);border-radius:21px;box-shadow:0 8px 0 #352435,0 13px 18px #070a20b4}
-.simple-desk .board-wrap{margin:5px 0 0;padding:6px;border-radius:15px}
-.simple-desk .board{gap:3px}
-.task-line{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:49px;padding:4px 5px 10px}
-.task-text{display:flex;flex-direction:column;gap:3px;min-width:0}
-.task-text>span{font:900 9px Arial,sans-serif;letter-spacing:2px;color:#ebcda8}
-.task-text strong{font:700 18px Georgia,serif;color:#fff1cf}
-.moves-chip{background:#2d243da3;border:1px solid #d7b18b85;border-radius:12px;padding:5px 9px;font:900 9px Arial,sans-serif;text-align:center;color:#edd9ce}
-.moves-chip b{display:block;font:25px Georgia,serif;color:#fff1c7}
-.simple-desk .goal-card{border:0;padding:0;margin:3px 0 9px}
-.simple-desk .goals{display:flex;justify-content:center;gap:0}
-.simple-desk .goal{width:100%;background:transparent;border:0;box-shadow:none;padding:0;display:flex;align-items:center;justify-content:center;gap:12px}
-.simple-desk .goal svg{width:31px;height:31px;margin:0}
-.simple-desk .goal .gname{display:none}
-.simple-desk .goal .count{font:800 15px Arial,sans-serif;color:#ffe5ad;margin:0}
-.simple-desk .goal .progress{height:7px;margin:0;width:45%;min-width:70px;background:#201b33;border:1px solid #c6a29c6b}
-.simple-desk .notice{min-height:23px;padding:7px 0 3px;font-size:11px}
-.simple-desk .action-caption{font-size:9px;opacity:.7;min-height:15px;padding-top:7px}
-.simple-actions{display:flex;gap:8px;justify-content:center;margin:8px 0 1px}
-.simple-actions button,.extra-tools button{font:900 11px Arial,sans-serif;color:#f9e7d1;background:linear-gradient(#65506b,#3d2c50);border:1px solid #d5b3a09d;border-radius:10px;min-height:40px;padding:8px 14px;box-shadow:0 2px 0 #2d2139}
-.simple-actions button span:first-child{font-size:15px;margin-right:4px}
-.extra-tools{display:flex;gap:8px;justify-content:center;margin:9px 0 1px}
-.extra-tools[hidden]{display:none}
-.simple-footer{position:relative;z-index:2;color:#ead1d5;text-align:center;padding:16px 4px 0}
-.simple-footer p{font:12px/1.55 Georgia,serif;margin:3px auto 8px;max-width:410px}
-.simple-footer strong{color:#ffe0aa}
-.simple-footer .simple-case-note{font:italic 12px Georgia,serif;color:#d6abbf;opacity:.8;margin-top:9px}
-.legacy-text[hidden]{display:none}
-.simple-room .world-fog{opacity:.17;filter:blur(28px);animation-duration:25s}
-.simple-room .library-chandelier{animation-duration:12s}
-.simple-room .library-sparks{opacity:.26}
-.simple-room .manor-voice:before{top:-7px}
-.dossier-dialog{max-width:430px}
-@media(max-width:390px){.simple-room{padding:0 11px 22px}.simple-header .room-brand h1{font-size:26px}.simple-header .sound{font-size:9px;padding:7px}.one-witness{height:140px}.one-witness .cast-character{height:145px}.one-witness .cast-character.selected .cast-figure{height:128px}.simple-speech{padding:9px;min-height:63px;margin-bottom:10px}.simple-desk{padding:9px 6px}.task-text strong{font-size:16px}.simple-case strong{font-size:18px}.simple-footer p{font-size:11px}}
-
-/* The story is the home screen; the match table appears only when it is needed. */
-.story-stage{position:relative;z-index:3;margin:16px 2px 25px;background:linear-gradient(145deg,#f1dfc0f7,#d8bdadf5);border:2px solid #f7dfbb;border-radius:18px;color:#4b354b;box-shadow:0 10px 0 #5b4057,0 19px 22px #110d2aa6;overflow:hidden}
-.story-stage[hidden],#puzzle-stage[hidden]{display:none!important}
-.story-progress{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 16px 9px;border-bottom:1px solid #ac8b8e7c;font:900 9px Arial,sans-serif;letter-spacing:1.2px;color:#815e72}
-.story-page{padding:18px 18px 15px;min-height:159px}
-.story-speaker{font:900 11px Arial,sans-serif;letter-spacing:2px;color:#976077}
-.story-page p{font:20px/1.5 Georgia,serif;color:#493047;margin:10px 0 0;text-wrap:pretty}
-.story-continue{display:flex;justify-content:center;align-items:center;width:calc(100% - 28px);margin:0 14px 13px;min-height:52px;border:1px solid #e6b68d;border-radius:11px;background:linear-gradient(120deg,#85546e,#5b425b);box-shadow:0 4px 0 #53384c;color:#fff0d1;font:900 13px Arial,sans-serif;letter-spacing:.45px}
-.story-progress-note{text-align:center;color:#795e6b;font:italic 11px Georgia,serif;margin:7px 18px 15px}
-.story-clue-art{margin:13px auto 0;width:calc(100% - 30px);max-width:370px;border:3px solid #e2b491;box-shadow:0 4px 12px #5c3b4b5a;border-radius:12px;overflow:hidden}
-.story-clue-art[hidden]{display:none}
-.story-clue-art svg{display:block;width:100%;height:auto}
-#puzzle-stage{animation:puzzle-enter .35s cubic-bezier(.16,.7,.21,1.02) both}
-@keyframes puzzle-enter{from{opacity:0;transform:translateY(32px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
-.puzzle-topline{display:flex;justify-content:space-between;gap:10px;color:#ffebbf;font:900 10px Arial,sans-serif;letter-spacing:1.5px;padding:2px 6px 7px}
-.simple-room.puzzle-active .one-witness{height:95px}
-.simple-room.puzzle-active .one-witness .cast-character{height:94px}
-.simple-room.puzzle-active .one-witness .cast-character.selected .cast-figure{height:81px;width:91px}
-.simple-room.puzzle-active .simple-speech{display:none}
-.simple-room.puzzle-active .simple-case{margin-bottom:5px}
-.simple-room .simple-footer{padding-bottom:25px}
-.simple-room:not(.puzzle-active) .simple-footer>p:first-child{display:none}
-@media(max-width:390px){.story-page{min-height:145px;padding:14px 15px}.story-page p{font-size:18px}.story-stage{margin-top:12px}}
-
-/* REALISM PASS: photographic manor, mahogany, brass and deep jewel tones. */
-body{background:#0e1118}
-.simple-room{
- background-color:#171a21;
- background-image:
-  linear-gradient(180deg,#090a10a8 0%,#10101770 23%,#090c147a 48%,#090810ab 100%),
-  url("https://images.unsplash.com/photo-1748881882313-9b64c7693bf7?auto=format&fit=crop&w=950&q=85");
- background-repeat:no-repeat;background-size:cover;
- background-position:center center;
- border:1px solid #705842;
- box-shadow:0 12px 55px #020309,inset 0 0 30px #050509;
-}
-.simple-room .library-world{display:none}
-.simple-room:before{background:linear-gradient(180deg,#0c10165c,#1511121f 39%,#120d11ae 100%)}
-.simple-room .room-vignette{box-shadow:inset 0 0 115px 17px #070a1180}
-.simple-room .world-fog{opacity:.08}
-.simple-header .room-brand h1{color:#f0d8a4;text-shadow:0 2px 8px #05080e,0 0 23px #160e13}
-.simple-header .room-brand h1 em{color:#d0a875}
-.simple-header .room-eyebrow{color:#d7bd98}
-.simple-case{background:linear-gradient(90deg,#0e0d13e5,#302015be,#0e0d13e5);border-color:#ab865e87}
-.simple-case strong{color:#f0d8ae}
-.simple-case small,.simple-case p{color:#c7baa6}
-.simple-case .clue-tag{background:#1c1a1be0;border:1px solid #b79a6c;color:#ebd5a5}
-.music-now-playing{display:block;max-width:138px;margin:5px 0 0;text-align:right;font:800 8px/1.3 Arial,sans-serif;letter-spacing:.55px;color:#e9c98b;text-shadow:0 1px 4px #000}
-.audio-widget .sound{background:#191716e8;border-color:#ac8c5d;color:#f0d5a2}
-.audio-widget .music-volume{background:#18161af5;border-color:#977a59}
-.simple-speech{background:linear-gradient(140deg,#231b1ae9,#473427ee);border:1px solid #aa875fa8;color:#eee0c7;box-shadow:0 5px 19px #030507c9}
-.simple-speech:before{background:#33251f;border-color:#a0856b}
-.simple-speech .voice-eyebrow{color:#cfac70}
-.simple-speech .voice-content strong{color:#f2debb}
-.simple-speech .voice-content p{color:#d8c6b1}
-.simple-speech .voice-ask{background:linear-gradient(#715636,#3c2b23);border-color:#b89a6a;color:#f2ddb5}
-.one-witness{height:197px}
-.one-witness .cast-character{height:201px;width:180px}
-.one-witness .cast-character.selected .cast-figure{width:174px;height:183px}
-.one-witness .cast-character .cast-label{margin-top:-12px;background:linear-gradient(#3b2921e6,#1c1a21ef);border-color:#a88a63;color:#f2d6ad}
-.cast-character.selected .cast-glow{background:#ad74436a}
-.witness-photo{
- display:block;position:relative;width:100%;height:100%;
- border-radius:44% 44% 27% 27% / 22% 22% 12% 12%;
- overflow:hidden;background-color:#201a20;
- background-size:cover;background-repeat:no-repeat;background-position:center;
- border:2px solid #ae8c68;
- box-shadow:inset 0 0 26px #100e14,0 5px 16px #050a0dd1;
- animation:photo-idle 6s ease-in-out infinite alternate;
-}
-.witness-photo:before{content:"";position:absolute;inset:0;pointer-events:none;
- background:linear-gradient(180deg,#1c171d00 25%,#0f121a30 55%,#151011cb 100%);
- z-index:1}
-.witness-photo:after{content:"";position:absolute;inset:0;pointer-events:none;border:1px solid #ebcda552;border-radius:inherit}
-.witness-photo-0{background-image:url("https://images.unsplash.com/photo-1707001853042-70d96b7a64f0?auto=format&fit=crop&w=430&h=480&q=85")}
-.witness-photo-1{background-image:url("https://images.unsplash.com/photo-1762426611094-ae4f8022dd54?auto=format&fit=crop&w=430&h=480&q=85")}
-.witness-photo-2{background-image:url("https://images.unsplash.com/photo-1725314060496-f4385a151dca?auto=format&fit=crop&w=430&h=480&q=85");filter:grayscale(.75) sepia(.12) hue-rotate(176deg);opacity:.85;box-shadow:0 0 21px #c6c9d76e,inset 0 0 26px #e6e5fc}
-.photo-breathe{position:absolute;inset:-6%;border-radius:50%;box-shadow:inset 0 0 30px #d2b28c18;animation:character-light 5s ease-in-out infinite alternate;pointer-events:none}
-.witness-photo-2 .photo-breathe{box-shadow:inset 0 0 31px #bad7fba3}
-@keyframes photo-idle{from{transform:translateY(2px) scale(1)}to{transform:translateY(-3px) scale(1.045)}}
-@keyframes character-light{from{opacity:.2}to{opacity:.75}}
-.dialog-portrait .witness-photo,.witness-portrait{height:100%;width:100%;border-radius:15px;border:0}
-.voice-avatar .witness-photo{width:100%;height:100%;border-radius:50%}
-.simple-desk{background:linear-gradient(140deg,#72503a,#392821 7%,#1f222c 45%,#423022 95%,#79563a);border-color:#866642;box-shadow:0 8px #1d1516,0 13px 25px #050508c7}
-.simple-desk:before{border-color:#bc95667a}
-.simple-desk .board-wrap{background:linear-gradient(140deg,#5b4b3c,#292c32);border-color:#947751;box-shadow:inset 0 3px 8px #110e0b,0 5px 13px #090a0f}
-.simple-desk .board{background:#151b21}
-.task-text>span,.puzzle-topline{color:#cdb38f}
-.task-text strong{color:#f0d7aa}
-.moves-chip{background:#12171ce8;border-color:#947951;color:#d0baa5}
-.moves-chip b{color:#f0d7a5}
-.tile:before{background:radial-gradient(circle at 31% 18%,#fff6d26b 0%,#fff9d700 24%),linear-gradient(140deg,var(--hi),var(--lo));border:1px solid #d9caa07d;box-shadow:inset 0 2px 3px #fff8,inset 0 -5px 9px #0b111b8c,0 3px 5px #0008}
-.tile svg{filter:drop-shadow(0 2px 2px #070c10bb) contrast(1.1) saturate(.88)}
-.tile.boo:before{background:radial-gradient(circle at 30% 20%,#fff3c4,#c7a869 28%,#66472b 76%,#281b20 100%);box-shadow:0 0 12px #e9b46b88,inset 0 0 12px #ffdda9}
-.story-stage{background:linear-gradient(150deg,#30271ffa,#181b24f5);border:1px solid #937955;box-shadow:0 7px 0 #241913,0 14px 21px #05080dcd;color:#f4dfbf}
-.story-progress{border-color:#a7885b65;color:#c1a377}
-.story-speaker{color:#e0b978}
-.story-page p{color:#eee2d0;text-shadow:0 1px 2px #0006}
-.story-continue{background:linear-gradient(#81613e,#433224);border-color:#b99c6e;box-shadow:0 4px #2c211b;color:#fbe5bc}
-.story-progress-note{color:#b6a18b}
-.story-clue-art{border-color:#a78659}
-.simple-footer,.simple-footer p{color:#bcae9b}
-.asset-credits{margin:12px 0 0;padding:8px;text-align:left;border-top:1px solid #b2917255;font:10px/1.45 Arial,sans-serif;color:#c5b49b}
-.asset-credits summary{cursor:pointer;color:#dbc7a6;letter-spacing:.2px}
-.asset-credits a{color:#dbc296;text-decoration:underline}
-.asset-credits p{font:10px/1.4 Arial,sans-serif;color:#c2b1a3;margin:6px 0!important}
-.dossier-dialog{background:linear-gradient(140deg,#e1cb9f,#b99e7d);border-color:#70523d}
-@media(max-width:390px){.one-witness{height:151px}.one-witness .cast-character{height:151px}.one-witness .cast-character.selected .cast-figure{height:140px;width:144px}.music-now-playing{max-width:115px;font-size:7px}}
-@media(prefers-reduced-motion:reduce){.witness-photo,.photo-breathe{animation:none!important}}
-
-/* Published artwork: high-contrast glossy sprite tiles and cinematic original witnesses. */
-.simple-room{
- background-image:linear-gradient(180deg,#080a0f9c 0%,#1011195b 26%,#100b117e 67%,#0d0c16be 100%),url("assets/mystery_manor_library_bg.webp?v=2")!important;
- background-position:center top!important;background-size:cover!important;
-}
-.witness-photo-0,.witness-photo-1,.witness-photo-2{
- background-image:url("assets/mystery_manor_witnesses.webp?v=2")!important;
- background-size:300% 100%!important;background-repeat:no-repeat!important;
- filter:none!important;opacity:1!important;
-}
-.witness-photo-0{background-position:0% 50%!important}
-.witness-photo-1{background-position:50% 50%!important}
-.witness-photo-2{background-position:100% 50%!important;box-shadow:inset 0 0 24px #9fb8d55c,0 0 15px #9bafcd5c!important}
-.photo-breathe{mix-blend-mode:screen}
-.charm-art{
- display:block;position:absolute;inset:0;
- width:100%;height:100%;border-radius:21%;
- background-image:url("assets/mystery_manor_icon_atlas.webp?v=2");
- background-repeat:no-repeat;background-size:300% 300%;
- pointer-events:none;filter:drop-shadow(0 2px 2px #06080c87);backface-visibility:hidden;
-}
-.charm-art-0{background-position:0% 0%}
-.charm-art-1{background-position:50% 0%}
-.charm-art-2{background-position:100% 0%}
-.charm-art-3{background-position:0% 50%}
-.charm-art-4{background-position:50% 50%}
-.charm-art-5{background-position:100% 50%}
-.charm-art-6{background-position:100% 100%}
-.tile{background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;overflow:visible}
-.tile:before,.tile:after{content:none!important;display:none!important}
-.tile .charm-art{inset:0;width:100%;height:100%;border-radius:20%}
-.tile.selected .charm-art{filter:drop-shadow(0 0 6px #ffdc81) brightness(1.1)}
-.tile.hint .charm-art{filter:drop-shadow(0 0 9px #ffe69f) brightness(1.24)}
-.tile.anticipate .charm-art{filter:drop-shadow(0 0 11px #ffe1a4) brightness(1.23)}
-.tile.boo{background:transparent!important;border:none!important;box-shadow:none!important}
-.tile.boo .charm-art{animation:hex-gem-pulse 1.65s ease-in-out infinite alternate}
-.tile.conjure .charm-art{animation:born-pop .50s cubic-bezier(.18,.8,.3,1.25) both}
-@keyframes hex-gem-pulse{from{filter:drop-shadow(0 0 3px #b06dfa)}to{filter:drop-shadow(0 0 12px #c486ff) brightness(1.16)}}
-.goal .charm-art{position:relative;inset:auto;width:43px;height:43px;flex:0 0 43px;margin:0;filter:drop-shadow(0 2px 3px #0007)}
-.tile.empty{background:transparent!important}
-.witness-photo-0,.witness-photo-1,.witness-photo-2{animation:photo-idle 5.5s ease-in-out infinite alternate!important}
-.story-stage{background:linear-gradient(150deg,#2b251df5,#181b22f4);border-color:#a58964}
-.cast-character .cast-label{z-index:4}
-@media(prefers-reduced-motion:reduce){.witness-photo-0,.witness-photo-1,.witness-photo-2,.tile.boo .charm-art{animation:none!important}}
-
-/* Witness gallery: actual cinematic portraits accessible from the casebook. */
-.case-characters{margin:20px 0 14px;padding-top:15px;border-top:1px solid #906b5c75}
-.case-characters h3{font:italic 18px Georgia,serif;color:#513d35;margin:0 0 10px;text-align:center}
-.case-witness-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.case-witness-card{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;background:linear-gradient(#e5d0ac,#c5aa85);border:1px solid #967d5b;border-radius:11px;padding:9px 4px;color:#4b3229;box-shadow:0 3px 5px #4d2b2d3b;cursor:pointer}
-.case-witness-photo{width:68px;max-width:100%;height:78px;border:2px solid #a78254;border-radius:9px;box-shadow:0 3px 9px #0005;animation:photo-idle 6s ease-in-out infinite alternate!important}
-.case-witness-card .case-witness-name{font:800 12px Georgia,serif;color:#563b32;white-space:nowrap}
-.case-witness-card small{font:9px/1.2 Arial,sans-serif;color:#78614c;text-align:center}
-.case-witness-card.is-locked .case-witness-photo{opacity:.48!important;filter:grayscale(.9)!important}
-.case-witness-card.is-locked{background:#c5b19b;opacity:.8}
-@media(max-width:380px){.case-witness-card{padding:6px 3px}.case-witness-photo{height:66px;width:58px}.case-witness-card .case-witness-name{font-size:11px}}
-
-
-/* MYSTERY MANOR CINEMATIC V2 — additions only; preserve music and puzzle code */
-#story-stage{background:linear-gradient(155deg,#25202b,#121926 58%,#302636);color:#f3dfc9;border-color:#b9946c;box-shadow:0 8px 0 #11131e,0 18px 34px #0009}
-#story-stage .story-progress{background:#171925;color:#e0bd8d;border-bottom:1px solid #b18b5b4d}
-#story-stage .story-page{padding:15px 18px 10px;min-height:135px}
-#story-stage .story-speaker{color:#f4c48d}
-#story-stage .story-page p{color:#f4e5d1;font-size:clamp(17px,4.6vw,20px);text-shadow:0 1px 9px #0008}
-#story-stage .story-progress-note{color:#cebed1}
-#story-stage .story-continue{background:linear-gradient(140deg,#ffe4b9,#d4a375);color:#3d2931;border:1px solid #fff0b7;box-shadow:0 5px 0 #87593c}
-#story-stage .story-continue:active{transform:translateY(3px);box-shadow:0 2px 0 #87593c}
-.mm-vista{position:relative;height:clamp(180px,50vw,245px);overflow:hidden;border-bottom:2px solid #b18e66;background:#111827;isolation:isolate}
-.mm-vista .mm-scene{position:absolute;inset:-5%;background:url("assets/mystery_manor_library_bg.webp?v=2") center/cover no-repeat;animation:mm-travel 13s ease-in-out infinite alternate;filter:brightness(.81) contrast(1.18)}
-.mm-vista[data-room="clock"] .mm-scene{background-position:40% 56%;filter:brightness(.68) sepia(.3) contrast(1.18)}
-.mm-vista[data-room="attic"] .mm-scene{background-position:70% 16%;filter:brightness(.59) hue-rotate(10deg) contrast(1.1)}
-.mm-vista[data-room="deduction"] .mm-scene{filter:brightness(.47) sepia(.14)}
-.mm-vista:before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,#0b111800,#15111b30 40%,#100c18ee),radial-gradient(circle at 15% 12%,#ffddaf38,transparent 43%);animation:mm-candle 3s steps(8,end) infinite alternate}
-.mm-vista .mm-mist{position:absolute;z-index:2;inset:15% -20% -25%;pointer-events:none;background:radial-gradient(ellipse at 30% 70%,#d0bdd438,transparent 60%),radial-gradient(ellipse at 79% 49%,#9ac1d92c,transparent 60%);filter:blur(18px);animation:mm-drift 10s ease-in-out infinite alternate}
-.mm-vista .mm-portrait{position:absolute!important;z-index:3;bottom:-11%;right:2%;width:clamp(108px,37%,165px)!important;height:105%!important;border:0!important;border-radius:23% 23% 0 0!important;box-shadow:none!important;background-color:transparent!important;pointer-events:none;animation:mm-portrait 5s ease-in-out infinite alternate!important}
-.mm-vista[data-speaker="manor"] .mm-portrait{opacity:.52!important}
-.mm-vista .mm-spark{position:absolute;z-index:3;width:3px;height:3px;border-radius:50%;background:#fff0c9;box-shadow:0 0 10px 3px #f8d69c7c;pointer-events:none;animation:mm-float var(--dur,6s) linear infinite;animation-delay:var(--delay)}
-.mm-vista .mm-caption{position:absolute;z-index:4;bottom:12px;left:12px;max-width:65%;font:800 10px Arial,sans-serif;letter-spacing:1.2px;color:#ffe3b7;text-shadow:0 2px 7px #000}
-.mm-vista .mm-music{position:absolute;z-index:5;right:10px;top:10px;min-height:36px;border:1px solid #ddbd8d;background:#14131fcc;color:#ffeccc;border-radius:22px;font:800 10px Arial,sans-serif;padding:8px 12px;cursor:pointer;touch-action:manipulation}
-.mm-vista .mm-music[aria-pressed="true"]{color:#cbf4d9;border-color:#b4dec3}
-.mm-vista.mm-reveal:after{content:"";position:absolute;z-index:6;inset:0;pointer-events:none;background:#f6e2b2;animation:mm-blast .9s ease-out forwards}
-.cast-character.reacting .cast-figure{animation:mm-exclaim .7s ease-out!important}
-.cast-character.nervous .cast-figure{animation:mm-startle .7s ease-out!important}
-.cast-character.victory .cast-figure{animation:mm-cheer .9s ease-out!important}
-#board .tile.boo{filter:saturate(1.22) brightness(1.14);box-shadow:0 0 18px #cdb4ff,0 0 25px #a8ffe67c}
-#board .tile.clearing{filter:brightness(1.45) drop-shadow(0 0 9px #fff2b6)}
-@keyframes mm-travel{from{transform:translateX(-2%) scale(1.03)}to{transform:translateX(3%) scale(1.13)}}
-@keyframes mm-candle{from{opacity:.52}to{opacity:1}}
-@keyframes mm-drift{from{transform:translateX(-28px);opacity:.48}to{transform:translateX(30px);opacity:.9}}
-@keyframes mm-portrait{from{transform:translateY(1px) rotate(-1deg) scale(1)}to{transform:translateY(-6px) rotate(.8deg) scale(1.05)}}
-@keyframes mm-float{0%{opacity:0;transform:translate(0,15px)}30%{opacity:.9}85%{opacity:.4}100%{opacity:0;transform:translate(20px,-73px)}}
-@keyframes mm-blast{0%{opacity:0}18%{opacity:.7}100%{opacity:0}}
-@keyframes mm-exclaim{30%{transform:translateY(-14px) scale(1.13) rotate(-5deg)}to{transform:none}}
-@keyframes mm-startle{25%{transform:translateX(8px) rotate(7deg)}55%{transform:translateX(-8px) rotate(-6deg)}to{transform:none}}
-@keyframes mm-cheer{30%{transform:translateY(-19px) rotate(5deg) scale(1.15)}75%{transform:translateY(2px)}to{transform:none}}
-@media(max-width:390px){.mm-vista{height:183px}.mm-vista .mm-portrait{right:-3%!important}}
-@media(prefers-reduced-motion:reduce){.mm-vista .mm-scene,.mm-vista:before,.mm-vista .mm-mist,.mm-vista .mm-portrait,.mm-vista .mm-spark,.cast-character.reacting .cast-figure,.cast-character.nervous .cast-figure,.cast-character.victory .cast-figure{animation:none!important}}
-
-
-/* MYSTERY-MANOR-FULLSCREEN-CINEMA-V3
-   Full-scene cinematic game layout; original match engine, music playlist,
-   soundtrack player, accents and case progress remain untouched. */
-html,body{min-height:100%;background:#080d16!important}
-#story-stage.mm-immersive{position:fixed!important;inset:0!important;z-index:190!important;width:100%!important;height:100dvh!important;max-height:100dvh!important;max-width:none!important;border:0!important;border-radius:0!important;margin:0!important;box-shadow:none!important;background:#070c16!important;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;overflow:hidden!important;padding:0 0 max(12px,env(safe-area-inset-bottom))!important;isolation:isolate;color:#f4e5d2!important}
-#story-stage.mm-immersive[hidden]{display:none!important}
-#story-stage.mm-immersive .mm-vista{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-height:none!important;border:none!important;border-radius:0!important;z-index:0!important;overflow:hidden}
-#story-stage.mm-immersive .mm-vista .mm-scene{background-position:50% 38%;filter:brightness(.65) contrast(1.2) saturate(.96);animation-duration:19s}
-#story-stage.mm-immersive .mm-vista[data-room="clock"] .mm-scene{background-position:24% 52%;filter:brightness(.51) sepia(.28) contrast(1.26)}
-#story-stage.mm-immersive .mm-vista[data-room="attic"] .mm-scene{background-position:75% 28%;filter:brightness(.52) saturate(.75) hue-rotate(18deg)}
-#story-stage.mm-immersive .mm-vista:before{background:linear-gradient(180deg,#09101c44 0%,#07101a16 21%,#080b15a6 58%,#070b15 91%),radial-gradient(ellipse at 18% 11%,#f0c48621,transparent 42%);z-index:1}
-#story-stage.mm-immersive .mm-vista .mm-mist{opacity:.72;filter:blur(33px);animation-duration:15s}
-#story-stage.mm-immersive .mm-vista .mm-portrait{right:4%!important;bottom:33%!important;width:clamp(186px,50vw,325px)!important;height:clamp(220px,53vh,385px)!important;animation-duration:5.1s!important;filter:drop-shadow(0 13px 24px #05060ed9)!important;mask-image:linear-gradient(180deg,#000 2%,#000 68%,transparent 100%);-webkit-mask-image:linear-gradient(180deg,#000 2%,#000 68%,transparent 100%)}
-#story-stage.mm-immersive .mm-vista[data-speaker="manor"] .mm-portrait{opacity:.3!important;filter:blur(2px) saturate(.7)!important}
-#story-stage.mm-immersive .mm-vista[data-room="attic"] .mm-portrait{filter:drop-shadow(0 0 26px #b7c4ff)!important}
-#story-stage.mm-immersive .mm-vista .mm-caption{display:none}
-#story-stage.mm-immersive .mm-vista .mm-music{position:absolute;right:15px;top:max(18px,env(safe-area-inset-top));padding:10px 14px;z-index:12;border-radius:9px;background:#151925c7;backdrop-filter:blur(8px);font-size:11px;min-height:40px}
-#story-stage.mm-immersive .story-progress{position:absolute!important;left:max(17px,env(safe-area-inset-left));right:150px;top:max(20px,env(safe-area-inset-top));z-index:9;display:flex!important;flex-direction:column;gap:7px!important;align-items:flex-start!important;border:0!important;padding:3px 0!important;max-width:65%;background:none!important;color:#e7cb9e!important;text-shadow:0 2px 9px #000;font-size:10px!important;letter-spacing:1.8px}
-#story-stage.mm-immersive .story-progress span:first-child{font-size:12px;color:#ffe3ad}
-#story-stage.mm-immersive .story-progress span:last-child{font-size:11px;color:#d1bca8}
-#story-stage.mm-immersive .story-page{position:relative!important;z-index:10!important;width:min(100%,580px);min-height:0!important;padding:23px 25px 12px!important;margin-top:auto!important;flex:none!important;background:linear-gradient(180deg,#12162300,#0a1018d1 12%,#0b1019f8 55%);border-top:1px solid #ad855455;color:#f7e6d0!important;box-shadow:0 -10px 40px #0205093d}
-#story-stage.mm-immersive .story-speaker{font:900 12px Arial,sans-serif!important;letter-spacing:2.1px;color:#eac192!important;text-shadow:0 1px 8px #000}
-#story-stage.mm-immersive .story-page p{font:clamp(18px,5vw,22px)/1.55 Georgia,serif!important;min-height:98px;max-height:32vh;overflow-y:auto;color:#fff0db!important;text-shadow:0 2px 12px #000;letter-spacing:.1px;margin:12px 0 0!important}
-#story-stage.mm-immersive .story-clue-art:not([hidden]){position:absolute;z-index:7;top:12%;left:50%;transform:translateX(-50%);width:min(75vw,340px);margin:0;box-shadow:0 11px 55px #0009,0 0 25px #f0b87470;animation:mm-dossier-appear .7s ease-out}
-#story-stage.mm-immersive .story-continue{position:relative;z-index:12;width:min(calc(100% - 42px),530px);font:900 14px Arial,sans-serif!important;min-height:56px;border-radius:11px!important;margin:0 21px 4px!important;box-shadow:0 5px 0 #856047,0 11px 25px #0009!important}
-#story-stage.mm-immersive .story-progress-note{position:relative;z-index:10;min-height:19px;color:#cbb7a5!important;margin:10px 10px 7px!important;font-size:11px!important}
-#story-stage.mm-immersive .mm-cinematic-title{position:absolute;z-index:8;left:22px;top:clamp(90px,13vh,145px);width:min(68vw,390px);color:#ffebc8;text-shadow:0 4px 20px #000,0 0 18px #000a;font:600 clamp(30px,8.8vw,54px)/.96 Georgia,serif;letter-spacing:-1.7px;pointer-events:none}
-#story-stage.mm-immersive .mm-cinematic-title span{display:block;color:#d2a974;font:800 10px/1.5 Arial,sans-serif;letter-spacing:3px;margin-bottom:14px}
-#story-stage.mm-immersive .mm-decor{position:absolute;z-index:4;pointer-events:none;opacity:0;transition:opacity .45s ease}
-#story-stage.mm-immersive .mm-decor.mm-clock{width:min(45vw,215px);height:min(45vw,215px);top:16%;left:5%;border-radius:50%;border:13px ridge #bd9565;box-shadow:inset 0 0 16px #000,0 0 32px #000c,0 0 18px #bb8b3f30;background:radial-gradient(circle,#eddcb5,#a78b65 72%,#65492f);color:#3f2929;display:grid;place-items:center;font:600 32px Georgia,serif}
-#story-stage.mm-immersive .mm-decor.mm-clock:before{content:"XII  ·  III  ·  VI";font:900 11px Georgia,serif;letter-spacing:1px;position:absolute;top:15%;color:#593c2b}
-#story-stage.mm-immersive .mm-decor.mm-clock:after{content:"";position:absolute;top:49%;left:49%;width:4px;height:43%;background:#3c2c29;border-radius:3px;transform-origin:2px 2px;animation:mm-clock-tick 3s steps(3,end) infinite}
-#story-stage.mm-immersive .mm-decor.mm-attic{width:100%;height:100%;inset:0;background:repeating-linear-gradient(119deg,#05071000 0 25px,#9ec6de12 26px 27px,transparent 28px 75px)}
-#story-stage.mm-immersive .mm-vista[data-room="clock"] .mm-clock{opacity:.93}
-#story-stage.mm-immersive .mm-vista[data-room="attic"] .mm-attic{opacity:1}
-#story-stage.mm-immersive .mm-vista[data-room="clock"]+.mm-cinematic-title{color:#f5dcab}
-#story-stage.mm-immersive .mm-vista[data-room="attic"]+.mm-cinematic-title{color:#cfe5ff}
-@keyframes mm-clock-tick{from{transform:rotate(24deg)}to{transform:rotate(37deg)}}
-@keyframes mm-dossier-appear{from{opacity:0;transform:translate(-50%,24px) scale(.82)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
-
-/* Puzzle is now its own cinematic game stage, not an embedded webpage section */
-#puzzle-stage.mm-fullscreen-puzzle:not([hidden]){position:fixed!important;inset:0!important;z-index:191!important;display:block!important;width:100%!important;max-width:none!important;max-height:100dvh!important;overflow-y:auto!important;overscroll-behavior:contain;background:radial-gradient(ellipse at 45% 17%,#3a3141 0%,#151821 48%,#090d15 100%)!important;border:0!important;border-radius:0!important;margin:0!important;box-shadow:none!important;padding:max(8px,env(safe-area-inset-top)) 12px max(17px,env(safe-area-inset-bottom))!important;animation:mm-puzzle-rise .46s ease-out both}
-#puzzle-stage.mm-fullscreen-puzzle[hidden]{display:none!important}
-#puzzle-stage.mm-fullscreen-puzzle>*{max-width:470px;margin-left:auto!important;margin-right:auto!important}
-#puzzle-stage .mm-game-banner{position:relative;display:flex;align-items:flex-end;justify-content:space-between;height:clamp(112px,21vh,175px);border-bottom:1px solid #ae8459;overflow:hidden;margin-bottom:8px;isolation:isolate;border-radius:12px 12px 0 0;background:#1a1b25}
-#puzzle-stage .mm-game-banner:before{content:"";position:absolute;z-index:0;inset:-13%;background:linear-gradient(180deg,#12101a64,#100d1bd1),url("assets/mystery_manor_library_bg.webp?v=2") center 38%/cover no-repeat;animation:mm-travel 20s alternate ease-in-out infinite}
-#puzzle-stage .mm-game-banner:after{content:"";position:absolute;z-index:1;inset:0;background:radial-gradient(ellipse at 25% 10%,#ffd18e33,transparent 40%);pointer-events:none;animation:mm-candle 3s steps(6,end) infinite alternate}
-#puzzle-stage .mm-game-banner strong{z-index:3;color:#ffdfa7;font:600 clamp(21px,6vw,29px)/1.05 Georgia,serif;text-shadow:0 3px 12px #000;margin:0 0 17px 15px;max-width:58%}
-#puzzle-stage .mm-game-banner small{display:block;font:900 10px Arial,sans-serif;letter-spacing:1.5px;color:#ead0aa;margin-bottom:7px}
-#puzzle-stage .mm-game-avatar{position:absolute;right:24%;bottom:-16px;width:clamp(105px,29%,155px);height:120%;z-index:2;border:none!important;border-radius:0!important;pointer-events:none;mask-image:linear-gradient(#000 20%,#000 66%,transparent 100%);-webkit-mask-image:linear-gradient(#000 20%,#000 66%,transparent 100%)}
-#puzzle-stage .mm-game-music{position:absolute;right:8px;top:8px;z-index:5;padding:8px 10px;min-height:36px;cursor:pointer;border:1px solid #d7bb8d;border-radius:8px;background:#14141edb;color:#fce2b9;font:900 10px Arial,sans-serif}
-#puzzle-stage.mm-fullscreen-puzzle .puzzle-topline{font-size:10px!important;padding:5px 4px!important}
-#puzzle-stage.mm-fullscreen-puzzle .task-line{padding:9px 10px!important;margin-bottom:7px!important}
-#puzzle-stage.mm-fullscreen-puzzle .board-wrap{width:min(100%,min(51dvh,435px))!important;padding:5px!important;box-shadow:0 5px 0 #090d16,0 14px 32px #000b,inset 0 1px 6px #e6cc9770;border-color:#c19e68!important}
-#puzzle-stage.mm-fullscreen-puzzle #board{border-radius:9px!important;gap:3px!important;padding:4px!important}
-#puzzle-stage.mm-fullscreen-puzzle .notice{padding:7px 5px!important;min-height:33px!important}
-#puzzle-stage.mm-fullscreen-puzzle .goal-card{padding:7px!important;margin-top:6px!important;margin-bottom:6px!important;border-color:#96764f!important;background:#171b26e8!important}
-#puzzle-stage.mm-fullscreen-puzzle .goals{gap:5px!important}
-#puzzle-stage.mm-fullscreen-puzzle .goal{padding:4px!important}
-#puzzle-stage.mm-fullscreen-puzzle .goal svg{height:27px!important;width:27px!important}
-#puzzle-stage.mm-fullscreen-puzzle .simple-actions{margin-top:4px!important;margin-bottom:3px!important}
-#puzzle-stage.mm-fullscreen-puzzle .simple-actions button{min-height:41px}
-#puzzle-stage.mm-fullscreen-puzzle .mm-game-caption{color:#cabda5;text-align:center;font:italic 11px Georgia,serif;padding:7px 5px}
-@keyframes mm-puzzle-rise{from{opacity:0;transform:scale(1.03)}to{opacity:1;transform:scale(1)}}
-.overlay.open{z-index:500!important}
-#casefile-overlay.open,#deduce-overlay.open,#overlay.open{z-index:500!important}
-@media(max-height:720px){
- #story-stage.mm-immersive .mm-vista .mm-portrait{bottom:36%!important;height:40vh!important}
- #story-stage.mm-immersive .mm-cinematic-title{top:11%}
- #story-stage.mm-immersive .story-page p{min-height:65px;max-height:28vh;font-size:17px!important}
- #puzzle-stage .mm-game-banner{height:95px}
- #puzzle-stage.mm-fullscreen-puzzle .board-wrap{width:min(100%,min(49dvh,400px))!important}
-}
-@media(min-width:770px){
- #story-stage.mm-immersive .mm-cinematic-title{left:calc(50% - 330px);top:15%}
- #story-stage.mm-immersive .mm-vista .mm-portrait{right:calc(50% - 420px)!important;width:290px!important;bottom:29%!important}
-}
-@media(prefers-reduced-motion:reduce){
- #puzzle-stage .mm-game-banner:before,#puzzle-stage .mm-game-banner:after,#story-stage .mm-decor.mm-clock:after{animation:none!important}
-}
-
+html,body{margin:0;width:100%;height:100%;overflow:hidden;overscroll-behavior:none}
+button,input{font:inherit}
+button{-webkit-tap-highlight-color:transparent;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid #f6d398;outline-offset:3px}
+#app{position:relative;height:100dvh;display:flex;flex-direction:column;min-height:420px;background:#0b1017;overflow:hidden}
+#hud{height:73px;min-height:73px;position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px max(16px,env(safe-area-inset-left)) 9px;border-bottom:1px solid #b28a5977;background:linear-gradient(125deg,#1d1c27,#111923)}
+#hud .series{font:800 9px/1.2 Arial,sans-serif;letter-spacing:2.7px;color:#bc9f85;text-transform:uppercase}
+#hud h1{margin:4px 0 0;font:500 clamp(23px,6.1vw,33px)/1 Georgia,serif;white-space:nowrap;letter-spacing:-1.1px;color:#ffe4b6;text-shadow:0 2px 9px #000}
+#audio-area{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+#music{border:1px solid #ba966e;background:linear-gradient(#39313a,#201f2c);border-radius:10px;color:#f7e3c3;font:800 11px Arial,sans-serif;min-height:39px;padding:7px 11px;white-space:nowrap}
+#music.playing{border-color:#d7bd89;color:#c9f2d7}
+#nowplaying{color:#bdac95;font:9px Arial,sans-serif;max-width:150px;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#viewport{position:relative;flex:1;min-height:0;overflow:hidden;background:#151925;touch-action:none;user-select:none;-webkit-user-select:none}
+#stage{display:block;width:100%;height:100%;touch-action:none}
+#vignette{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,#03060955,transparent 18%,transparent 69%,#080c15b0 100%);box-shadow:inset 0 0 55px 13px #03060f88}
+#where{position:absolute;left:15px;top:13px;border:1px solid #cbaa7777;background:#131724c9;backdrop-filter:blur(7px);padding:8px 12px;border-radius:8px;font:800 10px Arial,sans-serif;letter-spacing:1.5px;color:#e9c99b;text-transform:uppercase;text-shadow:0 1px 5px #000;pointer-events:none}
+#chapter{position:absolute;right:14px;top:13px;font:800 9px Arial,sans-serif;letter-spacing:1.2px;color:#dfc9a8;text-shadow:0 2px 6px #000;pointer-events:none}
+#story{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:min(calc(100% - 25px),580px);background:linear-gradient(130deg,#121826ea,#1d1c2aef);border:1px solid #ae8c65;border-radius:12px;padding:12px 15px 12px 81px;box-shadow:0 9px 28px #03040dbb;pointer-events:none;opacity:0;transition:opacity .35s}
+#story.visible{opacity:1}
+#face{position:absolute;left:11px;top:9px;width:58px;height:66px;border-radius:7px;border:1px solid #bd9769;background-image:url("assets/mystery_manor_witnesses.webp?v=2");background-size:300% 100%;background-position:0% 50%;background-color:#302d34;box-shadow:0 3px 8px #0008}
+#speaker{color:#f1c994;font:900 10px Arial,sans-serif;letter-spacing:1.2px}
+#speech{margin:5px 0 0;color:#fff0d8;font:14px/1.43 Georgia,serif;text-wrap:pretty}
+#controls{position:relative;z-index:6;display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:105px;padding:10px max(14px,env(safe-area-inset-left)) max(12px,env(safe-area-inset-bottom));border-top:1px solid #a5885c77;background:linear-gradient(#171b26,#10141e);touch-action:none}
+.arrow{border:2px solid #c2a077;background:linear-gradient(#51454b,#292a38);box-shadow:inset 0 1px #fff2,0 5px 0 #0b0d13,0 8px 13px #0005;border-radius:15px;width:clamp(82px,27vw,135px);height:72px;display:grid;place-items:center;color:#fff1d5;font:700 39px Arial,sans-serif;touch-action:none;user-select:none}
+.arrow:active,.arrow.pressed{transform:translateY(4px);box-shadow:inset 0 1px #fff2,0 1px 0 #0b0d13;filter:brightness(1.18)}
+#help{color:#d6bd9d;text-align:center;font:800 11px/1.5 Arial,sans-serif;letter-spacing:.9px;max-width:160px}
+#help strong{display:block;color:#ffe0af;font:500 19px Georgia,serif;letter-spacing:0;margin-bottom:3px}
+#position{height:3px;background:#514c4c;margin:7px 0 0;border-radius:8px;overflow:hidden}
+#position i{display:block;width:0;height:100%;background:#f3c98a;border-radius:8px}
+#soundfallback{position:absolute;z-index:10;right:10px;top:77px;background:#171b26f2;border:1px solid #bd9769;border-radius:10px;padding:12px;color:#ffdeae;box-shadow:0 8px 25px #000a;max-width:280px;font:12px/1.4 Arial,sans-serif}
+#soundfallback[hidden]{display:none}
+#soundfallback audio{max-width:100%;display:block;margin-top:7px}
+#soundfallback button{margin-top:6px;background:#3b3544;border:1px solid #a18b78;color:#ffe2b3;border-radius:7px;padding:5px 9px}
+#credits{position:absolute;z-index:6;left:10px;bottom:107px;font:9px Arial,sans-serif;color:#c4af93a6}
+#credits a{color:inherit}
+@media(max-width:400px){#hud{height:66px;min-height:66px}#hud h1{font-size:24px}#nowplaying{font-size:8px}#controls{min-height:99px}.arrow{height:66px;width:88px}#story{bottom:10px;padding:10px 11px 10px 71px}#face{width:50px;height:61px}#speech{font-size:13px}#help strong{font-size:17px}#credits{display:none}}
+@media(max-height:690px){#hud{height:59px;min-height:59px}#controls{min-height:85px;padding-top:7px}.arrow{height:59px}#story{bottom:8px}}
+@media(prefers-reduced-motion:reduce){#story{transition:none}}
 </style>
 </head>
 <body>
-<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:-9999px;width:0;height:0;overflow:hidden" aria-hidden="true">
-<defs>
-<linearGradient id="gOrange" x2="0" y2="1"><stop stop-color="#ffdd73"/><stop offset=".55" stop-color="#ff983d"/><stop offset="1" stop-color="#ec632e"/></linearGradient>
-<linearGradient id="gPurple" x2="0" y2="1"><stop stop-color="#e7b7ff"/><stop offset="1" stop-color="#a456d2"/></linearGradient>
-<linearGradient id="gPink" x2="0" y2="1"><stop stop-color="#fa9dbb"/><stop offset="1" stop-color="#b54d85"/></linearGradient>
-<linearGradient id="gGreen" x2="0" y2="1"><stop stop-color="#c5ffc8"/><stop offset="1" stop-color="#4ec398"/></linearGradient>
-<linearGradient id="gBlue" x2="0" y2="1"><stop stop-color="#d4f5ff"/><stop offset=".5" stop-color="#73b7f0"/><stop offset="1" stop-color="#675ccd"/></linearGradient>
-<linearGradient id="gGold" x2="0" y2="1"><stop stop-color="#fff0b3"/><stop offset="1" stop-color="#dfad5f"/></linearGradient>
-</defs>
-<symbol id="i-pumpkin" viewBox="0 0 64 64">
-<path d="M33 17Q30 8 38 6" fill="none" stroke="#5d753b" stroke-width="6" stroke-linecap="round"/>
-<path d="M31 16Q21 6 13 16Q19 23 31 16" fill="#7ab36c" stroke="#4b8f58" stroke-width="2"/>
-<path d="M32 19C14 8 5 20 6 37C7 54 21 59 32 57C43 60 57 51 58 36C60 20 46 8 32 19Z" fill="url(#gOrange)" stroke="#ffe293" stroke-width="2.5"/>
-<path d="M24 20C14 28 17 49 24 54M40 20C49 30 47 49 41 55" fill="none" stroke="#d66634" stroke-width="3" opacity=".7"/>
-<path d="M17 35L26 30L26 38L17 38ZM38 30L47 35L38 38Z" fill="#7e3851"/>
-<path d="M20 44Q32 53 44 44" fill="none" stroke="#7e3851" stroke-width="3.5" stroke-linecap="round"/>
-<ellipse cx="18" cy="27" rx="7" ry="4" fill="#fff7ce" opacity=".25"/>
-</symbol>
-<symbol id="i-ghost" viewBox="0 0 64 64">
-<path d="M13 49V29C13 15 20 8 32 8S51 16 51 29V52L43 47L35 54L27 47L19 53Z" fill="#fff4f2" stroke="#d6b9e5" stroke-width="3"/>
-<ellipse cx="25" cy="29" rx="4" ry="6" fill="#543968"/><ellipse cx="39" cy="29" rx="4" ry="6" fill="#543968"/>
-<ellipse cx="17" cy="38" rx="5" ry="3" fill="#f7b3c7"/><ellipse cx="47" cy="38" rx="5" ry="3" fill="#f7b3c7"/>
-<path d="M29 40Q32 43 35 40" fill="none" stroke="#825877" stroke-width="2.5" stroke-linecap="round"/>
-<ellipse cx="21" cy="17" rx="7" ry="4" fill="#fff" opacity=".7"/>
-</symbol>
-<symbol id="i-hat" viewBox="0 0 64 64">
-<path d="M14 48Q30 23 37 7Q41 26 47 46" fill="url(#gPurple)" stroke="#f0d7ff" stroke-width="3" stroke-linejoin="round"/>
-<path d="M34 15Q34 35 24 42" fill="none" stroke="#9b62d0" stroke-width="4"/>
-<path d="M10 46Q30 39 52 46Q63 50 51 55Q30 62 11 55Q1 52 10 46" fill="#8d53c2" stroke="#e7b5ff" stroke-width="3"/>
-<path d="M17 41Q30 44 45 40L47 47Q30 52 14 47Z" fill="#5b3c88"/>
-<rect x="28" y="41" width="10" height="7" rx="1.5" fill="url(#gGold)"/>
-<path d="m43 14 1.5 4.5 4.5 1.5-4.5 1.5-1.5 4.5-1.5-4.5-4.5-1.5 4.5-1.5z" fill="#fff2b0"/>
-</symbol>
-<symbol id="i-book" viewBox="0 0 64 64">
-<path d="M13 10H47L53 16V54H20L13 47Z" fill="url(#gPink)" stroke="#ffd7d2" stroke-width="3"/>
-<path d="M13 10V47L20 54V18Z" fill="#8a4a79" stroke="#d3a5b7" stroke-width="2"/>
-<rect x="23" y="20" width="25" height="26" rx="3" fill="#a64f85" stroke="#f6b7d2" stroke-width="2"/>
-<path d="m35.5 24 3 6.5 7 1-5 5 1 7-6-3.5-6 3.5 1-7-5-5 7-1z" fill="url(#gGold)"/>
-<path d="M22 52H50" stroke="#fff1d6" stroke-width="2.5"/>
-</symbol>
-<symbol id="i-orb" viewBox="0 0 64 64">
-<circle cx="32" cy="27" r="23" fill="url(#gBlue)" stroke="#e6d7ff" stroke-width="3"/>
-<path d="M17 21Q31 5 45 19" fill="none" stroke="#fff" stroke-width="5" opacity=".65" stroke-linecap="round"/>
-<path d="M17 40Q28 29 38 40Q49 47 52 29" fill="none" stroke="#9f8be3" stroke-width="3" opacity=".6"/>
-<path d="m37 19 2 6 6 2-6 2-2 6-2-6-6-2 6-2z" fill="#fff6d0"/>
-<path d="M24 50V56H40V50M18 58H46" fill="none" stroke="#fbe0a7" stroke-width="5" stroke-linecap="round"/>
-</symbol>
-<symbol id="i-potion" viewBox="0 0 64 64">
-<path d="M26 8H38V22L51 43Q56 58 32 58Q8 58 13 43L26 22Z" fill="url(#gGreen)" stroke="#e8ffe7" stroke-width="3"/>
-<path d="M18 43Q32 48 46 43L50 52Q32 61 14 52Z" fill="#42b888" opacity=".8"/>
-<path d="M24 8H40" stroke="#ffe4af" stroke-width="7" stroke-linecap="round"/>
-<path d="M20 37L28 26" stroke="#f7ffe8" stroke-width="4" opacity=".65" stroke-linecap="round"/>
-<circle cx="34" cy="42" r="3" fill="#fffbd6"/><circle cx="27" cy="50" r="2.5" fill="#fffbd6"/>
-</symbol>
-<symbol id="i-boo" viewBox="0 0 64 64">
-<path d="m32 2 5 11 12-6-1 13 13 2-8 10 8 10-13 2 1 13-12-6-5 11-5-11-12 6 1-13-13-2 8-10-8-10 13-2-1-13 12 6z" fill="#ffe3a4" stroke="#fff6c6" stroke-width="2"/>
-<path d="M17 46V29Q17 16 32 16Q47 16 47 29V49L40 44 33 51 26 44 18 49Z" fill="#fff7f2" stroke="#9f75c6" stroke-width="2.5"/>
-<ellipse cx="26" cy="31" rx="3.5" ry="5" fill="#714b94"/><ellipse cx="39" cy="31" rx="3.5" ry="5" fill="#714b94"/>
-<path d="M30 40Q33 43 36 40" fill="none" stroke="#ab769d" stroke-width="2"/>
-</symbol>
-</svg>
-<div class="shell premium-shell">
-<main class="manor-room simple-room" id="manor-room">
-<svg class="library-world" viewBox="0 0 540 1380" preserveAspectRatio="xMidYMin slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-   <defs>
-    <linearGradient id="lib-wall" x1="0" y1="0" x2=".55" y2="1"><stop stop-color="#232446"/><stop offset=".36" stop-color="#493a64"/><stop offset=".75" stop-color="#684764"/><stop offset="1" stop-color="#32283f"/></linearGradient>
-    <linearGradient id="lib-night" x2="0" y2="1"><stop stop-color="#172c56"/><stop offset=".5" stop-color="#66609a"/><stop offset="1" stop-color="#a57b98"/></linearGradient>
-    <radialGradient id="lib-moon"><stop stop-color="#fff7da" stop-opacity=".8"/><stop offset=".6" stop-color="#fcdfa9" stop-opacity=".16"/><stop offset="1" stop-color="#e4bdf5" stop-opacity="0"/></radialGradient>
-    <linearGradient id="lib-wood" x2=".6" y2="1"><stop stop-color="#ac746b"/><stop offset=".5" stop-color="#74485b"/><stop offset="1" stop-color="#2f243c"/></linearGradient>
-    <linearGradient id="lib-floor" x2="0" y2="1"><stop stop-color="#503651"/><stop offset="1" stop-color="#201b33"/></linearGradient>
-    <radialGradient id="lib-candle"><stop stop-color="#fff5b7" stop-opacity=".9"/><stop offset=".45" stop-color="#eeaa87" stop-opacity=".26"/><stop offset="1" stop-color="#e7a780" stop-opacity="0"/></radialGradient>
-    <pattern id="lib-wallgrain" width="64" height="62" patternUnits="userSpaceOnUse"><path d="M0 0H64M0 30H64M25 0V30M45 30V62" fill="none" stroke="#dbb0cc" stroke-width="1.1" opacity=".075"/></pattern>
-    <pattern id="lib-carpet" width="56" height="44" patternUnits="userSpaceOnUse"><path d="M28 0L56 22L28 44L0 22Z" fill="none" stroke="#b17a8c" stroke-width="1.7" opacity=".2"/><circle cx="28" cy="22" r="3" fill="#dab6ae" opacity=".15"/></pattern>
-   </defs>
-   <rect width="540" height="1380" fill="url(#lib-wall)"/><rect width="540" height="780" fill="url(#lib-wallgrain)"/>
-   <path d="M0 22Q270 -22 540 22V72Q270 25 0 72Z" fill="#382946" stroke="#b48ca8" stroke-width="6"/>
-   <path d="M0 96H540" stroke="#c69eb2" stroke-width="7" opacity=".45"/>
-   <!-- dramatic moonlit arched window -->
-   <path d="M180 520V208Q180 98 270 90Q360 98 360 208V520Z" fill="#151d3e" stroke="#a489ac" stroke-width="16"/>
-   <path d="M198 505V208Q198 126 270 118Q342 126 342 208V505Z" fill="url(#lib-night)"/>
-   <circle cx="282" cy="210" r="110" fill="url(#lib-moon)" class="library-moon"/><circle cx="282" cy="207" r="39" fill="#fcf0cd"/>
-   <path d="M201 447Q242 359 302 415Q331 379 345 398V510H197Z" fill="#313355"/>
-   <path d="M267 122V510M198 293H343" stroke="#8d82ab" stroke-width="10"/>
-   <path d="M193 211Q201 133 271 122Q339 139 346 211" fill="none" stroke="#c1a1bd" stroke-width="5"/>
-   <path d="M183 139Q157 290 193 515Q238 397 215 189Z" fill="#824e79" stroke="#cca1b6" stroke-width="4" class="library-curtain-left"/>
-   <path d="M358 139Q386 273 357 515Q318 400 337 189Z" fill="#70486f" stroke="#b18aab" stroke-width="4" class="library-curtain-right"/>
-   <!-- crooked library bookcases -->
-   <path d="M-13 126L154 103L154 609L-10 655Z" fill="#30293f" stroke="#bc8d86" stroke-width="13"/>
-   <path d="M386 104L551 134V650L385 603Z" fill="#32283f" stroke="#b18d8d" stroke-width="13"/>
-   <g fill="#503751" stroke="#a77c85" stroke-width="5">
-    <path d="M3 248L150 230M3 365L150 346M3 484L150 470M387 232L535 251M387 350L537 367M387 468L538 485"/>
-   </g>
-   <g id="library-books">
-   <rect x="4" y="160" width="16" height="36" rx="2" fill="#b87878" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="24" y="149" width="14" height="47" rx="2" fill="#7ca2a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="44" y="138" width="14" height="58" rx="2" fill="#9b79a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="64" y="155" width="14" height="41" rx="2" fill="#d4b17b" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="84" y="144" width="16" height="52" rx="2" fill="#6b9b86" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="104" y="133" width="14" height="63" rx="2" fill="#a47893" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="124" y="150" width="14" height="46" rx="2" fill="#b1a28f" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="390" y="261" width="14" height="57" rx="2" fill="#b87878" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="410" y="278" width="16" height="40" rx="2" fill="#7ca2a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="430" y="267" width="14" height="51" rx="2" fill="#9b79a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="450" y="256" width="14" height="62" rx="2" fill="#d4b17b" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="470" y="273" width="14" height="45" rx="2" fill="#6b9b86" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="490" y="262" width="16" height="56" rx="2" fill="#a47893" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="510" y="279" width="14" height="39" rx="2" fill="#b1a28f" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="4" y="378" width="14" height="50" rx="2" fill="#b87878" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="24" y="367" width="14" height="61" rx="2" fill="#7ca2a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="44" y="384" width="16" height="44" rx="2" fill="#9b79a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="64" y="373" width="14" height="55" rx="2" fill="#d4b17b" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="84" y="390" width="14" height="38" rx="2" fill="#6b9b86" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="104" y="379" width="14" height="49" rx="2" fill="#a47893" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="124" y="368" width="16" height="60" rx="2" fill="#b1a28f" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="390" y="159" width="14" height="43" rx="2" fill="#b87878" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="410" y="148" width="14" height="54" rx="2" fill="#7ca2a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="430" y="165" width="14" height="37" rx="2" fill="#9b79a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="450" y="154" width="16" height="48" rx="2" fill="#d4b17b" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="470" y="143" width="14" height="59" rx="2" fill="#6b9b86" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="490" y="160" width="14" height="42" rx="2" fill="#a47893" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="510" y="149" width="14" height="53" rx="2" fill="#b1a28f" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="4" y="276" width="16" height="36" rx="2" fill="#b87878" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="24" y="265" width="14" height="47" rx="2" fill="#7ca2a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="44" y="254" width="14" height="58" rx="2" fill="#9b79a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="64" y="271" width="14" height="41" rx="2" fill="#d4b17b" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="84" y="260" width="16" height="52" rx="2" fill="#6b9b86" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="104" y="249" width="14" height="63" rx="2" fill="#a47893" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="124" y="266" width="14" height="46" rx="2" fill="#b1a28f" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="390" y="377" width="14" height="57" rx="2" fill="#b87878" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="410" y="394" width="16" height="40" rx="2" fill="#7ca2a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="430" y="383" width="14" height="51" rx="2" fill="#9b79a8" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="450" y="372" width="14" height="62" rx="2" fill="#d4b17b" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="470" y="389" width="14" height="45" rx="2" fill="#6b9b86" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="490" y="378" width="16" height="56" rx="2" fill="#a47893" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/><rect x="510" y="395" width="14" height="39" rx="2" fill="#b1a28f" stroke="#d6bbad" stroke-width="1.1" opacity=".91"/>
-   </g>
-   <!-- antique architecture -->
-   <path d="M0 617Q270 593 540 617V649H0Z" fill="#6c4963" stroke="#b78b94" stroke-width="6"/>
-   <path d="M0 648H540V1380H0Z" fill="url(#lib-floor)"/>
-   <path d="M0 760H540M0 940H540M0 1120H540" stroke="#b88693" opacity=".13" stroke-width="8"/>
-   <path d="M-90 915Q270 803 630 915V1380H-90Z" fill="#55344e" opacity=".48"/>
-   <path d="M-90 915Q270 803 630 915V1380H-90Z" fill="url(#lib-carpet)"/>
-   <path d="M-70 971Q270 867 610 971" stroke="#d5a9a6" stroke-width="5" opacity=".2" fill="none"/>
-   <!-- floating dust motes and orbs -->
-   <g class="library-sparks" fill="#ffe5b1" opacity=".55">
-    <circle cx="173" cy="190" r="2.5"/><circle cx="368" cy="302" r="2"/><circle cx="211" cy="387" r="1.5"/>
-    <circle cx="322" cy="488" r="2"/><circle cx="74" cy="689" r="1.5"/><circle cx="446" cy="736" r="2"/>
-    <circle cx="363" cy="982" r="1.5"/><circle cx="120" cy="1131" r="2.5"/>
-   </g>
-   <!-- hanging moonstone chandelier -->
-   <g class="library-chandelier">
-    <path d="M270 4V102" stroke="#b99395" stroke-width="6"/><path d="M202 115Q270 160 338 115" stroke="#9a7188" stroke-width="8" fill="none"/>
-    <path d="M222 116V95M270 139V109M318 116V95" stroke="#c7a3a1" stroke-width="5"/>
-    <circle cx="222" cy="91" r="8" fill="#ffebbb"/><circle cx="270" cy="105" r="8" fill="#ffebbb"/><circle cx="318" cy="91" r="8" fill="#ffebbb"/>
-    <circle cx="222" cy="90" r="37" fill="url(#lib-candle)" class="library-flame"/><circle cx="270" cy="104" r="37" fill="url(#lib-candle)" class="library-flame"/><circle cx="318" cy="90" r="37" fill="url(#lib-candle)" class="library-flame"/>
-   </g>
-   <!-- ornate picture frames watching player -->
-   <path d="M24 655V710H95V655Z" fill="#453043" stroke="#c29f79" stroke-width="9"/>
-   <path d="M443 655V710H516V655Z" fill="#4b3148" stroke="#c9a077" stroke-width="9"/>
-   <g class="library-portrait-eyes" fill="#f4ce91"><ellipse cx="53" cy="687" rx="4" ry="2.5"/><ellipse cx="66" cy="687" rx="4" ry="2.5"/><ellipse cx="469" cy="687" rx="4" ry="2.5"/><ellipse cx="486" cy="687" rx="4" ry="2.5"/></g>
-   <!-- antique rug and carved desk base -->
-   <path d="M-15 1020Q270 982 555 1020V1366H-15Z" fill="#6c4c62" opacity=".3"/>
-   <path d="M-10 1225Q270 1195 550 1225V1380H-10Z" fill="#412c3a" stroke="#b17d72" stroke-width="9"/>
-   <path d="M16 1248H524M36 1310H502" stroke="#d6a086" stroke-width="4" opacity=".32"/>
-  </svg>
-<div class="world-fog world-fog-back"></div><div class="room-vignette"></div>
-<header class="room-header simple-header">
- <div class="room-brand"><span class="room-eyebrow">A LITTLE HAUNTED MYSTERY</span><h1>Mystery <em>Manor</em></h1></div>
- <div class="audio-widget"><button type="button" class="sound" id="sound" aria-pressed="false">♫ MUSIC OFF</button><span id="music-now-playing" class="music-now-playing">REAL INSTRUMENTS · Sneaky Adventure</span><label class="music-volume" id="music-volume-box" hidden>VOL <input id="music-volume" aria-label="Music volume" type="range" min="0" max="100" value="45"></label><div id="music-fallback" class="music-fallback" hidden><span id="music-error">Tap play here:</span><div id="music-controls"></div></div></div>
-</header>
-<section class="case room-case simple-case">
- <div class="case-left"><small id="chapter-label">LEVEL 1 OF 3</small><strong id="chapter-title">The Missing Librarian</strong><p id="chapter-copy">Find out what happened after midnight.</p></div>
- <button class="clue-tag clue-button" id="casefile-open" type="button" aria-label="Open your clues"><b id="clue-num">0/3</b><span>CLUES <span aria-hidden="true">›</span></span></button>
-</section>
-<section class="living-cast one-witness" aria-label="Today's mystery witness">
-  <button type="button" class="cast-character selected" data-person="0" aria-label="Talk to Mallow the cat"><span class="cast-glow"></span><span id="cast-figure-0" class="cast-figure"></span><span class="cast-label">MALLOW</span></button>
-  <button type="button" class="cast-character" data-person="1" aria-label="Talk to Fern"><span class="cast-glow"></span><span id="cast-figure-1" class="cast-figure"></span><span class="cast-label">FERN</span></button>
-  <button type="button" class="cast-character" data-person="2" aria-label="Talk to Miss Wisp"><span class="cast-glow"></span><span id="cast-figure-2" class="cast-figure"></span><span class="cast-label">MISS WISP</span></button>
-</section>
-<section class="manor-voice simple-speech">
- <span class="voice-avatar" id="witness-art" aria-hidden="true"></span>
- <div class="voice-content"><span class="voice-eyebrow" id="witness-role">YOUR WITNESS</span><strong id="witness-name">Mallow</strong><p id="witness-teaser">I heard something strange by the fireplace…</p></div>
- <button type="button" id="witness-talk" class="voice-ask" aria-label="Talk to witness">TALK <span>›</span></button>
-</section>
-<section class="story-stage" id="story-stage" aria-label="Interactive mystery story">
-  <div class="story-progress"><span id="story-scene-label">SCENE 1 · THE LIBRARY</span><span id="story-beat-label">01 / 03</span></div>
-  <div class="story-clue-art" id="story-clue-art" hidden></div>
-  <div class="story-page"><span class="story-speaker" id="story-speaker">THE STORY</span><p id="story-dialogue">A strange sound comes from the library...</p></div>
-  <button type="button" id="story-continue" class="story-continue">Continue the Story <span aria-hidden="true">›</span></button>
-  <p class="story-progress-note" id="story-action-note">Follow the conversation to discover your next puzzle.</p>
-</section>
-<section class="desk-space simple-desk" id="puzzle-stage" aria-label="Match-three puzzle" hidden>
- <div class="puzzle-topline"><span>✦ PUZZLE CHALLENGE ✦</span><span id="puzzle-chapter">LEVEL 1</span></div>
-  <div class="task-line"><div class="task-text"><span id="simple-goal-label">YOUR GOAL</span><strong id="simple-goal">Match the spellbooks</strong></div><div class="moves-chip">MOVES <b id="moves">26</b></div></div>
-  <div class="board-wrap"><div id="board" class="board" aria-label="Seven by seven spooky match three game board"></div><div id="fx-layer" class="fx-layer" aria-hidden="true"></div></div>
-  <div class="notice" id="notice" aria-live="polite">Swap two charms to make a match of three.</div>
-  <div class="goal-card simple-goals"><div id="goals" class="goals"></div></div>
-  <div class="simple-actions">
-    <button type="button" id="hint"><span>✧</span><span id="hint-label">HINT · 3</span></button>
-    <button type="button" id="menu-toggle" aria-expanded="false" aria-controls="extra-tools">⋯ OPTIONS</button>
-  </div>
-  <div class="extra-tools" id="extra-tools" hidden><button id="shuffle">🔮 <span id="shuffle-label">SHUFFLE · 2</span></button><button id="restart">↻ RESTART LEVEL</button></div>
-  <div class="action-caption" id="action-caption" aria-live="polite">MATCH 3 → FIND THE CLUE</div>
-</section>
-<footer class="simple-footer">
- <p>Match three to uncover the clue. Match four in a line or square to make a <strong>Hex Bomb</strong>.</p>
- <p class="simple-case-note" id="story-footer">One room. One witness. One secret.</p>
- <details class="asset-credits"><summary>Soundtrack & art credits</summary>
-<p>Music: <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100644" target="_blank" rel="noopener noreferrer">Sneaky Adventure</a>, <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100419" target="_blank" rel="noopener noreferrer">Some Amount of Evil</a>, and <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100510" target="_blank" rel="noopener noreferrer">Machinations</a>, by Kevin MacLeod (incompetech.com), licensed <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>. Tracks are played unmodified.</p>
-<p>The manor, matching icons, and witness portraits were created for Mystery Manor.</p></details>
-<div class="legacy-text" hidden><span id="score">0</span><span id="best">0</span><span id="story-title"></span><span id="story-text"></span></div>
-</footer>
-</main></div>
-<div class="overlay dossier-overlay" id="casefile-overlay" role="dialog" aria-modal="true" aria-labelledby="dossier-heading">
- <div class="dossier-dialog"><div class="dossier-bookhead"><span>DETECTIVE'S NOTEBOOK</span><button type="button" id="casefile-close" aria-label="Close notebook">✕</button></div>
- <section class="evidence-case"><h2 id="dossier-heading">What do we know?</h2><p id="evidence-summary">Solve each puzzle and collect a clue.</p><div class="clue-list" id="clue-list"></div><section class="case-characters" aria-label="Witness portraits"><h3>Witnesses at the Manor</h3><div class="case-witness-list" id="case-witness-list"></div></section><button type="button" id="deduce" class="solve-case" disabled>🔒 Find all three clues</button></section></div>
+<div id="app">
+<header id="hud"><div><div class="series">Thorne House · Case 001</div><h1>Mystery Manor</h1></div><div id="audio-area"><button id="music" type="button" aria-pressed="false">♫ MUSIC OFF</button><div id="nowplaying">Sneaky Adventure</div></div></header>
+<main id="viewport" aria-label="Side-scrolling mansion. Walk left and right as Mallow, the librarian's cat.">
+<canvas id="stage" aria-label="Animated side-scrolling mansion, with a playable black cat and familiar mystery characters"></canvas>
+<div id="vignette"></div><div id="where">The Library</div><div id="chapter">12:07 AM</div>
+<div id="story" aria-live="polite"><div id="face"></div><div id="speaker">MALLOW</div><p id="speech">The librarian vanished. Something moved behind the fireplace.</p></div>
+</main>
+<div id="controls"><button id="left" class="arrow" aria-label="Walk left" type="button">◀</button><div id="help"><strong>Mallow</strong>Hold to walk<div id="position"><i id="position-fill"></i></div></div><button id="right" class="arrow" aria-label="Walk right" type="button">▶</button></div>
+<div id="soundfallback" hidden>Music couldn't start automatically. Use this player or try the music button.<audio id="fallback-player" controls></audio><button id="closefallback">Close</button></div>
 </div>
-<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-<div class="dialog"><div id="dialog-portrait" class="dialog-portrait" hidden></div><div class="icon" id="modal-icon">🗝️</div><div id="clue-preview" class="clue-preview" hidden></div><h2 id="modal-title">A New Clue!</h2><p id="modal-copy"></p><button class="primary" id="modal-button">Continue the Story →</button></div>
-</div>
-
-<div class="overlay" id="deduce-overlay" role="dialog" aria-modal="true" aria-labelledby="deduce-title">
-<div class="dialog"><div class="icon">🔎</div><h2 id="deduce-title">Who Made the Librarian Vanish?</h2>
-<p>Three clues. Three witnesses. Only one explanation fits everything.</p>
-<div class="deduct-options">
-<button data-guess="ghost">👻 A ghost kidnapped her through the library window.</button>
-<button data-guess="keeper">🌿 The groundskeeper locked her in the attic.</button>
-<button data-guess="passage">🗝️ She entered a hidden passage to protect something.</button>
-</div>
-<p class="deduct-note">⚠️ A wrong accusation loses the case. Review your notebook first.</p>
-<button class="primary" id="deduce-back">Review My Evidence</button></div></div>
 <script>
 (function(){
 "use strict";
-var $=function(id){return document.getElementById(id)};
-var N=7, iconIds=["brass key","spellbook","potion","crystal orb","wax seal","pocket watch","Hex Bomb"];
-var palette=[["#ed9c4a","#a84e2a"],["#7b9f8e","#385f53"],["#a68bb5","#493d68"],["#b85159","#6a2938"],["#6c9dac","#28516f"],["#c5a35e","#746034"]];
-var chapters=[
-{name:"The Missing Librarian",place:"THE LIBRARY",short:"A Locked Library",copy:"The candles are still warm, but the librarian has vanished.",goal:{"1":10},moves:25,clue:"A spellbook has slipped off the shelf. Beneath it: soot brushed from a hidden seam along the fireplace.",footer:"Complete the board to discover the first clue."},
-{name:"The Stopped Clock",place:"THE WEST HALL",short:"The Clock Strikes Thirteen",copy:"Nobody has heard the grandfather clock chime for a century. Until tonight.",goal:{"5":11},moves:26,clue:"The clock stopped at 12:13. Behind its face is a mechanism linked to the fireplace. The front door's wax seal is intact.",footer:"Another clock, another secret. Who could have passed the sealed door?"},
-{name:"The Moonlit Attic",place:"THE ATTIC",short:"Footsteps Above",copy:"A whisper drifts down from the attic. Is it a warning—or a trap?",goal:{"3":10},moves:27,clue:"A note in the librarian's handwriting: 'I have hidden the star map. I must reach the passage before the collector returns.'",footer:"One more clue, then you must decide what really happened."}
-];
-var witnesses=[
-{name:"Mallow",role:"THE LIBRARIAN'S CAT",teaser:"A black cat with golden eyes and a suspiciously good memory.",advice:"I heard stone scraping behind the fireplace after midnight. I watched the door the whole time—no one used it. Also, four matching charms in a square make a Hex Bomb. Purrrfectly useful.",followup:"Mallow kneads the carpet beside the hearth. There are tiny scratches in the soot, as though a panel slid sideways."},
-{name:"Fern",role:"THE MANOR GROUNDSKEEPER",teaser:"Fern found muddy footprints but insists she never saw an intruder.",advice:"The front door still has my wax seal from yesterday. Nobody could have used it without breaking the seal. I did find a little mud on the hearthstones—not the attic stairs.",followup:"Fern swears the cellar tunnel was sealed years ago... but remembers a hidden lever beneath the mantel clock."},
-{name:"Miss Wisp",role:"THE FRIENDLY HOUSE GHOST",teaser:"The manor's resident ghost may know who walked the halls.",advice:"People blame ghosts for everything! I was dusting the attic when a living figure walked toward the fireplace. I heard a click, and then silence. I certainly didn't abduct anyone.",followup:"Miss Wisp shows you a star-shaped mark beside the fireplace. The librarian used it to open a concealed passage."}
-];
-var saved={};
-try{saved=JSON.parse(localStorage.getItem("mysteryManorCuteV1")||"{}")||{}}catch(err){}
-var maxUnlocked=Math.max(0,Math.min(2,Number(saved.chapter)||0));
-var caseProgress=Math.max(0,Math.min(3,Math.max(Number(saved.caseProgress)||0,maxUnlocked)));
-var caseSolved=!!saved.caseSolved;
-var best=Math.max(0,Number(saved.best)||0);
-var s,token=0,audio=null,sound=false,pointer=null,swallow=0,musicAudio=null;var witnessLast=-1;
-var sleep=function(ms){return new Promise(function(resolve){setTimeout(resolve,ms)})};
-var random=function(n){return Math.floor(Math.random()*n)};
-var position=function(y,x){return y*N+x};
-var neighbors=function(a,b){return a>=0&&b>=0&&a<N*N&&b<N*N&&Math.abs(Math.floor(a/N)-Math.floor(b/N))+Math.abs(a%N-b%N)===1};
-function persist(){try{localStorage.setItem("mysteryManorCuteV1",JSON.stringify({chapter:maxUnlocked,best:best,caseProgress:caseProgress,caseSolved:caseSolved}))}catch(err){}}
-function tone(freq){
- if(!sound)return;
- try{
-  audio=audio||new (window.AudioContext||window.webkitAudioContext)();
-  if(audio.state==="suspended"){var resumed=audio.resume();if(resumed&&resumed.catch)resumed.catch(function(){})}
-  var now=audio.currentTime;
-  var bell=audio.createOscillator(),warm=audio.createOscillator(),g=audio.createGain(),filter=audio.createBiquadFilter();
-  bell.type="triangle";warm.type="sine";
-  bell.frequency.setValueAtTime(freq*.74,now);
-  bell.frequency.exponentialRampToValueAtTime(Math.max(45,freq*.50),now+.16);
-  warm.frequency.setValueAtTime(freq*1.49,now);
-  filter.type="lowpass";filter.frequency.setValueAtTime(1700,now);
-  g.gain.setValueAtTime(.0001,now);
-  g.gain.exponentialRampToValueAtTime(.045,now+.014);
-  g.gain.exponentialRampToValueAtTime(.0001,now+.24);
-  bell.connect(filter);warm.connect(filter);filter.connect(g);g.connect(audio.destination);
-  bell.start(now);warm.start(now);bell.stop(now+.25);warm.stop(now+.25);
- }catch(err){}
-}
-function roomReaction(kind){
- var el=$("manor-room");if(!el)return;
- el.classList.remove("room-flash","room-clue");
- void el.offsetWidth;
- el.classList.add(kind==="clue"?"room-clue":"room-flash");
- setTimeout(function(){el.classList.remove("room-flash","room-clue")},840);
-}
-
-/* Self-contained original haunted music-box soundtrack: 12-second looping WAV.
-   Playback begins directly inside the tap handler for iOS/Safari. */
-/* Two-minute original atmospheric suite: eight evolving passages, rests, softened bells,
-   warm pads and gentle echo. Generated once locally with no external audio requests. */
-/* Original 2-minute haunted manor ambience. The published parts use standard
-   IMA ADPCM to reduce a 3.8 MB PCM soundtrack to under 1 MB over the network. */
-
-/* A fresh, genuinely recorded instrumental score. No ADPCM synth files are
-   decoded anywhere in the music playback path. Licensed CC BY 4.0, credits below. */
-var mysteryTracks=[
+// The original licensed Mystery Manor soundtrack, unchanged.
+var tracks=[
  {title:"Sneaky Adventure",url:"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Sneaky%20Adventure.mp3?v=mystery-real-2026-11-15"},
  {title:"Some Amount of Evil",url:"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Some%20Amount%20of%20Evil.mp3?v=mystery-real-2026-11-15"},
  {title:"Machinations",url:"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Machinations.mp3?v=mystery-real-2026-11-15"}
 ];
-var mysteryTrackIndex=0;
-var musicState="ready";
-function musicLabel(on){
- $("sound").textContent=on?"♫ MUSIC ON":"♫ MUSIC OFF";
- $("sound").setAttribute("aria-pressed",on?"true":"false");
- var title=$("music-now-playing");
- if(title)title.textContent="REAL INSTRUMENTS · "+mysteryTracks[mysteryTrackIndex].title+(on?" ▶":"");
+var $=function(s){return document.getElementById(s)};
+var music=$("music"),nowplaying=$("nowplaying"),player=null,trackIndex=0,playing=false;
+function syncMusic(){music.textContent=playing?"♫ MUSIC ON":"♫ MUSIC OFF";music.setAttribute("aria-pressed",playing?"true":"false");music.classList.toggle("playing",playing);nowplaying.textContent=tracks[trackIndex].title}
+function showMusicFallback(){var panel=$("soundfallback"),p=$("fallback-player");p.src=tracks[trackIndex].url;panel.hidden=false;syncMusic()}
+function initMusic(){
+ if(player)return;
+ player=new Audio(tracks[trackIndex].url);player.volume=.4;player.preload="none";
+ player.addEventListener("ended",function(){trackIndex=(trackIndex+1)%tracks.length;player.src=tracks[trackIndex].url;syncMusic();if(playing)player.play().catch(function(){playing=false;showMusicFallback()})});
+ player.addEventListener("error",function(){playing=false;showMusicFallback()});
 }
-function prepareAmbient(){
- if(musicAudio)return;
- musicAudio=new Audio();
- musicAudio.src=mysteryTracks[mysteryTrackIndex].url;
- musicAudio.preload="none";
- musicAudio.volume=.4;
- musicAudio.loop=false;
- musicAudio.addEventListener("ended",function(){
-  mysteryTrackIndex=(mysteryTrackIndex+1)%mysteryTracks.length;
-  musicAudio.src=mysteryTracks[mysteryTrackIndex].url;
-  musicAudio.load();
-  musicLabel(true);
-  var next=musicAudio.play();
-  if(next&&next.catch)next.catch(function(){sound=false;musicLabel(false)});
- });
- musicAudio.addEventListener("error",function(){
-  if(!sound)return;
-  $("music-fallback").hidden=false;$("music-controls").innerHTML="";
-  musicAudio.controls=true;$("music-controls").appendChild(musicAudio);
-  $("music-error").textContent="The soundtrack couldn't stream. Check your connection or use the player here.";
-  sound=false;musicLabel(false);
- });
- musicLabel(false);
-}
-function startMusic(){
- try{
-  prepareAmbient();
-  var promise=musicAudio.play(); /* direct user gesture on iPhone */
-  if(promise&&promise.then)promise.then(function(){
-   sound=true;musicLabel(true);$("music-volume-box").hidden=false;$("music-fallback").hidden=true;
-  }).catch(function(){
-   sound=false;musicLabel(false);$("music-volume-box").hidden=true;
-   $("music-fallback").hidden=false;$("music-controls").innerHTML="";
-   musicAudio.controls=true;$("music-controls").appendChild(musicAudio);
-   $("music-error").textContent="Tap play below to start the new soundtrack.";
-  });
-  else {sound=true;musicLabel(true);$("music-volume-box").hidden=false}
- }catch(err){sound=false;musicLabel(false);$("music-error").textContent="The soundtrack could not start.";$("music-fallback").hidden=false}
-}
-function stopMusic(){
- sound=false;musicLabel(false);
- if(musicAudio)musicAudio.pause();
- $("music-fallback").hidden=true;$("music-volume-box").hidden=true;
-}
-document.addEventListener("visibilitychange",function(){if(document.hidden&&sound)stopMusic()});
-var nextCharmId=0;
-function piece(type){return {type:type,special:type===6,id:++nextCharmId}}
-function cloneBoard(board){return board.map(function(p){return p?{type:p.type,special:p.special}:null})}
-function swap(board,a,b){var temp=board[a];board[a]=board[b];board[b]=temp}
-function scan(board,preferred){
-var remove=new Set(),anchors=[],groups=[],claimed=new Set();
-function collect(list){list.forEach(function(i){remove.add(i)});if(list.length>=4)groups.push(list)}
-for(var y=0;y<N;y++)for(var x=0;x<N;){
- var p=board[position(y,x)];if(!p||p.special){x++;continue}
- var end=x+1;while(end<N&&board[position(y,end)]&&!board[position(y,end)].special&&board[position(y,end)].type===p.type)end++;
- if(end-x>=3){var list=[];for(var j=x;j<end;j++)list.push(position(y,j));collect(list)}x=end;
-}
-for(var x=0;x<N;x++)for(var y=0;y<N;){
- var p=board[position(y,x)];if(!p||p.special){y++;continue}
- var end=y+1;while(end<N&&board[position(end,x)]&&!board[position(end,x)].special&&board[position(end,x)].type===p.type)end++;
- if(end-y>=3){var list=[];for(var j=y;j<end;j++)list.push(position(j,x));collect(list)}y=end;
-}
-for(var y=0;y<N-1;y++)for(var x=0;x<N-1;x++){
- var box=[position(y,x),position(y,x+1),position(y+1,x),position(y+1,x+1)],p=board[box[0]];
- if(p&&!p.special&&box.every(function(i){return board[i]&&!board[i].special&&board[i].type===p.type})){box.forEach(function(i){remove.add(i)});groups.push(box)}
-}
-groups.sort(function(a,b){return Number(b.includes(preferred))-Number(a.includes(preferred))||b.length-a.length});
-groups.forEach(function(cells){
- if(cells.some(function(i){return claimed.has(i)}))return;
- cells.forEach(function(i){claimed.add(i)});
- anchors.push(cells.includes(preferred)?preferred:cells[Math.floor((cells.length-1)/2)]);
+music.addEventListener("click",function(){
+ initMusic();
+ if(playing){playing=false;player.pause();syncMusic();return}
+ var promise=player.play();
+ if(promise&&promise.then){promise.then(function(){playing=true;$("soundfallback").hidden=true;syncMusic()}).catch(function(){playing=false;showMusicFallback()})}
+ else{playing=true;syncMusic()}
 });
-anchors.forEach(function(i){remove.delete(i)});
-return{remove:Array.from(remove),anchors:anchors};
-}
-function possible(board){
-var special=board.findIndex(function(p){return p&&p.special});
-if(special>=0)return[special];
-for(var i=0;i<N*N;i++){
-var candidates=[];if(i%N<N-1)candidates.push(i+1);if(i<N*(N-1))candidates.push(i+N);
-for(var k=0;k<candidates.length;k++){var b=candidates[k];swap(board,i,b);var found=scan(board,b);swap(board,i,b);if(found.remove.length||found.anchors.length)return[i,b]}
-}
-return null;
-}
-function fillBoard(){
-for(var attempt=0;attempt<500;attempt++){
-s.board=[];
-for(var i=0;i<N*N;i++){
-var row=Math.floor(i/N),col=i%N,allowed=[];
-for(var v=0;v<6;v++){
-if(col>1&&s.board[i-1].type===v&&s.board[i-2].type===v)continue;
-if(row>1&&s.board[i-N].type===v&&s.board[i-2*N].type===v)continue;
-if(row>0&&col>0&&s.board[i-N].type===v&&s.board[i-1].type===v&&s.board[i-N-1].type===v)continue;
-allowed.push(v);
-}
-s.board.push(piece(allowed[random(allowed.length)]));
-}
-s.board[position(2,2)]=piece(0);
-s.board[position(2,3)]=piece(0);
-s.board[position(3,2)]=piece(0);
-s.board[position(3,3)]=piece(2);
-s.board[position(3,4)]=piece(0);
-var initial=scan(s.board,-1);
-if(initial.remove.length||initial.anchors.length)continue;
-var test=cloneBoard(s.board);swap(test,position(3,3),position(3,4));
-if(scan(test,position(3,3)).anchors.length)return;
-}
-}
-function message(t){$("notice").textContent=t}
-function tileSVG(v){return '<span class="charm-art charm-art-'+v+'" aria-hidden="true"></span>'}
-function paint(clear){
- var clears=new Set(clear||[]),board=$("board");
- var canMorph=!!(document.createDocumentFragment&&board.replaceChildren);
- /* A fallback is retained for older embedded browsers. */
- if(!canMorph){
-  board.innerHTML=s.board.map(function(p,i){
-   if(!p)return '<div class="tile empty"></div>';
-   var cl="tile"+(s.selected===i?" selected":"")+(s.hint.indexOf(i)>=0?" hint":"")+(s.matchReady&&s.matchReady.indexOf(i)>=0?" anticipate":"")+(clears.has(i)?" clearing":"")+(p.special?" boo":"")+(s.falls&&s.falls[i]?" falling":"")+(s.swapFX&&s.swapFX[i]?" swapping":"")+(s.invalid&&s.invalid.indexOf(i)>=0?" invalid":"");
-   var bg=p.special?["#d3b776","#74523c"]:palette[p.type];
-   var effect="";if(s.falls&&s.falls[i])effect+=";--fall:"+(-s.falls[i]*104)+"%";if(s.swapFX&&s.swapFX[i])effect+=";--from-x:"+s.swapFX[i].x+"%;--from-y:"+s.swapFX[i].y+"%";
-   return '<button type="button" class="'+cl+'" data-i="'+i+'" style="--hi:'+bg[0]+';--lo:'+bg[1]+effect+'" aria-label="'+(p.special?"Hex Bomb special":iconIds[p.type])+' at row '+(Math.floor(i/N)+1)+' column '+(i%N+1)+'">'+tileSVG(p.type)+'</button>';
-  }).join("");
- }else{
-  /* Keep the same DOM element for each charm, even when the grid rearranges.
-     That lets a piece visibly move from its old cell to its new cell. */
-  var old=new Map(),rects=new Map();
-  Array.from(board.children).forEach(function(node){
-   var id=node.dataset&&node.dataset.charm;
-   if(id){old.set(id,node);rects.set(id,node.getBoundingClientRect())}
-  });
-  var frag=document.createDocumentFragment(),target=[],newIds=new Set();
-  var prefersReduce=!!(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-  var useWebAnimation=!prefersReduce&&!!(document.createElement("button").animate);
-  for(var i=0;i<N*N;i++){
-   var p=s.board[i],node;
-   if(!p){
-    node=document.createElement("div");node.className="tile empty";
-   }else{
-    node=old.get(String(p.id));
-    if(!node){
-     node=document.createElement("button");node.type="button";newIds.add(String(p.id));
-     node.innerHTML=tileSVG(p.type);
-    }
-    node.dataset.i=i;node.dataset.charm=p.id;
-    var cl="tile"+(s.selected===i?" selected":"")+(s.hint.indexOf(i)>=0?" hint":"")+(s.matchReady&&s.matchReady.indexOf(i)>=0?" anticipate":"")+(clears.has(i)?" clearing":"")+(p.special?" boo":"")+(s.invalid&&s.invalid.indexOf(i)>=0?" invalid":"");
-    if(!useWebAnimation){
-     cl+=(s.falls&&s.falls[i]?" falling":"")+(s.swapFX&&s.swapFX[i]?" swapping":"");
-    }
-    if(p.special&&newIds.has(String(p.id))&&!s.falls)cl+=" conjure";
-    node.className=cl;
-    var bg=p.special?["#d3b776","#74523c"]:palette[p.type];
-    node.style.setProperty("--hi",bg[0]);node.style.setProperty("--lo",bg[1]);
-    if(s.falls&&s.falls[i]){node.style.setProperty("--fall",(-s.falls[i]*104)+"%");node.style.setProperty("--delay",((i%N)*22)+"ms")}
-    if(s.swapFX&&s.swapFX[i]){
-     node.style.setProperty("--from-x",s.swapFX[i].x+"%");node.style.setProperty("--from-y",s.swapFX[i].y+"%");
-    }
-    node.setAttribute("aria-label",(p.special?"Hex Bomb special":iconIds[p.type])+" at row "+(Math.floor(i/N)+1)+" column "+(i%N+1));
-   }
-   frag.appendChild(node);target.push(node);
-  }
-  board.replaceChildren(frag);
-  if(useWebAnimation){
-   var cell=board.children[0].getBoundingClientRect();
-   var sizeY=cell.height+3;
-   for(var i=0;i<target.length;i++){
-    var p=s.board[i],el=target[i];if(!p)continue;
-    var previous=rects.get(String(p.id));
-    var current=el.getBoundingClientRect();
-    var dx=previous?previous.left-current.left:0;
-    var dy=previous?previous.top-current.top:0;
-    if(!previous&&s.falls&&s.falls[i])dy=-Math.min(6,s.falls[i])*sizeY;
-    if((Math.abs(dx)>1||Math.abs(dy)>1)&&!clears.has(i)){
-     var falling=!!(s.falls&&s.falls[i]),duration=falling?460:245;
-     el.animate([
-      {transform:"translate("+dx+"px,"+dy+"px) scale("+(falling?".93":"1")+")",opacity:falling&&!previous?".7":"1",offset:0},
-      {transform:"translate(0px,4px) scale(1.045,.96)",opacity:1,offset:.76},
-      {transform:"translate(0px,0px) scale(1)",opacity:1,offset:1}
-     ],{duration:duration,delay:falling?(i%N)*19:0,easing:"cubic-bezier(.2,.74,.31,1)",fill:"none"});
-    }
-   }
-  }
- }
-$("score").textContent=s.score.toLocaleString();
-$("moves").textContent=s.moves;
-$("best").textContent=Math.max(best,s.score).toLocaleString();
-$("clue-num").textContent=caseProgress+"/3";
-$("hint-label").textContent="HINT · "+s.hints;
-$("shuffle-label").textContent="SHUFFLE · "+s.shuffles;
-$("hint").disabled=s.busy||s.ended||s.hints<1;
-$("shuffle").disabled=s.busy||s.ended||s.shuffles<1;
-$("restart").disabled=s.busy;
-var c=chapters[s.level];
-$("simple-goal").textContent="Match "+Object.keys(c.goal).map(function(k){return c.goal[k]+" "+(["brass keys","spellbooks","potions","crystal orbs","wax seals","pocket watches"][Number(k)])}).join(" & ");
- $("goals").innerHTML=Object.keys(c.goal).map(function(key){
-var total=c.goal[key],left=s.left[key],done=total-left,idx=Number(key);
-return '<div class="goal">'+tileSVG(idx)+'<span class="gname">'+["Brass Keys","Spellbooks","Potions","Crystal Orbs","Wax Seals","Pocket Watches"][idx]+'</span><div class="progress"><i style="width:'+(100*done/total)+'%"></i></div><span class="count">'+done+' / '+total+(left===0?" ✓":"")+'</span></div>';
-}).join("");
-}
+$("closefallback").addEventListener("click",function(){$("soundfallback").hidden=true});
+document.addEventListener("visibilitychange",function(){if(document.hidden&&playing){player.pause();playing=false;syncMusic()}});
+syncMusic();
 
-
-/* Stage-sized vector characters. Every body part is a proper animated SVG shape. */
-function stageFigure(index){
- var n=Math.max(0,Math.min(2,index));
- return '<div class="witness-photo witness-photo-'+n+'" role="img" aria-label="'+["Mallow, a mysterious black cat","Fern, the older groundskeeper","Miss Wisp, a ghostly manor resident"][n]+'"><div class="photo-breathe"></div></div>';
-}
-var activeReactionTimer=null;
-function activateWitness(index,open){
- if(!s||index<0||index>2)return;
- if(index>maxUnlocked){
-  message(index===1?"Fern hasn't come into the library yet. Recover the first clue to meet her.":"The ghost will reveal herself after you investigate the west hall.");
-  var locked=document.querySelector('[data-person="'+index+'"]');
-  if(locked){locked.classList.add("nervous");setTimeout(function(){locked.classList.remove("nervous")},650)}
-  return;
- }
- s.activeWitness=index;
- var w=witnesses[index];
- $("witness-art").innerHTML=portrait(index);
- $("witness-role").textContent="TODAY’S WITNESS";
- $("witness-name").textContent=w.name;
- $("witness-teaser").textContent=w.teaser;
- document.querySelectorAll(".cast-character").forEach(function(el,i){
-  el.classList.toggle("selected",i===index);
- });
- if(open)talkToWitness();
-}
-function refreshCast(){
- for(var i=0;i<3;i++){
-  var el=$("cast-figure-"+i);
-  if(el&&!el.dataset.loaded){el.innerHTML=stageFigure(i);el.dataset.loaded="1"}
-  var b=document.querySelector('[data-person="'+i+'"]');
-  if(b){b.classList.toggle("locked",i>maxUnlocked);b.classList.toggle("unlocked",i<=maxUnlocked)}
- }
- activateWitness(s.level,false);
-}
-function characterReaction(type){
- var idx=s&&s.activeWitness!==undefined?s.activeWitness:0;
- var el=document.querySelector('[data-person="'+idx+'"]');if(!el)return;
- if(activeReactionTimer)clearTimeout(activeReactionTimer);
- el.classList.remove("reacting","nervous","victory");
- var klass=type==="fail"?"nervous":type==="win"?"victory":"reacting";
- void el.offsetWidth;el.classList.add(klass);
- activeReactionTimer=setTimeout(function(){el.classList.remove(klass)},1100);
-}
-function actionCaption(text){
- var label=$("action-caption");if(label)label.textContent=text;
-}
-
-function portrait(index){
- var n=Math.max(0,Math.min(2,index));
- return '<div class="witness-photo witness-photo-'+n+' witness-portrait" aria-label="'+["Mallow the cat","Fern the groundskeeper","Miss Wisp the ghost"][n]+'"><div class="photo-breathe"></div></div>';
-}
-function updateCaseFile(){
- var level=s?s.level:0;
- $("witness-art").innerHTML=portrait(level);
- $("witness-role").textContent="NEW WITNESS · "+witnesses[level].role;
- $("witness-name").textContent=witnesses[level].name;
- $("witness-teaser").textContent=witnesses[level].teaser;
- $("clue-num").textContent=caseProgress+"/3";
- $("case-witness-list").innerHTML=witnesses.map(function(w,i){
-   var available=i<=maxUnlocked;
-   return '<button type="button" class="case-witness-card'+(available?'':' is-locked')+'" data-witness-index="'+i+'"><span class="case-witness-photo witness-photo witness-photo-'+i+'"></span><span class="case-witness-name">'+w.name+'</span><small>'+(available?'Talk to witness':'Meet in Chapter '+(i+1))+'</small></button>';
- }).join("");
- $("clue-list").innerHTML=chapters.map(function(ch,i){
- var unlocked=i<caseProgress;
- return '<button type="button" class="clue-item'+(unlocked?' unlocked':'')+'" data-clue="'+i+'" '+(unlocked?'':'disabled')+'><span class="clue-seal'+(unlocked?' art':'')+'">'+(unlocked?clueImages[i]:'?')+'</span><span><strong>Clue '+(i+1)+' · '+ch.name+'</strong><small>'+(unlocked?'Tap to examine the recovered evidence':'Complete level '+(i+1)+' to unlock')+'</small></span></button>';
- }).join("");
- $("evidence-summary").textContent=caseSolved?"Mystery solved! You uncovered the truth.":caseProgress===3?"You found all three clues. Question the witnesses, then choose carefully: one wrong accusation loses the case.":"Complete each matching level to recover one clue. Question witnesses before accusing anyone.";
- $("deduce").disabled=caseProgress<3||caseSolved;
- $("deduce").textContent=caseSolved?"✓ CASE SOLVED":caseProgress<3?"🔒 Find All Three Clues to Solve the Case":"🔎 CONNECT THE CLUES · ACCUSE";
-}
-function talkToWitness(){
- var id=s.activeWitness===undefined?s.level:s.activeWitness;
- var w=witnesses[id];characterReaction("match");
- showModal("💬",w.name+" Speaks",w.advice+"\n\n"+w.followup,"close","Back to Matching",undefined,id);
-}
-function reviewClue(i){
- if(i<0||i>=caseProgress)return;
- showModal(["🗝️","🕰️","📜"][i],"Evidence "+(i+1)+": "+chapters[i].name,chapters[i].clue+"\n\nWitness: "+witnesses[i].name+"\n"+witnesses[i].followup,"close","Back to the Case File",i);
-}
-function accuse(answer){
- if(caseProgress<3||caseSolved)return;
- $("deduce-overlay").classList.remove("open");
- if(answer==="passage"){
-  characterReaction("win");caseSolved=true;persist();updateCaseFile();
-  $("casefile-overlay").classList.remove("open");
-  s.storyPhase="solved";s.storyStep=0;setGameView(false);renderStory();
- }else{
-  characterReaction("fail");s.ended=true;
-  showModal("🕸️","Wrong Accusation — Case Lost",answer==="ghost"?"The window was latched and the ghost had an alibi. The wrong accusation ends your investigation.":"The attic was empty, and no evidence pointed to the groundskeeper. The wrong accusation ends your investigation.","lose-case","Restart the Case ↻");
- }
-}
-
-
-/* STORY FIRST: a short animated scene leads into each puzzle. The board appears
-   only when a character discovers a magical obstacle. After winning, the clue
-   is revealed in the story, which continues before the next puzzle. */
-var storyScenes=[
- {name:"The Library Door",intro:[
-  {speaker:"THE MANOR",text:"At twelve minutes past midnight, every candle in the library went out. When they returned, the librarian had vanished."},
-  {speaker:"MALLOW",text:"I watched the door all night. Nobody came in. Nobody went out. But I heard the fireplace scrape across the floor."},
-  {speaker:"THE MANOR",text:"A page from her spellbook lies beneath a locked enchantment. Break the spell to find the first clue."}
- ],after:[
-  {speaker:"CLUE FOUND",text:"Look closely. Soot lines a narrow seam behind the fireplace. Something heavy moved through that wall."},
-  {speaker:"MALLOW",text:"I knew it! She didn't use the door. Ask Fern about the old clock. It was chiming at a very strange hour."}
- ]},
- {name:"The Silent Clock",intro:[
-  {speaker:"THE MANOR",text:"The west hall smells of lavender and rain. Its grandfather clock has stopped at a time nobody remembers setting."},
-  {speaker:"FERN",text:"I sealed the front door with wax yesterday. The seal hasn't been touched. But there was mud near the fireplace."},
-  {speaker:"THE MANOR",text:"The clock's face is covered by another enchantment. Clear it to find out what happened that night."}
- ],after:[
-  {speaker:"CLUE FOUND",text:"Behind the clock face is a tiny mechanism linked to the library fireplace. The front-door seal remains unbroken."},
-  {speaker:"FERN",text:"That mechanism shouldn't still work. If someone knows the old passage, they could move through the manor without opening a door."}
- ]},
- {name:"The Moonlit Attic",intro:[
-  {speaker:"THE MANOR",text:"A gust of cold air sends papers flying upstairs. A faint blue light shimmers through the attic ceiling."},
-  {speaker:"MISS WISP",text:"It's terribly rude how everyone blames ghosts! I saw a living figure by the fireplace, then heard stone sliding."},
-  {speaker:"THE MANOR",text:"An enchanted star map flickers above a pile of letters. One last spell protects the librarian's message."}
- ],after:[
-  {speaker:"CLUE FOUND",text:"The librarian's own handwriting says: 'I have hidden the star map. I must reach the passage before the collector returns.'"},
-  {speaker:"MISS WISP",text:"Now you have the pieces. Did anyone kidnap her? Or did she choose to disappear? Think before you accuse anyone."}
- ]}
+// Walk left or right in a continuous 3,900-pixel illustrated mansion.
+var canvas=$("stage"),ctx=canvas.getContext("2d",{alpha:false});
+var H=680,WORLD=3900,px=280,cam=0,vw=700,last=0,clock=0,walk=0,dir=1;
+var keys={left:false,right:false},target=null,roomName="";
+var rooms=[{x:0,end:980,name:"The Library"},{x:980,end:1950,name:"The West Hall"},{x:1950,end:2920,name:"Portrait Gallery"},{x:2920,end:3900,name:"The Attic Landing"}];
+var beat=-1;
+var beats=[
+ {x:380,w:290,speaker:"MALLOW",face:0,text:"At twelve minutes past midnight, the librarian vanished. I watched the door. Nobody came in or out."},
+ {x:785,w:200,speaker:"MALLOW",face:0,text:"I heard stone scraping behind this fireplace. There's a mark hidden in the soot."},
+ {x:1740,w:250,speaker:"FERN",face:1,text:"The front door is still sealed with wax. Nobody used it. But there's mud on the hearthstones."},
+ {x:2510,w:250,speaker:"MISS WISP",face:2,text:"I saw a living figure near the fireplace. I didn't kidnap anybody! And then I heard stone sliding."},
+ {x:3490,w:240,speaker:"THE MANOR",face:2,text:"The librarian left a warning about a hidden star map, a secret passage, and someone called the Collector."}
 ];
-function setGameView(show){
- var room=$("manor-room"),board=$("puzzle-stage"),story=$("story-stage");
- room.classList.toggle("puzzle-active",!!show);
- board.hidden=!show;story.hidden=!!show;
- var target=show?board:story;
- if(target&&target.scrollIntoView)target.scrollIntoView({behavior:"smooth",block:show?"start":"center"});
+function clamp(x,a,b){return Math.max(a,Math.min(b,x))}
+function lerp(a,b,t){return a+(b-a)*t}
+function fill(x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(x,y,w,h)}
+function path(points,c){ctx.beginPath();ctx.moveTo(points[0],points[1]);for(var i=2;i<points.length;i+=2)ctx.lineTo(points[i],points[i+1]);ctx.closePath();ctx.fillStyle=c;ctx.fill()}
+function ellipse(x,y,rx,ry,c){ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);ctx.fillStyle=c;ctx.fill()}
+function line(x,y,x2,y2,c,w){ctx.strokeStyle=c;ctx.lineWidth=w;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x2,y2);ctx.stroke()}
+function rrect(x,y,w,h,r,c){ctx.fillStyle=c;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
+function glow(x,y,r,c){var g=ctx.createRadialGradient(x,y,2,x,y,r);g.addColorStop(0,c);g.addColorStop(1,"#0000");ctx.fillStyle=g;ctx.fillRect(x-r,y-r,r*2,r*2)}
+function tallWindow(x){
+ rrect(x-68,128,136,270,[67,67,4,4],"#161a29");
+ var g=ctx.createLinearGradient(x,131,x,392);g.addColorStop(0,"#29304a");g.addColorStop(.5,"#54617b");g.addColorStop(1,"#242b47");
+ rrect(x-53,141,106,241,[51,51,3,3],g);
+ glow(x+8,188,100,"#d9d5d55a");
+ ellipse(x+18,183,21,21,"#ebd7b0");glow(x+18,183,95,"#cfc9f028");
+ for(var s=0;s<17;s++){var sx=x-40+(s*47%80),sy=145+(s*67%160);ellipse(sx,sy,1.1,1.1,"#e3e4e4b2")}
+ line(x,141,x,382,"#9c7c5e",8);line(x-53,265,x+53,265,"#b18b61",7);
+ line(x-64,383,x+64,383,"#ac885f",11);
 }
-function renderStory(){
- if(!s)return;
- var chapter=storyScenes[s.level],after=s.storyPhase==="after",intro=s.storyPhase==="intro";
- var beats=after?chapter.after:chapter.intro;
- var dialogue=beats[Math.min(beats.length-1,s.storyStep||0)];
- if(s.storyPhase==="deduction"){
-  dialogue={speaker:"YOUR TURN, DETECTIVE",text:"Three witnesses. Three clues. One explanation fits them all. Open your notebook, review the evidence, and decide what happened."};
-  beats=[dialogue];
+function woodPanels(from,to,wall){
+ fill(from,0,to-from,580,wall);
+ for(var x=from+25;x<to;x+=145){
+  rrect(x,84,120,386,3,"#191c2e77");ctx.strokeStyle="#b296694a";ctx.lineWidth=3;ctx.strokeRect(x+7,93,106,367);
+  line(x+18,421,x+110,421,"#a2805765",2);
  }
- if(s.storyPhase==="solved"){
-  dialogue={speaker:"MYSTERY SOLVED",text:"The librarian hid the star map and disappeared into the secret passage. You followed every clue. But someone called the Collector is still out there…"};
-  beats=[dialogue];
- }
- $("story-scene-label").textContent=(after?"CLUE REVEAL · ":"SCENE · ")+chapter.name.toUpperCase();
- $("story-beat-label").textContent=String(Math.min(beats.length,s.storyStep+1)).padStart(2,"0")+" / "+String(beats.length).padStart(2,"0");
- $("story-speaker").textContent=dialogue.speaker;
- $("story-dialogue").textContent=dialogue.text;
- $("story-clue-art").hidden=!after;
- $("story-clue-art").innerHTML=after?(clueImages[s.level]||""):"";
- var last=s.storyStep>=beats.length-1;
- var label=intro&&last?"Solve the Spell ✦":after&&last?(s.level===2?"Solve the Mystery 🔎":"Continue to Next Scene ›"):s.storyPhase==="deduction"?"Open Detective's Notebook ›":s.storyPhase==="solved"?"Replay the Case ↻":"Continue Story ›";
- $("story-continue").innerHTML=label;
- $("story-action-note").textContent=intro?"Follow the story. The puzzle appears when it's time to play.":after?"Clue "+(s.level+1)+" of 3 recovered.":"Review your clues before making your choice.";
- $("witness-teaser").textContent=dialogue.speaker==="THE MANOR"?"The manor has a story to tell…":dialogue.text;
+ fill(from,72,to-from,16,"#9f7959");fill(from,91,to-from,8,"#292738");
+ fill(from,466,to-from,9,"#b18e66");
+ fill(from,478,to-from,101,"#2d2630");
+ for(var i=from+8;i<to;i+=170){rrect(i,487,155,82,3,"#493947");ctx.strokeStyle="#a4876052";ctx.lineWidth=3;ctx.strokeRect(i+8,495,138,65)}
 }
-function storyContinue(){
- if(!s||s.busy)return;
- if(s.storyPhase==="intro"){
-  var intro=storyScenes[s.level].intro;
-  if(s.storyStep<intro.length-1){s.storyStep++;renderStory();characterReaction("match");return}
-  s.storyPhase="puzzle";setGameView(true);message("Match the target charms to uncover the clue.");return;
- }
- if(s.storyPhase==="after"){
-  var after=storyScenes[s.level].after;
-  if(s.storyStep<after.length-1){s.storyStep++;renderStory();characterReaction("match");return}
-  if(s.level<2){initialize(s.level+1);return}
-  s.storyPhase="deduction";s.storyStep=0;renderStory();return;
- }
- if(s.storyPhase==="deduction"){
-  updateCaseFile();$("casefile-overlay").classList.add("open");return;
- }
- if(s.storyPhase==="solved"){
-  caseProgress=0;maxUnlocked=0;caseSolved=false;persist();initialize(0);return;
- }
+function floorBoard(){
+ var g=ctx.createLinearGradient(0,570,0,680);g.addColorStop(0,"#806049");g.addColorStop(.12,"#523d37");g.addColorStop(1,"#261f27");fill(0,570,WORLD,110,g);
+ for(var x=0;x<WORLD;x+=95){line(x,579,x+18,680,"#15162274",2);line(x+4,600,x+14,600,"#b4926242",2)}
+ for(var y=590;y<680;y+=24)line(0,y,WORLD,y,"#c79a663c",2);
+ fill(0,566,WORLD,15,"#ae8a5b");line(0,566,WORLD,566,"#efcfa073",3);
 }
-
-function initialize(level){
-token++;
-var c=chapters[level];
-s={level:level,storyPhase:"intro",storyStep:0,activeWitness:Math.min(level,maxUnlocked),matchReady:[],board:[],score:0,moves:c.moves,left:Object.assign({},c.goal),hints:3,shuffles:2,selected:-1,hint:[],busy:false,ended:false,boomCount:0,falls:null,swapFX:null,invalid:[]};
-fillBoard();
-$("overlay").classList.remove("open");
-$("chapter-label").textContent="LEVEL "+(level+1)+" OF 3";
-$("chapter-title").textContent=c.name;
-$("chapter-copy").textContent=["Find the first clue.","Follow the trail.","Uncover the last clue."][level];
-$("story-title").textContent=c.short;
-$("story-text").textContent=c.copy;
-$("story-footer").textContent=c.footer;
-message("Swap two charms to match three.");
-updateCaseFile();refreshCast();$("extra-tools").hidden=true;$("menu-toggle").setAttribute("aria-expanded","false");$("puzzle-chapter").textContent="LEVEL "+(level+1)+" OF 3";actionCaption("MATCH 3 → FIND THE CLUE");paint();setGameView(false);renderStory();
+function rug(x,w){
+ var g=ctx.createLinearGradient(0,565,0,650);g.addColorStop(0,"#8b3744");g.addColorStop(1,"#542838");
+ path([x,582,x+w,582,x+w+30,666,x-30,666],g);
+ line(x+15,594,x+w-15,594,"#c99a67",3);line(x-8,660,x+w+9,660,"#c99a67",3);
+ for(var i=x+85;i<x+w;i+=155){ellipse(i,618,39,16,"#c59a6344");ellipse(i,618,24,9,"#5e293f")}
 }
-var clueImages=["<svg viewBox=\"0 0 340 175\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"An open spellbook at the foot of a fireplace with a hidden stone seam\"><rect width=\"340\" height=\"175\" fill=\"#624963\"/><path d=\"M0 139H340V175H0Z\" fill=\"#463443\"/><g stroke=\"#a4888c\" opacity=\".38\" stroke-width=\"3\"><path d=\"M0 45H340M0 94H340M70 0V45M212 45V94\"/></g><path d=\"M195 153V61Q195 23 264 23Q324 23 327 65V152\" fill=\"#251729\" stroke=\"#c8a5a2\" stroke-width=\"11\"/><path d=\"M225 141Q220 104 250 87Q251 64 270 53Q291 79 284 103Q311 80 312 140Z\" fill=\"#ec9764\" stroke=\"#ffe0a3\" stroke-width=\"4\"/><path d=\"M199 38V154\" stroke=\"#22182a\" stroke-width=\"5\" stroke-dasharray=\"6 5\"/><path d=\"M15 144L111 111L180 139L81 171Z\" fill=\"#a45b7d\" stroke=\"#f1baa8\" stroke-width=\"4\"/><path d=\"M22 132Q65 110 111 133V160Q67 140 21 157Z\" fill=\"#ead4ae\" stroke=\"#a58277\" stroke-width=\"3\"/><path d=\"M111 133Q155 110 176 142V158Q142 139 111 160Z\" fill=\"#f2dbb4\" stroke=\"#a58277\" stroke-width=\"3\"/><path d=\"M39 134Q72 124 97 138M38 144Q64 133 94 149M124 134L159 146\" stroke=\"#b39686\" stroke-width=\"2\" fill=\"none\"/><g fill=\"#312233\"><circle cx=\"184\" cy=\"145\" r=\"5\"/><circle cx=\"181\" cy=\"128\" r=\"3\"/><circle cx=\"197\" cy=\"133\" r=\"2\"/></g><path d=\"M97 117L111 111L124 119\" fill=\"none\" stroke=\"#fff0d3\" opacity=\".8\"/></svg>","<svg viewBox=\"0 0 340 175\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"A grandfather clock frozen at twelve thirteen next to a sealed letter\"><rect width=\"340\" height=\"175\" fill=\"#615174\"/><path d=\"M0 157H340\" stroke=\"#89728b\" stroke-width=\"15\"/><path d=\"M16 172V14H145V172Z\" fill=\"#765167\" stroke=\"#cca184\" stroke-width=\"9\"/><circle cx=\"80\" cy=\"61\" r=\"38\" fill=\"#ebdac1\" stroke=\"#f1e5ce\" stroke-width=\"4\"/><circle cx=\"80\" cy=\"61\" r=\"30\" fill=\"none\" stroke=\"#ac8c85\" stroke-dasharray=\"3 5\" stroke-width=\"3\"/><path d=\"M80 61L80 34M80 61L100 50\" stroke=\"#74526d\" stroke-width=\"5\" stroke-linecap=\"round\"/><circle cx=\"80\" cy=\"61\" r=\"5\" fill=\"#aa7c79\"/><rect x=\"56\" y=\"110\" width=\"48\" height=\"46\" rx=\"8\" fill=\"#39253b\" stroke=\"#bd937b\" stroke-width=\"4\"/><path d=\"M80 114V136\" stroke=\"#e7ba80\" stroke-width=\"4\"/><circle cx=\"80\" cy=\"141\" r=\"10\" fill=\"#ddc18f\"/><path d=\"M191 28H316V150H191Z\" fill=\"#e8cdab\" stroke=\"#c19c8b\" stroke-width=\"7\"/><path d=\"M207 52L294 51M208 67L289 67M207 85L297 85\" stroke=\"#b3908e\" stroke-width=\"3\"/><path d=\"M211 31L302 120\" stroke=\"#d1a99e\" stroke-width=\"2\"/><circle cx=\"256\" cy=\"116\" r=\"20\" fill=\"#b34a71\" stroke=\"#eec49e\" stroke-width=\"3\"/><path d=\"M245 115L255 126L270 103\" stroke=\"#ffdbc5\" fill=\"none\" stroke-width=\"4\"/></svg>","<svg viewBox=\"0 0 340 175\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"A handwritten secret note and a glittering enchanted star map\"><rect width=\"340\" height=\"175\" fill=\"#534678\"/><circle cx=\"276\" cy=\"26\" r=\"24\" fill=\"#f6e4ba\"/><g fill=\"#f9e8c6\"><circle cx=\"232\" cy=\"58\" r=\"2\"/><circle cx=\"319\" cy=\"66\" r=\"2\"/><circle cx=\"179\" cy=\"23\" r=\"2\"/></g><path d=\"M24 22L198 18L218 161L42 163Z\" fill=\"#efd6ae\" stroke=\"#bb947f\" stroke-width=\"5\"/><path d=\"M52 49Q87 42 126 53L166 47M55 68L186 67M56 84L184 85M60 104L182 103M63 120L160 121\" stroke=\"#a78483\" fill=\"none\" stroke-width=\"3\" stroke-dasharray=\"14 5\"/><circle cx=\"175\" cy=\"142\" r=\"14\" fill=\"#ac5272\" stroke=\"#f7d7b2\" stroke-width=\"3\"/><path d=\"M175 133L178 141L186 144L180 148L181 156L175 151L169 155L171 147L165 142L172 140Z\" fill=\"#ffe2a8\"/><path d=\"M220 105L313 94L327 159L228 168Z\" fill=\"#6f6087\" stroke=\"#ddc2bf\" stroke-width=\"4\"/><path d=\"M237 140L253 121L272 135L292 111L311 129\" fill=\"none\" stroke=\"#f1d6a4\" stroke-width=\"3\" stroke-dasharray=\"5 4\"/><circle cx=\"237\" cy=\"140\" r=\"5\" fill=\"#e2bbe7\"/><circle cx=\"311\" cy=\"129\" r=\"5\" fill=\"#e2bbe7\"/></svg>"];
-function pictureClue(i){
- var shown=typeof i==="number"&&i>=0&&i<clueImages.length;
- $("clue-preview").hidden=!shown;
- $("clue-preview").innerHTML=shown?clueImages[i]:"";
- $("modal-icon").hidden=shown;
+function candle(x,y){
+ fill(x-4,y,8,31,"#c8ad82");fill(x-6,y-3,12,5,"#ead2a7");
+ var flame=Math.sin(clock*6+x)*3;
+ glow(x,y-10,62,"#ffc97d2a");ellipse(x,y-13+flame,5,10,"#ffad6b");ellipse(x,y-13+flame,2.5,7,"#ffefd0")
 }
-function showModal(icon,title,desc,action,label,pictureIndex,personIndex){
- pictureClue(pictureIndex);
- var face=$("dialog-portrait"),hasFace=typeof personIndex==="number"&&personIndex>=0;
- face.hidden=!hasFace;face.classList.toggle("talking",hasFace);
- face.innerHTML=hasFace?portrait(personIndex):"";
- if(hasFace)$("modal-icon").hidden=true;
-
-$("modal-icon").textContent=icon;$("modal-title").textContent=title;$("modal-copy").textContent=desc;$("modal-button").dataset.action=action;$("modal-button").textContent=label;$("overlay").classList.add("open");
+function lamp(x){
+ line(x,80,x,155,"#a98962",5);ellipse(x,163,24,12,"#c6a37c");candle(x,166);glow(x,176,190,"#f5d49d24")
 }
-function finish(win){
- s.ended=!!win;s.busy=false;
- best=Math.max(best,s.score);
- if(win){
-  caseProgress=Math.max(caseProgress,s.level+1);
-  maxUnlocked=Math.max(maxUnlocked,Math.min(2,s.level+1));
-  persist();updateCaseFile();refreshCast();
-  characterReaction("win");roomReaction("clue");
-  s.storyPhase="after";s.storyStep=0;
-  s.ended=false;
-  setGameView(false);renderStory();
- }else{
-  s.ended=true;
-  characterReaction("fail");
-  showModal("🌙","The Spell Faded","You ran out of moves before finding the clue. Try the puzzle again.","retry-puzzle","Try Puzzle Again ↻");
- }
- paint();
-}
-/* Spark fragments are drawn over each tile as it bursts. */
-function burstCells(indices,large){
- if(!indices||!indices.length||!document.createElement)return;
- if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
- var layer=$("fx-layer"),board=$("board");
- if(!layer||!board||!layer.getBoundingClientRect)return;
- var bounds=layer.getBoundingClientRect(),created=[];
- for(var n=0;n<Math.min(indices.length,large?20:14);n++){
-  var i=indices[n],cell=board.children[i];
-  if(!cell||!cell.getBoundingClientRect)continue;
-  var rect=cell.getBoundingClientRect();
-  var x=rect.left+rect.width/2-bounds.left,y=rect.top+rect.height/2-bounds.top;
-  var type=s.board[i]?s.board[i].type:0;
-  var colors=["#ffd27e","#d6b5fa","#fff1ae","#f2a9cc","#a7e7ff","#b7ffd0","#fff1b3"];
-  var count=large?7:4;
-  for(var k=0;k<count;k++){
-   var angle=(k/count)*Math.PI*2+(i%4)*.3;
-   var length=(large?30:16)+(k%3)*7;
-   var p=document.createElement("span");
-   p.className="fx-spark"+(k%3===0?" star":k%4===0?" smoke":"");
-   p.style.left=x+"px";p.style.top=y+"px";
-   p.style.setProperty("--dx",(Math.cos(angle)*length)+"px");
-   p.style.setProperty("--dy",(Math.sin(angle)*length-(large?6:13))+"px");
-   p.style.setProperty("--rot",(45+k*55)+"deg");
-   p.style.setProperty("--spark-color",colors[type]||"#ffeab2");
-   layer.appendChild(p);created.push(p);
+function bookshelf(x,w){
+ rrect(x,168,w,385,8,"#160f1b");rrect(x+8,175,w-16,368,3,"#543c32");
+ for(var y=190;y<=491;y+=74){
+  fill(x+13,y+55,w-26,11,"#b1895d");
+  for(var p=x+18;p<x+w-20;p+=10+((p*7|0)%11)){
+   var bw=8+((p*3|0)%7),bh=30+((p*11|0)%25);
+   var cols=["#7c4948","#31455b","#917254","#445b4b","#735765"];
+   rrect(p,y+55-bh,bw,bh,1,cols[Math.abs(p|0)%5]);
+   line(p+3,y+59-bh,p+3,y+53,"#c8ab7666",1);
   }
  }
- if(large){
-  var ring=document.createElement("span");ring.className="fx-ring";
-  var origin=indices[Math.floor(indices.length/2)],tile=board.children[origin];
-  if(tile&&tile.getBoundingClientRect){
-   var p=tile.getBoundingClientRect();
-   ring.style.left=(p.left+p.width/2-bounds.left)+"px";
-   ring.style.top=(p.top+p.height/2-bounds.top)+"px";
-   layer.appendChild(ring);created.push(ring);
-  }
+ line(x+1,164,x+w,164,"#d8ad78",9);line(x+1,541,x+w,541,"#bd8f62",11);
+}
+function fireplace(x){
+ rrect(x-127,273,254,293,4,"#5c4140");
+ rrect(x-111,287,222,282,2,"#a58263");
+ rrect(x-92,321,184,241,[82,82,0,0],"#17151c");
+ rrect(x-144,277,288,24,4,"#cfaa76");
+ rrect(x-150,302,300,9,3,"#5c423a");
+ for(var i=0;i<8;i++){line(x-110+(i*29),318,x-110+(i*29),560,"#e0b88a36",2)}
+ var g=ctx.createRadialGradient(x,511,5,x,498,107);g.addColorStop(0,"#ffc66fbb");g.addColorStop(1,"#0000");fill(x-120,385,240,187,g);
+ for(var f=0;f<4;f++){var ff=Math.sin(clock*8+f)*10,xx=x-49+f*29;path([xx-13,551,xx-6,511+ff,xx,474-f*8+ff,xx+12,521+ff,xx+17,552],"#ea8b4f");}
+ fill(x-76,552,151,8,"#59372c");rrect(x-115,565,230,8,2,"#bb976c");
+}
+function clockcase(x){
+ rrect(x-49,250,98,312,7,"#482f31");rrect(x-41,257,82,304,5,"#816044");
+ rrect(x-36,270,72,126,[27,27,6,6],"#b39269");
+ ellipse(x,331,29,29,"#e1cda3");ellipse(x,331,26,26,"#6f523a");
+ ellipse(x,331,23,23,"#e4d6b5");line(x,331,x+10,311,"#3a2c32",3);line(x,331,x+14,340,"#3a2c32",2.5);
+ for(var i=0;i<12;i++){var a=i*Math.PI/6;ellipse(x+19*Math.sin(a),331-19*Math.cos(a),1.3,1.3,"#574637")}
+ rrect(x-30,412,60,117,3,"#3d2a2a");ellipse(x+Math.sin(clock*.8)*12,471,9,20,"#ddbb7d");
+ rrect(x-62,545,124,26,3,"#79533e");
+}
+function sealedDoor(x){
+ rrect(x-87,160,174,409,[80,80,2,2],"#15131e");
+ rrect(x-74,174,148,391,[68,68,0,0],"#654a3e");
+ for(var i=0;i<3;i++)rrect(x-56,241+i*94,111,71,3,"#3c2b30");
+ line(x-75,185,x-75,567,"#b28a6290",5);line(x+76,185,x+76,567,"#b28a6290",5);
+ ellipse(x+50,392,5,5,"#e2b178");ellipse(x+56,396,11,11,"#8c2437");
+}
+function portrait(x,y,mode){
+ rrect(x-85,y-9,170,211,5,"#946d4b");rrect(x-75,y+1,150,190,4,"#2d2536");
+ if(mode===0){ellipse(x,y+77,45,55,"#6a4c51");ellipse(x,y+59,24,28,"#c5a989");path([x-25,y+49,x-30,y+24,x+2,y+7,x+25,y+43],"#40303a")}
+ else if(mode===1){ellipse(x,y+77,45,55,"#293a4f");ellipse(x,y+59,25,28,"#b49a81");rrect(x-29,y+25,58,18,3,"#6e514b")}
+ else {glow(x,y+95,90,"#9ab7cd5a");ellipse(x,y+87,34,55,"#aebdd0a3");ellipse(x,y+42,23,27,"#e4dcd0")}
+ rrect(x-79,y+192,160,7,2,"#ccaa78");
+}
+function stairs(x){
+ for(var i=0;i<9;i++){
+  var sx=x+i*52,top=562-i*27;
+  path([sx,568,sx+60,568,sx+60,top,sx,top],i%2?"#5c4141":"#745047");
+  line(sx,top,sx+60,top,"#d2af7b",5);
  }
- setTimeout(function(){created.forEach(function(x){if(x.parentNode)x.parentNode.removeChild(x)})},800);
+ line(x,480,x+467,270,"#c4a179",5);
+ for(var j=0;j<9;j++)line(x+j*53,476-j*25,x+j*53,423-j*25,"#ad835f",4);
 }
-function comboBurst(n){
- if(n<2||!document.createElement)return;
- var layer=$("fx-layer"),span=document.createElement("span");
- span.className="fx-combo";span.textContent="✧ "+n+"× COMBO! ✧";
- layer.appendChild(span);setTimeout(function(){if(span.parentNode)span.parentNode.removeChild(span)},850);
+function chest(x){
+ rrect(x-100,488,200,77,9,"#573b35");rrect(x-100,482,200,25,9,"#98714a");
+ for(var i=-1;i<=1;i+=2)rrect(x+i*72-4,480,8,90,2,"#c5a26e");
+ rrect(x-14,511,28,31,3,"#b89b68");
 }
-
-
-function updateProgress(indices){
-for(var i=0;i<indices.length;i++){
-var idx=indices[i],p=s.board[idx];
-if(p&&Object.prototype.hasOwnProperty.call(s.left,p.type))s.left[p.type]=Math.max(0,s.left[p.type]-1);
+function wisp(x,t){
+ var y=462+Math.sin(t*1.8)*11;
+ glow(x,y-20,115,"#a3c7e847");
+ ctx.save();ctx.globalAlpha=.83;
+ var g=ctx.createLinearGradient(0,y-72,0,y+80);g.addColorStop(0,"#e7ebff");g.addColorStop(1,"#6a8cab12");
+ path([x-28,y-30,x-40,y+39,x-30,y+75,x-7,y+55,x+13,y+85,x+30,y+47,x+40,y-29],g);
+ ellipse(x,y-42,28,37,"#c6ddf4");ellipse(x-9,y-44,3,5,"#283544");ellipse(x+9,y-44,3,5,"#283544");ellipse(x,y-27,6,3,"#9e6681");
+ path([x-27,y-45,x-35,y-73,x-5,y-95,x+27,y-74,x+30,y-45],"#8ea7c5b7");
+ ellipse(x-39,y+17,12,7,"#d6eaff99");ellipse(x+40,y+12,12,7,"#d6eaff99");
+ ctx.restore()
 }
+function fern(x,t){
+ var b=Math.sin(t*1.6)*2;ctx.save();ctx.translate(x,0);
+ ellipse(0,572,47,12,"#02050e66");
+ path([-38,562,-32,463+b,-20,427+b,19,425+b,34,460+b,40,562],"#425043");
+ path([-25,479+b,26,479+b,20,545+b,-26,545+b],"#52624c");
+ rrect(-23,537+b,18,28,3,"#302e30");rrect(6,537+b,18,28,3,"#302e30");
+ ellipse(0,407+b,25,31,"#c3a286");
+ path([-27,407+b,-25,384+b,-16,373+b,24,376+b,32,402+b],"#767568");
+ rrect(-37,379+b,74,9,3,"#575b48");ellipse(-9,407+b,2.3,2.9,"#3a302b");ellipse(9,407+b,2.3,2.9,"#3a302b");
+ line(-26,476+b,-45,511+b,"#c3a286",11);line(24,475+b,46,516+b,"#c3a286",11);
+ glow(53,532,62,"#e7c88345");rrect(37,517,30,34,3,"#c1aa77");rrect(43,524,18,20,2,"#ffdf97");ctx.restore()
 }
-function gravity(){
- s.falls={};
- for(var col=0;col<N;col++){
-  var kept=[];
-  for(var row=N-1;row>=0;row--){var p=s.board[position(row,col)];if(p)kept.push({piece:p,origin:row})}
-  for(var row=N-1;row>=0;row--){
-   var idx=position(row,col),k=N-1-row;
-   if(k<kept.length){s.board[idx]=kept[k].piece;var fall=row-kept[k].origin;if(fall>0)s.falls[idx]=fall}
-   else{s.board[idx]=piece(random(6));s.falls[idx]=row+1+(k-kept.length)}
-  }
+function mallow(x,t,moving,facing){
+ var bounce=moving?Math.sin(walk*14)*3:Math.sin(t*2.4)*1.7;
+ var step=moving?Math.sin(walk*14)*11:0;
+ ctx.save();ctx.translate(x,560+bounce);ctx.scale(facing,1);
+ ellipse(0,15,53,11,"#070a14a0");
+ // Tail is expressive and sways independently.
+ ctx.strokeStyle="#161922";ctx.lineWidth=18;ctx.lineCap="round";
+ ctx.beginPath();ctx.moveTo(-31,-53);ctx.bezierCurveTo(-65,-76,-76,-21,-89,-46+Math.sin(t*4)*11);ctx.stroke();
+ ctx.strokeStyle="#31303b";ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(-33,-54);ctx.bezierCurveTo(-66,-75,-74,-21,-87,-44+Math.sin(t*4)*10);ctx.stroke();
+ // Animated feet.
+ rrect(-26+step,-26,19,33,8,"#171922");rrect(6-step,-26,19,33,8,"#12141b");
+ ellipse(-17+step,5,14,7,"#282932");ellipse(16-step,5,14,7,"#262734");
+ var body=ctx.createLinearGradient(-40,-95,38,-25);body.addColorStop(0,"#35323c");body.addColorStop(.5,"#101319");body.addColorStop(1,"#282b36");
+ ellipse(-1,-52,41,49,body);ellipse(13,-46,18,27,"#55546233");
+ path([-42,-97,-30,-136,-5,-109,25,-137,42,-96],"#151821");
+ path([-36,-101,-29,-127,-12,-107],"#40333b");
+ path([11,-109,24,-128,35,-99],"#44353b");
+ ellipse(0,-92,42,38,body);
+ // Side-glance animation with a warm golden iris.
+ ellipse(19,-98,11,13,"#f0c57f");ellipse(23,-99,4.9,9,"#302b32");ellipse(24,-102,2,2,"#fff2d9");
+ ellipse(-8,-98,8,12,"#cda86b");ellipse(-6,-98,3.4,8,"#342c32");
+ path([7,-81,16,-84,11,-77],"#c99392");
+ for(var k=-1;k<=1;k++){line(11,-81,43,-82+k*8,"#b7a8a0",1.2);line(5,-81,-26,-82+k*8,"#b7a8a0",1.2)}
+ ctx.restore()
+}
+function drawScene(){
+ var g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,"#101a27");g.addColorStop(1,"#252133");fill(0,0,WORLD,H,g);
+ woodPanels(0,980,"#343044");woodPanels(980,1950,"#3a3040");woodPanels(1950,2920,"#292b3e");woodPanels(2920,WORLD,"#30283a");
+ // Atmospheric overlays from the original Manor asset, used only in the library.
+ if(bg.complete&&bg.naturalWidth){ctx.globalAlpha=.18;ctx.drawImage(bg,0,0,980,575);ctx.globalAlpha=1}
+ for(var x=0;x<WORLD;x+=480){line(x,92,x,562,"#b0926a75",15);line(x+13,93,x+13,560,"#211b25",3)}
+ tallWindow(545);tallWindow(1135);tallWindow(2180);tallWindow(3160);
+ bookshelf(34,225);bookshelf(302,190);bookshelf(838,126);
+ fireplace(708);rrect(622,244,174,19,2,"#b18a61");candle(659,210);candle(754,210);
+ sealedDoor(1357);clockcase(1655);
+ lamp(410);lamp(1200);lamp(1890);lamp(2450);lamp(3300);
+ portrait(2055,204,0);portrait(2335,189,1);portrait(2743,220,2);
+ stairs(2990);chest(3588);
+ rug(155,530);rug(1150,640);rug(2130,570);rug(3160,555);
+ floorBoard();
+ // Foreground scenery, kept behind Mallow.
+ fern(1835,clock);wisp(2560,clock);
+ // Floating ambient dust in the foreground.
+ for(var n=0;n<82;n++){
+  var dx=(n*199+Math.sin(clock*.55+n*2)*35)%WORLD;
+  if(dx<cam-50||dx>cam+vw+50)continue;
+  var dy=100+(n*131%380)+Math.sin(clock*.9+n)*21;
+  ellipse(dx,dy,1.2+(n%3)*.4,1.2+(n%2)*.4,n%5===0?"#c4d4ef83":"#f6dcbb6b");
+ }
+ mallow(px,clock,Math.abs(walkSpeed)>2,dir);
+ // Soft pool of light moves with the cat.
+ glow(px,450,100,"#ffe2a414")
+}
+var bg=new Image();bg.src="assets/mystery_manor_library_bg.webp?v=2";
+function resize(){
+ var rect=$("viewport").getBoundingClientRect(),dpr=Math.min(2,window.devicePixelRatio||1);
+ canvas.width=Math.max(1,Math.round(rect.width*dpr));canvas.height=Math.max(1,Math.round(rect.height*dpr));
+ vw=Math.max(200,Math.min(WORLD,H*rect.width/Math.max(1,rect.height)));
+}
+window.addEventListener("resize",resize);resize();
+function holdButton(id,key){
+ var el=$(id);
+ el.addEventListener("pointerdown",function(e){e.preventDefault();keys[key]=true;target=null;el.classList.add("pressed");try{el.setPointerCapture(e.pointerId)}catch(err){}});
+ function stop(){keys[key]=false;el.classList.remove("pressed")}
+ ["pointerup","pointercancel","lostpointercapture"].forEach(function(n){el.addEventListener(n,stop)});
+}
+holdButton("left","left");holdButton("right","right");
+window.addEventListener("pointerup",function(){keys.left=false;keys.right=false;$("left").classList.remove("pressed");$("right").classList.remove("pressed")});
+window.addEventListener("blur",function(){keys.left=false;keys.right=false;target=null});
+window.addEventListener("keydown",function(e){
+ if(["ArrowLeft","a","A"].includes(e.key)){keys.left=true;target=null;e.preventDefault()}
+ if(["ArrowRight","d","D"].includes(e.key)){keys.right=true;target=null;e.preventDefault()}
+});
+window.addEventListener("keyup",function(e){if(["ArrowLeft","a","A"].includes(e.key))keys.left=false;if(["ArrowRight","d","D"].includes(e.key))keys.right=false});
+canvas.addEventListener("pointerdown",function(e){
+ var r=canvas.getBoundingClientRect(),tap=(e.clientX-r.left)/r.width*vw+cam;
+ target=clamp(tap,70,WORLD-72);
+});
+var walkSpeed=0;
+function updateStory(){
+ var room=rooms.find(function(r){return px>=r.x&&px<r.end})||rooms[3];
+ if(room.name!==roomName){roomName=room.name;$("where").textContent=roomName}
+ $("position-fill").style.width=(100*px/(WORLD-80)).toFixed(1)+"%";
+ var closest=-1,dist=1e8;
+ for(var i=0;i<beats.length;i++){var d=Math.abs(beats[i].x-px);if(d<beats[i].w&&d<dist){closest=i;dist=d}}
+ if(closest!==beat){
+  beat=closest;var panel=$("story");
+  panel.classList.toggle("visible",beat!==-1);
+  if(beat>=0){var b=beats[beat];$("speaker").textContent=b.speaker;$("speech").textContent=b.text;$("face").style.backgroundPosition=(b.face===0?"0%":b.face===1?"50%":"100%")+" 50%"}
  }
 }
-async function settle(preferred,activeToken){
-var chain=0;
-while(chain<25){
-var found=scan(s.board,preferred);
-if(!found.remove.length&&!found.anchors.length)break;
-chain++;
-found.anchors.forEach(function(i){s.board[i]=piece(6)});
-s.matchReady=found.remove.slice();
-paint();
-actionCaption(found.anchors.length?"✧ FOUR IN A PATTERN — HEX BOMB!":"✧ MATCH FOUND — WATCH THE GLOW");
-await sleep(160);if(activeToken!==token)return;
-s.matchReady=[];
-if(found.anchors.length){message("👻 Hex Bomb created!");tone(760)}
-message(found.anchors.length?"✨ A HEX BOMB IS APPEARING!":chain>1?"✨ CASCADE "+chain+"!":"✦ Matching charms — watch them burst!");
- actionCaption(found.anchors.length?"✦ FOUR CONNECTED — HEX BOMB FORMED!":"✧ MATCH CONFIRMED — WATCH THE CHARM BURST");if(found.anchors.length)characterReaction("match");
-paint(found.remove);
-burstCells(found.remove,false);
-await sleep(250);if(activeToken!==token)return;
-updateProgress(found.remove);
-found.remove.forEach(function(i){s.board[i]=null});
-s.score+=found.remove.length*60*chain+found.anchors.length*210;
-gravity();
-message("✦ More enchanted charms are falling into place…");
-paint();
-await sleep(490);if(activeToken!==token)return;
-s.falls=null;
-preferred=-1;
+function frame(ms){
+ var dt=Math.min(.04,Math.max(0,(ms-last)/1000||.016));last=ms;clock+=dt;
+ var move=(keys.right?1:0)-(keys.left?1:0);
+ if(move===0&&target!==null){var delta=target-px;move=Math.abs(delta)<7?0:Math.sign(delta);if(!move)target=null}
+ walkSpeed=lerp(walkSpeed,move*285,Math.min(1,dt*12));
+ if(move===0&&Math.abs(walkSpeed)<1)walkSpeed=0;
+ px=clamp(px+walkSpeed*dt,72,WORLD-72);
+ if(px===72&&walkSpeed<0||px===WORLD-72&&walkSpeed>0)walkSpeed=0;
+ if(Math.abs(walkSpeed)>3){dir=Math.sign(walkSpeed);walk+=dt}
+ var camTarget=clamp(px-vw*.41,0,Math.max(0,WORLD-vw));cam=lerp(cam,camTarget,Math.min(1,dt*7.6));
+ if(Math.abs(cam-camTarget)<.4)cam=camTarget;
+ var scale=canvas.height/H,cssW=canvas.width/scale;
+ ctx.setTransform(scale,0,0,scale,0,0);ctx.fillStyle="#0e1420";ctx.fillRect(0,0,cssW,H);
+ ctx.save();ctx.translate(-cam,0);drawScene();ctx.restore();
+ updateStory();
+ requestAnimationFrame(frame);
 }
-if(chain>1){message("✨ Magical cascade! "+chain+" matches in a row!");actionCaption("✧ CHAIN REACTION × "+chain);characterReaction("match");comboBurst(chain)}
-else if(chain===1)message("Beautiful match! Keep collecting clues.");
-}
-async function explode(index,activeToken){
-var affected=new Set(),queue=[index],triggered=new Set();
-while(queue.length){
-var centre=queue.shift();
-if(triggered.has(centre))continue;triggered.add(centre);
-for(var dy=-1;dy<=1;dy++)for(var dx=-1;dx<=1;dx++){
-var row=Math.floor(centre/N)+dy,col=centre%N+dx;
-if(row<0||row>=N||col<0||col>=N)continue;
-var j=position(row,col);affected.add(j);
-if(s.board[j]&&s.board[j].special&&!triggered.has(j))queue.push(j);
-}
-}
-message("💥 HEX BOMB! Ghostly magic clears a 3×3 area!");actionCaption("✦ HEX BOMB! ✦");characterReaction("match");roomReaction("bomb");
-var flash=document.querySelector(".board-wrap");flash.classList.remove("flash");void flash.offsetWidth;flash.classList.add("flash");
-tone(330);
-paint(Array.from(affected));burstCells(Array.from(affected),true);await sleep(330);if(activeToken!==token)return;
-updateProgress(Array.from(affected));
-affected.forEach(function(i){s.board[i]=null});
-s.score+=affected.size*90;s.boomCount++;
-gravity();paint();await sleep(525);if(activeToken!==token)return;s.falls=null;
-await settle(-1,activeToken);
-}
-function endCheck(){
-if(Object.keys(s.left).every(function(k){return s.left[k]<=0})){finish(true);return}
-if(s.moves<=0){finish(false);return}
-if(!possible(s.board)){fillBoard();message("✨ The manor shuffled the charms for you!")}
-best=Math.max(best,s.score);persist();paint();
-}
-async function trySwap(a,b){
- if(s.busy||s.ended||!neighbors(a,b))return;
- s.busy=true;s.hint=[];s.selected=-1;
- var dx=((b%N)-(a%N))*104,dy=(Math.floor(b/N)-Math.floor(a/N))*104;
- s.swapFX={};s.swapFX[a]={x:dx,y:dy};s.swapFX[b]={x:-dx,y:-dy};
- swap(s.board,a,b);paint();
- var activeToken=token;
- await sleep(235);if(activeToken!==token)return;
- s.swapFX=null;
- var sa=s.board[a]&&s.board[a].special,sb=s.board[b]&&s.board[b].special;
- var m=scan(s.board,b);
- if(!sa&&!sb&&!m.remove.length&&!m.anchors.length){
-  s.swapFX={};s.swapFX[a]={x:dx,y:dy};s.swapFX[b]={x:-dx,y:-dy};
-  swap(s.board,a,b);paint();await sleep(195);if(activeToken!==token)return;
-  s.swapFX=null;s.invalid=[a,b];paint();
-  message("Those charms won't connect. Try another pair!");actionCaption("THAT SWAP DIDN'T MATCH — TRY AGAIN");characterReaction("fail");tone(210);
-  await sleep(180);if(activeToken!==token)return;
-  s.invalid=[];s.busy=false;paint();return;
- }
- s.moves--;
- if(sa||sb)await explode(sb?b:a,activeToken);
- else await settle(b,activeToken);
- if(activeToken!==token)return;
- s.busy=false;endCheck();
-}
-async function activate(i){
-if(s.busy||s.ended||!s.board[i]||!s.board[i].special)return;
-s.busy=true;s.hint=[];s.selected=-1;s.moves--;
-var activeToken=token;
-await explode(i,activeToken);
-if(activeToken!==token)return;
-s.busy=false;endCheck();
-}
-function choose(i){
-if(!s||s.busy||s.ended)return;
-if(s.board[i]&&s.board[i].special){activate(i);return}
-if(s.selected<0){s.selected=i;s.hint=[];paint();return}
-if(s.selected===i){s.selected=-1;paint();return}
-if(neighbors(s.selected,i)){var a=s.selected;s.selected=-1;trySwap(a,i)}
-else{s.selected=i;paint()}
-}
-$("board").addEventListener("click",function(e){if(Date.now()<swallow)return;var b=e.target.closest("[data-i]");if(b)choose(Number(b.dataset.i))});
-$("board").addEventListener("pointerdown",function(e){var b=e.target.closest("[data-i]");if(b&&!s.busy&&!s.ended)pointer={i:Number(b.dataset.i),x:e.clientX,y:e.clientY}});
-$("board").addEventListener("pointerup",function(e){
-if(!pointer||s.busy||s.ended)return;
-var p=pointer;pointer=null;
-var dx=e.clientX-p.x,dy=e.clientY-p.y;
-if(Math.max(Math.abs(dx),Math.abs(dy))<20)return;
-swallow=Date.now()+350;
-var row=Math.floor(p.i/N),col=p.i%N,j=-1;
-if(Math.abs(dx)>Math.abs(dy)){if(dx>0&&col<N-1)j=p.i+1;else if(dx<0&&col>0)j=p.i-1}
-else{if(dy>0&&row<N-1)j=p.i+N;else if(dy<0&&row>0)j=p.i-N}
-if(j>=0)trySwap(p.i,j);
-});
-$("board").addEventListener("pointercancel",function(){pointer=null});
-$("hint").addEventListener("click",function(){
-if(s.busy||s.ended||!s.hints)return;
-var m=possible(s.board);if(!m){fillBoard();m=possible(s.board)}
-s.hints--;s.hint=m||[];s.selected=-1;paint();message("🔎 The glowing charms show your next move.");
-});
-$("shuffle").addEventListener("click",function(){
-if(s.busy||s.ended||!s.shuffles)return;
-s.shuffles--;s.hint=[];s.selected=-1;fillBoard();paint();message("🔮 The crystal ball has rearranged the charms!");
-});
-$("restart").addEventListener("click",function(){if(!s.busy)initialize(s.level)});
-$("sound").addEventListener("click",function(){if(sound)stopMusic();else startMusic()});
-$("music-volume").addEventListener("input",function(){if(musicAudio)musicAudio.volume=Number(this.value)/100});
-$("modal-button").addEventListener("click",function(){
-var action=this.dataset.action;
-if(action==="next")initialize(Math.min(2,s.level+1));
-else if(action==="see-case"){$("overlay").classList.remove("open");updateCaseFile();$("casefile-overlay").classList.add("open") }
-else if(action==="close")$("overlay").classList.remove("open");
-else if(action==="lose-case"||action==="replay-case"){caseProgress=0;maxUnlocked=0;caseSolved=false;persist();initialize(0);}
-else if(action==="retry-puzzle"){initialize(s.level);s.storyPhase="puzzle";setGameView(true);}
-else initialize(s.level);
-});
-$("story-continue").addEventListener("click",storyContinue);
-$("witness-talk").addEventListener("click",talkToWitness);
-document.querySelectorAll("[data-person]").forEach(function(el){
- el.addEventListener("click",function(){activateWitness(Number(this.dataset.person),true)});
-});
-$("casefile-open").addEventListener("click",function(){updateCaseFile();$("casefile-overlay").classList.add("open")});
-$("casefile-close").addEventListener("click",function(){$("casefile-overlay").classList.remove("open")});
-$("case-witness-list").addEventListener("click",function(e){
- var el=e.target.closest("[data-witness-index]");
- if(!el)return;
- var id=Number(el.dataset.witnessIndex);
- if(id>maxUnlocked){$("casefile-overlay").classList.remove("open");message("You'll meet "+witnesses[id].name+" as the story continues.");return}
- $("casefile-overlay").classList.remove("open");
- activateWitness(id,true);
-});
-$("menu-toggle").addEventListener("click",function(){var e=$("extra-tools"),open=e.hidden;e.hidden=!open;this.setAttribute("aria-expanded",open?"true":"false")});
-
-$("casefile-overlay").addEventListener("click",function(e){if(e.target===this)this.classList.remove("open")});
-document.addEventListener("keydown",function(e){
- if(e.key==="Escape"){$("casefile-overlay").classList.remove("open");$("overlay").classList.remove("open");$("deduce-overlay").classList.remove("open")}
-});
-
-$("clue-list").addEventListener("click",function(e){var b=e.target.closest("[data-clue]");if(b)reviewClue(Number(b.dataset.clue))});
-$("deduce").addEventListener("click",function(){if(caseProgress===3&&!caseSolved)$("deduce-overlay").classList.add("open")});
-$("deduce-back").addEventListener("click",function(){$("deduce-overlay").classList.remove("open")});
-document.querySelectorAll("[data-guess]").forEach(function(b){b.addEventListener("click",function(){accuse(b.dataset.guess)})});
-window.MysteryManorTest={get:function(){return{caseProgress:caseProgress,caseSolved:caseSolved,level:s.level,board:s.board.map(function(x){return x?x.type:null}),moves:s.moves,score:s.score,goals:Object.assign({},s.left),ended:s.ended,busy:s.busy}},swap:trySwap,activate:activate,reset:function(){initialize(0)},scan:function(){return scan(s.board,-1)}};
-initialize(maxUnlocked);
-prepareAmbient();
+updateStory();requestAnimationFrame(frame);
+window.MysteryManorWalk={getState:function(){return{x:Math.round(px),camera:Math.round(cam),viewWidth:Math.round(vw),room:roomName,moving:Math.abs(walkSpeed)>3,story:beat>=0?beats[beat].speaker:null,track:tracks[trackIndex].title,musicPlaying:playing}},moveTo:function(x){px=clamp(x,72,WORLD-72);target=null;return px},version:"Side-scroll 1.0"};
 })();
-</script>
-
-<script>
-
-(function(){
-"use strict";
-var story=document.getElementById("story-stage"),line=document.getElementById("story-dialogue"),label=document.getElementById("story-scene-label"),speaker=document.getElementById("story-speaker"),sound=document.getElementById("sound");
-if(!story||!line||!label||!speaker||!sound||story.querySelector(".mm-vista"))return;
-var progress=story.querySelector(".story-progress");if(!progress)return;
-var vista=document.createElement("div");vista.className="mm-vista";
-vista.setAttribute("aria-label","Living animated view of the manor and its current witness");
-vista.innerHTML='<div class="mm-scene" aria-hidden="true"></div><div class="mm-mist" aria-hidden="true"></div><div class="mm-portrait witness-photo witness-photo-0" aria-hidden="true"></div><span class="mm-caption"></span><button type="button" class="mm-music" aria-label="Toggle original Mystery Manor soundtrack" aria-pressed="false">♫ MUSIC OFF</button>';
-progress.insertAdjacentElement("afterend",vista);
-var face=vista.querySelector(".mm-portrait"),caption=vista.querySelector(".mm-caption"),play=vista.querySelector(".mm-music");
-for(var n=0;n<8;n++){var m=document.createElement("i");m.className="mm-spark";m.style.left=(10+n*67%82)+"%";m.style.top=(17+n*43%64)+"%";m.style.setProperty("--dur",(4.6+n%4)+"s");m.style.setProperty("--delay",(-n*.8)+"s");vista.appendChild(m)}
-function musicStatus(){var on=sound.getAttribute("aria-pressed")==="true";play.textContent=on?"♫ MUSIC ON":"♫ MUSIC OFF";play.setAttribute("aria-pressed",on?"true":"false")}
-play.addEventListener("click",function(){sound.click();musicStatus()});sound.addEventListener("click",function(){setTimeout(musicStatus,100)});
-var title=document.getElementById("music-now-playing");if(title)new MutationObserver(musicStatus).observe(title,{subtree:true,childList:true,characterData:true});
-var last="",lastWitness=-1,reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-function update(){
- var labelText=(label.textContent||"").toLowerCase(),who=(speaker.textContent||"").toLowerCase(),room=labelText.includes("clock")?"clock":labelText.includes("attic")?"attic":labelText.includes("deduct")||labelText.includes("mystery")?"deduction":"library";
- var witness=who.includes("wisp")?2:who.includes("fern")?1:who.includes("mallow")?0:room==="clock"?1:room==="attic"||room==="deduction"?2:0;
- vista.dataset.room=room;vista.dataset.speaker=who.includes("manor")?"manor":"witness";caption.textContent=label.textContent;
- if(witness!==lastWitness){face.className="mm-portrait witness-photo witness-photo-"+witness;lastWitness=witness}
- var key=room+"|"+line.textContent;
- if(key!==last){last=key;if(!reduced&&line.animate)line.animate([{opacity:.2,transform:"translateY(10px)"},{opacity:1,transform:"translateY(0)"}],{duration:430,easing:"ease-out"})}
-}
-var queued=false;
-function schedule(){if(queued)return;queued=true;Promise.resolve().then(function(){queued=false;update()})}
-new MutationObserver(schedule).observe(label,{childList:true,subtree:true,characterData:true});
-new MutationObserver(schedule).observe(speaker,{childList:true,subtree:true,characterData:true});
-new MutationObserver(schedule).observe(line,{childList:true,subtree:true,characterData:true});
-var art=document.getElementById("story-clue-art");
-if(art)new MutationObserver(function(){if(art.hidden||reduced)return;vista.classList.remove("mm-reveal");void vista.offsetWidth;vista.classList.add("mm-reveal")}).observe(art,{attributes:true,attributeFilter:["hidden"]});
-musicStatus();update();
-window.MysteryManorCinematic={version:"2",status:function(){return{room:vista.dataset.room,witness:lastWitness,musicButton:play.textContent}}};
-})();
-
-</script>
-
-<script>
-
-(function(){
-"use strict";
-var story=document.getElementById("story-stage"),puzzle=document.getElementById("puzzle-stage");
-if(!story||!puzzle||story.classList.contains("mm-immersive"))return;
-var originalMusic=document.getElementById("sound");
-if(!originalMusic)return;
-story.classList.add("mm-immersive");
-puzzle.classList.add("mm-fullscreen-puzzle");
-/* Moving the real stages to body (rather than cloning them) preserves
-   all existing click/touch handlers, shared game state, and accessibility. */
-document.body.appendChild(story);
-document.body.appendChild(puzzle);
-var vista=story.querySelector(".mm-vista");
-if(vista){
- var clock=document.createElement("span");clock.className="mm-decor mm-clock";clock.setAttribute("aria-hidden","true");clock.textContent="✦";
- var attic=document.createElement("span");attic.className="mm-decor mm-attic";attic.setAttribute("aria-hidden","true");
- vista.appendChild(clock);vista.appendChild(attic);
-}
-var title=document.createElement("h2");title.className="mm-cinematic-title";
-title.innerHTML='<span>THE VANISHING AT THORNE HOUSE</span>Mystery<br>Manor';
-story.insertBefore(title,story.querySelector(".story-page"));
-var banner=document.createElement("div");banner.className="mm-game-banner";
-banner.innerHTML='<strong><small>UNLOCK THE NEXT CLUE</small><span id="mm-game-name">The Library Spell</span></strong><div class="mm-game-avatar witness-photo witness-photo-0" aria-hidden="true"></div><button type="button" class="mm-game-music" id="mm-game-music" aria-label="Toggle existing mystery music">♫ MUSIC OFF</button>';
-puzzle.insertBefore(banner,puzzle.firstChild);
-var originalVolume=document.getElementById("music-volume");
-var musicButton=banner.querySelector("#mm-game-music");
-function status(){var playing=originalMusic.getAttribute("aria-pressed")==="true";musicButton.textContent=playing?"♫ MUSIC ON":"♫ MUSIC OFF";musicButton.setAttribute("aria-pressed",playing?"true":"false")}
-musicButton.addEventListener("click",function(){originalMusic.click();setTimeout(status,60)});
-originalMusic.addEventListener("click",function(){setTimeout(status,100)});
-var track=document.getElementById("music-now-playing");
-if(track)new MutationObserver(status).observe(track,{childList:true,subtree:true,characterData:true});
-var stageTitle=document.getElementById("chapter-title"),chapterText=document.getElementById("story-scene-label");
-function refresh(){
- var level=Number((document.getElementById("puzzle-chapter")?.textContent||"1").match(/\d+/)?.[0]||1)-1;
- var names=["The Library Spell","The Silent Clock","The Moonlit Attic"];
- banner.querySelector("#mm-game-name").textContent=names[Math.max(0,Math.min(2,level))];
- var face=banner.querySelector(".mm-game-avatar");face.className="mm-game-avatar witness-photo witness-photo-"+Math.max(0,Math.min(2,level));
- var scene=chapterText?.textContent||"";
- if(vista){var room=vista.dataset.room||"library";title.innerHTML=room==="clock"?'<span>THE EAST WING</span>The Silent<br>Clock':room==="attic"?'<span>THORNE HOUSE · ATTIC</span>The Final<br>Secret':room==="deduction"?'<span>CASE 001 · THE VERDICT</span>Who<br>Vanished?':'<span>THE VANISHING AT THORNE HOUSE</span>Mystery<br>Manor'}
- status();
-}
-var refreshTarget=document.getElementById("puzzle-chapter");
-if(refreshTarget)new MutationObserver(refresh).observe(refreshTarget,{childList:true,subtree:true});
-if(chapterText)new MutationObserver(refresh).observe(chapterText,{childList:true,subtree:true,characterData:true});
-if(vista)new MutationObserver(refresh).observe(vista,{attributes:true,attributeFilter:["data-room"]});
-var note=document.createElement("div");note.className="mm-game-caption";note.textContent="Match the glowing charms to reveal the next part of the mystery.";
-puzzle.appendChild(note);
-/* Re-open the current scene without resetting progress; no forced restart. */
-refresh();
-window.MysteryManorImmersive={version:"3.0",get:function(){return{storyFullscreen:story.classList.contains("mm-immersive"),puzzleFullscreen:puzzle.classList.contains("mm-fullscreen-puzzle"),audioSource:"existing-player",musicOn:originalMusic.getAttribute("aria-pressed")==="true",room:vista?.dataset.room}}};
-})();
-
 </script>
 </body>
 </html>
