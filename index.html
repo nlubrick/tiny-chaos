@@ -238,7 +238,7 @@ body{padding:8px 8px 28px;background:radial-gradient(ellipse at 50% 12%,#5c4169,
 .premium-shell{max-width:570px}
 .manor-room{isolation:isolate;position:relative;overflow:hidden;border-radius:27px;background:#3c2f51;box-shadow:0 0 0 1px #bb9ba4,0 16px 65px #0d081bc7,inset 0 0 50px #110f2f;min-height:920px;padding:0 13px 28px}
 .manor-room:before{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,#181b3899 0%,#241c3e55 22%,#33213c40 44%,#1b162b9c 100%);pointer-events:none}
-.library-world{position:absolute;z-index:-1;inset:0;width:100%;height:100%;pointer-events:none}
+.library-world{position:absolute;z-index:0;inset:0;width:100%;height:100%;pointer-events:none}
 .room-vignette{position:absolute;z-index:0;inset:0;pointer-events:none;box-shadow:inset 0 0 130px 33px #140f2b99}
 .world-fog{pointer-events:none;position:absolute;z-index:0;left:-20%;right:-20%;height:160px;opacity:.43;filter:blur(21px);background:radial-gradient(ellipse at 45% 50%,#eac5e16e,transparent 73%);animation:world-drift 14s ease-in-out infinite alternate}
 .world-fog-back{top:290px}.world-fog-front{top:700px;animation-delay:-5s;opacity:.24}
@@ -354,6 +354,12 @@ body{padding:8px 8px 28px;background:radial-gradient(ellipse at 50% 12%,#5c4169,
 .desk-space .board-wrap{position:relative}
 .desk-space .fx-layer{inset:7px}
 @media(prefers-reduced-motion:reduce){.tile.anticipate{animation:none!important}}
+
+.manor-room:after{content:"";pointer-events:none;position:absolute;inset:0;z-index:7;opacity:0}
+.manor-room.room-flash:after{background:radial-gradient(circle at 50% 43%,#c7afff70,transparent 56%);animation:scene-flash .83s ease-out forwards}
+.manor-room.room-clue:after{background:radial-gradient(circle at 50% 34%,#ffd49a66,transparent 55%);animation:scene-flash .83s ease-out forwards}
+@keyframes scene-flash{0%{opacity:0}19%{opacity:.75}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.manor-room.room-flash:after,.manor-room.room-clue:after{animation:none}}
 </style>
 </head>
 <body>
@@ -583,7 +589,32 @@ var random=function(n){return Math.floor(Math.random()*n)};
 var position=function(y,x){return y*N+x};
 var neighbors=function(a,b){return a>=0&&b>=0&&a<N*N&&b<N*N&&Math.abs(Math.floor(a/N)-Math.floor(b/N))+Math.abs(a%N-b%N)===1};
 function persist(){try{localStorage.setItem("mysteryManorCuteV1",JSON.stringify({chapter:maxUnlocked,best:best,caseProgress:caseProgress,caseSolved:caseSolved}))}catch(err){}}
-function tone(freq){if(!sound)return;try{audio=audio||new (window.AudioContext||window.webkitAudioContext)();var osc=audio.createOscillator(),gain=audio.createGain();osc.frequency.value=freq;osc.type="sine";gain.gain.setValueAtTime(.06,audio.currentTime);gain.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.13);osc.connect(gain).connect(audio.destination);osc.start();osc.stop(audio.currentTime+.13)}catch(err){}}
+function tone(freq){
+ if(!sound)return;
+ try{
+  audio=audio||new (window.AudioContext||window.webkitAudioContext)();
+  if(audio.state==="suspended"){var resumed=audio.resume();if(resumed&&resumed.catch)resumed.catch(function(){})}
+  var now=audio.currentTime;
+  var bell=audio.createOscillator(),warm=audio.createOscillator(),g=audio.createGain(),filter=audio.createBiquadFilter();
+  bell.type="triangle";warm.type="sine";
+  bell.frequency.setValueAtTime(freq*.74,now);
+  bell.frequency.exponentialRampToValueAtTime(Math.max(45,freq*.50),now+.16);
+  warm.frequency.setValueAtTime(freq*1.49,now);
+  filter.type="lowpass";filter.frequency.setValueAtTime(1700,now);
+  g.gain.setValueAtTime(.0001,now);
+  g.gain.exponentialRampToValueAtTime(.045,now+.014);
+  g.gain.exponentialRampToValueAtTime(.0001,now+.24);
+  bell.connect(filter);warm.connect(filter);filter.connect(g);g.connect(audio.destination);
+  bell.start(now);warm.start(now);bell.stop(now+.25);warm.stop(now+.25);
+ }catch(err){}
+}
+function roomReaction(kind){
+ var el=$("manor-room");if(!el)return;
+ el.classList.remove("room-flash","room-clue");
+ void el.offsetWidth;
+ el.classList.add(kind==="clue"?"room-clue":"room-flash");
+ setTimeout(function(){el.classList.remove("room-flash","room-clue")},840);
+}
 
 /* Self-contained original haunted music-box soundtrack: 12-second looping WAV.
    Playback begins directly inside the tap handler for iOS/Safari. */
@@ -628,7 +659,7 @@ function assembleAmbient(parts){
  }
  return new Blob([ab],{type:"audio/wav"});
 }
-function musicLabel(on){$("sound").textContent=on?"♫ AMBIENCE ON":"♫ AMBIENCE OFF";$("sound").setAttribute("aria-pressed",on?"true":"false")}
+function musicLabel(on){$("sound").textContent=on?"♫ SOUNDTRACK ON":"♫ SOUNDTRACK OFF";$("sound").setAttribute("aria-pressed",on?"true":"false")}
 async function prepareAmbient(){
  if(musicState==="ready")return;
  musicState="loading";$("sound").disabled=true;$("sound").textContent="♫ LOADING MUSIC";
@@ -1007,7 +1038,7 @@ if(win){
  $("story-footer").textContent="✦ The evidence is recovered. A witness is ready to talk.";
  updateCaseFile();
  var last=s.level===2;
- characterReaction("win");refreshCast();actionCaption("✦ A NEW CLUE HAS BEEN UNCOVERED!");
+ refreshCast();roomReaction("clue");actionCaption("✦ A NEW CLUE HAS BEEN UNCOVERED!");
  showModal("📜","Clue "+(s.level+1)+" Recovered!",chapters[s.level].clue+"\n\n"+witnesses[s.level].name+" says:\n“"+witnesses[s.level].followup+"”",last?"see-case":"next",last?"Open the Case File →":"Next Level →",s.level);
 }else{
  characterReaction("fail");actionCaption("☾ THE SPELL FADED — TRY THIS ROOM AGAIN");
@@ -1125,7 +1156,7 @@ var j=position(row,col);affected.add(j);
 if(s.board[j]&&s.board[j].special&&!triggered.has(j))queue.push(j);
 }
 }
-message("💥 HEX BOMB! Ghostly magic clears a 3×3 area!");actionCaption("✦ HEX BOMB! ✦");characterReaction("match");
+message("💥 HEX BOMB! Ghostly magic clears a 3×3 area!");actionCaption("✦ HEX BOMB! ✦");characterReaction("match");roomReaction("bomb");
 var flash=document.querySelector(".board-wrap");flash.classList.remove("flash");void flash.offsetWidth;flash.classList.add("flash");
 tone(330);
 paint(Array.from(affected));burstCells(Array.from(affected),true);await sleep(330);if(activeToken!==token)return;
