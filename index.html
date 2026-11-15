@@ -223,6 +223,14 @@ body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opac
 @keyframes character-halo{from{opacity:.32}to{opacity:.8}}
 @media(max-width:390px){.hero-art{height:195px}.witness-art{width:82px;flex-basis:82px;height:110px}.witness{padding:10px;gap:10px}}
 @media(prefers-reduced-motion:reduce){.witness-art svg,.dialog-portrait svg,.mm-eye,.mm-mouth,.mm-ear,.mm-hand,.mm-halo{animation:none!important}}
+
+.tile.conjure:before{animation:born-glow .48s cubic-bezier(.15,.72,.3,1.24) both}
+.tile.conjure svg{animation:born-pop .5s cubic-bezier(.18,.8,.3,1.25) both}
+@keyframes born-glow{from{opacity:.2;transform:scale(.36) rotate(-38deg)}60%{opacity:1;transform:scale(1.2) rotate(8deg)}to{transform:scale(1) rotate(0)}}
+@keyframes born-pop{from{transform:scale(.3) rotate(-45deg)}65%{transform:scale(1.18) rotate(10deg)}to{transform:scale(1) rotate(0)}}
+.tile.empty:before{background:linear-gradient(150deg,#241b46,#493563);border:1px solid #ffffff12;box-shadow:inset 0 3px 9px #0d0b2b85;opacity:.6}
+.tile.empty:after{display:none}
+@media(prefers-reduced-motion:reduce){.tile.conjure:before,.tile.conjure svg{animation:none!important}}
 </style>
 </head>
 <body>
@@ -510,7 +518,8 @@ function startMusic(){
 }
 function stopMusic(){sound=false;musicLabel(false);if(musicAudio)musicAudio.pause();$("music-fallback").hidden=true}
 document.addEventListener("visibilitychange",function(){if(document.hidden&&musicAudio&&!musicAudio.paused)stopMusic()});
-function piece(type){return {type:type,special:type===6}}
+var nextCharmId=0;
+function piece(type){return {type:type,special:type===6,id:++nextCharmId}}
 function cloneBoard(board){return board.map(function(p){return p?{type:p.type,special:p.special}:null})}
 function swap(board,a,b){var temp=board[a];board[a]=board[b];board[b]=temp}
 function scan(board,preferred){
@@ -575,14 +584,77 @@ if(scan(test,position(3,3)).anchors.length)return;
 function message(t){$("notice").textContent=t}
 function tileSVG(v){return '<svg viewBox="0 0 64 64" aria-hidden="true"><use href="#i-'+iconIds[v]+'"></use></svg>'}
 function paint(clear){
-var clears=new Set(clear||[]);
-$("board").innerHTML=s.board.map(function(p,i){
-if(!p)return '<div class="tile"></div>';
-var cl="tile"+(s.selected===i?" selected":"")+(s.hint.indexOf(i)>=0?" hint":"")+(clears.has(i)?" clearing":"")+(p.special?" boo":"")+(s.falls&&s.falls[i]?" falling":"")+(s.swapFX&&s.swapFX[i]?" swapping":"")+(s.invalid&&s.invalid.indexOf(i)>=0?" invalid":"");
-var bg=p.special?["#ddbbff","#8354be"]:palette[p.type];
-var effect="";if(s.falls&&s.falls[i])effect+=";--fall:"+(-s.falls[i]*104)+"%;--delay:"+((i%N)*19)+"ms";if(s.swapFX&&s.swapFX[i])effect+=";--from-x:"+s.swapFX[i].x+"%;--from-y:"+s.swapFX[i].y+"%";
-return '<button type="button" class="'+cl+'" data-i="'+i+'" style="--hi:'+bg[0]+';--lo:'+bg[1]+effect+'" aria-label="'+(p.special?"Hex Bomb special":iconIds[p.type])+' at row '+(Math.floor(i/N)+1)+' column '+(i%N+1)+'">'+tileSVG(p.type)+'</button>';
-}).join("");
+ var clears=new Set(clear||[]),board=$("board");
+ var canMorph=!!(document.createDocumentFragment&&board.replaceChildren);
+ /* A fallback is retained for older embedded browsers. */
+ if(!canMorph){
+  board.innerHTML=s.board.map(function(p,i){
+   if(!p)return '<div class="tile empty"></div>';
+   var cl="tile"+(s.selected===i?" selected":"")+(s.hint.indexOf(i)>=0?" hint":"")+(clears.has(i)?" clearing":"")+(p.special?" boo":"")+(s.falls&&s.falls[i]?" falling":"")+(s.swapFX&&s.swapFX[i]?" swapping":"")+(s.invalid&&s.invalid.indexOf(i)>=0?" invalid":"");
+   var bg=p.special?["#ddbbff","#8354be"]:palette[p.type];
+   var effect="";if(s.falls&&s.falls[i])effect+=";--fall:"+(-s.falls[i]*104)+"%";if(s.swapFX&&s.swapFX[i])effect+=";--from-x:"+s.swapFX[i].x+"%;--from-y:"+s.swapFX[i].y+"%";
+   return '<button type="button" class="'+cl+'" data-i="'+i+'" style="--hi:'+bg[0]+';--lo:'+bg[1]+effect+'" aria-label="'+(p.special?"Hex Bomb special":iconIds[p.type])+' at row '+(Math.floor(i/N)+1)+' column '+(i%N+1)+'">'+tileSVG(p.type)+'</button>';
+  }).join("");
+ }else{
+  /* Keep the same DOM element for each charm, even when the grid rearranges.
+     That lets a piece visibly move from its old cell to its new cell. */
+  var old=new Map(),rects=new Map();
+  Array.from(board.children).forEach(function(node){
+   var id=node.dataset&&node.dataset.charm;
+   if(id){old.set(id,node);rects.set(id,node.getBoundingClientRect())}
+  });
+  var frag=document.createDocumentFragment(),target=[],newIds=new Set();
+  var prefersReduce=!!(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  var useWebAnimation=!prefersReduce&&!!(document.createElement("button").animate);
+  for(var i=0;i<N*N;i++){
+   var p=s.board[i],node;
+   if(!p){
+    node=document.createElement("div");node.className="tile empty";
+   }else{
+    node=old.get(String(p.id));
+    if(!node){
+     node=document.createElement("button");node.type="button";newIds.add(String(p.id));
+     node.innerHTML=tileSVG(p.type);
+    }
+    node.dataset.i=i;node.dataset.charm=p.id;
+    var cl="tile"+(s.selected===i?" selected":"")+(s.hint.indexOf(i)>=0?" hint":"")+(clears.has(i)?" clearing":"")+(p.special?" boo":"")+(s.invalid&&s.invalid.indexOf(i)>=0?" invalid":"");
+    if(!useWebAnimation){
+     cl+=(s.falls&&s.falls[i]?" falling":"")+(s.swapFX&&s.swapFX[i]?" swapping":"");
+    }
+    if(p.special&&newIds.has(String(p.id))&&!s.falls)cl+=" conjure";
+    node.className=cl;
+    var bg=p.special?["#ddbbff","#8354be"]:palette[p.type];
+    node.style.setProperty("--hi",bg[0]);node.style.setProperty("--lo",bg[1]);
+    if(s.falls&&s.falls[i]){node.style.setProperty("--fall",(-s.falls[i]*104)+"%");node.style.setProperty("--delay",((i%N)*22)+"ms")}
+    if(s.swapFX&&s.swapFX[i]){
+     node.style.setProperty("--from-x",s.swapFX[i].x+"%");node.style.setProperty("--from-y",s.swapFX[i].y+"%");
+    }
+    node.setAttribute("aria-label",(p.special?"Hex Bomb special":iconIds[p.type])+" at row "+(Math.floor(i/N)+1)+" column "+(i%N+1));
+   }
+   frag.appendChild(node);target.push(node);
+  }
+  board.replaceChildren(frag);
+  if(useWebAnimation){
+   var cell=board.children[0].getBoundingClientRect();
+   var sizeY=cell.height+3;
+   for(var i=0;i<target.length;i++){
+    var p=s.board[i],el=target[i];if(!p)continue;
+    var previous=rects.get(String(p.id));
+    var current=el.getBoundingClientRect();
+    var dx=previous?previous.left-current.left:0;
+    var dy=previous?previous.top-current.top:0;
+    if(!previous&&s.falls&&s.falls[i])dy=-Math.min(6,s.falls[i])*sizeY;
+    if((Math.abs(dx)>1||Math.abs(dy)>1)&&!clears.has(i)){
+     var falling=!!(s.falls&&s.falls[i]),duration=falling?460:245;
+     el.animate([
+      {transform:"translate("+dx+"px,"+dy+"px) scale("+(falling?".93":"1")+")",opacity:falling&&!previous?".7":"1",offset:0},
+      {transform:"translate(0px,4px) scale(1.045,.96)",opacity:1,offset:.76},
+      {transform:"translate(0px,0px) scale(1)",opacity:1,offset:1}
+     ],{duration:duration,delay:falling?(i%N)*19:0,easing:"cubic-bezier(.2,.74,.31,1)",fill:"none"});
+    }
+   }
+  }
+ }
 $("score").textContent=s.score.toLocaleString();
 $("moves").textContent=s.moves;
 $("best").textContent=Math.max(best,s.score).toLocaleString();
@@ -768,6 +840,7 @@ if(!found.remove.length&&!found.anchors.length)break;
 chain++;
 found.anchors.forEach(function(i){s.board[i]=piece(6)});
 if(found.anchors.length){message("👻 HEX BOMB! Four matching charms in a line or square!");tone(760)}
+message(found.anchors.length?"✨ A HEX BOMB IS APPEARING!":chain>1?"✨ CASCADE "+chain+"!":"✦ Matching charms — watch them burst!");
 paint(found.remove);
 burstCells(found.remove,false);
 await sleep(285);if(activeToken!==token)return;
@@ -775,6 +848,7 @@ updateProgress(found.remove);
 found.remove.forEach(function(i){s.board[i]=null});
 s.score+=found.remove.length*60*chain+found.anchors.length*210;
 gravity();
+message("✦ More enchanted charms are falling into place…");
 paint();
 await sleep(525);if(activeToken!==token)return;
 s.falls=null;
