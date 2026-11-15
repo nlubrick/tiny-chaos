@@ -62,6 +62,10 @@ button:focus-visible{outline:2px solid #fff1c4;outline-offset:4px}
 #sound{background:#201d23d9;color:#dbc49e;border:1px solid #897451;border-radius:9px;min-height:41px;padding:8px 13px;font:800 11px Arial,sans-serif}
 #audioNotice{position:absolute;z-index:20;top:max(16px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);max-width:90%;background:#201722ee;border:1px solid #a1875f;border-radius:8px;padding:8px 14px;font:12px/1.4 Arial,sans-serif;text-align:center;color:#ffe3ae}
 #audioNotice[hidden]{display:none}
+#prestart{display:none!important}
+#enableSound{position:absolute;z-index:16;bottom:max(78px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);border:1px solid #d9b782;border-radius:9px;background:#201720dc;color:#f4dfb9;font:700 12px Arial,sans-serif;letter-spacing:.4px;padding:12px 17px;min-height:42px;white-space:nowrap;box-shadow:0 4px 22px #0009}
+#enableSound[hidden]{display:none!important}
+body.embedded #enableSound{bottom:max(24px,env(safe-area-inset-bottom))}
 body.embedded #tools{display:none!important}
 #skip{position:absolute;z-index:13;right:18px;top:max(18px,env(safe-area-inset-top));font:800 11px Arial,sans-serif;border:0;background:transparent;color:#e3c896;opacity:.74;padding:10px;display:none}
 .playing #skip{display:block}
@@ -96,6 +100,7 @@ body.embedded #tools{display:none!important}
  </div>
  <div id="prestart"><div class="small">INDEPENDENT GAME STUDIO</div><h1>FAILURE<span>ENTERTAINMENT</span></h1><p>Tap below to play the cinematic studio introduction with sound.</p><button type="button" id="begin">▶ PLAY INTRO WITH SOUND</button></div>
  <button id="skip" type="button" aria-label="Skip intro">Skip</button>
+ <button id="enableSound" type="button" hidden>Tap for sound</button>
  <div id="tools"><button type="button" id="replay">↻ Replay</button><button type="button" id="sound" aria-pressed="true">♫ Sound on</button></div>
  <div id="audioNotice" hidden></div>
  <audio id="introAudio" preload="auto" playsinline style="display:none"></audio>
@@ -105,7 +110,8 @@ body.embedded #tools{display:none!important}
 "use strict";
 const stage=document.getElementById("stage"),start=document.getElementById("prestart"),play=document.getElementById("begin"),
 replay=document.getElementById("replay"),sound=document.getElementById("sound"),audio=document.getElementById("introAudio"),notice=document.getElementById("audioNotice");
-let soundOn=true,noticeTimer=null,timer=null,audioReady=false;
+let soundOn=true,noticeTimer=null,timer=null,audioReady=false,animationStartedAt=0;
+const enableSound=document.getElementById("enableSound");
 if(new URLSearchParams(location.search).has("embedded"))document.body.classList.add("embedded");
 const N=22050,duration=6.7;
 function makeSound(){
@@ -192,27 +198,46 @@ function resetScene(){
 }
 let introRunId=0;
 function startIntro(){
- const run=++introRunId;
- start.hidden=true;clearTimeout(timer);audio.pause();
+ const run=++introRunId;start.hidden=true;enableSound.hidden=true;
+ clearTimeout(timer);audio.pause();audio.onplaying=null;
  try{audio.currentTime=0}catch(e){}
  ["crestwrap","studio","tagline"].forEach(id=>document.getElementById(id).removeAttribute("style"));
  let began=false;
+ const fallback=setTimeout(()=>{
+  if(began||run!==introRunId)return;
+  audio.pause();begin();if(soundOn&&audioReady)enableSound.hidden=false;
+ },1400);
  function begin(){
-  if(began||run!==introRunId)return;began=true;audio.onplaying=null;
-  // Do not start the visual timeline before sound playback is actually running.
+  if(began||run!==introRunId)return;
+  began=true;clearTimeout(fallback);audio.onplaying=null;
+  animationStartedAt=performance.now();
   resetScene();
-  timer=setTimeout(()=>{stage.dispatchEvent(new CustomEvent("failure-intro-finished",{bubbles:true}));if(window.parent!==window)window.parent.postMessage({type:"failure-studio-intro-completed"},location.origin);},6900);
+  timer=setTimeout(()=>{
+   enableSound.hidden=true;
+   stage.dispatchEvent(new CustomEvent("failure-intro-finished",{bubbles:true}));
+   if(window.parent!==window)window.parent.postMessage({type:"failure-studio-intro-completed"},location.origin);
+  },6900);
  }
  if(soundOn&&audioReady){
   audio.onplaying=begin;
-  try{
+  try {
    const result=audio.play();
    if(result?.then)result.then(begin).catch(()=>{
     if(run!==introRunId)return;
-    notify("Sound blocked. Open this page directly in Safari and tap Replay.");begin();
+    begin();enableSound.hidden=false;
    });else begin();
-  }catch(e){notify("Sound unavailable; playing visual intro.");begin()}
- }else{audio.onplaying=null;begin();if(soundOn&&!audioReady)notify("Sound unavailable in this browser.")}
+  }catch(e){begin();enableSound.hidden=false}
+ }else{begin()}
+}
+function activateSound(){
+ if(!audioReady)return;
+ soundOn=true;audio.muted=false;
+ // Joining a running sequence picks up the audio at the matching video time.
+ const elapsed=Math.max(0,(performance.now()-animationStartedAt)/1000);
+ try{audio.currentTime=Math.min(duration-.12,elapsed)}catch(e){}
+ const p=audio.play();
+ if(p?.then)p.then(()=>enableSound.hidden=true).catch(()=>notify("Sound is blocked on this device."));
+ else enableSound.hidden=true;
 }
 function toggleSound(){
  soundOn=!soundOn;
@@ -227,11 +252,15 @@ function skipIntro(){
  if(window.parent!==window)window.parent.postMessage({type:"failure-studio-intro-completed"},location.origin);
 }
 play.addEventListener("click",startIntro);
+enableSound.addEventListener("click",activateSound);
 replay.addEventListener("click",startIntro);
 sound.addEventListener("click",toggleSound);
 document.getElementById("skip").addEventListener("click",skipIntro);
 document.addEventListener("visibilitychange",()=>{if(document.hidden)audio.pause()});
 window.FailureEntertainmentIntro={play:startIntro,setSound:function(v){if(soundOn!==!!v)toggleSound()},durationMs:6900};
+// Autoplay the studio logo on launch. Audio requires a user gesture on many iPhones;
+// the animation never waits for one and offers a nonblocking sound option instead.
+startIntro();
 })();
 </script>
 </body>
