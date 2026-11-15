@@ -1,0 +1,90 @@
+/* Mystery Manor UI: everything outside the game canvas. Deep mahogany, antique gold, burgundy, midnight blue. */
+:root{
+  --ink:#f3e6cf; --muted:#b7a487; --gold:#d9b46a; --gold-deep:#8a6a2c; --wine:#5a1e2a; --night:#07060c; --panel:#15101aee; --edge:#6b5330;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sat: env(safe-area-inset-top, 0px); --sab: env(safe-area-inset-bottom, 0px); --sal: env(safe-area-inset-left, 0px); --sar: env(safe-area-inset-right, 0px);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--night);color:var(--ink);font-family:var(--serif);overflow:hidden;overscroll-behavior:none}
+body{-webkit-text-size-adjust:100%;touch-action:manipulation}
+[hidden]{display:none!important}
+#app{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--night)}
+#stage-wrap{position:relative;width:min(100vw, calc(100dvh * 1560 / 720));aspect-ratio:1560/720;max-height:100dvh;overflow:hidden;background:#000}
+#stage{position:absolute;inset:0}
+#stage canvas{display:block;width:100%!important;height:100%!important;margin:0!important;touch-action:none}
+#rotate-hint{display:none;margin:14px 20px 0;color:var(--muted);font-size:15px;text-align:center;font-style:italic}
+
+/* Nothing in the HUD can be selected, dragged or long-pressed into a menu. */
+.hud,.hud *,#stage,#dialogue,#card,#pad{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+.hud{position:absolute;z-index:5}
+button{font-family:var(--serif);color:inherit}
+
+#pad{left:calc(14px + var(--sal));bottom:calc(12px + var(--sab));display:flex;gap:14px;touch-action:none}
+.pad-btn{width:clamp(58px,10.5vw,84px);height:clamp(58px,10.5vw,84px);border-radius:50%;border:2px solid var(--gold-deep);background:radial-gradient(circle at 35% 30%,#3a2a22ee,#120d14ee);color:var(--gold);display:grid;place-items:center;touch-action:none;cursor:pointer;box-shadow:0 4px 0 #000a, inset 0 0 0 1px #0008;padding:0}
+.pad-btn svg{width:46%;height:46%;pointer-events:none}
+.pad-btn.down{background:radial-gradient(circle at 35% 30%,#7a5a2c,#3a2716);color:#fff3d0;transform:translateY(2px);box-shadow:0 2px 0 #000a}
+#btn-act{right:calc(14px + var(--sar));bottom:calc(14px + var(--sab));min-height:clamp(54px,9.6vw,76px);padding:0 22px;border-radius:999px;border:2px solid var(--gold);background:linear-gradient(#6b1f2c,#3c0f1a);color:#ffe9bd;font-size:clamp(15px,2.3vw,20px);letter-spacing:.3px;touch-action:none;cursor:pointer;box-shadow:0 4px 0 #000a,0 0 22px #d9b46a55;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 4px 0 #000a,0 0 34px #d9b46aaa}}
+#btn-menu{right:calc(12px + var(--sar));top:calc(10px + var(--sat));width:46px;height:46px;border-radius:50%;border:1.5px solid var(--gold-deep);background:#120d14cc;color:var(--gold);display:grid;place-items:center;cursor:pointer;padding:0}
+#btn-menu svg{width:22px;height:22px}
+#btn-leave{left:calc(12px + var(--sal));top:calc(10px + var(--sat));min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid var(--gold-deep);background:#120d14cc;color:var(--gold);font-size:15px;cursor:pointer}
+#room-toast{position:absolute;z-index:4;left:50%;top:calc(12px + var(--sat));transform:translateX(-50%);padding:6px 20px;border-radius:999px;background:#0b0810bb;border:1px solid #6b533066;color:var(--gold);font-size:clamp(13px,2vw,17px);letter-spacing:2px;text-transform:uppercase;opacity:0;transition:opacity .8s;pointer-events:none;white-space:nowrap}
+#room-toast.show{opacity:1}
+
+#dialogue{position:absolute;z-index:8;left:50%;bottom:calc(8px + var(--sab));transform:translateX(-50%);width:min(94%,860px);display:flex;gap:14px;align-items:stretch;padding:12px 16px 12px 12px;background:linear-gradient(#1b131ef5,#0e0a12f5);border:1.5px solid var(--edge);border-radius:14px;box-shadow:0 10px 40px #000c, inset 0 0 0 1px #d9b46a22;cursor:pointer}
+#dlg-portrait{flex:none;width:clamp(64px,13vw,104px);aspect-ratio:160/228;border-radius:9px;border:1.5px solid var(--gold-deep);background:#0b0810 url("../assets/mystery_manor_witnesses.webp") 0 0/300% 100% no-repeat}
+#dlg-portrait.none{display:none}
+#dlg-body{flex:1;min-width:0;display:flex;flex-direction:column}
+#dlg-who{color:var(--gold);font-size:clamp(12px,1.7vw,15px);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:3px}
+#dlg-text{margin:0;font-size:clamp(15px,2.25vw,21px);line-height:1.42;flex:1;min-height:2.84em}
+#dlg-next{align-self:flex-end;color:var(--muted);font-size:12px;font-style:italic;animation:blink 1.4s ease-in-out infinite}
+@keyframes blink{50%{opacity:.35}}
+
+#title,#card,#menu{position:absolute;inset:0;z-index:12;display:grid;place-items:center;text-align:center}
+#title{background:radial-gradient(ellipse at 50% 38%,#2a1622 0,#0b0810 62%,#050408 100%)}
+.title-inner{padding:10px 24px;max-width:720px}
+.kicker{color:var(--gold);letter-spacing:4px;text-transform:uppercase;font-size:clamp(11px,1.7vw,14px)}
+#title h1{margin:6px 0 0;font-weight:400;font-size:clamp(34px,8vw,74px);letter-spacing:2px;color:#f6e3b8;text-shadow:0 0 28px #d9b46a55,0 3px 0 #000}
+#title h2{margin:2px 0 0;font-weight:400;font-style:italic;color:var(--muted);font-size:clamp(15px,2.8vw,24px)}
+#title-status{color:var(--muted);font-size:14px;min-height:1.4em;margin:10px 0 8px}
+.title-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+button.gold,button.ghost{min-height:48px;padding:0 30px;border-radius:999px;font-size:18px;cursor:pointer;letter-spacing:.5px}
+button.gold{border:2px solid var(--gold);background:linear-gradient(#e2c07a,#a47c33);color:#241505;box-shadow:0 4px 0 #3a2a0c}
+button.gold:disabled{opacity:.45;cursor:default}
+button.ghost{border:1.5px solid var(--gold-deep);background:#120d14;color:var(--gold)}
+.fine{color:var(--muted);font-size:13px;line-height:1.5}
+.fine a{color:var(--gold)}
+
+#card{background:#040307f2;z-index:11;animation:fadein 1.2s ease-out}
+@keyframes fadein{from{opacity:0}}
+#card-inner{max-width:680px;padding:16px 26px}
+#card-inner p{margin:0 0 .7em;font-size:clamp(15px,2.5vw,22px);line-height:1.5;opacity:0;animation:fadein 1.4s ease-out forwards}
+#card-inner .kicker{display:block;margin-bottom:10px}
+#card-inner h3{font-weight:400;font-size:clamp(24px,5vw,44px);margin:.1em 0 .4em;color:#f6e3b8}
+#card-inner em{color:#e38a7a;font-style:normal;letter-spacing:3px}
+#card-inner button{margin-top:10px;opacity:0;animation:fadein 1s ease-out forwards}
+
+#menu{background:#040307cc;z-index:13}
+.menu-inner{width:min(92%,440px);max-height:94%;overflow:auto;padding:16px 20px;background:var(--panel);border:1.5px solid var(--edge);border-radius:16px;text-align:left}
+.menu-inner h3{margin:0 0 8px;font-weight:400;font-size:24px;color:var(--gold);text-align:center}
+.row{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:46px;font-size:17px}
+.row input[type=range]{flex:1;max-width:210px;accent-color:var(--gold);height:30px}
+.toggle{min-width:74px;min-height:38px;border-radius:999px;border:1.5px solid var(--gold);background:#3c0f1a;color:#ffe9bd;font-size:15px;cursor:pointer}
+.toggle[aria-pressed="false"]{background:#120d14;border-color:var(--gold-deep);color:var(--muted)}
+.menu-inner details{margin:4px 0 10px}
+.menu-inner summary{cursor:pointer;color:var(--gold);min-height:36px;display:flex;align-items:center}
+.menu-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.menu-btns button{font-size:15px;padding:0 18px;min-height:44px}
+
+/* Portrait fallback: the view sits at the top, the controls get the room underneath. */
+@media (orientation:portrait){
+  #app{justify-content:flex-start;padding-top:calc(8px + var(--sat))}
+  #stage-wrap{width:100vw;overflow:visible}
+  #rotate-hint{display:block}
+  #pad{left:50%;transform:translateX(-50%);bottom:auto;top:calc(100% + 64px);gap:34px}
+  .pad-btn{width:96px;height:96px}
+  #btn-act{right:auto;left:50%;transform:translateX(-50%);bottom:auto;top:calc(100% + 186px);min-height:60px;font-size:18px;white-space:nowrap}
+  #dialogue{bottom:auto;top:calc(100% + 54px);width:96vw}
+  #dlg-text{font-size:17px}
+}
+@media (prefers-reduced-motion:reduce){ #btn-act,#dlg-next{animation:none} #card,#card-inner p,#card-inner button{animation-duration:.01s} }

@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1017">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="description" content="Mystery Manor · The Vanishing at Thorne House. Explore the mansion as Mallow the librarian's cat.">
+<title>Mystery Manor · The Mansion Walk</title>
+<style>
+:root{color-scheme:dark;font-family:Georgia,"Times New Roman",serif;background:#0b1017;color:#f8e8d1}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;overscroll-behavior:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+button,input{font:inherit}
+button{-webkit-tap-highlight-color:transparent;cursor:pointer;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+button:focus-visible,input:focus-visible{outline:3px solid #f6d398;outline-offset:3px}
+#app{position:relative;height:100dvh;display:flex;flex-direction:column;min-height:420px;background:#0b1017;overflow:hidden}
+#hud{height:73px;min-height:73px;position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px max(16px,env(safe-area-inset-left)) 9px;border-bottom:1px solid #b28a5977;background:linear-gradient(125deg,#1d1c27,#111923)}
+#hud .series{font:800 9px/1.2 Arial,sans-serif;letter-spacing:2.7px;color:#bc9f85;text-transform:uppercase}
+#hud h1{margin:4px 0 0;font:500 clamp(23px,6.1vw,33px)/1 Georgia,serif;white-space:nowrap;letter-spacing:-1.1px;color:#ffe4b6;text-shadow:0 2px 9px #000}
+#audio-area{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+#music{border:1px solid #ba966e;background:linear-gradient(#39313a,#201f2c);border-radius:10px;color:#f7e3c3;font:800 11px Arial,sans-serif;min-height:39px;padding:7px 11px;white-space:nowrap}
+#music.playing{border-color:#d7bd89;color:#c9f2d7}
+#nowplaying{color:#bdac95;font:9px Arial,sans-serif;max-width:150px;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#viewport{position:relative;flex:1;min-height:0;overflow:hidden;background:#151925;touch-action:none;user-select:none;-webkit-user-select:none}
+#stage{display:block;width:100%;height:100%;touch-action:none}
+#vignette{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,#03060955,transparent 18%,transparent 69%,#080c15b0 100%);box-shadow:inset 0 0 55px 13px #03060f88}
+#where{position:absolute;left:15px;top:13px;border:1px solid #cbaa7777;background:#131724c9;backdrop-filter:blur(7px);padding:8px 12px;border-radius:8px;font:800 10px Arial,sans-serif;letter-spacing:1.5px;color:#e9c99b;text-transform:uppercase;text-shadow:0 1px 5px #000;pointer-events:none}
+#chapter{position:absolute;right:14px;top:13px;font:800 9px Arial,sans-serif;letter-spacing:1.2px;color:#dfc9a8;text-shadow:0 2px 6px #000;pointer-events:none}
+#story{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:min(calc(100% - 25px),580px);background:linear-gradient(130deg,#121826ea,#1d1c2aef);border:1px solid #ae8c65;border-radius:12px;padding:12px 15px 12px 81px;box-shadow:0 9px 28px #03040dbb;pointer-events:none;opacity:0;transition:opacity .35s}
+#story.visible{opacity:1}
+#face{position:absolute;left:11px;top:9px;width:58px;height:66px;border-radius:7px;border:1px solid #bd9769;background-image:url("assets/mystery_manor_witnesses.webp?v=2");background-size:300% 100%;background-position:0% 50%;background-color:#302d34;box-shadow:0 3px 8px #0008}
+#speaker{color:#f1c994;font:900 10px Arial,sans-serif;letter-spacing:1.2px}
+#speech{margin:5px 0 0;color:#fff0d8;font:14px/1.43 Georgia,serif;text-wrap:pretty}
+#controls{position:relative;z-index:6;display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:105px;padding:10px max(14px,env(safe-area-inset-left)) max(12px,env(safe-area-inset-bottom));border-top:1px solid #a5885c77;background:linear-gradient(#171b26,#10141e);touch-action:none}
+.arrow{appearance:none;-webkit-appearance:none;outline-offset:2px;-webkit-touch-callout:none!important;-webkit-user-select:none!important;user-select:none!important;touch-action:none!important;-webkit-tap-highlight-color:transparent!important;overscroll-behavior:contain;border:2px solid #c2a077;background:linear-gradient(#51454b,#292a38);box-shadow:inset 0 1px #fff2,0 5px 0 #0b0d13,0 8px 13px #0005;border-radius:15px;width:clamp(82px,27vw,135px);height:72px;display:grid;place-items:center;color:#fff1d5;font:700 39px Arial,sans-serif;touch-action:none;user-select:none}
+.arrow:active,.arrow.pressed{transform:translateY(4px);box-shadow:inset 0 1px #fff2,0 1px 0 #0b0d13;filter:brightness(1.18)}
+#help{color:#d6bd9d;text-align:center;font:800 11px/1.5 Arial,sans-serif;letter-spacing:.9px;max-width:160px}
+#help strong{display:block;color:#ffe0af;font:500 19px Georgia,serif;letter-spacing:0;margin-bottom:3px}
+#position{height:3px;background:#514c4c;margin:7px 0 0;border-radius:8px;overflow:hidden}
+#position i{display:block;width:0;height:100%;background:#f3c98a;border-radius:8px}
+#soundfallback{position:absolute;z-index:10;right:10px;top:77px;background:#171b26f2;border:1px solid #bd9769;border-radius:10px;padding:12px;color:#ffdeae;box-shadow:0 8px 25px #000a;max-width:280px;font:12px/1.4 Arial,sans-serif}
+#soundfallback[hidden]{display:none}
+#soundfallback audio{max-width:100%;display:block;margin-top:7px}
+#soundfallback button{margin-top:6px;background:#3b3544;border:1px solid #a18b78;color:#ffe2b3;border-radius:7px;padding:5px 9px}
+#credits{position:absolute;z-index:6;left:10px;bottom:107px;font:9px Arial,sans-serif;color:#c4af93a6}
+#credits a{color:inherit}
+@media(max-width:400px){#hud{height:66px;min-height:66px}#hud h1{font-size:24px}#nowplaying{font-size:8px}#controls{min-height:99px}.arrow{height:66px;width:88px}#story{bottom:10px;padding:10px 11px 10px 71px}#face{width:50px;height:61px}#speech{font-size:13px}#help strong{font-size:17px}#credits{display:none}}
+@media(max-height:690px){#hud{height:59px;min-height:59px}#controls{min-height:85px;padding-top:7px}.arrow{height:59px}#story{bottom:8px}}
+@media(prefers-reduced-motion:reduce){#story{transition:none}}
+</style>
+</head>
+<body>
+<div id="app">
+<header id="hud"><div><div class="series">Thorne House · Case 001</div><h1>Mystery Manor</h1></div><div id="audio-area"><button id="music" type="button" aria-pressed="false">♫ MUSIC OFF</button><div id="nowplaying">Sneaky Adventure</div></div></header>
+<main id="viewport" aria-label="Side-scrolling mansion. Walk left and right as Mallow, the librarian's cat.">
+<canvas id="stage" aria-label="Animated side-scrolling mansion, with a playable black cat and familiar mystery characters"></canvas>
+<div id="vignette"></div><div id="where">The Library</div><div id="chapter">12:07 AM</div>
+<div id="story" aria-live="polite"><div id="face"></div><div id="speaker">MALLOW</div><p id="speech">The librarian vanished. Something moved behind the fireplace.</p></div>
+</main>
+<div id="controls"><button id="left" class="arrow" draggable="false" aria-label="Walk left" type="button">◀</button><div id="help"><strong>Mallow</strong>Hold arrows to walk<div id="position"><i id="position-fill"></i></div></div><button id="right" class="arrow" draggable="false" aria-label="Walk right" type="button">▶</button></div>
+<div id="soundfallback" hidden>Music couldn't start automatically. Use this player or try the music button.<audio id="fallback-player" controls></audio><button id="closefallback">Close</button></div>
+<details id="credits"><summary>Music credits</summary><div style="position:absolute;bottom:20px;left:0;width:min(350px,90vw);padding:12px;background:#131924f5;border:1px solid #b79b70;border-radius:9px;box-shadow:0 6px 30px #0009;line-height:1.5;font-size:11px;color:#efd5af">Original Mystery Manor tracks: <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100644" target="_blank" rel="noopener noreferrer">Sneaky Adventure</a>, <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100419" target="_blank" rel="noopener noreferrer">Some Amount of Evil</a>, and <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100510" target="_blank" rel="noopener noreferrer">Machinations</a>, by Kevin MacLeod. Tracks unmodified. Licensed <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>.</div></details>
+</div>
+<script>
+(function(){
+"use strict";
+// The original licensed Mystery Manor soundtrack, unchanged.
+var tracks=[
+ {title:"Sneaky Adventure",url:"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Sneaky%20Adventure.mp3?v=mystery-real-2026-11-15"},
+ {title:"Some Amount of Evil",url:"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Some%20Amount%20of%20Evil.mp3?v=mystery-real-2026-11-15"},
+ {title:"Machinations",url:"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Machinations.mp3?v=mystery-real-2026-11-15"}
+];
+var $=function(s){return document.getElementById(s)};
+var music=$("music"),nowplaying=$("nowplaying"),player=null,trackIndex=0,playing=false;
+function syncMusic(){music.textContent=playing?"♫ MUSIC ON":"♫ MUSIC OFF";music.setAttribute("aria-pressed",playing?"true":"false");music.classList.toggle("playing",playing);nowplaying.textContent=tracks[trackIndex].title}
+function showMusicFallback(){var panel=$("soundfallback"),p=$("fallback-player");p.src=tracks[trackIndex].url;panel.hidden=false;syncMusic()}
+function initMusic(){
+ if(player)return;
+ player=new Audio(tracks[trackIndex].url);player.volume=.4;player.preload="none";
+ player.addEventListener("ended",function(){trackIndex=(trackIndex+1)%tracks.length;player.src=tracks[trackIndex].url;syncMusic();if(playing)player.play().catch(function(){playing=false;showMusicFallback()})});
+ player.addEventListener("error",function(){playing=false;showMusicFallback()});
+}
+music.addEventListener("click",function(){
+ initMusic();
+ if(playing){playing=false;player.pause();syncMusic();return}
+ var promise=player.play();
+ if(promise&&promise.then){promise.then(function(){playing=true;$("soundfallback").hidden=true;syncMusic()}).catch(function(){playing=false;showMusicFallback()})}
+ else{playing=true;syncMusic()}
+});
+$("closefallback").addEventListener("click",function(){$("soundfallback").hidden=true});
+document.addEventListener("visibilitychange",function(){if(document.hidden&&playing){player.pause();playing=false;syncMusic()}});
+syncMusic();
+
+// Walk left or right in a continuous 3,900-pixel illustrated mansion.
+var canvas=$("stage"),ctx=canvas.getContext("2d",{alpha:false});
+var H=680,WORLD=3900,px=280,cam=0,vw=700,last=0,clock=0,walk=0,dir=1;
+var keys={left:false,right:false},roomName="";
+var rooms=[{x:0,end:980,name:"The Library"},{x:980,end:1950,name:"The West Hall"},{x:1950,end:2920,name:"Portrait Gallery"},{x:2920,end:3900,name:"The Attic Landing"}];
+var beat=-1;
+var beats=[
+ {x:380,w:290,speaker:"MALLOW",face:0,text:"At twelve minutes past midnight, the librarian vanished. I watched the door. Nobody came in or out."},
+ {x:785,w:200,speaker:"MALLOW",face:0,text:"I heard stone scraping behind this fireplace. There's a mark hidden in the soot."},
+ {x:1740,w:250,speaker:"FERN",face:1,text:"The front door is still sealed with wax. Nobody used it. But there's mud on the hearthstones."},
+ {x:2510,w:250,speaker:"MISS WISP",face:2,text:"I saw a living figure near the fireplace. I didn't kidnap anybody! And then I heard stone sliding."},
+ {x:3490,w:240,speaker:"THE MANOR",face:2,text:"The librarian left a warning about a hidden star map, a secret passage, and someone called the Collector."}
+];
+function clamp(x,a,b){return Math.max(a,Math.min(b,x))}
+function lerp(a,b,t){return a+(b-a)*t}
+function fill(x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(x,y,w,h)}
+function path(points,c){ctx.beginPath();ctx.moveTo(points[0],points[1]);for(var i=2;i<points.length;i+=2)ctx.lineTo(points[i],points[i+1]);ctx.closePath();ctx.fillStyle=c;ctx.fill()}
+function ellipse(x,y,rx,ry,c){ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);ctx.fillStyle=c;ctx.fill()}
+function line(x,y,x2,y2,c,w){ctx.strokeStyle=c;ctx.lineWidth=w;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x2,y2);ctx.stroke()}
+function rrect(x,y,w,h,r,c){ctx.fillStyle=c;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
+function glow(x,y,r,c){var g=ctx.createRadialGradient(x,y,2,x,y,r);g.addColorStop(0,c);g.addColorStop(1,"#0000");ctx.fillStyle=g;ctx.fillRect(x-r,y-r,r*2,r*2)}
+function tallWindow(x){
+ rrect(x-68,128,136,270,[67,67,4,4],"#161a29");
+ var g=ctx.createLinearGradient(x,131,x,392);g.addColorStop(0,"#29304a");g.addColorStop(.5,"#54617b");g.addColorStop(1,"#242b47");
+ rrect(x-53,141,106,241,[51,51,3,3],g);
+ glow(x+8,188,100,"#d9d5d55a");
+ ellipse(x+18,183,21,21,"#ebd7b0");glow(x+18,183,95,"#cfc9f028");
+ for(var s=0;s<17;s++){var sx=x-40+(s*47%80),sy=145+(s*67%160);ellipse(sx,sy,1.1,1.1,"#e3e4e4b2")}
+ line(x,141,x,382,"#9c7c5e",8);line(x-53,265,x+53,265,"#b18b61",7);
+ line(x-64,383,x+64,383,"#ac885f",11);
+}
+function woodPanels(from,to,wall){
+ fill(from,0,to-from,580,wall);
+ for(var x=from+25;x<to;x+=145){
+  rrect(x,84,120,386,3,"#191c2e77");ctx.strokeStyle="#b296694a";ctx.lineWidth=3;ctx.strokeRect(x+7,93,106,367);
+  line(x+18,421,x+110,421,"#a2805765",2);
+ }
+ fill(from,72,to-from,16,"#9f7959");fill(from,91,to-from,8,"#292738");
+ fill(from,466,to-from,9,"#b18e66");
+ fill(from,478,to-from,101,"#2d2630");
+ for(var i=from+8;i<to;i+=170){rrect(i,487,155,82,3,"#493947");ctx.strokeStyle="#a4876052";ctx.lineWidth=3;ctx.strokeRect(i+8,495,138,65)}
+}
+function floorBoard(){
+ var g=ctx.createLinearGradient(0,570,0,680);g.addColorStop(0,"#806049");g.addColorStop(.12,"#523d37");g.addColorStop(1,"#261f27");fill(0,570,WORLD,110,g);
+ for(var x=0;x<WORLD;x+=95){line(x,579,x+18,680,"#15162274",2);line(x+4,600,x+14,600,"#b4926242",2)}
+ for(var y=590;y<680;y+=24)line(0,y,WORLD,y,"#c79a663c",2);
+ fill(0,566,WORLD,15,"#ae8a5b");line(0,566,WORLD,566,"#efcfa073",3);
+}
+function rug(x,w){
+ var g=ctx.createLinearGradient(0,565,0,650);g.addColorStop(0,"#8b3744");g.addColorStop(1,"#542838");
+ path([x,582,x+w,582,x+w+30,666,x-30,666],g);
+ line(x+15,594,x+w-15,594,"#c99a67",3);line(x-8,660,x+w+9,660,"#c99a67",3);
+ for(var i=x+85;i<x+w;i+=155){ellipse(i,618,39,16,"#c59a6344");ellipse(i,618,24,9,"#5e293f")}
+}
+function candle(x,y){
+ fill(x-4,y,8,31,"#c8ad82");fill(x-6,y-3,12,5,"#ead2a7");
+ var flame=Math.sin(clock*6+x)*3;
+ glow(x,y-10,62,"#ffc97d2a");ellipse(x,y-13+flame,5,10,"#ffad6b");ellipse(x,y-13+flame,2.5,7,"#ffefd0")
+}
+function lamp(x){
+ line(x,80,x,155,"#a98962",5);ellipse(x,163,24,12,"#c6a37c");candle(x,166);glow(x,176,190,"#f5d49d24")
+}
+function bookshelf(x,w){
+ rrect(x,168,w,385,8,"#160f1b");rrect(x+8,175,w-16,368,3,"#543c32");
+ for(var y=190;y<=491;y+=74){
+  fill(x+13,y+55,w-26,11,"#b1895d");
+  for(var p=x+18;p<x+w-20;p+=10+((p*7|0)%11)){
+   var bw=8+((p*3|0)%7),bh=30+((p*11|0)%25);
+   var cols=["#7c4948","#31455b","#917254","#445b4b","#735765"];
+   rrect(p,y+55-bh,bw,bh,1,cols[Math.abs(p|0)%5]);
+   line(p+3,y+59-bh,p+3,y+53,"#c8ab7666",1);
+  }
+ }
+ line(x+1,164,x+w,164,"#d8ad78",9);line(x+1,541,x+w,541,"#bd8f62",11);
+}
+function fireplace(x){
+ rrect(x-127,273,254,293,4,"#5c4140");
+ rrect(x-111,287,222,282,2,"#a58263");
+ rrect(x-92,321,184,241,[82,82,0,0],"#17151c");
+ rrect(x-144,277,288,24,4,"#cfaa76");
+ rrect(x-150,302,300,9,3,"#5c423a");
+ for(var i=0;i<8;i++){line(x-110+(i*29),318,x-110+(i*29),560,"#e0b88a36",2)}
+ var g=ctx.createRadialGradient(x,511,5,x,498,107);g.addColorStop(0,"#ffc66fbb");g.addColorStop(1,"#0000");fill(x-120,385,240,187,g);
+ for(var f=0;f<4;f++){var ff=Math.sin(clock*8+f)*10,xx=x-49+f*29;path([xx-13,551,xx-6,511+ff,xx,474-f*8+ff,xx+12,521+ff,xx+17,552],"#ea8b4f");}
+ fill(x-76,552,151,8,"#59372c");rrect(x-115,565,230,8,2,"#bb976c");
+}
+function clockcase(x){
+ rrect(x-49,250,98,312,7,"#482f31");rrect(x-41,257,82,304,5,"#816044");
+ rrect(x-36,270,72,126,[27,27,6,6],"#b39269");
+ ellipse(x,331,29,29,"#e1cda3");ellipse(x,331,26,26,"#6f523a");
+ ellipse(x,331,23,23,"#e4d6b5");line(x,331,x+10,311,"#3a2c32",3);line(x,331,x+14,340,"#3a2c32",2.5);
+ for(var i=0;i<12;i++){var a=i*Math.PI/6;ellipse(x+19*Math.sin(a),331-19*Math.cos(a),1.3,1.3,"#574637")}
+ rrect(x-30,412,60,117,3,"#3d2a2a");ellipse(x+Math.sin(clock*.8)*12,471,9,20,"#ddbb7d");
+ rrect(x-62,545,124,26,3,"#79533e");
+}
+function sealedDoor(x){
+ rrect(x-87,160,174,409,[80,80,2,2],"#15131e");
+ rrect(x-74,174,148,391,[68,68,0,0],"#654a3e");
+ for(var i=0;i<3;i++)rrect(x-56,241+i*94,111,71,3,"#3c2b30");
+ line(x-75,185,x-75,567,"#b28a6290",5);line(x+76,185,x+76,567,"#b28a6290",5);
+ ellipse(x+50,392,5,5,"#e2b178");ellipse(x+56,396,11,11,"#8c2437");
+}
+function portrait(x,y,mode){
+ rrect(x-85,y-9,170,211,5,"#946d4b");rrect(x-75,y+1,150,190,4,"#2d2536");
+ if(mode===0){ellipse(x,y+77,45,55,"#6a4c51");ellipse(x,y+59,24,28,"#c5a989");path([x-25,y+49,x-30,y+24,x+2,y+7,x+25,y+43],"#40303a")}
+ else if(mode===1){ellipse(x,y+77,45,55,"#293a4f");ellipse(x,y+59,25,28,"#b49a81");rrect(x-29,y+25,58,18,3,"#6e514b")}
+ else {glow(x,y+95,90,"#9ab7cd5a");ellipse(x,y+87,34,55,"#aebdd0a3");ellipse(x,y+42,23,27,"#e4dcd0")}
+ rrect(x-79,y+192,160,7,2,"#ccaa78");
+}
+function stairs(x){
+ for(var i=0;i<9;i++){
+  var sx=x+i*52,top=562-i*27;
+  path([sx,568,sx+60,568,sx+60,top,sx,top],i%2?"#5c4141":"#745047");
+  line(sx,top,sx+60,top,"#d2af7b",5);
+ }
+ line(x,480,x+467,270,"#c4a179",5);
+ for(var j=0;j<9;j++)line(x+j*53,476-j*25,x+j*53,423-j*25,"#ad835f",4);
+}
+function chest(x){
+ rrect(x-100,488,200,77,9,"#573b35");rrect(x-100,482,200,25,9,"#98714a");
+ for(var i=-1;i<=1;i+=2)rrect(x+i*72-4,480,8,90,2,"#c5a26e");
+ rrect(x-14,511,28,31,3,"#b89b68");
+}
+
+// Painterly full-height characters with natural proportions and layered lighting.
+// Fern and Miss Wisp retain their original identities and positions in Thorne House.
+function wisp(x,t){
+ var float=Math.sin(t*1.4)*9,sw=Math.sin(t*1.13),wy=410+float;
+ ctx.save();ctx.translate(x,wy);
+ ctx.globalAlpha=.9;
+ glow(0,-12,155,"#91b9e654");
+ glow(0,46,125,"#a5cbef2b");
+ // Trailing veils are semi-transparent, tapered, and billow independently.
+ for(var layer=0;layer<4;layer++){
+  var tail=sw*(10+layer*7),off=layer*5;
+  var veil=ctx.createLinearGradient(0,-95,0,145);
+  veil.addColorStop(0,layer%2?"#d6e9fd43":"#a0c5e35b");
+  veil.addColorStop(.48,"#e9eaf364");
+  veil.addColorStop(1,"#8bb9db00");
+  ctx.beginPath();ctx.moveTo(-34+off,-67);
+  ctx.bezierCurveTo(-59+tail,-7,-60-tail,63,-39+tail,148);
+  ctx.bezierCurveTo(-18+tail,123,-16-tail,167,5+tail,142);
+  ctx.bezierCurveTo(25+tail,162,51+tail,144,45,101);
+  ctx.bezierCurveTo(59,42,58,-5,37,-67);
+  ctx.closePath();ctx.fillStyle=veil;ctx.fill()
+ }
+ // Dark flowing hair behind head and shoulders.
+ var hair=ctx.createLinearGradient(-32,-154,49,-10);hair.addColorStop(0,"#54667f");hair.addColorStop(.55,"#899bb1");hair.addColorStop(1,"#5c729483");
+ ctx.beginPath();ctx.moveTo(-26,-129);ctx.bezierCurveTo(-41,-126,-50,-80,-41,-37);
+ ctx.bezierCurveTo(-56,10,-38,60,-29,65);ctx.bezierCurveTo(-35,11,42,12,36,59);
+ ctx.bezierCurveTo(54,7,44,-81,29,-124);ctx.closePath();ctx.fillStyle=hair;ctx.fill();
+ // Delicate Victorian bodice, narrow waist and layered collar.
+ var dress=ctx.createLinearGradient(-51,-69,48,91);dress.addColorStop(0,"#e9e3e4dd");dress.addColorStop(.32,"#bfd2e3c5");dress.addColorStop(.6,"#9ab7cdaf");dress.addColorStop(1,"#8aa9c432");
+ ctx.beginPath();ctx.moveTo(-21,-62);ctx.bezierCurveTo(-38,-59,-47,-42,-44,-8);
+ ctx.bezierCurveTo(-36,15,-29,20,-29,40);ctx.bezierCurveTo(-47,72,-59,125,-54,154);
+ ctx.bezierCurveTo(-21,139,-21,154,0,139);ctx.bezierCurveTo(27,160,28,136,60,152);
+ ctx.bezierCurveTo(54,104,37,54,29,35);ctx.bezierCurveTo(26,14,44,-19,37,-41);
+ ctx.bezierCurveTo(29,-59,14,-62,10,-64);ctx.closePath();ctx.fillStyle=dress;ctx.fill();
+ // Lace seam and pleats, translucent and moving with the ghost.
+ for(var k=-2;k<=2;k++){
+  ctx.strokeStyle="#fff6f766";ctx.lineWidth=1.4;ctx.beginPath();
+  ctx.moveTo(k*8,21);ctx.bezierCurveTo(k*12+sw*6,64,k*15-sw*4,123,k*14+sw*9,145);ctx.stroke()
+ }
+ ctx.strokeStyle="#e8f4ff9e";ctx.lineWidth=2;
+ ctx.beginPath();ctx.moveTo(-22,-56);ctx.quadraticCurveTo(0,-30,19,-58);ctx.stroke();
+ // Slim arms and gloved hands, no circular mitten hands.
+ ctx.strokeStyle="#cfe6f5ab";ctx.lineCap="round";ctx.lineWidth=15;
+ ctx.beginPath();ctx.moveTo(-33,-44);ctx.quadraticCurveTo(-52,-17,-53,20+sw*5);ctx.stroke();
+ ctx.beginPath();ctx.moveTo(29,-45);ctx.quadraticCurveTo(54,-19,48,8-sw*5);ctx.stroke();
+ ctx.lineWidth=6;ctx.strokeStyle="#edf3f2bc";
+ ctx.beginPath();ctx.moveTo(-52,13);ctx.lineTo(-58,29);ctx.moveTo(48,4);ctx.lineTo(45,21);ctx.stroke();
+ // Head: elongated anatomy, natural forehead, nose, cheeks and hair.
+ var skin=ctx.createLinearGradient(-27,-119,27,-73);
+ skin.addColorStop(0,"#ebeff1");skin.addColorStop(.4,"#d1dce6");skin.addColorStop(1,"#99adc6");
+ ctx.beginPath();ctx.moveTo(-26,-126);ctx.bezierCurveTo(-30,-111,-26,-86,-12,-76);
+ ctx.quadraticCurveTo(0,-67,11,-77);ctx.bezierCurveTo(23,-89,29,-111,22,-129);
+ ctx.bezierCurveTo(10,-150,-15,-151,-26,-126);ctx.closePath();ctx.fillStyle=skin;ctx.fill();
+ ctx.fillStyle="#4b5e82aa";ctx.beginPath();ctx.moveTo(-28,-130);ctx.bezierCurveTo(-19,-166,16,-159,29,-136);
+ ctx.bezierCurveTo(16,-138,1,-132,-8,-125);ctx.bezierCurveTo(-16,-122,-21,-119,-27,-110);ctx.closePath();ctx.fill();
+ ctx.strokeStyle="#edf7ffa6";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-22,-130);ctx.quadraticCurveTo(-15,-160,10,-147);ctx.stroke();
+ // Eyes with eyelids and fine lashes, small and spaced naturally.
+ ctx.strokeStyle="#4b5b77";ctx.lineWidth=1.6;
+ ctx.beginPath();ctx.moveTo(-16,-110);ctx.quadraticCurveTo(-10,-114,-5,-111);ctx.moveTo(6,-111);ctx.quadraticCurveTo(12,-115,17,-111);ctx.stroke();
+ ellipse(-10,-109,2.2,3.2,"#40566c");ellipse(11,-110,2.2,3.2,"#40566c");
+ ctx.strokeStyle="#9cacbf";ctx.lineWidth=1.2;
+ ctx.beginPath();ctx.moveTo(0,-108);ctx.quadraticCurveTo(-3,-95,2,-95);ctx.stroke();
+ ctx.strokeStyle="#a881a0";ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(-5,-86);ctx.quadraticCurveTo(0,-84,7,-87);ctx.stroke();
+ // Ghostly motes detach from the sleeves.
+ for(var m=0;m<7;m++){
+  var xx=Math.sin(t*1.2+m*3)*8+((m%2)?-51:47),yy=30+m*13-Math.sin(t*1.7+m)*9;
+  ellipse(xx,yy,1.8,1.8,"#e9f7f5a2")
+ }
+ ctx.restore();
+}
+function fern(x,t){
+ var breath=Math.sin(t*1.1)*1.8,headTurn=Math.sin(t*.62)*1.1;
+ ctx.save();ctx.translate(x,0);
+ ellipse(0,573,52,12,"#0406117d");
+ // Character is intentionally tall/slender and lightly hunched; avoid chibi silhouette.
+ // Boots, worn trousers, stitched cuffs and natural waist.
+ var legG=ctx.createLinearGradient(-33,455,37,575);legG.addColorStop(0,"#292e32");legG.addColorStop(1,"#181f24");
+ ctx.fillStyle=legG;
+ ctx.beginPath();ctx.moveTo(-21,476);ctx.lineTo(-7,476);ctx.lineTo(-11,552);ctx.lineTo(-13,560);ctx.lineTo(-31,560);ctx.lineTo(-31,544);ctx.closePath();ctx.fill();
+ ctx.beginPath();ctx.moveTo(9,475);ctx.lineTo(24,475);ctx.lineTo(25,545);ctx.lineTo(25,560);ctx.lineTo(7,560);ctx.closePath();ctx.fill();
+ rrect(-36,546,29,23,5,"#262522");rrect(5,547,32,22,5,"#272722");
+ line(-35,558,-7,558,"#8e775b",2);line(5,558,36,558,"#987f5f",2);
+ // Draped long riding coat, shaped torso and flared fabric, gradient for volume.
+ var coat=ctx.createLinearGradient(-54,339,52,555);
+ coat.addColorStop(0,"#718477");coat.addColorStop(.26,"#3d5a54");coat.addColorStop(.63,"#263e3c");coat.addColorStop(1,"#1b2b2e");
+ ctx.beginPath();ctx.moveTo(-22,347+breath);ctx.bezierCurveTo(-43,345,-46,360,-44,395);
+ ctx.bezierCurveTo(-37,425,-26,460,-45,538);ctx.quadraticCurveTo(-21,552,-5,544);
+ ctx.bezierCurveTo(1,486,-2,470,1,459);ctx.bezierCurveTo(10,482,18,525,39,544);
+ ctx.quadraticCurveTo(50,538,49,532);ctx.bezierCurveTo(27,475,41,418,43,390);
+ ctx.bezierCurveTo(45,367,29,345,17,347);ctx.closePath();ctx.fillStyle=coat;ctx.fill();
+ // Undercoat linen and asymmetrical brass fastening.
+ var vest=ctx.createLinearGradient(-8,356,17,468);vest.addColorStop(0,"#b8aea0");vest.addColorStop(1,"#696b5e");
+ ctx.beginPath();ctx.moveTo(-14,354);ctx.lineTo(16,353);ctx.lineTo(16,461);ctx.lineTo(-6,472);ctx.closePath();ctx.fillStyle=vest;ctx.fill();
+ ctx.beginPath();ctx.moveTo(-19,354);ctx.lineTo(0,396);ctx.lineTo(-5,461);ctx.lineTo(-27,413);ctx.closePath();ctx.fillStyle="#4e665f";ctx.fill();
+ ctx.beginPath();ctx.moveTo(19,354);ctx.lineTo(2,392);ctx.lineTo(16,462);ctx.lineTo(30,414);ctx.closePath();ctx.fillStyle="#28443f";ctx.fill();
+ ctx.strokeStyle="#a5b0a2aa";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(-12,357);ctx.lineTo(-2,390);ctx.lineTo(-7,451);ctx.stroke();
+ rrect(-27,451,55,10,2,"#382f30");rrect(-4,449,13,13,2,"#b99a70");
+ for(var q=0;q<5;q++)ellipse(9,380+q*15,2.2,2.6,"#e1bd81");
+ // Shoulder-length realistic sleeves and curved elbows.
+ ctx.strokeStyle="#3f5953";ctx.lineCap="round";ctx.lineJoin="round";ctx.lineWidth=23;
+ ctx.beginPath();ctx.moveTo(-32,370);ctx.bezierCurveTo(-44,408,-37,426,-48,470);ctx.stroke();
+ ctx.beginPath();ctx.moveTo(29,368);ctx.bezierCurveTo(45,388,40,426,47,461);ctx.stroke();
+ ctx.strokeStyle="#a8b8a06d";ctx.lineWidth=1.7;ctx.beginPath();ctx.moveTo(-36,387);ctx.quadraticCurveTo(-35,417,-44,463);ctx.moveTo(31,392);ctx.quadraticCurveTo(37,420,41,457);ctx.stroke();
+ // Natural hands, long fingers rather than round mittens.
+ var hand=ctx.createLinearGradient(-55,462,54,494);hand.addColorStop(0,"#c7ac8f");hand.addColorStop(1,"#8e735e");
+ ctx.fillStyle=hand;
+ ctx.beginPath();ctx.ellipse(-47,478,9,18,.11,0,Math.PI*2);ctx.fill();
+ ctx.beginPath();ctx.ellipse(48,473,9,18,-.15,0,Math.PI*2);ctx.fill();
+ for(var finger=0;finger<3;finger++)line(-53+finger*4,481,-54+finger*5,494,"#765d51",.9);
+ // Brass lantern: glass, crossbars and a genuine pool of warm light.
+ glow(73,505,110,"#ffc98244");
+ ctx.strokeStyle="#ae8961";ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(48,473);ctx.quadraticCurveTo(59,466,67,477);ctx.stroke();
+ rrect(54,480,36,58,4,"#80654b");rrect(60,486,24,40,2,"#eec789");
+ glow(72,499,30,"#ffe6a980");rrect(64,491,16,30,2,"#ffe9a8");
+ line(54,482,54,541,"#e1bd78",3);line(90,482,90,540,"#cca574",3);
+ rrect(51,538,42,7,2,"#bea179");
+ // Neck and collar — face is proportionately sized and slightly turned.
+ rrect(-11,339+breath,23,20,6,"#a68b76"); 
+ ctx.beginPath();ctx.moveTo(-22,348);ctx.lineTo(-4,365);ctx.lineTo(2,347);ctx.lineTo(18,365);ctx.lineTo(26,351);
+ ctx.strokeStyle="#d6cbaf";ctx.lineWidth=3;ctx.stroke();
+ var skin=ctx.createLinearGradient(-24,295,29,355);skin.addColorStop(0,"#edc9a9");skin.addColorStop(.45,"#c29c80");skin.addColorStop(1,"#8f735e");
+ ctx.beginPath();ctx.moveTo(-18+headTurn,305);
+ ctx.bezierCurveTo(-27,317,-25,336,-11,345);
+ ctx.bezierCurveTo(0,353,16,343,23,329);
+ ctx.bezierCurveTo(27,314,19,299,8,297);
+ ctx.bezierCurveTo(-3,295,-13,298,-18+headTurn,305);ctx.closePath();ctx.fillStyle=skin;ctx.fill();
+ // Fine age lines, cheek highlight, small eyelids, a defined nose.
+ ctx.strokeStyle="#715848b0";ctx.lineWidth=1.1;
+ ctx.beginPath();ctx.moveTo(-12,317);ctx.quadraticCurveTo(-6,315,-3,317);
+ ctx.moveTo(9,318);ctx.quadraticCurveTo(14,315,18,318);ctx.stroke();
+ ellipse(-7,319,1.7,2.1,"#362e2c");ellipse(12,319,1.7,2.1,"#362e2c");
+ ctx.beginPath();ctx.moveTo(3,320);ctx.quadraticCurveTo(-1,332,7,334);ctx.stroke();
+ ctx.beginPath();ctx.moveTo(-5,337);ctx.quadraticCurveTo(1,339,9,336);ctx.stroke();
+ ctx.strokeStyle="#ffead07d";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-18,326);ctx.quadraticCurveTo(-10,337,-6,339);ctx.stroke();
+ // Gray hair braided and pinned beneath a soft, aged wool hat.
+ var hair=ctx.createLinearGradient(-29,283,30,341);hair.addColorStop(0,"#d7cec3");hair.addColorStop(.6,"#80827e");hair.addColorStop(1,"#505a58");
+ ctx.beginPath();ctx.moveTo(-26,315);ctx.bezierCurveTo(-32,288,-14,281,4,282);
+ ctx.bezierCurveTo(24,283,30,292,26,321);ctx.lineTo(18,308);
+ ctx.bezierCurveTo(0,306,-11,301,-24,320);ctx.closePath();ctx.fillStyle=hair;ctx.fill();
+ ctx.beginPath();ctx.ellipse(25,308,10,17,-.2,0,Math.PI*2);ctx.fillStyle="#777a73";ctx.fill();
+ ctx.strokeStyle="#ddd1b0";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(-22,302);ctx.quadraticCurveTo(-3,285,18,302);ctx.stroke();
+ // Worn hat with slender brim instead of exaggerated South Park circle.
+ ctx.beginPath();ctx.moveTo(-24,306);ctx.quadraticCurveTo(-27,273,1,270);
+ ctx.quadraticCurveTo(31,271,28,307);ctx.closePath();ctx.fillStyle="#515e56";ctx.fill();
+ ctx.beginPath();ctx.ellipse(1,307,37,7,0,0,Math.PI*2);ctx.fillStyle="#394b43";ctx.fill();
+ line(-29,301,30,301,"#b7a07b",2.3);
+ ctx.restore();
+}
+function mallow(x,t,moving,facing){
+ var bounce=moving?Math.sin(walk*14)*3:Math.sin(t*2.4)*1.7;
+ var step=moving?Math.sin(walk*14)*11:0;
+ ctx.save();ctx.translate(x,560+bounce);ctx.scale(facing,1);
+ ellipse(0,15,53,11,"#070a14a0");
+ // Tail is expressive and sways independently.
+ ctx.strokeStyle="#161922";ctx.lineWidth=18;ctx.lineCap="round";
+ ctx.beginPath();ctx.moveTo(-31,-53);ctx.bezierCurveTo(-65,-76,-76,-21,-89,-46+Math.sin(t*4)*11);ctx.stroke();
+ ctx.strokeStyle="#31303b";ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(-33,-54);ctx.bezierCurveTo(-66,-75,-74,-21,-87,-44+Math.sin(t*4)*10);ctx.stroke();
+ // Animated feet.
+ rrect(-26+step,-26,19,33,8,"#171922");rrect(6-step,-26,19,33,8,"#12141b");
+ ellipse(-17+step,5,14,7,"#282932");ellipse(16-step,5,14,7,"#262734");
+ var body=ctx.createLinearGradient(-40,-95,38,-25);body.addColorStop(0,"#35323c");body.addColorStop(.5,"#101319");body.addColorStop(1,"#282b36");
+ ellipse(-1,-52,41,49,body);ellipse(13,-46,18,27,"#55546233");
+ path([-42,-97,-30,-136,-5,-109,25,-137,42,-96],"#151821");
+ path([-36,-101,-29,-127,-12,-107],"#40333b");
+ path([11,-109,24,-128,35,-99],"#44353b");
+ ellipse(0,-92,42,38,body);
+ // Side-glance animation with a warm golden iris.
+ ellipse(19,-98,11,13,"#f0c57f");ellipse(23,-99,4.9,9,"#302b32");ellipse(24,-102,2,2,"#fff2d9");
+ ellipse(-8,-98,8,12,"#cda86b");ellipse(-6,-98,3.4,8,"#342c32");
+ path([7,-81,16,-84,11,-77],"#c99392");
+ for(var k=-1;k<=1;k++){line(11,-81,43,-82+k*8,"#b7a8a0",1.2);line(5,-81,-26,-82+k*8,"#b7a8a0",1.2)}
+ ctx.restore()
+}
+function drawScene(){
+ var g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,"#101a27");g.addColorStop(1,"#252133");fill(0,0,WORLD,H,g);
+ woodPanels(0,980,"#343044");woodPanels(980,1950,"#3a3040");woodPanels(1950,2920,"#292b3e");woodPanels(2920,WORLD,"#30283a");
+ // Atmospheric overlays from the original Manor asset, used only in the library.
+ if(bg.complete&&bg.naturalWidth){ctx.globalAlpha=.18;ctx.drawImage(bg,0,0,980,575);ctx.globalAlpha=1}
+ for(var x=0;x<WORLD;x+=480){line(x,92,x,562,"#b0926a75",15);line(x+13,93,x+13,560,"#211b25",3)}
+ tallWindow(545);tallWindow(1135);tallWindow(2180);tallWindow(3160);
+ bookshelf(34,225);bookshelf(302,190);bookshelf(838,126);
+ fireplace(708);rrect(622,244,174,19,2,"#b18a61");candle(659,210);candle(754,210);
+ sealedDoor(1357);clockcase(1655);
+ lamp(410);lamp(1200);lamp(1890);lamp(2450);lamp(3300);
+ portrait(2055,204,0);portrait(2335,189,1);portrait(2743,220,2);
+ stairs(2990);chest(3588);
+ rug(155,530);rug(1150,640);rug(2130,570);rug(3160,555);
+ floorBoard();
+ // Foreground scenery, kept behind Mallow.
+ fern(1835,clock);wisp(2560,clock);
+ // Floating ambient dust in the foreground.
+ for(var n=0;n<82;n++){
+  var dx=(n*199+Math.sin(clock*.55+n*2)*35)%WORLD;
+  if(dx<cam-50||dx>cam+vw+50)continue;
+  var dy=100+(n*131%380)+Math.sin(clock*.9+n)*21;
+  ellipse(dx,dy,1.2+(n%3)*.4,1.2+(n%2)*.4,n%5===0?"#c4d4ef83":"#f6dcbb6b");
+ }
+ mallow(px,clock,Math.abs(walkSpeed)>2,dir);
+ // Soft pool of light moves with the cat.
+ glow(px,450,100,"#ffe2a414")
+}
+var bg=new Image();bg.src="assets/mystery_manor_library_bg.webp?v=2";
+function resize(){
+ var rect=$("viewport").getBoundingClientRect(),dpr=Math.min(2,window.devicePixelRatio||1);
+ canvas.width=Math.max(1,Math.round(rect.width*dpr));canvas.height=Math.max(1,Math.round(rect.height*dpr));
+ vw=Math.max(200,Math.min(WORLD,H*rect.width/Math.max(1,rect.height)));
+}
+window.addEventListener("resize",resize);resize();
+// iOS-safe controls: press/hold only on the two buttons, never on the scene.
+function holdButton(id,key){
+ var el=$(id),activePointers=new Set();
+ function begin(e){
+  if(e.cancelable)e.preventDefault();
+  if(e.pointerType==="mouse"&&e.button!==0)return;
+  activePointers.add(e.pointerId);
+  keys[key]=true;
+  el.classList.add("pressed");
+  try{el.setPointerCapture(e.pointerId)}catch(err){}
+ }
+ function end(e){
+  activePointers.delete(e.pointerId);
+  if(!activePointers.size){
+   keys[key]=false;el.classList.remove("pressed");
+  }
+ }
+ el.addEventListener("pointerdown",begin,{passive:false});
+ ["pointerup","pointercancel","lostpointercapture"].forEach(function(n){el.addEventListener(n,end)});
+ // Safari occasionally activates text callouts on stationary touches even with
+ // touch-action:none; preventing touchstart avoids selection/long-press menus.
+ el.addEventListener("touchstart",function(e){if(e.cancelable)e.preventDefault();keys[key]=true;el.classList.add("pressed")},{passive:false});
+ el.addEventListener("touchmove",function(e){if(e.cancelable)e.preventDefault()},{passive:false});
+ el.addEventListener("touchend",function(e){if(e.cancelable)e.preventDefault();activePointers.clear();keys[key]=false;el.classList.remove("pressed")},{passive:false});
+ el.addEventListener("touchcancel",function(e){if(e.cancelable)e.preventDefault();keys[key]=false;activePointers.clear();el.classList.remove("pressed")},{passive:false});
+ el.addEventListener("contextmenu",function(e){e.preventDefault()});
+ el.addEventListener("dragstart",function(e){e.preventDefault()});
+}
+holdButton("left","left");holdButton("right","right");
+$("controls").addEventListener("selectstart",function(e){e.preventDefault()});
+$("controls").addEventListener("contextmenu",function(e){e.preventDefault()});
+window.addEventListener("pointerup",function(e){if(e.target!==$("left")&&e.target!==$("right")){keys.left=false;keys.right=false;$("left").classList.remove("pressed");$("right").classList.remove("pressed")}});
+window.addEventListener("blur",function(){keys.left=false;keys.right=false});
+document.addEventListener("visibilitychange",function(){if(document.hidden){keys.left=false;keys.right=false}});
+window.addEventListener("keydown",function(e){
+ if(["ArrowLeft","a","A"].includes(e.key)){keys.left=true;e.preventDefault()}
+ if(["ArrowRight","d","D"].includes(e.key)){keys.right=true;e.preventDefault()}
+});
+window.addEventListener("keyup",function(e){if(["ArrowLeft","a","A"].includes(e.key))keys.left=false;if(["ArrowRight","d","D"].includes(e.key))keys.right=false});
+// The mansion itself is scenery, not a movement control.
+var walkSpeed=0;
+function updateStory(){
+ var room=rooms.find(function(r){return px>=r.x&&px<r.end})||rooms[3];
+ if(room.name!==roomName){roomName=room.name;$("where").textContent=roomName}
+ $("position-fill").style.width=(100*px/(WORLD-80)).toFixed(1)+"%";
+ var closest=-1,dist=1e8;
+ for(var i=0;i<beats.length;i++){var d=Math.abs(beats[i].x-px);if(d<beats[i].w&&d<dist){closest=i;dist=d}}
+ if(closest!==beat){
+  beat=closest;var panel=$("story");
+  panel.classList.toggle("visible",beat!==-1);
+  if(beat>=0){var b=beats[beat];$("speaker").textContent=b.speaker;$("speech").textContent=b.text;$("face").style.backgroundPosition=(b.face===0?"0%":b.face===1?"50%":"100%")+" 50%"}
+ }
+}
+function frame(ms){
+ var dt=Math.min(.04,Math.max(0,(ms-last)/1000||.016));last=ms;clock+=dt;
+ var move=(keys.right?1:0)-(keys.left?1:0);
+ walkSpeed=lerp(walkSpeed,move*285,Math.min(1,dt*12));
+ if(move===0&&Math.abs(walkSpeed)<1)walkSpeed=0;
+ px=clamp(px+walkSpeed*dt,72,WORLD-72);
+ if(px===72&&walkSpeed<0||px===WORLD-72&&walkSpeed>0)walkSpeed=0;
+ if(Math.abs(walkSpeed)>3){dir=Math.sign(walkSpeed);walk+=dt}
+ var camTarget=clamp(px-vw*.41,0,Math.max(0,WORLD-vw));cam=lerp(cam,camTarget,Math.min(1,dt*7.6));
+ if(Math.abs(cam-camTarget)<.4)cam=camTarget;
+ var scale=canvas.height/H,cssW=canvas.width/scale;
+ ctx.setTransform(scale,0,0,scale,0,0);ctx.fillStyle="#0e1420";ctx.fillRect(0,0,cssW,H);
+ ctx.save();ctx.translate(-cam,0);drawScene();ctx.restore();
+ updateStory();
+ requestAnimationFrame(frame);
+}
+updateStory();requestAnimationFrame(frame);
+window.MysteryManorWalk={getState:function(){return{x:Math.round(px),camera:Math.round(cam),viewWidth:Math.round(vw),room:roomName,moving:Math.abs(walkSpeed)>3,story:beat>=0?beats[beat].speaker:null,track:tracks[trackIndex].title,musicPlaying:playing}},moveTo:function(x){px=clamp(x,72,WORLD-72);return px},version:"Side-scroll 1.0"};
+})();
+</script>
+</body>
+</html>
