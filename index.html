@@ -360,6 +360,66 @@ body{padding:8px 8px 28px;background:radial-gradient(ellipse at 50% 12%,#5c4169,
 .manor-room.room-clue:after{background:radial-gradient(circle at 50% 34%,#ffd49a66,transparent 55%);animation:scene-flash .83s ease-out forwards}
 @keyframes scene-flash{0%{opacity:0}19%{opacity:.75}100%{opacity:0}}
 @media(prefers-reduced-motion:reduce){.manor-room.room-flash:after,.manor-room.room-clue:after{animation:none}}
+
+/* Quiet, one-action-at-a-time presentation */
+body{background:#151622;padding:0 0 12px}
+.simple-room{border-radius:0;max-width:570px;min-height:100dvh;padding:0 16px 22px;box-shadow:0 15px 55px #060610}
+.simple-room:before{background:linear-gradient(180deg,#141628b0,#17132660 30%,#24182968 70%,#13131ede)}
+.simple-room .library-world{filter:saturate(.8) contrast(1.08);opacity:.9}
+.simple-room .room-vignette{box-shadow:inset 0 0 160px 14px #0a0c20b3}
+.simple-header{padding:19px 2px 8px;align-items:center}
+.simple-header .room-brand h1{font-size:29px;white-space:nowrap;line-height:1;letter-spacing:-.7px;margin:6px 0}
+.simple-header .room-eyebrow{font-size:8px;letter-spacing:1.25px}
+.simple-header .sound{font-size:10px;padding:8px}
+.simple-case{padding:9px 5px;margin:2px 0 5px;background:linear-gradient(90deg,#16152d9e,#35233e77,#16152d8a)}
+.simple-case strong{font-size:19px}
+.simple-case p{font-size:10px;margin:3px 0}
+.simple-case .clue-tag{min-width:65px;color:#ffe4c9;cursor:pointer}
+.one-witness{height:166px;margin:0;justify-content:center;padding:0}
+.one-witness .cast-character{display:none;width:158px;height:168px;position:relative;padding:0}
+.one-witness .cast-character.selected{display:flex}
+.one-witness .cast-character.selected .cast-figure{height:149px;width:144px;filter:drop-shadow(0 9px 13px #131020ae)}
+.one-witness .cast-character .cast-label{padding:5px 14px;margin-top:-14px;letter-spacing:1.3px;font-size:10px}
+.one-witness .cast-character:after{content:"";position:absolute;bottom:26px;width:170px;height:80px;background:radial-gradient(ellipse,#d9b2ad44,transparent 66%);filter:blur(9px);pointer-events:none;z-index:-1}
+.simple-speech{margin:2px 2px 12px;min-height:69px;gap:10px;background:linear-gradient(130deg,#f3dfc6f5,#d2b9aef4);border:0;border-radius:16px;box-shadow:0 4px 12px #0c0b21ad}
+.simple-speech .voice-content strong{font-size:17px}
+.simple-speech .voice-content p{font-size:12px}
+.simple-speech .voice-ask{font-size:10px;padding:9px 10px}
+.simple-speech .voice-avatar{display:none}
+.simple-desk{margin:0 -7px 0;padding:12px 9px;background:linear-gradient(125deg,#9d756c,#593d51 6%,#42314a 54%,#6d4b59 95%,#b78b79);border-radius:21px;box-shadow:0 8px 0 #352435,0 13px 18px #070a20b4}
+.simple-desk .board-wrap{margin:5px 0 0;padding:6px;border-radius:15px}
+.simple-desk .board{gap:3px}
+.task-line{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:49px;padding:4px 5px 10px}
+.task-text{display:flex;flex-direction:column;gap:3px;min-width:0}
+.task-text>span{font:900 9px Arial,sans-serif;letter-spacing:2px;color:#ebcda8}
+.task-text strong{font:700 18px Georgia,serif;color:#fff1cf}
+.moves-chip{background:#2d243da3;border:1px solid #d7b18b85;border-radius:12px;padding:5px 9px;font:900 9px Arial,sans-serif;text-align:center;color:#edd9ce}
+.moves-chip b{display:block;font:25px Georgia,serif;color:#fff1c7}
+.simple-desk .goal-card{border:0;padding:0;margin:3px 0 9px}
+.simple-desk .goals{display:flex;justify-content:center;gap:0}
+.simple-desk .goal{width:100%;background:transparent;border:0;box-shadow:none;padding:0;display:flex;align-items:center;justify-content:center;gap:12px}
+.simple-desk .goal svg{width:31px;height:31px;margin:0}
+.simple-desk .goal .gname{display:none}
+.simple-desk .goal .count{font:800 15px Arial,sans-serif;color:#ffe5ad;margin:0}
+.simple-desk .goal .progress{height:7px;margin:0;width:45%;min-width:70px;background:#201b33;border:1px solid #c6a29c6b}
+.simple-desk .notice{min-height:23px;padding:7px 0 3px;font-size:11px}
+.simple-desk .action-caption{font-size:9px;opacity:.7;min-height:15px;padding-top:7px}
+.simple-actions{display:flex;gap:8px;justify-content:center;margin:8px 0 1px}
+.simple-actions button,.extra-tools button{font:900 11px Arial,sans-serif;color:#f9e7d1;background:linear-gradient(#65506b,#3d2c50);border:1px solid #d5b3a09d;border-radius:10px;min-height:40px;padding:8px 14px;box-shadow:0 2px 0 #2d2139}
+.simple-actions button span:first-child{font-size:15px;margin-right:4px}
+.extra-tools{display:flex;gap:8px;justify-content:center;margin:9px 0 1px}
+.extra-tools[hidden]{display:none}
+.simple-footer{position:relative;z-index:2;color:#ead1d5;text-align:center;padding:16px 4px 0}
+.simple-footer p{font:12px/1.55 Georgia,serif;margin:3px auto 8px;max-width:410px}
+.simple-footer strong{color:#ffe0aa}
+.simple-footer .simple-case-note{font:italic 12px Georgia,serif;color:#d6abbf;opacity:.8;margin-top:9px}
+.legacy-text[hidden]{display:none}
+.simple-room .world-fog{opacity:.17;filter:blur(28px);animation-duration:25s}
+.simple-room .library-chandelier{animation-duration:12s}
+.simple-room .library-sparks{opacity:.26}
+.simple-room .manor-voice:before{top:-7px}
+.dossier-dialog{max-width:430px}
+@media(max-width:390px){.simple-room{padding:0 11px 22px}.simple-header .room-brand h1{font-size:26px}.simple-header .sound{font-size:9px;padding:7px}.one-witness{height:140px}.one-witness .cast-character{height:145px}.one-witness .cast-character.selected .cast-figure{height:128px}.simple-speech{padding:9px;min-height:63px;margin-bottom:10px}.simple-desk{padding:9px 6px}.task-text strong{font-size:16px}.simple-case strong{font-size:18px}.simple-footer p{font-size:11px}}
 </style>
 </head>
 <body>
@@ -425,8 +485,8 @@ body{padding:8px 8px 28px;background:radial-gradient(ellipse at 50% 12%,#5c4169,
 </symbol>
 </svg>
 <div class="shell premium-shell">
- <main class="manor-room" id="manor-room">
-  <svg class="library-world" viewBox="0 0 540 1380" preserveAspectRatio="xMidYMin slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+<main class="manor-room simple-room" id="manor-room">
+<svg class="library-world" viewBox="0 0 540 1380" preserveAspectRatio="xMidYMin slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
    <defs>
     <linearGradient id="lib-wall" x1="0" y1="0" x2=".55" y2="1"><stop stop-color="#232446"/><stop offset=".36" stop-color="#493a64"/><stop offset=".75" stop-color="#684764"/><stop offset="1" stop-color="#32283f"/></linearGradient>
     <linearGradient id="lib-night" x2="0" y2="1"><stop stop-color="#172c56"/><stop offset=".5" stop-color="#66609a"/><stop offset="1" stop-color="#a57b98"/></linearGradient>
@@ -487,65 +547,46 @@ body{padding:8px 8px 28px;background:radial-gradient(ellipse at 50% 12%,#5c4169,
    <path d="M-10 1225Q270 1195 550 1225V1380H-10Z" fill="#412c3a" stroke="#b17d72" stroke-width="9"/>
    <path d="M16 1248H524M36 1310H502" stroke="#d6a086" stroke-width="4" opacity=".32"/>
   </svg>
-  <div class="world-fog world-fog-back"></div>
-  <div class="world-fog world-fog-front"></div>
-  <div class="room-vignette"></div>
-  <header class="room-header">
-   <div class="room-brand"><span class="room-eyebrow">✦ THE ENCHANTED CASE FILE ✦</span><h1>Mystery<br><em>Manor</em></h1><span class="room-tagline">EVERY MATCH HIDES A SECRET</span></div>
-   <div class="audio-widget">
-    <button type="button" class="sound" id="sound" aria-pressed="false" disabled>♫ LOADING MUSIC</button>
-    <label class="music-volume" id="music-volume-box" hidden>VOL <input id="music-volume" aria-label="Music volume" type="range" min="0" max="100" value="45"></label>
-    <div class="music-fallback" id="music-fallback" hidden><span>Music blocked? Tap play here:</span><div id="music-controls"></div></div>
-   </div>
-  </header>
-  <section class="case room-case">
-   <div class="case-left"><small id="chapter-label">CHAPTER 1 · THE LIBRARY</small><strong id="chapter-title">The Missing Librarian</strong><p id="chapter-copy">Something strange happened after midnight...</p></div>
-   <div class="clue-tag"><b id="clue-num">0/3</b><span>CLUES</span></div>
-  </section>
-  <section class="living-cast" aria-label="Witnesses in the manor">
-   <button class="cast-character unlocked" type="button" data-person="0" aria-label="Talk to Mallow the cat">
-    <span class="cast-glow"></span><span class="cast-figure" id="cast-figure-0"></span><span class="cast-label">MALLOW <span class="cast-dot">●</span></span>
-   </button>
-   <button class="cast-character" type="button" data-person="1" aria-label="Meet Fern the groundskeeper">
-    <span class="cast-glow"></span><span class="cast-figure" id="cast-figure-1"></span><span class="cast-label">FERN <span class="cast-dot">●</span></span>
-   </button>
-   <button class="cast-character" type="button" data-person="2" aria-label="Meet Miss Wisp the ghost">
-    <span class="cast-glow"></span><span class="cast-figure" id="cast-figure-2"></span><span class="cast-label">MISS WISP <span class="cast-dot">●</span></span>
-   </button>
-  </section>
-  <section class="manor-voice" id="manor-voice">
-   <span class="voice-avatar" id="witness-art" aria-hidden="true"></span>
-   <div class="voice-content"><span class="voice-eyebrow" id="witness-role">NEW WITNESS · THE LIBRARY</span><strong id="witness-name">Mallow</strong><p id="witness-teaser">Mallow seems to know something about midnight.</p></div>
-   <button type="button" id="witness-talk" class="voice-ask" aria-label="Ask witness a question">ASK <span>›</span></button>
-  </section>
-  <section class="desk-space" aria-label="Magical matching puzzle">
-   <div class="desk-top"><span class="desk-rune">☽ ✧ ✦</span><span class="desk-caption">THE ENCHANTED EVIDENCE TABLE</span><span class="desk-rune">✦ ✧ ☾</span></div>
-   <div class="stats"><div class="stat"><span>✦ SCORE</span><b id="score">0</b></div><div class="stat"><span>🕯 MOVES</span><b id="moves">28</b></div><div class="stat"><span>✧ BEST</span><b id="best">0</b></div></div>
-   <section class="board-wrap"><div id="board" class="board" aria-label="Seven by seven spooky match three game board"></div><div id="fx-layer" class="fx-layer" aria-hidden="true"></div></section>
-   <div class="action-caption" id="action-caption" aria-live="polite">SWAP CHARM → FIND MATCH → FOLLOW THE CLUES</div>
-   <div class="notice" id="notice" aria-live="polite">Swap neighboring charms to begin.</div>
-   <section class="goal-card"><h2 class="section-title">✧ Collect the Evidence ✧</h2><div id="goals" class="goals"></div></section>
-   <div class="tools"><button id="hint"><strong>✦</strong><span id="hint-label">HINT · 3</span></button><button id="shuffle"><strong>🔮</strong><span id="shuffle-label">SHUFFLE · 2</span></button><button id="restart"><strong>↻</strong>RESTART</button></div>
-  </section>
-  <div class="room-foot">
-   <button class="casebook-door" type="button" id="casefile-open"><span class="book-icon">📖</span><span><b>DETECTIVE'S NOTEBOOK</b><small>Inspect evidence • Question witnesses • Solve the case</small></span><span class="book-arrow">›</span></button>
-   <section class="story"><div class="story-top"><div class="story-visual" aria-hidden="true">☽</div><div><span class="eyebrow">THE STORY SO FAR</span><strong id="story-title">A Locked Library</strong><p id="story-text">The candles are still warm, but the librarian has vanished.</p></div></div><div class="story-bottom" id="story-footer">Three clues. Three witnesses. One truth.</div></section>
-   <p class="tip">Slide charms to match three. <b>Four in a line or 2×2 square</b> summons a Hex Bomb—tap it to clear 3×3!</p>
-   <p class="room-signoff">✦ THE MANOR REMEMBERS ✦</p>
+<div class="world-fog world-fog-back"></div><div class="room-vignette"></div>
+<header class="room-header simple-header">
+ <div class="room-brand"><span class="room-eyebrow">A LITTLE HAUNTED MYSTERY</span><h1>Mystery <em>Manor</em></h1></div>
+ <div class="audio-widget"><button type="button" class="sound" id="sound" aria-pressed="false" disabled>♫ LOADING MUSIC</button><label class="music-volume" id="music-volume-box" hidden>VOL <input id="music-volume" aria-label="Music volume" type="range" min="0" max="100" value="45"></label><div id="music-fallback" class="music-fallback" hidden><span>Tap play here:</span><div id="music-controls"></div></div></div>
+</header>
+<section class="case room-case simple-case">
+ <div class="case-left"><small id="chapter-label">LEVEL 1 OF 3</small><strong id="chapter-title">The Missing Librarian</strong><p id="chapter-copy">Find out what happened after midnight.</p></div>
+ <button class="clue-tag clue-button" id="casefile-open" type="button" aria-label="Open your clues"><b id="clue-num">0/3</b><span>CLUES <span aria-hidden="true">›</span></span></button>
+</section>
+<section class="living-cast one-witness" aria-label="Today's mystery witness">
+  <button type="button" class="cast-character selected" data-person="0" aria-label="Talk to Mallow the cat"><span class="cast-glow"></span><span id="cast-figure-0" class="cast-figure"></span><span class="cast-label">MALLOW</span></button>
+  <button type="button" class="cast-character" data-person="1" aria-label="Talk to Fern"><span class="cast-glow"></span><span id="cast-figure-1" class="cast-figure"></span><span class="cast-label">FERN</span></button>
+  <button type="button" class="cast-character" data-person="2" aria-label="Talk to Miss Wisp"><span class="cast-glow"></span><span id="cast-figure-2" class="cast-figure"></span><span class="cast-label">MISS WISP</span></button>
+</section>
+<section class="manor-voice simple-speech">
+ <span class="voice-avatar" id="witness-art" aria-hidden="true"></span>
+ <div class="voice-content"><span class="voice-eyebrow" id="witness-role">YOUR WITNESS</span><strong id="witness-name">Mallow</strong><p id="witness-teaser">I heard something strange by the fireplace…</p></div>
+ <button type="button" id="witness-talk" class="voice-ask" aria-label="Talk to witness">TALK <span>›</span></button>
+</section>
+<section class="desk-space simple-desk" aria-label="Match-three puzzle">
+  <div class="task-line"><div class="task-text"><span id="simple-goal-label">YOUR GOAL</span><strong id="simple-goal">Match the spellbooks</strong></div><div class="moves-chip">MOVES <b id="moves">26</b></div></div>
+  <div class="board-wrap"><div id="board" class="board" aria-label="Seven by seven spooky match three game board"></div><div id="fx-layer" class="fx-layer" aria-hidden="true"></div></div>
+  <div class="notice" id="notice" aria-live="polite">Swap two charms to make a match of three.</div>
+  <div class="goal-card simple-goals"><div id="goals" class="goals"></div></div>
+  <div class="simple-actions">
+    <button type="button" id="hint"><span>✧</span><span id="hint-label">HINT · 3</span></button>
+    <button type="button" id="menu-toggle" aria-expanded="false" aria-controls="extra-tools">⋯ OPTIONS</button>
   </div>
- </main>
-</div>
+  <div class="extra-tools" id="extra-tools" hidden><button id="shuffle">🔮 <span id="shuffle-label">SHUFFLE · 2</span></button><button id="restart">↻ RESTART LEVEL</button></div>
+  <div class="action-caption" id="action-caption" aria-live="polite">MATCH 3 → FIND THE CLUE</div>
+</section>
+<footer class="simple-footer">
+ <p>Match three to uncover the clue. Match four in a line or square to make a <strong>Hex Bomb</strong>.</p>
+ <p class="simple-case-note" id="story-footer">One room. One witness. One secret.</p>
+ <div class="legacy-text" hidden><span id="score">0</span><span id="best">0</span><span id="story-title"></span><span id="story-text"></span></div>
+</footer>
+</main></div>
 <div class="overlay dossier-overlay" id="casefile-overlay" role="dialog" aria-modal="true" aria-labelledby="dossier-heading">
- <div class="dossier-dialog">
-  <div class="dossier-bookhead"><span>✦ THE DETECTIVE'S JOURNAL</span><button type="button" id="casefile-close" aria-label="Close notebook">✕</button></div>
-  <section class="evidence-case" aria-label="The detective case file">
-   <div class="eyebrow">THE MANOR'S SECRETS</div><h2 id="dossier-heading">Clues &amp; Witnesses</h2>
-   <p id="evidence-summary">Complete each matching level to recover one clue. Talk to witnesses before you accuse anyone.</p>
-   <div class="clue-list" id="clue-list"></div>
-   <button type="button" id="deduce" class="solve-case" disabled>🔒 Find All Three Clues to Solve the Case</button>
-  </section>
-  <div class="dossier-quote">“In this house, the truth is never quite where it appears.”</div>
- </div>
+ <div class="dossier-dialog"><div class="dossier-bookhead"><span>DETECTIVE'S NOTEBOOK</span><button type="button" id="casefile-close" aria-label="Close notebook">✕</button></div>
+ <section class="evidence-case"><h2 id="dossier-heading">What do we know?</h2><p id="evidence-summary">Solve each puzzle and collect a clue.</p><div class="clue-list" id="clue-list"></div><button type="button" id="deduce" class="solve-case" disabled>🔒 Find all three clues</button></section></div>
 </div>
 <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
 <div class="dialog"><div id="dialog-portrait" class="dialog-portrait" hidden></div><div class="icon" id="modal-icon">🗝️</div><div id="clue-preview" class="clue-preview" hidden></div><h2 id="modal-title">A New Clue!</h2><p id="modal-copy"></p><button class="primary" id="modal-button">Continue the Story →</button></div>
@@ -568,9 +609,9 @@ var $=function(id){return document.getElementById(id)};
 var N=7, iconIds=["pumpkin","ghost","hat","book","orb","potion","boo"];
 var palette=[["#ffb04d","#e96b37"],["#cda8ff","#8154b5"],["#a78bfc","#6845b8"],["#fc9baf","#b34c83"],["#96c8ff","#6961cc"],["#8bdfb1","#379d85"]];
 var chapters=[
-{name:"The Missing Librarian",place:"THE LIBRARY",short:"A Locked Library",copy:"The candles are still warm, but the librarian has vanished.",goal:{"3":8,"1":9,"5":7},moves:28,clue:"A spellbook has slipped off the shelf. Beneath it: soot brushed from a hidden seam along the fireplace.",footer:"Complete the board to discover the first clue."},
-{name:"The Stopped Clock",place:"THE WEST HALL",short:"The Clock Strikes Thirteen",copy:"Nobody has heard the grandfather clock chime for a century. Until tonight.",goal:{"0":9,"2":8,"4":7},moves:29,clue:"The clock stopped at 12:13. Behind its face is a mechanism linked to the fireplace. The front door's wax seal is intact.",footer:"Another clock, another secret. Who could have passed the sealed door?"},
-{name:"The Moonlit Attic",place:"THE ATTIC",short:"Footsteps Above",copy:"A whisper drifts down from the attic. Is it a warning—or a trap?",goal:{"3":10,"4":9,"5":8},moves:30,clue:"A note in the librarian's handwriting: 'I have hidden the star map. I must reach the passage before the collector returns.'",footer:"One more clue, then you must decide what really happened."}
+{name:"The Missing Librarian",place:"THE LIBRARY",short:"A Locked Library",copy:"The candles are still warm, but the librarian has vanished.",goal:{"3":12},moves:25,clue:"A spellbook has slipped off the shelf. Beneath it: soot brushed from a hidden seam along the fireplace.",footer:"Complete the board to discover the first clue."},
+{name:"The Stopped Clock",place:"THE WEST HALL",short:"The Clock Strikes Thirteen",copy:"Nobody has heard the grandfather clock chime for a century. Until tonight.",goal:{"0":13},moves:26,clue:"The clock stopped at 12:13. Behind its face is a mechanism linked to the fireplace. The front door's wax seal is intact.",footer:"Another clock, another secret. Who could have passed the sealed door?"},
+{name:"The Moonlit Attic",place:"THE ATTIC",short:"Footsteps Above",copy:"A whisper drifts down from the attic. Is it a warning—or a trap?",goal:{"4":12},moves:27,clue:"A note in the librarian's handwriting: 'I have hidden the star map. I must reach the passage before the collector returns.'",footer:"One more clue, then you must decide what really happened."}
 ];
 var witnesses=[
 {name:"Mallow",role:"THE LIBRARIAN'S CAT",teaser:"A black cat with golden eyes and a suspiciously good memory.",advice:"I heard stone scraping behind the fireplace after midnight. I watched the door the whole time—no one used it. Also, four matching charms in a square make a Hex Bomb. Purrrfectly useful.",followup:"Mallow kneads the carpet beside the hearth. There are tiny scratches in the soot, as though a panel slid sideways."},
@@ -851,7 +892,8 @@ $("hint").disabled=s.busy||s.ended||s.hints<1;
 $("shuffle").disabled=s.busy||s.ended||s.shuffles<1;
 $("restart").disabled=s.busy;
 var c=chapters[s.level];
-$("goals").innerHTML=Object.keys(c.goal).map(function(key){
+$("simple-goal").textContent="Match "+Object.keys(c.goal).map(function(k){return c.goal[k]+" "+(["pumpkins","ghosts","witch hats","spellbooks","crystal orbs","potions"][Number(k)])}).join(" & ");
+ $("goals").innerHTML=Object.keys(c.goal).map(function(key){
 var total=c.goal[key],left=s.left[key],done=total-left,idx=Number(key);
 return '<div class="goal">'+tileSVG(idx)+'<span class="gname">'+["Pumpkins","Ghosts","Witch Hats","Spellbooks","Crystal Orbs","Potions"][idx]+'</span><div class="progress"><i style="width:'+(100*done/total)+'%"></i></div><span class="count">'+done+' / '+total+(left===0?" ✓":"")+'</span></div>';
 }).join("");
@@ -918,7 +960,7 @@ function activateWitness(index,open){
  s.activeWitness=index;
  var w=witnesses[index];
  $("witness-art").innerHTML=portrait(index);
- $("witness-role").textContent=w.role;
+ $("witness-role").textContent="TODAY’S WITNESS";
  $("witness-name").textContent=w.name;
  $("witness-teaser").textContent=w.teaser;
  document.querySelectorAll(".cast-character").forEach(function(el,i){
@@ -933,7 +975,7 @@ function refreshCast(){
   var b=document.querySelector('[data-person="'+i+'"]');
   if(b){b.classList.toggle("locked",i>maxUnlocked);b.classList.toggle("unlocked",i<=maxUnlocked)}
  }
- activateWitness(Math.min(s.activeWitness===undefined?s.level:s.activeWitness,maxUnlocked),false);
+ activateWitness(s.level,false);
 }
 function characterReaction(type){
  var idx=s&&s.activeWitness!==undefined?s.activeWitness:0;
@@ -1001,14 +1043,14 @@ var c=chapters[level];
 s={level:level,activeWitness:Math.min(level,maxUnlocked),matchReady:[],board:[],score:0,moves:c.moves,left:Object.assign({},c.goal),hints:3,shuffles:2,selected:-1,hint:[],busy:false,ended:false,boomCount:0,falls:null,swapFX:null,invalid:[]};
 fillBoard();
 $("overlay").classList.remove("open");
-$("chapter-label").textContent="CHAPTER "+(level+1)+" · "+c.place;
+$("chapter-label").textContent="LEVEL "+(level+1)+" OF 3";
 $("chapter-title").textContent=c.name;
-$("chapter-copy").textContent="A new secret waits in the manor...";
+$("chapter-copy").textContent=["Find the first clue.","Follow the trail.","Uncover the last clue."][level];
 $("story-title").textContent=c.short;
 $("story-text").textContent=c.copy;
 $("story-footer").textContent=c.footer;
-message("Swap two neighboring charms to make a match!");
-updateCaseFile();refreshCast();actionCaption("SWAP CHARM → FIND MATCH → FOLLOW THE CLUES");paint();
+message("Swap two charms to match three.");
+updateCaseFile();refreshCast();$("extra-tools").hidden=true;$("menu-toggle").setAttribute("aria-expanded","false");actionCaption("MATCH 3 → FIND THE CLUE");paint();
 }
 var clueImages=["<svg viewBox=\"0 0 340 175\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"An open spellbook at the foot of a fireplace with a hidden stone seam\"><rect width=\"340\" height=\"175\" fill=\"#624963\"/><path d=\"M0 139H340V175H0Z\" fill=\"#463443\"/><g stroke=\"#a4888c\" opacity=\".38\" stroke-width=\"3\"><path d=\"M0 45H340M0 94H340M70 0V45M212 45V94\"/></g><path d=\"M195 153V61Q195 23 264 23Q324 23 327 65V152\" fill=\"#251729\" stroke=\"#c8a5a2\" stroke-width=\"11\"/><path d=\"M225 141Q220 104 250 87Q251 64 270 53Q291 79 284 103Q311 80 312 140Z\" fill=\"#ec9764\" stroke=\"#ffe0a3\" stroke-width=\"4\"/><path d=\"M199 38V154\" stroke=\"#22182a\" stroke-width=\"5\" stroke-dasharray=\"6 5\"/><path d=\"M15 144L111 111L180 139L81 171Z\" fill=\"#a45b7d\" stroke=\"#f1baa8\" stroke-width=\"4\"/><path d=\"M22 132Q65 110 111 133V160Q67 140 21 157Z\" fill=\"#ead4ae\" stroke=\"#a58277\" stroke-width=\"3\"/><path d=\"M111 133Q155 110 176 142V158Q142 139 111 160Z\" fill=\"#f2dbb4\" stroke=\"#a58277\" stroke-width=\"3\"/><path d=\"M39 134Q72 124 97 138M38 144Q64 133 94 149M124 134L159 146\" stroke=\"#b39686\" stroke-width=\"2\" fill=\"none\"/><g fill=\"#312233\"><circle cx=\"184\" cy=\"145\" r=\"5\"/><circle cx=\"181\" cy=\"128\" r=\"3\"/><circle cx=\"197\" cy=\"133\" r=\"2\"/></g><path d=\"M97 117L111 111L124 119\" fill=\"none\" stroke=\"#fff0d3\" opacity=\".8\"/></svg>","<svg viewBox=\"0 0 340 175\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"A grandfather clock frozen at twelve thirteen next to a sealed letter\"><rect width=\"340\" height=\"175\" fill=\"#615174\"/><path d=\"M0 157H340\" stroke=\"#89728b\" stroke-width=\"15\"/><path d=\"M16 172V14H145V172Z\" fill=\"#765167\" stroke=\"#cca184\" stroke-width=\"9\"/><circle cx=\"80\" cy=\"61\" r=\"38\" fill=\"#ebdac1\" stroke=\"#f1e5ce\" stroke-width=\"4\"/><circle cx=\"80\" cy=\"61\" r=\"30\" fill=\"none\" stroke=\"#ac8c85\" stroke-dasharray=\"3 5\" stroke-width=\"3\"/><path d=\"M80 61L80 34M80 61L100 50\" stroke=\"#74526d\" stroke-width=\"5\" stroke-linecap=\"round\"/><circle cx=\"80\" cy=\"61\" r=\"5\" fill=\"#aa7c79\"/><rect x=\"56\" y=\"110\" width=\"48\" height=\"46\" rx=\"8\" fill=\"#39253b\" stroke=\"#bd937b\" stroke-width=\"4\"/><path d=\"M80 114V136\" stroke=\"#e7ba80\" stroke-width=\"4\"/><circle cx=\"80\" cy=\"141\" r=\"10\" fill=\"#ddc18f\"/><path d=\"M191 28H316V150H191Z\" fill=\"#e8cdab\" stroke=\"#c19c8b\" stroke-width=\"7\"/><path d=\"M207 52L294 51M208 67L289 67M207 85L297 85\" stroke=\"#b3908e\" stroke-width=\"3\"/><path d=\"M211 31L302 120\" stroke=\"#d1a99e\" stroke-width=\"2\"/><circle cx=\"256\" cy=\"116\" r=\"20\" fill=\"#b34a71\" stroke=\"#eec49e\" stroke-width=\"3\"/><path d=\"M245 115L255 126L270 103\" stroke=\"#ffdbc5\" fill=\"none\" stroke-width=\"4\"/></svg>","<svg viewBox=\"0 0 340 175\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"A handwritten secret note and a glittering enchanted star map\"><rect width=\"340\" height=\"175\" fill=\"#534678\"/><circle cx=\"276\" cy=\"26\" r=\"24\" fill=\"#f6e4ba\"/><g fill=\"#f9e8c6\"><circle cx=\"232\" cy=\"58\" r=\"2\"/><circle cx=\"319\" cy=\"66\" r=\"2\"/><circle cx=\"179\" cy=\"23\" r=\"2\"/></g><path d=\"M24 22L198 18L218 161L42 163Z\" fill=\"#efd6ae\" stroke=\"#bb947f\" stroke-width=\"5\"/><path d=\"M52 49Q87 42 126 53L166 47M55 68L186 67M56 84L184 85M60 104L182 103M63 120L160 121\" stroke=\"#a78483\" fill=\"none\" stroke-width=\"3\" stroke-dasharray=\"14 5\"/><circle cx=\"175\" cy=\"142\" r=\"14\" fill=\"#ac5272\" stroke=\"#f7d7b2\" stroke-width=\"3\"/><path d=\"M175 133L178 141L186 144L180 148L181 156L175 151L169 155L171 147L165 142L172 140Z\" fill=\"#ffe2a8\"/><path d=\"M220 105L313 94L327 159L228 168Z\" fill=\"#6f6087\" stroke=\"#ddc2bf\" stroke-width=\"4\"/><path d=\"M237 140L253 121L272 135L292 111L311 129\" fill=\"none\" stroke=\"#f1d6a4\" stroke-width=\"3\" stroke-dasharray=\"5 4\"/><circle cx=\"237\" cy=\"140\" r=\"5\" fill=\"#e2bbe7\"/><circle cx=\"311\" cy=\"129\" r=\"5\" fill=\"#e2bbe7\"/></svg>"];
 function pictureClue(i){
@@ -1125,7 +1167,7 @@ paint();
 actionCaption(found.anchors.length?"✧ FOUR IN A PATTERN — HEX BOMB!":"✧ MATCH FOUND — WATCH THE GLOW");
 await sleep(160);if(activeToken!==token)return;
 s.matchReady=[];
-if(found.anchors.length){message("👻 HEX BOMB! Four matching charms in a line or square!");tone(760)}
+if(found.anchors.length){message("👻 Hex Bomb created!");tone(760)}
 message(found.anchors.length?"✨ A HEX BOMB IS APPEARING!":chain>1?"✨ CASCADE "+chain+"!":"✦ Matching charms — watch them burst!");
  actionCaption(found.anchors.length?"✦ FOUR CONNECTED — HEX BOMB FORMED!":"✧ MATCH CONFIRMED — WATCH THE CHARM BURST");if(found.anchors.length)characterReaction("match");
 paint(found.remove);
@@ -1253,6 +1295,8 @@ document.querySelectorAll("[data-person]").forEach(function(el){
 });
 $("casefile-open").addEventListener("click",function(){updateCaseFile();$("casefile-overlay").classList.add("open")});
 $("casefile-close").addEventListener("click",function(){$("casefile-overlay").classList.remove("open")});
+$("menu-toggle").addEventListener("click",function(){var e=$("extra-tools"),open=e.hidden;e.hidden=!open;this.setAttribute("aria-expanded",open?"true":"false")});
+
 $("casefile-overlay").addEventListener("click",function(e){if(e.target===this)this.classList.remove("open")});
 document.addEventListener("keydown",function(e){
  if(e.key==="Escape"){$("casefile-overlay").classList.remove("open");$("overlay").classList.remove("open");$("deduce-overlay").classList.remove("open")}
