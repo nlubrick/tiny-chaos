@@ -12,6 +12,9 @@ import { WorldScene } from "./scenes/WorldScene.js";
 import { HiddenObjectPuzzle } from "./puzzles/HiddenObjectPuzzle.js";
 import { Match3Puzzle } from "./puzzles/Match3Puzzle.js";
 import { ClockPuzzle } from "./puzzles/ClockPuzzle.js";
+import { PinPuzzle } from "./puzzles/PinPuzzle.js";
+import { BlockPuzzle } from "./puzzles/BlockPuzzle.js";
+import { ChainPuzzle } from "./puzzles/ChainPuzzle.js";
 
 const $ = id => document.getElementById(id);
 ctx.state = new StoryState(); ctx.state.load();
@@ -27,7 +30,7 @@ ctx.game = new Phaser.Game({
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.NO_CENTER, width: VIEW_W, height: VIEW_H },
   audio: { noAudio: true },                      // sound is handled by AudioManager, not Phaser
   input: { activePointers: 2 }, render: { antialias: true, roundPixels: false },
-  scene: [BootScene, WorldScene, HiddenObjectPuzzle, Match3Puzzle, ClockPuzzle]
+  scene: [BootScene, WorldScene, HiddenObjectPuzzle, Match3Puzzle, ClockPuzzle, PinPuzzle, BlockPuzzle, ChainPuzzle]
 });
 ctx.puzzles = new PuzzleManager(ctx.game, PUZZLES);
 

@@ -109,7 +109,68 @@ export const SCRIPTS = {
     M("There is a calling card on the first step. No name. Just two words in gold."),
     N("\"THE COLLECTOR\"")
   ],
-  passageAgain: [M("Still dark. Still cold. Still smells of her. I am going down there, just as soon as someone tells me what is at the bottom.")]
+  passageAgain: [M("Still dark. Still cold. Still smells of her.")],
+
+  // ---------------- Chapter Two: Beneath the Hearth ----------------
+  down: [
+    N("Forty-one steps. You counted. The fire's warmth gives out at the ninth."),
+    M("Older than the house, this. The stones are a different colour and nobody has dusted since the Flood."),
+    M("Two sets of prints in the grit. Her slippers, light and quick. And boots, heavier, coming after.")
+  ],
+  shawl: [
+    M("Her shawl. The purple one she wears when the library is cold."),
+    M("Hung on the hook. Not dropped, not torn. Hung up, neatly, the way she hangs everything."),
+    M("People who are being dragged off do not stop to hang up their shawls.")
+  ],
+  gateShut: [M("An iron gate, shut tight. There is a float and a chain behind it, and no water to lift the float.")],
+  sluiceBefore: [M("Pins, pipes, a tank of water and a pan of coals. Somebody built this to keep clumsy people out. I am not clumsy.")],
+  sluiceDone: [
+    N("Water finds the float. The chain goes taut, and the gate lifts itself into the ceiling."),
+    M("She knew the trick of it. The boots did not. There are scorch marks on that rope older than tonight.")
+  ],
+  sluiceAfter: [M("Still dripping. The gate is staying up, for now.")],
+  camp: [
+    M("A bedroll. A lantern, cold. Boots with garden mud to the ankle."),
+    M("Someone has been living under my house. For weeks, by the smell. Tinned fish and candle wax."),
+    M("A map of the manor, pinned up with a knife. The library is circled in red. So is the attic."),
+    N("In the corner of the map, in neat copperplate: \"Property of C. Thorne.\"")
+  ],
+  wispBelow: [
+    W("Oh, don't look so startled. Floors are a suggestion."),
+    W("You found his little nest, then. I had rather hoped you wouldn't have to."),
+    M("His."),
+    W("Cornelius Thorne. The face cut out of my gallery. The family said he drowned abroad, forty years ago, and good riddance."),
+    W("He did not drown. He collected. Maps, instruments, anything that pointed at something valuable. They started calling him the Collector, and then they stopped calling him anything at all."),
+    W("He came back for the star map, kitten. Your librarian has known for a month.")
+  ],
+  wispBelowAgain: [W("I can go through the crates. You, regrettably, cannot. Push.")],
+  jamBefore: [M("Crates, floor to ceiling, shoved across the aisle from the far side. Someone did not want to be followed.")],
+  jamDone: [M("There. A cat-sized gap is still a gap."), M("These were stacked from the far side. By someone small, careful, and in a hurry. Hers, not his.")],
+  vaultFirst: [
+    N("The blue light has a source after all."),
+    M("Stars. Someone has painted the whole sky on the ceiling, and built a brass machine underneath to turn it."),
+    M("There is a note on the reading stand. I know that handwriting.")
+  ],
+  note: [
+    N("\"Mallow. If anyone finds this it will be you, because you never could leave a closed door alone.\""),
+    N("\"I was not taken. I want you to know that first. I heard him on the stair and I went ahead of him.\""),
+    N("\"The map cannot stay in the house, and I could not let him watch where I took it. The orrery will show you. It will show him too, if he gets this far, so I have put the stars out.\""),
+    N("\"Stay with Fern. Do not follow me. I mean it this time. —E.\""),
+    M("She means it every time.")
+  ],
+  orreryEarly: [M("A brass machine with seven dead lamps. It wants something. The note first.")],
+  orreryBefore: [M("Seven stars, all tied together. She put them out. I can put them back.")],
+  orreryDone: [
+    N("The seven lamps catch. The rings begin to turn, slowly, and then not slowly."),
+    N("A single thread of light crosses the painted sky and stops on the eastern wall, on a small square tower drawn among the garden trees."),
+    M("The old observatory. At the bottom of the garden, past the wall. That is where she took it.")
+  ],
+  above: [
+    N("Overhead, very far away, something heavy falls. Then Fern's voice, shouting a name that is not yours."),
+    M("He is not down here. He never needed to come down here. He was waiting for someone to light it for him."),
+    M("And I have just shown him the way.")
+  ],
+  orreryAgain: [M("Still pointing at the observatory. I cannot make it stop.")]
 };
 
 export const CUTSCENE_LINES = {
@@ -122,8 +183,16 @@ export const CARDS = {
     <p>The librarian did not vanish. She left, by a door nobody was meant to know about.</p>
     <p>Someone else knew about it too.</p>
     <h3>Who is <em>the Collector</em>?</h3>
-    <p class="fine">End of Chapter One. Chapter Two: Beneath the Hearth, is coming in a future update.</p>
+    <p class="fine">End of Chapter One. Chapter Two: Beneath the Hearth. The passage beside the fireplace is open.</p>
     <div class="fe-chapter-acknowledgment">A FAILURE ENTERTAINMENT PRODUCTION <span>6/10. Good enough.</span></div>
     <button class="ghost" type="button" data-credits>View chapter credits</button>
-    <button class="gold" type="button" data-close>Keep exploring the manor</button>`
+    <button class="gold" type="button" data-close>Go on</button>`,
+  ending2: `<span class="kicker">End of Chapter Two</span>
+    <p>She was never taken. She ran, to keep the map ahead of him.</p>
+    <p>Now the Collector knows where she ran to.</p>
+    <h3>Reach <em>the observatory</em> first.</h3>
+    <p class="fine">End of Chapter Two. Chapter Three: The Garden Wall, is coming in a future update.</p>
+    <div class="fe-chapter-acknowledgment">A FAILURE ENTERTAINMENT PRODUCTION <span>6/10. Good enough.</span></div>
+    <button class="ghost" type="button" data-credits>View chapter credits</button>
+    <button class="gold" type="button" data-close>Keep exploring</button>`
 };

@@ -1,7 +1,7 @@
 /* Mystery Manor installable web app shell.
    First play online caches subsequent module loads; audio tracks stream from their
    credited host and are not falsely advertised as offline assets. */
-const CACHE="mystery-manor-ch1-app-v5";
+const CACHE="mystery-manor-ch2-app-v6";
 const CORE=[
  "./","./index.html","./manifest.webmanifest","./mystery-manor-icon.svg","./mystery-manor-ios-icon.png",
  "./studio-boot-v2.js","./studio-credits-roll-v2.js","./failure-entertainment-intro-v2.html",
@@ -13,7 +13,8 @@ const CORE=[
  "./src/scenes/BootScene.js","./src/scenes/WorldScene.js",
  "./src/puzzles/HiddenObjectPuzzle.js","./src/puzzles/Match3Puzzle.js",
  "./src/puzzles/ClockPuzzle.js","./src/puzzles/BasePuzzle.js",
- "./src/puzzles/match3Logic.js","./src/art/svg.js","./src/art/characters.js",
+ "./src/puzzles/match3Logic.js","./src/puzzles/PinPuzzle.js","./src/puzzles/pinLogic.js",
+ "./src/puzzles/BlockPuzzle.js","./src/puzzles/blockLogic.js","./src/puzzles/ChainPuzzle.js","./src/puzzles/chainLogic.js","./src/art/svg.js","./src/art/characters.js",
  "./src/art/rooms.js","./src/art/desk.js","./src/art/pieces.js",
  "./assets/mystery_manor_witnesses.webp"
 ];

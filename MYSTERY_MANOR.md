@@ -1,6 +1,6 @@
 # Mystery Manor: The Vanishing at Thorne House
 
-Chapter One, built on the `mystery-manor-preview` line. (`README.md` still describes Tiny Chaos, the separate game on `main`, and is deliberately untouched.)
+Chapters One and Two, built on the `mystery-manor-preview` line. (`README.md` still describes Tiny Chaos, the separate game on `main`, and is deliberately untouched.)
 
 **Play locally:** `python3 tests/serve.py` then open http://localhost:8765. It is a static site: `index.html` at the repo root, no build step.
 
@@ -10,6 +10,9 @@ Chapter One, built on the `mystery-manor-preview` line. (`README.md` still descr
 
 ## What is in Chapter One
 Library → search the librarian's desk (hidden objects) → break the ward on the door (match-3) → West Hall, meet Fern → free and set the grandfather clock (mechanical) → thirteen chimes, the panel beside the library fireplace opens → the passage and the Collector's card. The Portrait Gallery (Miss Wisp) and the Attic Landing (the empty star-chart frame) are open to explore once the door is unlocked.
+
+## What is in Chapter Two: Beneath the Hearth
+Down the passage beside the fireplace → the Hidden Stair → work the sluice (pull-the-pin) to lift the gate → the Undercroft, the Collector's camp, Miss Wisp names him → clear the archive aisle (sliding blocks) → the Star Vault, the librarian's note → wake the orrery (chain reaction) → it points at the garden observatory, and the Collector has been waiting for exactly that.
 
 ## Documents
 - `docs/ARCHITECTURE.md`: how it is put together

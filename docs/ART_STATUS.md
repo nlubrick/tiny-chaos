@@ -24,6 +24,9 @@ Plain statement: **none of the new art in this branch is final painted artwork.*
 | `pc0..5`, `pc-hex` | 128 x 128 | centre | Match-3 pieces: gold key, blue moon, green potion, red seal, white feather, purple crystal, and the Hex Bomb | Built for legibility: each kind differs in both colour and outline. Clean, not painted. |
 | Match-3 board frame, ward overlay, line-charm marker | drawn with Phaser Graphics / `glow` | | | Functional. The line charm is a tinted piece with a glow bar, not its own icon. |
 
+## Chapter Two additions (all vector first pass)
+`room-stair`, `room-undercroft`, `room-vault` (stone cellar backdrops), `gate`, `jam`, `rings`, and the three puzzle scenes, which are drawn with flat Phaser shapes: the sluice works, the crates and trolley, the stars. They are clear and large on a phone and are the plainest-looking screens in the game. Miss Wisp in the undercroft reuses her gallery sprite, mirrored.
+
 ## Known mismatches and gaps
 - **Miss Wisp's dialogue portrait** is now cropped from her own vector sprite, so it matches the ghost in the room but is not painted. She needs a painted ghost portrait.
 - **Mallow and Fern** in the world do not closely match their painted portraits.

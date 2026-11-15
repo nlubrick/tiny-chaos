@@ -6,14 +6,16 @@ const BASE = process.env.URL || "http://127.0.0.1:8765/index.html";
 let URL = BASE + "?canvas";   // headless Chrome has no GPU; its software WebGL runs at about 6 frames a second, so the play-through uses the 2D renderer
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const results = []; let failed = 0;
-const check = (name, ok, extra = "") => { results.push((ok ? "PASS " : "FAIL ") + name + (extra ? "  [" + extra + "]" : "")); if (!ok) failed++; };
+const check = (name, ok, extra = "") => { const line = (ok ? "PASS " : "FAIL ") + name + (extra ? "  [" + extra + "]" : ""); results.push(line); console.log(line); if (!ok) failed++; };
 
+/** Waits out the studio intro that plays over the title, then for the game to finish loading. */
+const ready = p => p.waitForFunction(() => !window.__feStudioIntroActive && !document.getElementById("fe-studio-boot") && !document.getElementById("btn-begin").disabled, { timeout: 90000 });
 async function open(browser, vp, errors) {
   const p = await browser.newPage(); await p.setViewport(vp);
   p.on("pageerror", e => errors.push("pageerror: " + e.message));
   p.on("console", m => { if (m.type() === "error" && !/ERR_FAILED|incompetech/.test(m.text())) errors.push("console: " + m.text()); });
   await p.setRequestInterception(true); p.on("request", r => r.url().includes("incompetech") ? r.abort() : r.continue());   // the sandbox has no route to the music host
-  await p.goto(URL); await p.waitForFunction(() => !document.getElementById("btn-begin").disabled, { timeout: 30000 });
+  await p.goto(URL); await ready(p);
   return p;
 }
 const W = p => p.evaluate(() => { const w = __mm.game.scene.getScene("World"); return { x: w.player.x, vx: w.vx, room: w.current && w.current.id, busy: w.busy, lx: w.current ? w.player.x - w.current.x0 : 0, paused: w.scene.isPaused(), panel: w.panelOpen }; });
@@ -21,8 +23,8 @@ const visible = (p, sel) => p.evaluate(s => { const e = document.querySelector(s
 const flag = (p, f) => p.evaluate(f => __mm.state.has(f), f);
 async function talk(p) { let n = 0; while (await visible(p, "#dialogue") && n++ < 80) { await p.tap("#dialogue"); await sleep(70); } return n; }
 async function settle(p, ms = 9000) { const t = Date.now(); while (Date.now() - t < ms) { if (await visible(p, "#dialogue")) await talk(p); const w = await W(p); if (!w.busy && !w.paused) return; await sleep(120); } }
-async function walkTo(p, lx) {
-  for (let guard = 0; guard < 400; guard++) {
+async function walkTo(p, lx, tries = 400) {
+  for (let guard = 0; guard < tries; guard++) {
     await settle(p); const w = await W(p); const d = lx - w.lx; if (Math.abs(d) < 50) break;
     const btn = d > 0 ? "#btn-right" : "#btn-left", box = await (await p.$(btn)).boundingBox();
     await p.touchscreen.touchStart(box.x + box.width / 2, box.y + box.height / 2);
@@ -34,7 +36,7 @@ async function walkTo(p, lx) {
 async function act(p, expect) { await p.waitForFunction(() => !document.getElementById("btn-act").hidden, { timeout: 5000 }); const label = await p.$eval("#btn-act", e => e.textContent); if (expect) check("prompt reads '" + expect + "'", label === expect, label); await p.tap("#btn-act"); await sleep(250); return label; }
 async function stageTap(p, sx, sy) { const r = await p.$eval("#stage canvas", c => { const b = c.getBoundingClientRect(); return { l: b.left, t: b.top, w: b.width, h: b.height }; }); await p.touchscreen.tap(r.l + sx / 1560 * r.w, r.t + sy / 720 * r.h); }
 const puzzleUp = (p, key) => p.waitForFunction(k => __mm.game.scene.isActive(k), { timeout: 15000 }, key);
-const puzzleGone = (p, key) => p.waitForFunction(k => !__mm.game.scene.isActive(k) && !__mm.puzzles.active, { timeout: 40000 }, key);
+const puzzleGone = (p, key) => p.waitForFunction(k => !__mm.game.scene.isActive(k) && !__mm.puzzles.active, { timeout: 60000 }, key);
 
 (async () => {
   const browser = await puppeteer.launch({ executablePath: process.env.CHROME || "/usr/bin/google-chrome", headless: "new", args: ["--no-sandbox"] });
@@ -42,7 +44,7 @@ const puzzleGone = (p, key) => p.waitForFunction(k => !__mm.game.scene.isActive(
 
   /* ---------- iPhone landscape, touch ---------- */
   let p = await open(browser, { width: 844, height: 390, hasTouch: true, isMobile: true, deviceScaleFactor: 2 }, errors);
-  await p.evaluate(() => localStorage.clear()); await p.reload(); await p.waitForFunction(() => !document.getElementById("btn-begin").disabled);
+  await p.evaluate(() => localStorage.clear()); await p.reload(); await ready(p);
   const audioEl = await p.evaluateHandle(() => __mm.audio.el);
   await p.tap("#btn-begin"); await sleep(1500);
   check("intro dialogue opens by itself", await visible(p, "#dialogue"));
@@ -130,6 +132,44 @@ const puzzleGone = (p, key) => p.waitForFunction(k => !__mm.game.scene.isActive(
   await sleep(5500); await p.tap("#card [data-close]"); await settle(p);
   a = await W(p); check("exploration continues after the ending", !a.busy && a.room === "library");
 
+  /* ---------- Chapter Two ---------- */
+  const drag = async (x1, y1, x2, y2) => { const r = await p.$eval("#stage canvas", c => { const b = c.getBoundingClientRect(); return { l: b.left, t: b.top, w: b.width, h: b.height }; }), X = x => r.l + x / 1560 * r.w, Y = y => r.t + y / 720 * r.h;
+    await p.touchscreen.touchStart(X(x1), Y(y1)); for (let i = 1; i <= 5; i++) { await p.touchscreen.touchMove(X(x1 + (x2 - x1) * i / 5), Y(y1 + (y2 - y1) * i / 5)); await sleep(30); } await p.touchscreen.touchEnd(); await sleep(220); };
+  await walkTo(p, 676); await act(p, "Go down"); await sleep(1200); await settle(p);
+  a = await W(p); check("ch2: the passage leads down to the Hidden Stair", a.room === "stair" && await flag(p, "wentDown"));
+  await walkTo(p, 2040); await act(p, "Try the gate"); await settle(p); check("ch2: the gate is shut before the sluice is worked", (await W(p)).room === "stair");
+  await walkTo(p, 1740); await act(p, "Work the sluice"); await talk(p); await puzzleUp(p, "Pin"); await sleep(600);
+  await stageTap(p, 170, 410); await sleep(1500);
+  check("ch2 pins: dropping hot coals fails and does not solve it", await p.evaluate(() => __mm.game.scene.getScene("Pin").s.status === "fail") && !(await flag(p, "gateOpen")));
+  await sleep(2600); check("ch2 pins: the works reset after a failure", await p.evaluate(() => __mm.game.scene.getScene("Pin").s.status === "ok"));
+  for (const [x, y] of [[170, 240], [170, 410], [590, 440]]) { await stageTap(p, x, y); await sleep(1300); }
+  await puzzleGone(p, "Pin"); await settle(p);
+  check("ch2 pins: water, lower pin, channel opens the gate", await flag(p, "gateOpen"));
+  await walkTo(p, 2040); await act(p, "Go through"); await sleep(1200); await settle(p);
+  await walkTo(p, 1900, 3); a = await W(p);
+  check("ch2: Miss Wisp names the Collector in the undercroft", await flag(p, "wispBelow"));
+  check("ch2: the crate jam blocks the aisle", a.room === "undercroft" && a.lx <= 1260, "x " + Math.round(a.lx));
+  await act(p, "Clear the aisle"); await talk(p); await puzzleUp(p, "Block"); await sleep(600);
+  const path = await p.evaluate(async () => { const L = await import("/src/puzzles/blockLogic.js"), s = __mm.game.scene.getScene("Block"), out = []; L.solve(s.blocks, out); return out.map(([id, d]) => { const b = s.blocks.find(x => x.id === id); return { id, d }; }); });
+  for (const m of path) { const b = await p.evaluate(id => { const s = __mm.game.scene.getScene("Block"), b = s.blocks.find(x => x.id === id); return { r: b.r, c: b.c, len: b.len, dir: b.dir }; }, m.id);
+    const x = 250 + (b.c + (b.dir === "H" ? b.len / 2 : .5)) * 108, y = 36 + (b.r + (b.dir === "V" ? b.len / 2 : .5)) * 108; await drag(x, y, x + (b.dir === "H" ? m.d * 108 : 0), y + (b.dir === "V" ? m.d * 108 : 0)); }
+  await puzzleGone(p, "Block"); await settle(p);
+  check("ch2 blocks: dragging the crates frees the trolley", await flag(p, "aisleClear"), path.length + " moves");
+  await walkTo(p, 2040); a = await W(p); check("ch2: the aisle can be walked once cleared", a.lx > 1900);
+  await act(p, "Toward the blue light"); await sleep(1200); await settle(p);
+  await walkTo(p, 1150); await act(p, "Look at the orrery"); await settle(p);
+  await walkTo(p, 620); await act(p, "Read the note"); await settle(p); check("ch2: the librarian's note is read", await flag(p, "readNote"));
+  await walkTo(p, 1150); await act(p, "Wake the stars"); await talk(p); await puzzleUp(p, "Chain"); await sleep(600);
+  const taps = await p.evaluate(async () => { const L = await import("/src/puzzles/chainLogic.js"), s = __mm.game.scene.getScene("Chain"); return L.solve(s.state).map(i => [520 + L.STARS[i][0] * 300, 372 + L.STARS[i][1] * 280]); });
+  for (const t of taps) { await stageTap(p, ...t); await sleep(700); }
+  await puzzleGone(p, "Chain"); await talk(p); await sleep(600); await talk(p);
+  await p.waitForFunction(() => !document.getElementById("card").hidden, { timeout: 15000 });
+  check("ch2 stars: lighting all seven turns the orrery", await flag(p, "orreryLit"), taps.length + " taps");
+  check("ch2: ends on the observatory cliffhanger", await p.$eval("#card-inner", e => /observatory/.test(e.textContent)));
+  await sleep(5500); await p.tap("#card [data-close]"); await settle(p);
+  await walkTo(p, 180); await act(p, "The Undercroft"); await sleep(1200); await settle(p); await walkTo(p, 180); await act(p, "Hidden Stair"); await sleep(1200); await settle(p);
+  await walkTo(p, 170); await act(p, "Back up to the library"); await sleep(1200); await settle(p); a = await W(p); check("ch2: Mallow can walk back up to the library", a.room === "library");
+
   await p.tap("#btn-menu"); await sleep(200); await p.tap("#music-toggle");
   check("music can be switched off", await p.evaluate(() => __mm.audio.musicOn === false && __mm.audio.el.paused));
   await p.$eval("#music-vol", e => { e.value = 20; e.dispatchEvent(new Event("input")); }); await p.$eval("#sfx-vol", e => { e.value = 30; e.dispatchEvent(new Event("input")); });
@@ -138,14 +178,14 @@ const puzzleGone = (p, key) => p.waitForFunction(k => !__mm.game.scene.isActive(
   await p.tap("#music-toggle"); await p.tap("#btn-close-menu");
   check("the three tracks are the originals, in order", await p.evaluate(async () => { const c = await import("/src/config.js"); return c.MUSIC_TRACKS.map(t => t.title).join("|") === "Sneaky Adventure|Some Amount of Evil|Machinations"; }));
 
-  await p.reload(); await p.waitForFunction(() => !document.getElementById("btn-begin").disabled);
+  await p.reload(); await ready(p);
   check("a reload offers Continue", await visible(p, "#btn-continue")); await p.tap("#btn-continue"); await sleep(1800); await settle(p);
-  check("solved puzzles and opened rooms are kept", (await flag(p, "doorOpen")) && (await flag(p, "clockSolved")) && (await W(p)).panel > .99);
+  check("solved puzzles and opened rooms are kept", (await flag(p, "doorOpen")) && (await flag(p, "clockSolved")) && (await flag(p, "gateOpen")) && (await flag(p, "orreryLit")) && (await W(p)).panel > .99);
   await p.close();
 
   /* ---------- iPhone portrait fallback ---------- */
   p = await open(browser, { width: 390, height: 844, hasTouch: true, isMobile: true, deviceScaleFactor: 2 }, errors);
-  await p.evaluate(() => localStorage.clear()); await p.reload(); await p.waitForFunction(() => !document.getElementById("btn-begin").disabled);
+  await p.evaluate(() => localStorage.clear()); await p.reload(); await ready(p);
   await p.tap("#btn-begin"); await sleep(1500); await settle(p);
   const inView = await p.evaluate(() => ["btn-left", "btn-right"].every(id => { const r = document.getElementById(id).getBoundingClientRect(); return r.left >= 0 && r.right <= innerWidth && r.top >= 0 && r.bottom <= innerHeight && r.width >= 44; }));
   check("portrait: arrows are on screen and finger-sized", inView);
@@ -155,7 +195,7 @@ const puzzleGone = (p, key) => p.waitForFunction(k => !__mm.game.scene.isActive(
 
   /* ---------- desktop keyboard ---------- */
   p = await open(browser, { width: 1280, height: 720 }, errors);
-  await p.evaluate(() => localStorage.clear()); await p.reload(); await p.waitForFunction(() => !document.getElementById("btn-begin").disabled);
+  await p.evaluate(() => localStorage.clear()); await p.reload(); await ready(p);
   await p.click("#btn-begin"); await sleep(1500);
   for (let i = 0; i < 20 && await visible(p, "#dialogue"); i++) { await p.keyboard.press("Enter"); await sleep(80); }
   await sleep(400); a = await W(p); await p.keyboard.down("d"); await sleep(800); await p.keyboard.up("d"); await sleep(500); b2 = await W(p);
@@ -167,12 +207,12 @@ const puzzleGone = (p, key) => p.waitForFunction(k => !__mm.game.scene.isActive(
 
   /* ---------- default WebGL renderer: boots, draws, first dialogue appears ---------- */
   URL = BASE; p = await open(browser, { width: 844, height: 390, hasTouch: true, isMobile: true }, errors);
-  await p.evaluate(() => localStorage.clear()); await p.reload(); await p.waitForFunction(() => !document.getElementById("btn-begin").disabled);
+  await p.evaluate(() => localStorage.clear()); await p.reload(); await ready(p);
   await p.tap("#btn-begin"); await p.waitForFunction(() => !document.getElementById("dialogue").hidden, { timeout: 60000 }).catch(() => {});
   check("WebGL renderer boots and reaches the intro", (await visible(p, "#dialogue")) && await p.evaluate(() => __mm.game.renderer.type === Phaser.WEBGL));
   await p.screenshot({ path: "/tmp/mm_webgl.png" }); await p.close();
 
   check("no console errors or exceptions in any run", errors.length === 0, errors.slice(0, 3).join(" | "));
-  console.log(results.join("\n")); console.log(failed ? "\n" + failed + " FAILED" : "\nall " + results.length + " checks passed");
+  console.log(failed ? "\n" + failed + " FAILED" : "\nall " + results.length + " checks passed");
   await browser.close(); process.exit(failed ? 1 : 0);
-})().catch(e => { console.log(results.join("\n")); console.error("TEST CRASHED:", e.message); process.exit(2); });
+})().catch(e => { console.error("TEST CRASHED:", e.message); process.exit(2); });
