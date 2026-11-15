@@ -13,7 +13,7 @@ button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
 button:focus-visible{outline:3px solid #fff1be;outline-offset:2px}
 .shell{max-width:510px;margin:auto}
 .hero{position:relative;overflow:hidden;border-radius:23px 23px 14px 14px;background:linear-gradient(145deg,#a97ce2,#6756b5 54%,#353569);border:2px solid #bd94d8;box-shadow:0 8px 28px #100a2799}
-.hero-art{width:100%;height:167px;display:block;position:relative}
+.hero-art{width:100%;height:207px;display:block;position:relative}
 .hero-art svg{height:100%;width:100%;display:block}
 .top-actions{position:absolute;right:12px;top:12px;z-index:2}
 .sound{background:#3c285acc;color:#ffe5c2;border:1px solid #d8afd7;border-radius:11px;padding:8px 10px;font-size:12px;font-weight:900}
@@ -118,7 +118,28 @@ button:focus-visible{outline:3px solid #fff1be;outline-offset:2px}
 
 .music-fallback{position:absolute;right:8px;top:52px;z-index:4;max-width:210px;background:#3e2a55ed;border:1px solid #b891bb;border-radius:9px;padding:7px;color:#ffe3c8;font:11px/1.4 Arial,sans-serif}.music-fallback[hidden]{display:none}.music-fallback audio{width:188px;max-width:100%;height:35px;display:block;margin-top:5px}
 .clue-preview{display:block;margin:7px auto 12px;width:100%;border:2px solid #e9b794;border-radius:13px;overflow:hidden;box-shadow:0 5px 20px #1b0e2880}.clue-preview[hidden]{display:none}.clue-preview svg{display:block;width:100%;height:auto}.clue-item .clue-seal.art{width:74px;flex:0 0 74px;height:44px;border-radius:7px;overflow:hidden;background:#30223d;border:1px solid #dbb29d}.clue-item .clue-seal.art svg{width:100%;height:100%;display:block}
-@media(max-width:380px){body{padding:6px 6px 22px}.hero-art{height:142px}.board{gap:2px;padding:4px}.tile{border-radius:7px}.stat b{font-size:23px}.story-visual{width:85px}.case strong{font-size:20px}.goal svg{width:32px;height:32px}}
+
+body{background:radial-gradient(circle at 12% 15%,#6c4c8655,transparent 35%),radial-gradient(circle at 90% 56%,#94577633,transparent 40%),linear-gradient(170deg,#171a39,#342041 45%,#1a1733) fixed;position:relative}
+body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.45;background-image:radial-gradient(#f0d8e8 1px,transparent 2px),radial-gradient(#f1b7b5 1px,transparent 2px);background-size:87px 121px,141px 173px;background-position:13px 21px,60px 70px}
+.shell{position:relative;z-index:1}
+.hero-art .mm-fog-back{animation:mist-left 15s ease-in-out infinite alternate}
+.hero-art .mm-fog-front{animation:mist-right 12s ease-in-out infinite alternate}
+.hero-art .mm-peeking-ghost{transform-box:fill-box;transform-origin:center;animation:peek 6s ease-in-out infinite}
+.hero-art .mm-windows{animation:window-light 5s ease-in-out infinite}
+.hero-art .mm-twinkle{animation:star-shine 3.1s ease-in-out infinite alternate}
+.hero-art .mm-moon-halo{animation:moon-pulse 8s ease-in-out infinite alternate}
+.hero-art .mm-bats{animation:bat-fly 7s ease-in-out infinite alternate}
+.hero-art .mm-pumpkin{transform-box:fill-box;transform-origin:bottom;animation:pumpkin-bob 4s ease-in-out infinite alternate}
+@keyframes mist-left{from{transform:translateX(-35px);opacity:.45}to{transform:translateX(30px);opacity:.93}}
+@keyframes mist-right{from{transform:translateX(34px);opacity:.15}to{transform:translateX(-24px);opacity:.45}}
+@keyframes peek{0%,15%,60%,100%{opacity:0;transform:translateY(11px)}23%,48%{opacity:1;transform:translateY(0)}}
+@keyframes window-light{0%,35%,49%,64%,100%{opacity:1}43%,61%{opacity:.75}}
+@keyframes star-shine{from{opacity:.25}to{opacity:.95}}
+@keyframes moon-pulse{from{opacity:.65;transform:scale(.97);transform-origin:415px 50px}to{opacity:1;transform:scale(1.08);transform-origin:415px 50px}}
+@keyframes bat-fly{from{transform:translate(-12px,3px)}to{transform:translate(19px,-10px)}}
+@keyframes pumpkin-bob{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+@media(prefers-reduced-motion:reduce){.hero-art *,body:before{animation:none!important}}
+@media(max-width:380px){body{padding:6px 6px 22px}.hero-art{height:174px}.board{gap:2px;padding:4px}.tile{border-radius:7px}.stat b{font-size:23px}.story-visual{width:85px}.case strong{font-size:20px}.goal svg{width:32px;height:32px}}
 @media(prefers-reduced-motion:reduce){.tile,.tile.boo{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -188,25 +209,84 @@ button:focus-visible{outline:3px solid #fff1be;outline-offset:2px}
 <header class="hero">
 <div class="top-actions"><button type="button" class="sound" id="sound" aria-pressed="false">♫ MUSIC OFF</button><div id="music-fallback" class="music-fallback" hidden><span>Music blocked? Tap play here:</span><div id="music-controls"></div></div></div>
 <div class="hero-art" aria-hidden="true">
-<svg viewBox="0 0 500 200" preserveAspectRatio="xMidYMid slice">
-<defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#7568cf"/><stop offset="1" stop-color="#c57aaf"/></linearGradient><linearGradient id="hill" x2="0" y2="1"><stop stop-color="#483e75"/><stop offset="1" stop-color="#342c63"/></linearGradient></defs>
-<rect width="500" height="200" fill="url(#sky)"/>
-<circle cx="413" cy="47" r="35" fill="#fff5d8" opacity=".9"/><circle cx="413" cy="47" r="51" fill="#fff6dc" opacity=".1"/>
-<path d="M0 156Q86 107 167 159Q240 112 326 153Q415 111 500 157V200H0Z" fill="#69548d"/>
-<path d="M0 185Q89 154 172 183Q238 155 304 177Q412 134 500 169V200H0Z" fill="url(#hill)"/>
-<g transform="translate(161 25)">
-<rect x="46" y="83" width="147" height="87" fill="#443866" stroke="#8d7395" stroke-width="3"/>
-<rect x="63" y="49" width="39" height="120" fill="#514070"/><path d="M56 51L83 8L109 51Z" fill="#2a2a5b" stroke="#7d6594" stroke-width="3"/>
-<rect x="146" y="64" width="39" height="106" fill="#574478"/><path d="M137 64L164 15L194 64Z" fill="#30315f" stroke="#8d729c" stroke-width="3"/>
-<path d="M108 83L135 43L161 83" fill="#38335f" stroke="#8d7299" stroke-width="3"/>
-<path d="M100 170V132Q100 112 121 112Q144 112 144 132V170Z" fill="#302440" stroke="#b38e8b" stroke-width="3"/>
-<g fill="#ffc77e" stroke="#e6a16f" stroke-width="2"><rect x="69" y="77" width="17" height="22" rx="9"/><rect x="158" y="91" width="15" height="23" rx="7"/><rect x="116" y="87" width="16" height="19" rx="7"/><rect x="76" y="117" width="14" height="18" rx="7"/><rect x="169" y="129" width="14" height="19" rx="7"/></g>
+<svg viewBox="0 0 500 235" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="mm-night" x2=".2" y2="1"><stop stop-color="#292a65"/><stop offset=".49" stop-color="#66528d"/><stop offset="1" stop-color="#ad718b"/></linearGradient>
+<linearGradient id="mm-stone" x2="1" y2="1"><stop stop-color="#8c7696"/><stop offset=".6" stop-color="#675070"/><stop offset="1" stop-color="#423952"/></linearGradient>
+<linearGradient id="mm-roof" x2="1" y2="1"><stop stop-color="#38436d"/><stop offset="1" stop-color="#272747"/></linearGradient>
+<linearGradient id="mm-hills" x2="0" y2="1"><stop stop-color="#645981"/><stop offset="1" stop-color="#292b54"/></linearGradient>
+<linearGradient id="mm-moon" x2=".7" y2="1"><stop stop-color="#fffce2"/><stop offset="1" stop-color="#ecd1bd"/></linearGradient>
+<radialGradient id="mm-halo"><stop stop-color="#ffecdc" stop-opacity=".55"/><stop offset="1" stop-color="#e9bcd9" stop-opacity="0"/></radialGradient>
+<radialGradient id="mm-window"><stop stop-color="#ffe9a0"/><stop offset=".73" stop-color="#f5ac76"/><stop offset="1" stop-color="#dd8595"/></radialGradient>
+<linearGradient id="mm-mist" x2="0" y2="1"><stop stop-color="#c8a6d2" stop-opacity="0"/><stop offset=".7" stop-color="#e9cde2" stop-opacity=".31"/><stop offset="1" stop-color="#c9a7d4" stop-opacity=".54"/></linearGradient>
+</defs>
+<rect width="500" height="235" fill="url(#mm-night)"/>
+<g class="mm-stars" fill="#fff3df">
+<circle cx="22" cy="18" r="1.4"/><circle cx="76" cy="44" r="1.8"/><circle cx="144" cy="20" r="1.2"/><circle cx="214" cy="10" r="1.5"/><circle cx="305" cy="21" r="1.1"/><circle cx="353" cy="47" r="1.6"/><circle cx="480" cy="20" r="1.4"/><circle cx="470" cy="91" r="1.2"/><circle cx="117" cy="82" r="1.2"/><circle cx="325" cy="73" r="1.3"/>
 </g>
-<path d="M0 40Q61 4 122 36M0 79Q77 45 110 62" fill="none" stroke="#eed6e9" stroke-width="30" opacity=".3" stroke-linecap="round"/>
-<g transform="translate(42 125)" fill="#261f44"><path d="M13 48Q-5 22 13 11L24 20 34 4 45 25Q69 48 42 66H14Z"/><path d="M42 56Q73 56 70 26" fill="none" stroke="#261f44" stroke-width="9" stroke-linecap="round"/><circle cx="24" cy="36" r="3" fill="#f8d486"/><circle cx="40" cy="36" r="3" fill="#f8d486"/></g>
-<g fill="#ffbf6a" opacity=".95"><path d="M50 35l5-12 4 10-5 4z"/><path d="M132 96l12-4-6 12-8-2z"/><path d="M456 143l7-13 6 12-7 5z"/></g>
-</svg>
-</div>
+<g class="mm-twinkle" stroke="#fceacb" stroke-width="1.5"><path d="M123 29V39M118 34H128M338 16V28M332 22H344M455 111V125M448 118H462"/></g>
+<circle cx="415" cy="52" r="77" fill="url(#mm-halo)" class="mm-moon-halo"/>
+<circle cx="418" cy="51" r="32" fill="url(#mm-moon)"/><circle cx="427" cy="41" r="29" fill="#53517e"/>
+<g fill="#231f43" opacity=".62">
+<path d="M0 173Q36 146 72 167Q103 132 154 166Q180 148 211 164L211 235H0Z"/>
+<path d="M310 165Q362 136 407 165Q444 140 500 157V235H310Z"/>
+</g>
+<path d="M0 197Q54 157 111 195Q178 155 226 186Q291 151 354 186Q435 159 500 184V235H0Z" fill="url(#mm-hills)"/>
+<g class="mm-trees" fill="#272642" stroke="#272642">
+<path d="M28 222L38 114L45 80L42 151L58 121L54 144L69 135L53 156L42 172L39 223Z"/>
+<path d="M37 139L8 106L0 72L16 105L40 130M40 159L77 104L97 88L83 110L48 174M26 183L2 160" stroke-width="7" stroke-linecap="round" fill="none"/>
+<path d="M452 226L450 143L437 116L447 129L449 159L475 113L461 168L469 224Z"/>
+<path d="M453 151L490 106L499 84M450 174L420 140L410 105M461 181L497 163" stroke-width="7" stroke-linecap="round" fill="none"/>
+</g>
+<g transform="translate(130 20)">
+<!-- manor foundations and towers -->
+<path d="M26 189V98H224V189Z" fill="url(#mm-stone)" stroke="#aa8ca1" stroke-width="3"/>
+<path d="M44 92V41H91V189H44Z" fill="#65516e" stroke="#a88ea5" stroke-width="3"/>
+<path d="M39 43L67 2L97 43Z" fill="url(#mm-roof)" stroke="#a49abe" stroke-width="3"/>
+<path d="M170 189V55H221V189H170Z" fill="#5b5076" stroke="#a88ca4" stroke-width="3"/>
+<path d="M164 57L195 4L226 57Z" fill="url(#mm-roof)" stroke="#a49abe" stroke-width="3"/>
+<path d="M95 98V78H160V189H95Z" fill="#746080" stroke="#b69aa4" stroke-width="3"/>
+<path d="M90 82L125 37L164 82Z" fill="#38395e" stroke="#aca0b8" stroke-width="3"/>
+<path d="M19 100L31 72L46 100M217 100L232 72L246 100" fill="#373350" stroke="#b29dac" stroke-width="3"/>
+<path d="M19 189H229" stroke="#bd9cab" stroke-width="8"/>
+<path d="M119 188V148Q119 125 140 125Q161 125 161 148V188Z" fill="#2e2948" stroke="#d5a68e" stroke-width="5"/>
+<circle cx="150" cy="163" r="3" fill="#f7d69e"/>
+<path d="M118 130Q140 116 161 130" fill="none" stroke="#f1caa6" stroke-width="4"/>
+<!-- copper-ish roof trim -->
+<path d="M39 43H97M164 57H226M90 82H164" stroke="#d0a3b6" stroke-width="4" stroke-linecap="round"/>
+<g class="mm-windows" fill="url(#mm-window)" stroke="#deb9a7" stroke-width="2.4">
+<path d="M53 60Q67 42 82 60V86H53Z"/>
+<path d="M179 72Q195 53 212 72V96H179Z"/>
+<path d="M112 94Q126 79 141 94V114H112Z"/>
+<rect x="44" y="119" width="24" height="35" rx="12"/>
+<rect x="178" y="123" width="25" height="37" rx="12"/>
+<rect x="92" y="135" width="18" height="27" rx="9"/>
+<rect x="211" y="139" width="13" height="22" rx="6"/>
+</g>
+<g stroke="#745978" stroke-width="3">
+<path d="M67 52V85M53 73H82M195 62V96M179 82H212M126 86V114M112 101H141M56 121V153M44 137H68M190 125V158M178 142H203"/>
+</g>
+<path d="M63 101H85M170 108H220" stroke="#b8a1b2" stroke-width="3" opacity=".55"/>
+<path d="M25 189H228" stroke="#42344a" stroke-width="6"/>
+<!-- a friendly ghost appearing at one window -->
+<g class="mm-peeking-ghost"><path d="M178 88Q177 72 188 70Q200 68 201 84V91L194 87L188 92L182 88Z" fill="#fff0f8" opacity=".94"/><ellipse cx="186" cy="82" rx="2" ry="3" fill="#694a81"/><ellipse cx="194" cy="82" rx="2" ry="3" fill="#694a81"/></g>
+</g>
+<!-- ancient cobblestone path -->
+<path d="M233 205L270 205L338 235H164Z" fill="#766178" opacity=".9"/>
+<path d="M240 209H262M224 216H277M201 224H304M185 233H325" stroke="#ddbdbe" stroke-width="2" opacity=".55"/>
+<!-- lantern posts and pumpkins -->
+<g stroke="#e8bb8f" stroke-width="4" fill="#fbc781">
+<path d="M132 217V187M370 217V187" fill="none"/>
+<path d="M122 184H142L139 203H125Z" fill="#facf80" stroke="#b68d85" stroke-width="2"/>
+<path d="M361 184H381L377 203H365Z" fill="#facf80" stroke="#b68d85" stroke-width="2"/>
+</g>
+<g class="mm-pumpkin"><path d="M386 225Q374 209 389 203Q404 197 415 209Q432 208 427 224Q413 239 390 230Z" fill="#f2a05c" stroke="#f8d49c" stroke-width="2"/><path d="M405 206L408 198" stroke="#618861" stroke-width="4"/><path d="M392 217L399 215L397 222M412 216L419 220L412 223" fill="#5b3650"/><path d="M397 226Q407 230 415 225" fill="none" stroke="#6e3851" stroke-width="2"/></g>
+<!-- cat in foreground -->
+<g transform="translate(57 178)" fill="#242039"><path d="M10 52Q-8 37 5 15L13 25L25 8L36 27Q54 39 39 54Z"/><path d="M38 48Q68 53 66 28" fill="none" stroke="#242039" stroke-width="8" stroke-linecap="round"/><ellipse cx="17" cy="36" rx="3" ry="4" fill="#ffda85"/><ellipse cx="30" cy="36" rx="3" ry="4" fill="#ffda85"/></g>
+<g class="mm-bats" fill="#292445"><path d="M300 36Q289 20 279 35Q291 30 298 44Q302 50 307 43Q316 28 328 36Q316 18 305 35L303 30Z"/><path d="M111 46Q98 35 91 47Q102 42 108 53Q112 56 116 51Q122 41 132 46Q123 34 115 44Z"/></g>
+<g class="mm-fog-back"><path d="M-60 196Q50 180 143 196Q255 173 349 197Q460 184 560 193V236H-60Z" fill="url(#mm-mist)"/></g>
+<g class="mm-fog-front"><path d="M-60 217Q62 199 162 218Q270 194 364 213Q449 192 560 219V243H-60Z" fill="#eacbe3" opacity=".29"/></g>
+</svg></div>
 <div class="brand"><div class="kicker">✦ A COZY MATCHING MYSTERY ✦</div><h1>Mystery Manor<br>Matches</h1><p>PLAY • INVESTIGATE • RESTORE</p></div>
 </header>
 <section class="case">
