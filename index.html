@@ -732,12 +732,12 @@ function assembleAmbient(parts){
  }
  return new Blob([ab],{type:"audio/wav"});
 }
-function musicLabel(on){$("sound").textContent=on?"♫ SOUNDTRACK ON":"♫ SOUNDTRACK OFF";$("sound").setAttribute("aria-pressed",on?"true":"false")}
+function musicLabel(on){$("sound").textContent=on?"♫ MUSIC ON":"♫ MUSIC OFF";$("sound").setAttribute("aria-pressed",on?"true":"false")}
 async function prepareAmbient(){
  if(musicState==="ready")return;
  musicState="loading";$("sound").disabled=true;$("sound").textContent="♫ LOADING MUSIC";
  try{
-  var urls=["audio/manor-orchestral-ambience-1.adp?v=suspense-2","audio/manor-orchestral-ambience-2.adp?v=suspense-2"];
+  var urls=["audio/manor-orchestral-ambience-1.adp?v=jazz-mystery-3","audio/manor-orchestral-ambience-2.adp?v=jazz-mystery-3"];
   var files=await Promise.all(urls.map(async function(path){
    var response=await fetch(path,{cache:"force-cache"});
    if(!response.ok)throw Error("Audio load "+response.status);
