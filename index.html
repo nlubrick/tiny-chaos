@@ -298,7 +298,7 @@ body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opac
 </svg>
 <div class="shell">
 <header class="hero">
-<div class="top-actions"><button type="button" class="sound" id="sound" aria-pressed="false">♫ MUSIC OFF</button><label class="music-volume" id="music-volume-box" hidden>VOL <input id="music-volume" aria-label="Music volume" type="range" min="0" max="100" value="45"></label><div id="music-fallback" class="music-fallback" hidden><span>Music blocked? Tap play here:</span><div id="music-controls"></div></div></div>
+<div class="top-actions"><button type="button" class="sound" id="sound" aria-pressed="false" disabled>♫ LOADING MUSIC</button><label class="music-volume" id="music-volume-box" hidden>VOL <input id="music-volume" aria-label="Music volume" type="range" min="0" max="100" value="45"></label><div id="music-fallback" class="music-fallback" hidden><span>Music blocked? Tap play here:</span><div id="music-controls"></div></div></div>
 <div class="hero-art" aria-hidden="true">
 <svg viewBox="0 0 500 235" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
 <defs>
@@ -454,79 +454,90 @@ function tone(freq){if(!sound)return;try{audio=audio||new (window.AudioContext||
    Playback begins directly inside the tap handler for iOS/Safari. */
 /* Two-minute original atmospheric suite: eight evolving passages, rests, softened bells,
    warm pads and gentle echo. Generated once locally with no external audio requests. */
-function makeTrack(){
- var rate=12000,seconds=120,len=rate*seconds,fadeSamples=rate*2,raw=new Float32Array(len+fadeSamples),buffer=new ArrayBuffer(44+len*2),v=new DataView(buffer);
- function tag(pos,text){for(var j=0;j<text.length;j++)v.setUint8(pos+j,text.charCodeAt(j))}
- tag(0,"RIFF");v.setUint32(4,36+len*2,true);tag(8,"WAVE");tag(12,"fmt ");
- v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);
- v.setUint32(24,rate,true);v.setUint32(28,rate*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);
- tag(36,"data");v.setUint32(40,len*2,true);
- var pi=Math.PI*2;
- /* Each fifteen-second passage has its own key and melodic contour. */
- var roots=[146.832,174.614,130.813,164.814,116.541,174.614,130.813,146.832];
- var melodies=[
- [0,7,12,null,10,7,5,null,3,5,7,10,null,7,5,null,3,0,5,null,7,10,7,3],
- [3,10,12,null,14,12,10,7,null,5,7,10,12,null,10,7,5,null,3,5,7,null,3,0],
- [7,null,12,10,7,5,3,null,5,7,10,null,12,10,7,5,null,3,0,3,5,null,7,null],
- [0,3,7,10,12,null,10,14,12,7,null,5,7,3,5,null,3,0,7,null,10,7,5,null],
- [5,null,7,12,10,null,7,5,3,null,5,7,10,7,null,3,0,3,5,7,null,5,3,0],
- [7,12,null,14,12,10,7,5,null,3,5,10,12,null,10,7,3,null,5,7,10,null,12,7],
- [10,7,5,null,3,5,7,null,10,12,14,12,10,null,7,5,3,5,null,7,5,3,0,null],
- [7,5,3,null,0,3,5,7,null,10,7,5,3,null,0,3,5,null,7,5,3,0,null,null]
- ];
- var scaleRatio=[1,1.1892,1.33484,1.49831,1.7818,2,2.2449,2.3784,2.6697,2.9966,3.5636,4,4.4898,4.7568,5.3394];
- var playFreq=new Array(160);
- for(var step=0;step<160;step++){
-  var section=Math.min(7,Math.floor(step/20));
-  var phrase=melodies[section],degree=phrase[(step*7+Math.floor(step/20)*2)%phrase.length];
-  playFreq[step]=degree===null?0:roots[section]*scaleRatio[Math.min(14,degree)];
+/* Original 2-minute haunted manor ambience. The published parts use standard
+   IMA ADPCM to reduce a 3.8 MB PCM soundtrack to under 1 MB over the network. */
+var musicState="loading",musicObjectUrl=null;
+var imaStep=[7,8,9,10,11,12,13,14,16,17,19,21,23,25,28,31,34,37,41,45,50,55,60,66,73,80,88,97,107,118,130,143,157,173,190,209,230,253,279,307,337,371,408,449,494,544,598,658,724,796,876,963,1060,1166,1282,1411,1552,1707,1878,2066,2272,2499,2749,3024,3327,3660,4026,4428,4871,5358,5894,6484,7132,7845,8630,9493,10442,11487,12635,13899,15289,16818,18500,20350,22385,24623,27086,29794,32767];
+var imaIndex=[-1,-1,-1,-1,2,4,6,8,-1,-1,-1,-1,2,4,6,8];
+function decodeAmbient(buffer){
+ var bytes=new Uint8Array(buffer),view=new DataView(buffer);
+ if(bytes[0]!==77||bytes[1]!==77||bytes[2]!==65||bytes[3]!==68)throw Error("Invalid ambience header");
+ var rate=view.getUint32(4,true),count=view.getUint32(8,true),pred=view.getInt16(12,true),idx=bytes[14];
+ if(rate!==16000||count<1||count>1100000||16+Math.ceil(count/2)>bytes.length||idx>88)throw Error("Invalid audio length");
+ var samples=new Int16Array(count);
+ for(var i=0;i<count;i++){
+  var nibble=(bytes[16+(i>>1)]>>((i&1)*4))&15,step=imaStep[idx];
+  var delta=Math.floor(step/8);
+  if(nibble&1)delta+=Math.floor(step/4);
+  if(nibble&2)delta+=Math.floor(step/2);
+  if(nibble&4)delta+=step;
+  pred+=(nibble&8)?-delta:delta;
+  pred=Math.max(-32768,Math.min(32767,pred));
+  idx=Math.max(0,Math.min(88,idx+imaIndex[nibble]));
+  samples[i]=pred;
  }
- var phase=0,echoA=new Float32Array(2800),echoB=new Float32Array(5300),ambient=0;
- for(var i=0;i<len+fadeSamples;i++){
-  var time=i/rate,passage=Math.min(7,Math.floor(time/15)),phaseIn=time-passage*15;
-  var beat=Math.min(159,Math.floor(time/.75)),local=time-beat*.75,melody=playFreq[beat];
-  var attack=1-Math.exp(-local*24),decay=Math.exp(-local*2.8),bell=0;
-  if(melody){
-   bell=attack*decay*(Math.sin(pi*melody*local)+.22*Math.sin(pi*melody*2.003*local)+.065*Math.sin(pi*melody*3.01*local));
-  }
-  var root=roots[passage]/2,third=root*1.1892,fifth=root*1.4983;
-  var sway=.64+.18*Math.sin(pi*(time/17));
-  var pad=sway*(.65*Math.sin(pi*root*time)+.28*Math.sin(pi*third*time)+.19*Math.sin(pi*fifth*time));
-  var air=.25*Math.sin(pi*2.2*time)*Math.sin(pi*220.25*time)+.12*Math.sin(pi*.71*time)*Math.sin(pi*440.13*time);
-  var hit=i%echoA.length,past=echoA[hit],hit2=i%echoB.length,past2=echoB[hit2];
-  echoA[hit]=bell*.23+past*.15;echoB[hit2]=bell*.12+past2*.16;
-  var mix=.18*bell+.036*pad+.012*air+.065*past+.035*past2;
-  /* Breath-sized crossfade at the exact loop seam prevents a hard click. */
-  raw[i]=mix;
- }
- /* Crossfade the two ends of the suite without a silent restart. */
- for(var i=0;i<len;i++){
-  var value=raw[i+fadeSamples];
-  if(i>=len-fadeSamples){
-   var f=(i-(len-fadeSamples))/fadeSamples;
-   f=f*f*(3-2*f);
-   value=value*(1-f)+raw[i-(len-fadeSamples)]*f;
-  }
-  v.setInt16(44+i*2,Math.max(-32767,Math.min(32767,Math.round(value*26000))),true);
- }
- return new Blob([buffer],{type:"audio/wav"});
+ return samples;
 }
-function musicLabel(on){$("sound").textContent=on?"♫ MUSIC ON":"♫ MUSIC OFF";$("sound").setAttribute("aria-pressed",on?"true":"false")}
-function startMusic(){
+function assembleAmbient(parts){
+ var rate=16000,count=parts.reduce(function(n,x){return n+x.length},0);
+ var ab=new ArrayBuffer(44+count*2),v=new DataView(ab);
+ function tag(o,s){for(var j=0;j<s.length;j++)v.setUint8(o+j,s.charCodeAt(j))}
+ tag(0,"RIFF");v.setUint32(4,36+count*2,true);tag(8,"WAVE");
+ tag(12,"fmt ");v.setUint32(16,16,true);v.setUint16(20,1,true);
+ v.setUint16(22,1,true);v.setUint32(24,rate,true);v.setUint32(28,rate*2,true);
+ v.setUint16(32,2,true);v.setUint16(34,16,true);tag(36,"data");v.setUint32(40,count*2,true);
+ var pos=44;
+ for(var k=0;k<parts.length;k++){
+  var part=parts[k];
+  for(var j=0;j<part.length;j++,pos+=2)v.setInt16(pos,part[j],true);
+ }
+ return new Blob([ab],{type:"audio/wav"});
+}
+function musicLabel(on){$("sound").textContent=on?"♫ AMBIENCE ON":"♫ AMBIENCE OFF";$("sound").setAttribute("aria-pressed",on?"true":"false")}
+async function prepareAmbient(){
+ if(musicState==="ready")return;
+ musicState="loading";$("sound").disabled=true;$("sound").textContent="♫ LOADING MUSIC";
  try{
-  if(!musicAudio){musicAudio=new Audio();musicAudio.src=URL.createObjectURL(makeTrack());musicAudio.loop=true;musicAudio.volume=.45;musicAudio.preload="auto"}
-  if(!audio){try{audio=new (window.AudioContext||window.webkitAudioContext)();var p1=audio.resume();if(p1&&p1.catch)p1.catch(function(){})}catch(e){}}
-  /* play() is invoked synchronously while handling the button press */
-  var p=musicAudio.play();
-  if(p&&p.then)p.then(function(){sound=true;musicLabel(true);$("music-volume-box").hidden=false;$("music-fallback").hidden=true}).catch(function(){
-   sound=false;musicLabel(false);$("music-fallback").hidden=false;$("music-controls").innerHTML="";
-   musicAudio.controls=true;$("music-controls").appendChild(musicAudio);
-   message("Safari blocked music. Try the audio player beneath the music button.");
-  });else{sound=true;musicLabel(true);$("music-volume-box").hidden=false}
- }catch(err){sound=false;musicLabel(false);message("Audio isn't available in this browser.")}
+  var urls=["audio/manor-orchestral-ambience-1.adp","audio/manor-orchestral-ambience-2.adp"];
+  var files=await Promise.all(urls.map(async function(path){
+   var response=await fetch(path,{cache:"force-cache"});
+   if(!response.ok)throw Error("Audio load "+response.status);
+   return response.arrayBuffer();
+  }));
+  var blob=assembleAmbient(files.map(decodeAmbient));
+  if(musicObjectUrl)URL.revokeObjectURL(musicObjectUrl);
+  musicObjectUrl=URL.createObjectURL(blob);
+  musicAudio=new Audio();
+  musicAudio.src=musicObjectUrl;
+  musicAudio.preload="auto";musicAudio.loop=true;musicAudio.volume=.45;
+  musicState="ready";musicLabel(false);$("sound").disabled=false;
+ }catch(error){
+  musicState="error";musicLabel(false);$("sound").disabled=false;
+  $("sound").textContent="♫ RETRY MUSIC";
+ }
 }
-function stopMusic(){sound=false;musicLabel(false);if(musicAudio)musicAudio.pause();$("music-fallback").hidden=true;$("music-volume-box").hidden=true}
-document.addEventListener("visibilitychange",function(){if(document.hidden&&musicAudio&&!musicAudio.paused)stopMusic()});
+function startMusic(){
+ if(musicState!=="ready"||!musicAudio){prepareAmbient();return}
+ try{
+  /* Direct user gesture: no awaits before play() */
+  var p=musicAudio.play();
+  if(p&&p.then)p.then(function(){
+   sound=true;musicLabel(true);$("music-volume-box").hidden=false;$("music-fallback").hidden=true;
+  }).catch(function(){
+   sound=false;musicLabel(false);$("music-volume-box").hidden=true;$("music-fallback").hidden=false;
+   $("music-controls").innerHTML="";
+   musicAudio.controls=true;$("music-controls").appendChild(musicAudio);
+   message("Tap the audio player beneath the music button to start the ambience.");
+  });
+  else{sound=true;musicLabel(true);$("music-volume-box").hidden=false}
+ }catch(error){sound=false;musicLabel(false);message("Music could not start. Try the music button again.")}
+}
+function stopMusic(){
+ sound=false;musicLabel(false);
+ if(musicAudio)musicAudio.pause();
+ $("music-fallback").hidden=true;$("music-volume-box").hidden=true;
+}
+document.addEventListener("visibilitychange",function(){if(document.hidden&&sound)stopMusic()});
 var nextCharmId=0;
 function piece(type){return {type:type,special:type===6,id:++nextCharmId}}
 function cloneBoard(board){return board.map(function(p){return p?{type:p.type,special:p.special}:null})}
@@ -976,6 +987,7 @@ $("deduce-back").addEventListener("click",function(){$("deduce-overlay").classLi
 document.querySelectorAll("[data-guess]").forEach(function(b){b.addEventListener("click",function(){accuse(b.dataset.guess)})});
 window.MysteryManorTest={get:function(){return{caseProgress:caseProgress,caseSolved:caseSolved,level:s.level,board:s.board.map(function(x){return x?x.type:null}),moves:s.moves,score:s.score,goals:Object.assign({},s.left),ended:s.ended,busy:s.busy}},swap:trySwap,activate:activate,reset:function(){initialize(0)},scan:function(){return scan(s.board,-1)}};
 initialize(maxUnlocked);
+prepareAmbient();
 })();
 </script>
 </body>
