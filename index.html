@@ -629,6 +629,88 @@ body{background:#0e1118}
 @media(max-width:390px){.mm-vista{height:183px}.mm-vista .mm-portrait{right:-3%!important}}
 @media(prefers-reduced-motion:reduce){.mm-vista .mm-scene,.mm-vista:before,.mm-vista .mm-mist,.mm-vista .mm-portrait,.mm-vista .mm-spark,.cast-character.reacting .cast-figure,.cast-character.nervous .cast-figure,.cast-character.victory .cast-figure{animation:none!important}}
 
+
+/* MYSTERY-MANOR-FULLSCREEN-CINEMA-V3
+   Full-scene cinematic game layout; original match engine, music playlist,
+   soundtrack player, accents and case progress remain untouched. */
+html,body{min-height:100%;background:#080d16!important}
+#story-stage.mm-immersive{position:fixed!important;inset:0!important;z-index:190!important;width:100%!important;height:100dvh!important;max-height:100dvh!important;max-width:none!important;border:0!important;border-radius:0!important;margin:0!important;box-shadow:none!important;background:#070c16!important;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;overflow:hidden!important;padding:0 0 max(12px,env(safe-area-inset-bottom))!important;isolation:isolate;color:#f4e5d2!important}
+#story-stage.mm-immersive[hidden]{display:none!important}
+#story-stage.mm-immersive .mm-vista{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-height:none!important;border:none!important;border-radius:0!important;z-index:0!important;overflow:hidden}
+#story-stage.mm-immersive .mm-vista .mm-scene{background-position:50% 38%;filter:brightness(.65) contrast(1.2) saturate(.96);animation-duration:19s}
+#story-stage.mm-immersive .mm-vista[data-room="clock"] .mm-scene{background-position:24% 52%;filter:brightness(.51) sepia(.28) contrast(1.26)}
+#story-stage.mm-immersive .mm-vista[data-room="attic"] .mm-scene{background-position:75% 28%;filter:brightness(.52) saturate(.75) hue-rotate(18deg)}
+#story-stage.mm-immersive .mm-vista:before{background:linear-gradient(180deg,#09101c44 0%,#07101a16 21%,#080b15a6 58%,#070b15 91%),radial-gradient(ellipse at 18% 11%,#f0c48621,transparent 42%);z-index:1}
+#story-stage.mm-immersive .mm-vista .mm-mist{opacity:.72;filter:blur(33px);animation-duration:15s}
+#story-stage.mm-immersive .mm-vista .mm-portrait{right:4%!important;bottom:33%!important;width:clamp(186px,50vw,325px)!important;height:clamp(220px,53vh,385px)!important;animation-duration:5.1s!important;filter:drop-shadow(0 13px 24px #05060ed9)!important;mask-image:linear-gradient(180deg,#000 2%,#000 68%,transparent 100%);-webkit-mask-image:linear-gradient(180deg,#000 2%,#000 68%,transparent 100%)}
+#story-stage.mm-immersive .mm-vista[data-speaker="manor"] .mm-portrait{opacity:.3!important;filter:blur(2px) saturate(.7)!important}
+#story-stage.mm-immersive .mm-vista[data-room="attic"] .mm-portrait{filter:drop-shadow(0 0 26px #b7c4ff)!important}
+#story-stage.mm-immersive .mm-vista .mm-caption{display:none}
+#story-stage.mm-immersive .mm-vista .mm-music{position:absolute;right:15px;top:max(18px,env(safe-area-inset-top));padding:10px 14px;z-index:12;border-radius:9px;background:#151925c7;backdrop-filter:blur(8px);font-size:11px;min-height:40px}
+#story-stage.mm-immersive .story-progress{position:absolute!important;left:max(17px,env(safe-area-inset-left));right:150px;top:max(20px,env(safe-area-inset-top));z-index:9;display:flex!important;flex-direction:column;gap:7px!important;align-items:flex-start!important;border:0!important;padding:3px 0!important;max-width:65%;background:none!important;color:#e7cb9e!important;text-shadow:0 2px 9px #000;font-size:10px!important;letter-spacing:1.8px}
+#story-stage.mm-immersive .story-progress span:first-child{font-size:12px;color:#ffe3ad}
+#story-stage.mm-immersive .story-progress span:last-child{font-size:11px;color:#d1bca8}
+#story-stage.mm-immersive .story-page{position:relative!important;z-index:10!important;width:min(100%,580px);min-height:0!important;padding:23px 25px 12px!important;margin-top:auto!important;flex:none!important;background:linear-gradient(180deg,#12162300,#0a1018d1 12%,#0b1019f8 55%);border-top:1px solid #ad855455;color:#f7e6d0!important;box-shadow:0 -10px 40px #0205093d}
+#story-stage.mm-immersive .story-speaker{font:900 12px Arial,sans-serif!important;letter-spacing:2.1px;color:#eac192!important;text-shadow:0 1px 8px #000}
+#story-stage.mm-immersive .story-page p{font:clamp(18px,5vw,22px)/1.55 Georgia,serif!important;min-height:98px;max-height:32vh;overflow-y:auto;color:#fff0db!important;text-shadow:0 2px 12px #000;letter-spacing:.1px;margin:12px 0 0!important}
+#story-stage.mm-immersive .story-clue-art:not([hidden]){position:absolute;z-index:7;top:12%;left:50%;transform:translateX(-50%);width:min(75vw,340px);margin:0;box-shadow:0 11px 55px #0009,0 0 25px #f0b87470;animation:mm-dossier-appear .7s ease-out}
+#story-stage.mm-immersive .story-continue{position:relative;z-index:12;width:min(calc(100% - 42px),530px);font:900 14px Arial,sans-serif!important;min-height:56px;border-radius:11px!important;margin:0 21px 4px!important;box-shadow:0 5px 0 #856047,0 11px 25px #0009!important}
+#story-stage.mm-immersive .story-progress-note{position:relative;z-index:10;min-height:19px;color:#cbb7a5!important;margin:10px 10px 7px!important;font-size:11px!important}
+#story-stage.mm-immersive .mm-cinematic-title{position:absolute;z-index:8;left:22px;top:clamp(90px,13vh,145px);width:min(68vw,390px);color:#ffebc8;text-shadow:0 4px 20px #000,0 0 18px #000a;font:600 clamp(30px,8.8vw,54px)/.96 Georgia,serif;letter-spacing:-1.7px;pointer-events:none}
+#story-stage.mm-immersive .mm-cinematic-title span{display:block;color:#d2a974;font:800 10px/1.5 Arial,sans-serif;letter-spacing:3px;margin-bottom:14px}
+#story-stage.mm-immersive .mm-decor{position:absolute;z-index:4;pointer-events:none;opacity:0;transition:opacity .45s ease}
+#story-stage.mm-immersive .mm-decor.mm-clock{width:min(45vw,215px);height:min(45vw,215px);top:16%;left:5%;border-radius:50%;border:13px ridge #bd9565;box-shadow:inset 0 0 16px #000,0 0 32px #000c,0 0 18px #bb8b3f30;background:radial-gradient(circle,#eddcb5,#a78b65 72%,#65492f);color:#3f2929;display:grid;place-items:center;font:600 32px Georgia,serif}
+#story-stage.mm-immersive .mm-decor.mm-clock:before{content:"XII  ·  III  ·  VI";font:900 11px Georgia,serif;letter-spacing:1px;position:absolute;top:15%;color:#593c2b}
+#story-stage.mm-immersive .mm-decor.mm-clock:after{content:"";position:absolute;top:49%;left:49%;width:4px;height:43%;background:#3c2c29;border-radius:3px;transform-origin:2px 2px;animation:mm-clock-tick 3s steps(3,end) infinite}
+#story-stage.mm-immersive .mm-decor.mm-attic{width:100%;height:100%;inset:0;background:repeating-linear-gradient(119deg,#05071000 0 25px,#9ec6de12 26px 27px,transparent 28px 75px)}
+#story-stage.mm-immersive .mm-vista[data-room="clock"] .mm-clock{opacity:.93}
+#story-stage.mm-immersive .mm-vista[data-room="attic"] .mm-attic{opacity:1}
+#story-stage.mm-immersive .mm-vista[data-room="clock"]+.mm-cinematic-title{color:#f5dcab}
+#story-stage.mm-immersive .mm-vista[data-room="attic"]+.mm-cinematic-title{color:#cfe5ff}
+@keyframes mm-clock-tick{from{transform:rotate(24deg)}to{transform:rotate(37deg)}}
+@keyframes mm-dossier-appear{from{opacity:0;transform:translate(-50%,24px) scale(.82)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
+
+/* Puzzle is now its own cinematic game stage, not an embedded webpage section */
+#puzzle-stage.mm-fullscreen-puzzle:not([hidden]){position:fixed!important;inset:0!important;z-index:191!important;display:block!important;width:100%!important;max-width:none!important;max-height:100dvh!important;overflow-y:auto!important;overscroll-behavior:contain;background:radial-gradient(ellipse at 45% 17%,#3a3141 0%,#151821 48%,#090d15 100%)!important;border:0!important;border-radius:0!important;margin:0!important;box-shadow:none!important;padding:max(8px,env(safe-area-inset-top)) 12px max(17px,env(safe-area-inset-bottom))!important;animation:mm-puzzle-rise .46s ease-out both}
+#puzzle-stage.mm-fullscreen-puzzle[hidden]{display:none!important}
+#puzzle-stage.mm-fullscreen-puzzle>*{max-width:470px;margin-left:auto!important;margin-right:auto!important}
+#puzzle-stage .mm-game-banner{position:relative;display:flex;align-items:flex-end;justify-content:space-between;height:clamp(112px,21vh,175px);border-bottom:1px solid #ae8459;overflow:hidden;margin-bottom:8px;isolation:isolate;border-radius:12px 12px 0 0;background:#1a1b25}
+#puzzle-stage .mm-game-banner:before{content:"";position:absolute;z-index:0;inset:-13%;background:linear-gradient(180deg,#12101a64,#100d1bd1),url("assets/mystery_manor_library_bg.webp?v=2") center 38%/cover no-repeat;animation:mm-travel 20s alternate ease-in-out infinite}
+#puzzle-stage .mm-game-banner:after{content:"";position:absolute;z-index:1;inset:0;background:radial-gradient(ellipse at 25% 10%,#ffd18e33,transparent 40%);pointer-events:none;animation:mm-candle 3s steps(6,end) infinite alternate}
+#puzzle-stage .mm-game-banner strong{z-index:3;color:#ffdfa7;font:600 clamp(21px,6vw,29px)/1.05 Georgia,serif;text-shadow:0 3px 12px #000;margin:0 0 17px 15px;max-width:58%}
+#puzzle-stage .mm-game-banner small{display:block;font:900 10px Arial,sans-serif;letter-spacing:1.5px;color:#ead0aa;margin-bottom:7px}
+#puzzle-stage .mm-game-avatar{position:absolute;right:24%;bottom:-16px;width:clamp(105px,29%,155px);height:120%;z-index:2;border:none!important;border-radius:0!important;pointer-events:none;mask-image:linear-gradient(#000 20%,#000 66%,transparent 100%);-webkit-mask-image:linear-gradient(#000 20%,#000 66%,transparent 100%)}
+#puzzle-stage .mm-game-music{position:absolute;right:8px;top:8px;z-index:5;padding:8px 10px;min-height:36px;cursor:pointer;border:1px solid #d7bb8d;border-radius:8px;background:#14141edb;color:#fce2b9;font:900 10px Arial,sans-serif}
+#puzzle-stage.mm-fullscreen-puzzle .puzzle-topline{font-size:10px!important;padding:5px 4px!important}
+#puzzle-stage.mm-fullscreen-puzzle .task-line{padding:9px 10px!important;margin-bottom:7px!important}
+#puzzle-stage.mm-fullscreen-puzzle .board-wrap{width:min(100%,min(51dvh,435px))!important;padding:5px!important;box-shadow:0 5px 0 #090d16,0 14px 32px #000b,inset 0 1px 6px #e6cc9770;border-color:#c19e68!important}
+#puzzle-stage.mm-fullscreen-puzzle #board{border-radius:9px!important;gap:3px!important;padding:4px!important}
+#puzzle-stage.mm-fullscreen-puzzle .notice{padding:7px 5px!important;min-height:33px!important}
+#puzzle-stage.mm-fullscreen-puzzle .goal-card{padding:7px!important;margin-top:6px!important;margin-bottom:6px!important;border-color:#96764f!important;background:#171b26e8!important}
+#puzzle-stage.mm-fullscreen-puzzle .goals{gap:5px!important}
+#puzzle-stage.mm-fullscreen-puzzle .goal{padding:4px!important}
+#puzzle-stage.mm-fullscreen-puzzle .goal svg{height:27px!important;width:27px!important}
+#puzzle-stage.mm-fullscreen-puzzle .simple-actions{margin-top:4px!important;margin-bottom:3px!important}
+#puzzle-stage.mm-fullscreen-puzzle .simple-actions button{min-height:41px}
+#puzzle-stage.mm-fullscreen-puzzle .mm-game-caption{color:#cabda5;text-align:center;font:italic 11px Georgia,serif;padding:7px 5px}
+@keyframes mm-puzzle-rise{from{opacity:0;transform:scale(1.03)}to{opacity:1;transform:scale(1)}}
+.overlay.open{z-index:500!important}
+#casefile-overlay.open,#deduce-overlay.open,#overlay.open{z-index:500!important}
+@media(max-height:720px){
+ #story-stage.mm-immersive .mm-vista .mm-portrait{bottom:36%!important;height:40vh!important}
+ #story-stage.mm-immersive .mm-cinematic-title{top:11%}
+ #story-stage.mm-immersive .story-page p{min-height:65px;max-height:28vh;font-size:17px!important}
+ #puzzle-stage .mm-game-banner{height:95px}
+ #puzzle-stage.mm-fullscreen-puzzle .board-wrap{width:min(100%,min(49dvh,400px))!important}
+}
+@media(min-width:770px){
+ #story-stage.mm-immersive .mm-cinematic-title{left:calc(50% - 330px);top:15%}
+ #story-stage.mm-immersive .mm-vista .mm-portrait{right:calc(50% - 420px)!important;width:290px!important;bottom:29%!important}
+}
+@media(prefers-reduced-motion:reduce){
+ #puzzle-stage .mm-game-banner:before,#puzzle-stage .mm-game-banner:after,#story-stage .mm-decor.mm-clock:after{animation:none!important}
+}
+
 </style>
 </head>
 <body>
@@ -1590,6 +1672,62 @@ var art=document.getElementById("story-clue-art");
 if(art)new MutationObserver(function(){if(art.hidden||reduced)return;vista.classList.remove("mm-reveal");void vista.offsetWidth;vista.classList.add("mm-reveal")}).observe(art,{attributes:true,attributeFilter:["hidden"]});
 musicStatus();update();
 window.MysteryManorCinematic={version:"2",status:function(){return{room:vista.dataset.room,witness:lastWitness,musicButton:play.textContent}}};
+})();
+
+</script>
+
+<script>
+
+(function(){
+"use strict";
+var story=document.getElementById("story-stage"),puzzle=document.getElementById("puzzle-stage");
+if(!story||!puzzle||story.classList.contains("mm-immersive"))return;
+var originalMusic=document.getElementById("sound");
+if(!originalMusic)return;
+story.classList.add("mm-immersive");
+puzzle.classList.add("mm-fullscreen-puzzle");
+/* Moving the real stages to body (rather than cloning them) preserves
+   all existing click/touch handlers, shared game state, and accessibility. */
+document.body.appendChild(story);
+document.body.appendChild(puzzle);
+var vista=story.querySelector(".mm-vista");
+if(vista){
+ var clock=document.createElement("span");clock.className="mm-decor mm-clock";clock.setAttribute("aria-hidden","true");clock.textContent="✦";
+ var attic=document.createElement("span");attic.className="mm-decor mm-attic";attic.setAttribute("aria-hidden","true");
+ vista.appendChild(clock);vista.appendChild(attic);
+}
+var title=document.createElement("h2");title.className="mm-cinematic-title";
+title.innerHTML='<span>THE VANISHING AT THORNE HOUSE</span>Mystery<br>Manor';
+story.insertBefore(title,story.querySelector(".story-page"));
+var banner=document.createElement("div");banner.className="mm-game-banner";
+banner.innerHTML='<strong><small>UNLOCK THE NEXT CLUE</small><span id="mm-game-name">The Library Spell</span></strong><div class="mm-game-avatar witness-photo witness-photo-0" aria-hidden="true"></div><button type="button" class="mm-game-music" id="mm-game-music" aria-label="Toggle existing mystery music">♫ MUSIC OFF</button>';
+puzzle.insertBefore(banner,puzzle.firstChild);
+var originalVolume=document.getElementById("music-volume");
+var musicButton=banner.querySelector("#mm-game-music");
+function status(){var playing=originalMusic.getAttribute("aria-pressed")==="true";musicButton.textContent=playing?"♫ MUSIC ON":"♫ MUSIC OFF";musicButton.setAttribute("aria-pressed",playing?"true":"false")}
+musicButton.addEventListener("click",function(){originalMusic.click();setTimeout(status,60)});
+originalMusic.addEventListener("click",function(){setTimeout(status,100)});
+var track=document.getElementById("music-now-playing");
+if(track)new MutationObserver(status).observe(track,{childList:true,subtree:true,characterData:true});
+var stageTitle=document.getElementById("chapter-title"),chapterText=document.getElementById("story-scene-label");
+function refresh(){
+ var level=Number((document.getElementById("puzzle-chapter")?.textContent||"1").match(/\d+/)?.[0]||1)-1;
+ var names=["The Library Spell","The Silent Clock","The Moonlit Attic"];
+ banner.querySelector("#mm-game-name").textContent=names[Math.max(0,Math.min(2,level))];
+ var face=banner.querySelector(".mm-game-avatar");face.className="mm-game-avatar witness-photo witness-photo-"+Math.max(0,Math.min(2,level));
+ var scene=chapterText?.textContent||"";
+ if(vista){var room=vista.dataset.room||"library";title.innerHTML=room==="clock"?'<span>THE EAST WING</span>The Silent<br>Clock':room==="attic"?'<span>THORNE HOUSE · ATTIC</span>The Final<br>Secret':room==="deduction"?'<span>CASE 001 · THE VERDICT</span>Who<br>Vanished?':'<span>THE VANISHING AT THORNE HOUSE</span>Mystery<br>Manor'}
+ status();
+}
+var refreshTarget=document.getElementById("puzzle-chapter");
+if(refreshTarget)new MutationObserver(refresh).observe(refreshTarget,{childList:true,subtree:true});
+if(chapterText)new MutationObserver(refresh).observe(chapterText,{childList:true,subtree:true,characterData:true});
+if(vista)new MutationObserver(refresh).observe(vista,{attributes:true,attributeFilter:["data-room"]});
+var note=document.createElement("div");note.className="mm-game-caption";note.textContent="Match the glowing charms to reveal the next part of the mystery.";
+puzzle.appendChild(note);
+/* Re-open the current scene without resetting progress; no forced restart. */
+refresh();
+window.MysteryManorImmersive={version:"3.0",get:function(){return{storyFullscreen:story.classList.contains("mm-immersive"),puzzleFullscreen:puzzle.classList.contains("mm-fullscreen-puzzle"),audioSource:"existing-player",musicOn:originalMusic.getAttribute("aria-pressed")==="true",room:vista?.dataset.room}}};
 })();
 
 </script>
