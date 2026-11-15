@@ -234,7 +234,7 @@ function undercroft() {
   const extra = `${stoneArch(180)}
     ${torch(420)} ${torch(1560)}
     <!-- someone has been living down here -->
-    <g transform="translate(680 0)"><path d="M-150 ${WALL_B + 20} q10 -40 60 -40 h200 q30 0 34 40z" fill="#4a3a2a" stroke="#1c140c" stroke-width="3"/><path d="M-150 ${WALL_B + 20} q10 -40 60 -40 q20 22 0 40z" fill="#6a1f2c" stroke="#1c140c" stroke-width="2"/>
+    <g transform="translate(680 -22)"><path d="M-150 ${WALL_B + 20} q10 -40 60 -40 h200 q30 0 34 40z" fill="#4a3a2a" stroke="#1c140c" stroke-width="3"/><path d="M-150 ${WALL_B + 20} q10 -40 60 -40 q20 22 0 40z" fill="#6a1f2c" stroke="#1c140c" stroke-width="2"/>
       <path d="M170 ${WALL_B + 22} v-52 q0 -14 14 -14 h18 v44 h30 q14 0 14 22z" fill="#2a1c12" stroke="#000" stroke-width="2.5"/><path d="M176 ${WALL_B + 22} h70" stroke="#5a4226" stroke-width="7"/><path d="M236 ${WALL_B + 10} q14 -6 26 2 q-10 8 -26 -2z" fill="#4a3420"/>
       <rect x="-110" y="250" width="200" height="150" fill="#d8ccac" stroke="#8a7a5a" stroke-width="2" transform="rotate(-3 -10 325)"/><path d="M-90 290 q50 -30 90 10 q30 30 70 -6 M-80 350 h150 M-70 372 h110" stroke="#5a4a3a" stroke-width="2.5" fill="none" transform="rotate(-3 -10 325)"/><circle cx="30" cy="318" r="16" fill="none" stroke="#9a1c28" stroke-width="4"/><path d="M-12 240 l8 34" stroke="#b8b8c4" stroke-width="7" stroke-linecap="round"/><path d="M-18 232 l12 -4 l4 12 l-12 4z" fill="#2c140c"/></g>
     ${bookshelf(960, 200, 13, 200)}

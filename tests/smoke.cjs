@@ -6,7 +6,7 @@ const BASE = process.env.URL || "http://127.0.0.1:8765/index.html";
 let URL = BASE + "?canvas";   // headless Chrome has no GPU; its software WebGL runs at about 6 frames a second, so the play-through uses the 2D renderer
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const results = []; let failed = 0;
-const check = (name, ok, extra = "") => { results.push((ok ? "PASS " : "FAIL ") + name + (extra ? "  [" + extra + "]" : "")); if (!ok) failed++; };
+const check = (name, ok, extra = "") => { const line = (ok ? "PASS " : "FAIL ") + name + (extra ? "  [" + extra + "]" : ""); results.push(line); console.log(line); if (!ok) failed++; };
 
 /** Waits out the studio intro that plays over the title, then for the game to finish loading. */
 const ready = p => p.waitForFunction(() => !window.__feStudioIntroActive && !document.getElementById("fe-studio-boot") && !document.getElementById("btn-begin").disabled, { timeout: 90000 });
@@ -23,8 +23,8 @@ const visible = (p, sel) => p.evaluate(s => { const e = document.querySelector(s
 const flag = (p, f) => p.evaluate(f => __mm.state.has(f), f);
 async function talk(p) { let n = 0; while (await visible(p, "#dialogue") && n++ < 80) { await p.tap("#dialogue"); await sleep(70); } return n; }
 async function settle(p, ms = 9000) { const t = Date.now(); while (Date.now() - t < ms) { if (await visible(p, "#dialogue")) await talk(p); const w = await W(p); if (!w.busy && !w.paused) return; await sleep(120); } }
-async function walkTo(p, lx) {
-  for (let guard = 0; guard < 400; guard++) {
+async function walkTo(p, lx, tries = 400) {
+  for (let guard = 0; guard < tries; guard++) {
     await settle(p); const w = await W(p); const d = lx - w.lx; if (Math.abs(d) < 50) break;
     const btn = d > 0 ? "#btn-right" : "#btn-left", box = await (await p.$(btn)).boundingBox();
     await p.touchscreen.touchStart(box.x + box.width / 2, box.y + box.height / 2);
@@ -146,7 +146,7 @@ const puzzleGone = (p, key) => p.waitForFunction(k => !__mm.game.scene.isActive(
   await puzzleGone(p, "Pin"); await settle(p);
   check("ch2 pins: water, lower pin, channel opens the gate", await flag(p, "gateOpen"));
   await walkTo(p, 2040); await act(p, "Go through"); await sleep(1200); await settle(p);
-  await walkTo(p, 1900); a = await W(p);
+  await walkTo(p, 1900, 3); a = await W(p);
   check("ch2: Miss Wisp names the Collector in the undercroft", await flag(p, "wispBelow"));
   check("ch2: the crate jam blocks the aisle", a.room === "undercroft" && a.lx <= 1260, "x " + Math.round(a.lx));
   await act(p, "Clear the aisle"); await talk(p); await puzzleUp(p, "Block"); await sleep(600);
@@ -213,6 +213,6 @@ const puzzleGone = (p, key) => p.waitForFunction(k => !__mm.game.scene.isActive(
   await p.screenshot({ path: "/tmp/mm_webgl.png" }); await p.close();
 
   check("no console errors or exceptions in any run", errors.length === 0, errors.slice(0, 3).join(" | "));
-  console.log(results.join("\n")); console.log(failed ? "\n" + failed + " FAILED" : "\nall " + results.length + " checks passed");
+  console.log(failed ? "\n" + failed + " FAILED" : "\nall " + results.length + " checks passed");
   await browser.close(); process.exit(failed ? 1 : 0);
-})().catch(e => { console.log(results.join("\n")); console.error("TEST CRASHED:", e.message); process.exit(2); });
+})().catch(e => { console.error("TEST CRASHED:", e.message); process.exit(2); });

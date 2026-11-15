@@ -3,7 +3,8 @@
 ## How to run
 ```
 python3 tests/serve.py &                 # static server on http://localhost:8765
-node tests/match3.test.mjs               # rules, no browser
+node tests/match3.test.mjs               # match-3 rules, no browser
+node tests/chapter2.test.mjs             # pin, sliding-block and star rules, no browser
 PUPPETEER=/path/to/node_modules/puppeteer-core node tests/smoke.cjs   # full play-through in headless Chrome
 ```
 
@@ -26,7 +27,11 @@ PUPPETEER=/path/to/node_modules/puppeteer-core node tests/smoke.cjs   # full pla
 - A stuck board can be shuffled into a playable one
 - The ward objective is always reachable (40 seeds of random legal play; slowest took 38 moves)
 
-`tests/smoke.cjs`: 59 of 59 passed. (Board is now 6 x 6 with 112-unit squares; a check confirms each square is at least 56 CSS pixels at iPhone landscape size.)
+`tests/chapter2.test.mjs`: 8 of 8 passed (the aisle is solvable in 8 moves; hot coals and the stone always fail; the star sky stays solvable however it is tapped).
+
+`tests/smoke.cjs`: 84 of 84 passed, now playing Chapter One and Chapter Two end to end, including a deliberate pin failure and reset, the crate jam blocking the aisle until cleared, and drag input on the sliding blocks. The run waits out the studio intro on every page load.
+
+Earlier note for Chapter One: (Board is now 6 x 6 with 112-unit squares; a check confirms each square is at least 56 CSS pixels at iPhone landscape size.)
 
 | Brief item | Check | Result |
 |---|---|---|
@@ -52,6 +57,7 @@ PUPPETEER=/path/to/node_modules/puppeteer-core node tests/smoke.cjs   # full pla
 | Console errors | None in any run | Pass |
 
 ## Known issues and limits
+0. Chapter Two has had no human play-test at all, on any device. Its difficulty is a guess: the pin puzzle has three winning orders, the aisle needs 8 moves, the stars need 3 taps.
 1. Not tested on a real iPhone. The things most likely to differ there: Safari's handling of long-press on the canvas, safe-area spacing with the home indicator, audio start after the first tap, and start-up time while roughly 45 SVG textures are rasterised.
 2. Real-device frame rate unknown. If it is low, the first things to cut are the dust particles and the number of additive glows (`LIGHTS` in `src/data/world.js`).
 3. Music streams from incompetech.com. If that host is unreachable the game still runs; the settings panel says the music could not be reached and retries when music is switched on again. The tracks are not bundled in the repo.

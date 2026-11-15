@@ -20,6 +20,12 @@ A new speaker needs a portrait: the strip `assets/mystery_manor_witnesses.webp` 
 ## Something that happens by itself
 Add to `TRIGGERS`. It fires once Mallow is between `from` and `to` in that room and `when` holds. End its `run` with a `["set", flag]` that makes `when` false, or it will fire again.
 
+## Blocking the way until something is solved
+Add `{ room, x, until: flag }` to `BLOCKERS` in `src/data/world.js`. Mallow stops short of `x` until the flag is set.
+
+## The installed app cache
+`service-worker.js` serves files cache-first. When you add a module, add it to `CORE` **and change the `CACHE` name**, or installed copies keep running the old files.
+
 ## A new room
 1. `src/art/rooms.js`: write a function like `hall()` that returns `{ body, defs }` using `shell(palette, [windowX...], extraSvg)` and the furniture helpers (`bookshelf`, `portrait`, `sconce`, `doorway`, `arch`, `rug`, `windowFrame`), and add it to `ROOM_SVG`.
 2. `src/data/world.js`: add `{ id, name, x0, start }` to `ROOMS` with `x0` 2200 past the last room; list its windows in `WINDOWS`, its candles in `LIGHTS`, and add door interactables in both directions using `["go", roomId, x]`.

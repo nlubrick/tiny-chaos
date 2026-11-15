@@ -15,10 +15,10 @@ export class BlockPuzzle extends BasePuzzle {
     for (let r = 0; r < SIZE; r++) for (let c = 0; c < SIZE; c++) g.fillStyle((r + c) % 2 ? 0x22232a : 0x282932, 1).fillRect(px(c) + 2, py(r) + 2, CELL - 4, CELL - 4);
     g.fillStyle(0x07060c, 1).fillRect(X0 + W + 12, py(2) + 6, 10, CELL - 12);   // the gap in the frame
     this.add.text(X0 + W + 30, py(2) + CELL / 2, "▶▶", { fontSize: "44px", color: "#ffd23a" }).setOrigin(0, .5);
-    this.label(980, 110, "Slide the crates out of the way.\nGet the brass trolley out through the gap.", 30, "#e6d8bd");
-    this.label(980, 300, "Crates only slide along their length.", 26, "#b7a487");
-    this.moves = 0; this.count = this.label(980, 400, "Moves: 0", 40, "#ffffff");
-    const again = this.add.text(980, 500, "Start over", { ...serif, fontSize: "30px", color: "#241505", backgroundColor: "#d9b46a", padding: { x: 26, y: 14 } }).setInteractive({ useHandCursor: true });
+    this.label(1040, 110, "Slide the crates out of the way.\nGet the brass trolley out through the gap.", 30, "#e6d8bd").setWordWrapWidth(480);
+    this.label(1040, 330, "Crates only slide along their length.", 26, "#b7a487").setWordWrapWidth(480);
+    this.moves = 0; this.count = this.label(1040, 430, "Moves: 0", 40, "#ffffff");
+    const again = this.add.text(1040, 530, "Start over", { ...serif, fontSize: "30px", color: "#241505", backgroundColor: "#d9b46a", padding: { x: 26, y: 14 } }).setInteractive({ useHandCursor: true });
     again.on("pointerdown", () => { if (!this.done) { ctx.audio.sfx("swap"); this.setup(); } });
     this.sprites = []; this.setup();
     this.input.on("pointermove", p => this.dragMove(p)); this.input.on("pointerup", p => this.dragEnd(p));
@@ -34,11 +34,11 @@ export class BlockPuzzle extends BasePuzzle {
       this.sprites.push(c);
     }
   }
-  offset(p) { const d = this.drag, raw = d.b.dir === "H" ? p.x - d.sx : p.y - d.sy; return Phaser.Math.Clamp(raw, d.min * CELL, d.max * CELL); }
+  offset(p, d = this.drag) { const raw = d.b.dir === "H" ? p.x - d.sx : p.y - d.sy; return Phaser.Math.Clamp(raw, d.min * CELL, d.max * CELL); }
   dragMove(p) { if (!this.drag || !p.isDown) return; const o = this.offset(p); if (this.drag.b.dir === "H") this.drag.c.x = this.drag.ox + o; else this.drag.c.y = this.drag.oy + o; }
   dragEnd(p) {
     const d = this.drag; if (!d) return; this.drag = null;
-    const cells = Math.round(this.offset(p) / CELL);
+    const cells = Math.round(this.offset(p, d) / CELL);
     if (cells && slide(this.blocks, d.b.id, cells)) { this.moves++; this.count.setText("Moves: " + this.moves); ctx.audio.sfx("gear"); }
     this.tweens.add({ targets: d.c, x: px(d.b.c) + 5, y: py(d.b.r) + 5, duration: 90 });
     if (solved(this.blocks)) { this.tweens.add({ targets: d.c, x: px(SIZE) + 200, duration: 700, ease: "Cubic.in", delay: 100 }); ctx.audio.sfx("unlock"); this.solved(1000); }
