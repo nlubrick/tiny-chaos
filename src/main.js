@@ -66,6 +66,7 @@ $("btn-credits-title").addEventListener("click",openGameCredits);
 $("btn-credits-menu").addEventListener("click",openGameCredits);
 $("btn-close-credits").addEventListener("click",closeGameCredits);
 window.addEventListener("mystery-manor-show-credits",openGameCredits);
+if(new URLSearchParams(location.search).has("credits"))openGameCredits();
 creditsOverlay.addEventListener("keydown",e=>{if(e.key==="Escape")closeGameCredits();});
 
 /* ---------- settings ---------- */
