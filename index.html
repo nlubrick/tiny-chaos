@@ -489,7 +489,7 @@ function assembleAmbient(parts){
  var pos=44;
  for(var k=0;k<parts.length;k++){
   var part=parts[k];
-  for(var j=0;j<part.length;j++,pos+=2)v.setInt16(pos,part[j],true);
+  for(var j=0;j<part.length;j++,pos+=2)v.setInt16(pos,Math.max(-32768,Math.min(32767,Math.round(part[j]*2.2))),true);
  }
  return new Blob([ab],{type:"audio/wav"});
 }
