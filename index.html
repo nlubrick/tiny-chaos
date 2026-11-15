@@ -116,6 +116,7 @@ button:focus-visible{outline:3px solid #fff1be;outline-offset:2px}
 .deduct-note{color:#eed3da;font:12px/1.5 Georgia,serif}
 @media(max-width:390px){.witness-art{width:72px;flex-basis:72px;height:94px}.witness-details h3{font-size:18px}.witness{gap:9px;padding:10px}}
 
+.music-fallback{position:absolute;right:8px;top:52px;z-index:4;max-width:210px;background:#3e2a55ed;border:1px solid #b891bb;border-radius:9px;padding:7px;color:#ffe3c8;font:11px/1.4 Arial,sans-serif}.music-fallback[hidden]{display:none}.music-fallback audio{width:188px;max-width:100%;height:35px;display:block;margin-top:5px}
 @media(max-width:380px){body{padding:6px 6px 22px}.hero-art{height:142px}.board{gap:2px;padding:4px}.tile{border-radius:7px}.stat b{font-size:23px}.story-visual{width:85px}.case strong{font-size:20px}.goal svg{width:32px;height:32px}}
 @media(prefers-reduced-motion:reduce){.tile,.tile.boo{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
@@ -184,7 +185,7 @@ button:focus-visible{outline:3px solid #fff1be;outline-offset:2px}
 </svg>
 <div class="shell">
 <header class="hero">
-<div class="top-actions"><button type="button" class="sound" id="sound" aria-pressed="false">♫ MUSIC OFF</button></div>
+<div class="top-actions"><button type="button" class="sound" id="sound" aria-pressed="false">♫ MUSIC OFF</button><div id="music-fallback" class="music-fallback" hidden><span>Music blocked? Tap play here:</span><div id="music-controls"></div></div></div>
 <div class="hero-art" aria-hidden="true">
 <svg viewBox="0 0 500 200" preserveAspectRatio="xMidYMid slice">
 <defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#7568cf"/><stop offset="1" stop-color="#c57aaf"/></linearGradient><linearGradient id="hill" x2="0" y2="1"><stop stop-color="#483e75"/><stop offset="1" stop-color="#342c63"/></linearGradient></defs>
@@ -269,7 +270,7 @@ var maxUnlocked=Math.max(0,Math.min(2,Number(saved.chapter)||0));
 var caseProgress=Math.max(0,Math.min(3,Math.max(Number(saved.caseProgress)||0,maxUnlocked)));
 var caseSolved=!!saved.caseSolved;
 var best=Math.max(0,Number(saved.best)||0);
-var s,token=0,audio=null,sound=false,pointer=null,swallow=0,musicTimer=null,musicStep=0,nextNote=0;
+var s,token=0,audio=null,sound=false,pointer=null,swallow=0,musicAudio=null;
 var sleep=function(ms){return new Promise(function(resolve){setTimeout(resolve,ms)})};
 var random=function(n){return Math.floor(Math.random()*n)};
 var position=function(y,x){return y*N+x};
@@ -277,49 +278,41 @@ var neighbors=function(a,b){return a>=0&&b>=0&&a<N*N&&b<N*N&&Math.abs(Math.floor
 function persist(){try{localStorage.setItem("mysteryManorCuteV1",JSON.stringify({chapter:maxUnlocked,best:best,caseProgress:caseProgress,caseSolved:caseSolved}))}catch(err){}}
 function tone(freq){if(!sound)return;try{audio=audio||new (window.AudioContext||window.webkitAudioContext)();var osc=audio.createOscillator(),gain=audio.createGain();osc.frequency.value=freq;osc.type="sine";gain.gain.setValueAtTime(.06,audio.currentTime);gain.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.13);osc.connect(gain).connect(audio.destination);osc.start();osc.stop(audio.currentTime+.13)}catch(err){}}
 
-/* Original, locally synthesized spooky-cozy score. Opt-in to meet mobile audio policies. */
-var tune=[293.66,349.23,440,349.23,293.66,261.63,233.08,null,293.66,349.23,466.16,440,349.23,293.66,261.63,null];
-function note(freq,when,duration,volume,shape){
- if(!audio||!freq)return;
- var o=audio.createOscillator(),g=audio.createGain(),filter=audio.createBiquadFilter();
- o.type=shape||"sine";o.frequency.setValueAtTime(freq,when);
- filter.type="lowpass";filter.frequency.value=1600;
- g.gain.setValueAtTime(0.0001,when);
- g.gain.exponentialRampToValueAtTime(Math.max(.0002,volume),when+.06);
- g.gain.exponentialRampToValueAtTime(.0001,when+duration);
- o.connect(filter);filter.connect(g);g.connect(audio.destination);
- o.start(when);o.stop(when+duration+.03);
-}
-function scheduleMusic(){
- if(!sound||!audio||audio.state!=="running")return;
- var beat=.42;
- while(nextNote<audio.currentTime+.7){
-  var idx=musicStep%16,pitch=tune[idx];
-  if(pitch){note(pitch,nextNote,.54,.019,"sine");if(idx%4===0)note(pitch/2,nextNote,1.55,.010,"triangle")}
-  if(idx===0||idx===8){note(idx===0?146.83:174.61,nextNote,2.6,.007,"triangle");note(220,nextNote+.3,1.9,.004,"sine")}
-  if(idx===3||idx===11)note(880,nextNote,.36,.004,"sine");
-  musicStep++;nextNote+=beat;
+/* Self-contained original haunted music-box soundtrack: 12-second looping WAV.
+   Playback begins directly inside the tap handler for iOS/Safari. */
+function makeTrack(){
+ var rate=16000,len=rate*12,arr=new ArrayBuffer(44+len*2),v=new DataView(arr);
+ function tag(pos,s){for(var j=0;j<s.length;j++)v.setUint8(pos+j,s.charCodeAt(j))}
+ tag(0,"RIFF");v.setUint32(4,36+len*2,true);tag(8,"WAVE");tag(12,"fmt ");v.setUint32(16,16,true);
+ v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,rate,true);v.setUint32(28,rate*2,true);
+ v.setUint16(32,2,true);v.setUint16(34,16,true);tag(36,"data");v.setUint32(40,len*2,true);
+ var notes=[440,523.25,659.25,523.25,392,493.88,587.33,523.25,349.23,440,523.25,440,392,349.23,329.63,261.63,329.63,392,493.88,392,349.23,329.63,261.63,293.66],bass=[110,87.31,146.83,98,130.81,82.41];
+ for(var i=0;i<len;i++){
+  var t=i/rate,step=Math.min(23,Math.floor(t*2)),dt=t-step*.5,env=Math.exp(-5.8*dt)*(1-Math.exp(-48*dt));
+  var f=notes[step],root=bass[Math.min(5,Math.floor(t/2))];
+  var bell=env*(Math.sin(2*Math.PI*f*dt)+.18*Math.sin(4*Math.PI*f*dt));
+  var backing=.13*Math.sin(2*Math.PI*root*t)+.046*Math.sin(3*Math.PI*root*t);
+  var fade=Math.min(1,t/.15,(12-t)/.25);
+  v.setInt16(44+i*2,Math.max(-32767,Math.min(32767,Math.round((.65*bell+backing)*fade*26000))),true);
  }
+ return new Blob([arr],{type:"audio/wav"});
 }
+function musicLabel(on){$("sound").textContent=on?"♫ MUSIC ON":"♫ MUSIC OFF";$("sound").setAttribute("aria-pressed",on?"true":"false")}
 function startMusic(){
- if(!sound)return;
  try{
-  audio=audio||new (window.AudioContext||window.webkitAudioContext)();
-  var go=audio.resume();
-  if(go&&go.catch)go.catch(function(){});
-  clearInterval(musicTimer);
-  nextNote=audio.currentTime+.05;
-  scheduleMusic();musicTimer=setInterval(scheduleMusic,180);
- }catch(err){sound=false}
- $("sound").textContent=sound?"♫ MUSIC ON":"♫ MUSIC OFF";
- $("sound").setAttribute("aria-pressed",sound?"true":"false");
+  if(!musicAudio){musicAudio=new Audio();musicAudio.src=URL.createObjectURL(makeTrack());musicAudio.loop=true;musicAudio.volume=.85;musicAudio.preload="auto"}
+  if(!audio){try{audio=new (window.AudioContext||window.webkitAudioContext)();var p1=audio.resume();if(p1&&p1.catch)p1.catch(function(){})}catch(e){}}
+  /* play() is invoked synchronously while handling the button press */
+  var p=musicAudio.play();
+  if(p&&p.then)p.then(function(){sound=true;musicLabel(true);$("music-fallback").hidden=true}).catch(function(){
+   sound=false;musicLabel(false);$("music-fallback").hidden=false;$("music-controls").innerHTML="";
+   musicAudio.controls=true;$("music-controls").appendChild(musicAudio);
+   message("Safari blocked music. Try the audio player beneath the music button.");
+  });else{sound=true;musicLabel(true)}
+ }catch(err){sound=false;musicLabel(false);message("Audio isn't available in this browser.")}
 }
-function stopMusic(){
- clearInterval(musicTimer);musicTimer=null;
- if(audio&&audio.state==="running"){var p=audio.suspend();if(p&&p.catch)p.catch(function(){})}
-}
-document.addEventListener("visibilitychange",function(){if(document.hidden)stopMusic();else if(sound)startMusic()});
-
+function stopMusic(){sound=false;musicLabel(false);if(musicAudio)musicAudio.pause();$("music-fallback").hidden=true}
+document.addEventListener("visibilitychange",function(){if(document.hidden&&musicAudio&&!musicAudio.paused)stopMusic()});
 function piece(type){return {type:type,special:type===6}}
 function cloneBoard(board){return board.map(function(p){return p?{type:p.type,special:p.special}:null})}
 function swap(board,a,b){var temp=board[a];board[a]=board[b];board[b]=temp}
@@ -624,7 +617,7 @@ if(s.busy||s.ended||!s.shuffles)return;
 s.shuffles--;s.hint=[];s.selected=-1;fillBoard();paint();message("🔮 The crystal ball has rearranged the charms!");
 });
 $("restart").addEventListener("click",function(){if(!s.busy)initialize(s.level)});
-$("sound").addEventListener("click",function(){sound=!sound;if(sound)startMusic();else{stopMusic();$("sound").textContent="♫ MUSIC OFF";$("sound").setAttribute("aria-pressed","false")}});
+$("sound").addEventListener("click",function(){if(sound)stopMusic();else startMusic()});
 $("modal-button").addEventListener("click",function(){
 var action=this.dataset.action;
 if(action==="next")initialize(Math.min(2,s.level+1));
