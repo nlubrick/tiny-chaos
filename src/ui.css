@@ -113,8 +113,10 @@ button.ghost{border:1.5px solid var(--gold-deep);background:#120d14;color:var(--
 /* Automatic chapter credits roll; links and text remain touch-scrollable and readable. */
 #credits-overlay{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px max(15px,env(safe-area-inset-right)) max(15px,env(safe-area-inset-bottom));overflow:hidden}
 .fe-mm-roll-viewport{width:min(100%,720px);height:min(75dvh,650px);min-height:130px;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#cba66e #141016;mask-image:linear-gradient(to bottom,transparent,#000 11%,#000 89%,transparent);-webkit-mask-image:linear-gradient(to bottom,transparent,#000 11%,#000 89%,transparent)}
-.fe-mm-roll-viewport .fe-mm-credits{padding:clamp(140px,45vh,360px) 6px clamp(150px,45vh,360px)}
+.fe-mm-roll-viewport .fe-mm-credits{padding:clamp(70px,15dvh,150px) 6px clamp(150px,40dvh,340px)}
 .fe-mm-credits-buttons{width:min(100%,710px);display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:10px}
 .fe-mm-credits-buttons button{min-height:42px;padding:8px 15px;font-size:clamp(12px,2.2vw,17px)}
 @media(max-height:460px){.fe-mm-roll-viewport{height:67dvh}.fe-mm-credits-buttons{padding:4px}.fe-mm-credits-buttons button{min-height:32px;padding:5px 11px}}
 @media(prefers-reduced-motion:reduce){.fe-mm-roll-viewport .fe-mm-credits{padding:20px 6px}}
+
+.fe-mm-credits .fe-mm-tagline{color:#d7b37a;font-size:clamp(18px,3.5vw,25px);margin:10px 0 8px}
