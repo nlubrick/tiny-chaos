@@ -6,6 +6,10 @@ export class UI {
     this.cardInner.innerHTML = html;
     [...this.cardInner.children].forEach((el, i) => { el.style.animationDelay = (0.5 + i * 1.1) + "s"; });
     this.card.hidden = false;
+    const credits = this.cardInner.querySelector("[data-credits]");
+    if (credits) credits.addEventListener("click", () => {
+      window.dispatchEvent(new CustomEvent("mystery-manor-show-credits"));
+    });
     const btn = this.cardInner.querySelector("[data-close]");
     if (btn) btn.addEventListener("click", () => { this.card.hidden = true; if (done) done(); }, { once: true });
   }
