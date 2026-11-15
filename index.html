@@ -587,6 +587,48 @@ body{background:#0e1118}
 .case-witness-card.is-locked .case-witness-photo{opacity:.48!important;filter:grayscale(.9)!important}
 .case-witness-card.is-locked{background:#c5b19b;opacity:.8}
 @media(max-width:380px){.case-witness-card{padding:6px 3px}.case-witness-photo{height:66px;width:58px}.case-witness-card .case-witness-name{font-size:11px}}
+
+
+/* MYSTERY MANOR CINEMATIC V2 — additions only; preserve music and puzzle code */
+#story-stage{background:linear-gradient(155deg,#25202b,#121926 58%,#302636);color:#f3dfc9;border-color:#b9946c;box-shadow:0 8px 0 #11131e,0 18px 34px #0009}
+#story-stage .story-progress{background:#171925;color:#e0bd8d;border-bottom:1px solid #b18b5b4d}
+#story-stage .story-page{padding:15px 18px 10px;min-height:135px}
+#story-stage .story-speaker{color:#f4c48d}
+#story-stage .story-page p{color:#f4e5d1;font-size:clamp(17px,4.6vw,20px);text-shadow:0 1px 9px #0008}
+#story-stage .story-progress-note{color:#cebed1}
+#story-stage .story-continue{background:linear-gradient(140deg,#ffe4b9,#d4a375);color:#3d2931;border:1px solid #fff0b7;box-shadow:0 5px 0 #87593c}
+#story-stage .story-continue:active{transform:translateY(3px);box-shadow:0 2px 0 #87593c}
+.mm-vista{position:relative;height:clamp(180px,50vw,245px);overflow:hidden;border-bottom:2px solid #b18e66;background:#111827;isolation:isolate}
+.mm-vista .mm-scene{position:absolute;inset:-5%;background:url("assets/mystery_manor_library_bg.webp?v=2") center/cover no-repeat;animation:mm-travel 13s ease-in-out infinite alternate;filter:brightness(.81) contrast(1.18)}
+.mm-vista[data-room="clock"] .mm-scene{background-position:40% 56%;filter:brightness(.68) sepia(.3) contrast(1.18)}
+.mm-vista[data-room="attic"] .mm-scene{background-position:70% 16%;filter:brightness(.59) hue-rotate(10deg) contrast(1.1)}
+.mm-vista[data-room="deduction"] .mm-scene{filter:brightness(.47) sepia(.14)}
+.mm-vista:before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,#0b111800,#15111b30 40%,#100c18ee),radial-gradient(circle at 15% 12%,#ffddaf38,transparent 43%);animation:mm-candle 3s steps(8,end) infinite alternate}
+.mm-vista .mm-mist{position:absolute;z-index:2;inset:15% -20% -25%;pointer-events:none;background:radial-gradient(ellipse at 30% 70%,#d0bdd438,transparent 60%),radial-gradient(ellipse at 79% 49%,#9ac1d92c,transparent 60%);filter:blur(18px);animation:mm-drift 10s ease-in-out infinite alternate}
+.mm-vista .mm-portrait{position:absolute!important;z-index:3;bottom:-11%;right:2%;width:clamp(108px,37%,165px)!important;height:105%!important;border:0!important;border-radius:23% 23% 0 0!important;box-shadow:none!important;background-color:transparent!important;pointer-events:none;animation:mm-portrait 5s ease-in-out infinite alternate!important}
+.mm-vista[data-speaker="manor"] .mm-portrait{opacity:.52!important}
+.mm-vista .mm-spark{position:absolute;z-index:3;width:3px;height:3px;border-radius:50%;background:#fff0c9;box-shadow:0 0 10px 3px #f8d69c7c;pointer-events:none;animation:mm-float var(--dur,6s) linear infinite;animation-delay:var(--delay)}
+.mm-vista .mm-caption{position:absolute;z-index:4;bottom:12px;left:12px;max-width:65%;font:800 10px Arial,sans-serif;letter-spacing:1.2px;color:#ffe3b7;text-shadow:0 2px 7px #000}
+.mm-vista .mm-music{position:absolute;z-index:5;right:10px;top:10px;min-height:36px;border:1px solid #ddbd8d;background:#14131fcc;color:#ffeccc;border-radius:22px;font:800 10px Arial,sans-serif;padding:8px 12px;cursor:pointer;touch-action:manipulation}
+.mm-vista .mm-music[aria-pressed="true"]{color:#cbf4d9;border-color:#b4dec3}
+.mm-vista.mm-reveal:after{content:"";position:absolute;z-index:6;inset:0;pointer-events:none;background:#f6e2b2;animation:mm-blast .9s ease-out forwards}
+.cast-character.reacting .cast-figure{animation:mm-exclaim .7s ease-out!important}
+.cast-character.nervous .cast-figure{animation:mm-startle .7s ease-out!important}
+.cast-character.victory .cast-figure{animation:mm-cheer .9s ease-out!important}
+#board .tile.boo{filter:saturate(1.22) brightness(1.14);box-shadow:0 0 18px #cdb4ff,0 0 25px #a8ffe67c}
+#board .tile.clearing{filter:brightness(1.45) drop-shadow(0 0 9px #fff2b6)}
+@keyframes mm-travel{from{transform:translateX(-2%) scale(1.03)}to{transform:translateX(3%) scale(1.13)}}
+@keyframes mm-candle{from{opacity:.52}to{opacity:1}}
+@keyframes mm-drift{from{transform:translateX(-28px);opacity:.48}to{transform:translateX(30px);opacity:.9}}
+@keyframes mm-portrait{from{transform:translateY(1px) rotate(-1deg) scale(1)}to{transform:translateY(-6px) rotate(.8deg) scale(1.05)}}
+@keyframes mm-float{0%{opacity:0;transform:translate(0,15px)}30%{opacity:.9}85%{opacity:.4}100%{opacity:0;transform:translate(20px,-73px)}}
+@keyframes mm-blast{0%{opacity:0}18%{opacity:.7}100%{opacity:0}}
+@keyframes mm-exclaim{30%{transform:translateY(-14px) scale(1.13) rotate(-5deg)}to{transform:none}}
+@keyframes mm-startle{25%{transform:translateX(8px) rotate(7deg)}55%{transform:translateX(-8px) rotate(-6deg)}to{transform:none}}
+@keyframes mm-cheer{30%{transform:translateY(-19px) rotate(5deg) scale(1.15)}75%{transform:translateY(2px)}to{transform:none}}
+@media(max-width:390px){.mm-vista{height:183px}.mm-vista .mm-portrait{right:-3%!important}}
+@media(prefers-reduced-motion:reduce){.mm-vista .mm-scene,.mm-vista:before,.mm-vista .mm-mist,.mm-vista .mm-portrait,.mm-vista .mm-spark,.cast-character.reacting .cast-figure,.cast-character.nervous .cast-figure,.cast-character.victory .cast-figure{animation:none!important}}
+
 </style>
 </head>
 <body>
@@ -1512,6 +1554,44 @@ window.MysteryManorTest={get:function(){return{caseProgress:caseProgress,caseSol
 initialize(maxUnlocked);
 prepareAmbient();
 })();
+</script>
+
+<script>
+
+(function(){
+"use strict";
+var story=document.getElementById("story-stage"),line=document.getElementById("story-dialogue"),label=document.getElementById("story-scene-label"),speaker=document.getElementById("story-speaker"),sound=document.getElementById("sound");
+if(!story||!line||!label||!speaker||!sound||story.querySelector(".mm-vista"))return;
+var progress=story.querySelector(".story-progress");if(!progress)return;
+var vista=document.createElement("div");vista.className="mm-vista";
+vista.setAttribute("aria-label","Living animated view of the manor and its current witness");
+vista.innerHTML='<div class="mm-scene" aria-hidden="true"></div><div class="mm-mist" aria-hidden="true"></div><div class="mm-portrait witness-photo witness-photo-0" aria-hidden="true"></div><span class="mm-caption"></span><button type="button" class="mm-music" aria-label="Toggle original Mystery Manor soundtrack" aria-pressed="false">♫ MUSIC OFF</button>';
+progress.insertAdjacentElement("afterend",vista);
+var face=vista.querySelector(".mm-portrait"),caption=vista.querySelector(".mm-caption"),play=vista.querySelector(".mm-music");
+for(var n=0;n<8;n++){var m=document.createElement("i");m.className="mm-spark";m.style.left=(10+n*67%82)+"%";m.style.top=(17+n*43%64)+"%";m.style.setProperty("--dur",(4.6+n%4)+"s");m.style.setProperty("--delay",(-n*.8)+"s");vista.appendChild(m)}
+function musicStatus(){var on=sound.getAttribute("aria-pressed")==="true";play.textContent=on?"♫ MUSIC ON":"♫ MUSIC OFF";play.setAttribute("aria-pressed",on?"true":"false")}
+play.addEventListener("click",function(){sound.click();musicStatus()});sound.addEventListener("click",function(){setTimeout(musicStatus,100)});
+var title=document.getElementById("music-now-playing");if(title)new MutationObserver(musicStatus).observe(title,{subtree:true,childList:true,characterData:true});
+var last="",lastWitness=-1,reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function update(){
+ var labelText=(label.textContent||"").toLowerCase(),who=(speaker.textContent||"").toLowerCase(),room=labelText.includes("clock")?"clock":labelText.includes("attic")?"attic":labelText.includes("deduct")||labelText.includes("mystery")?"deduction":"library";
+ var witness=who.includes("wisp")?2:who.includes("fern")?1:who.includes("mallow")?0:room==="clock"?1:room==="attic"||room==="deduction"?2:0;
+ vista.dataset.room=room;vista.dataset.speaker=who.includes("manor")?"manor":"witness";caption.textContent=label.textContent;
+ if(witness!==lastWitness){face.className="mm-portrait witness-photo witness-photo-"+witness;lastWitness=witness}
+ var key=room+"|"+line.textContent;
+ if(key!==last){last=key;if(!reduced&&line.animate)line.animate([{opacity:.2,transform:"translateY(10px)"},{opacity:1,transform:"translateY(0)"}],{duration:430,easing:"ease-out"})}
+}
+var queued=false;
+function schedule(){if(queued)return;queued=true;Promise.resolve().then(function(){queued=false;update()})}
+new MutationObserver(schedule).observe(label,{childList:true,subtree:true,characterData:true});
+new MutationObserver(schedule).observe(speaker,{childList:true,subtree:true,characterData:true});
+new MutationObserver(schedule).observe(line,{childList:true,subtree:true,characterData:true});
+var art=document.getElementById("story-clue-art");
+if(art)new MutationObserver(function(){if(art.hidden||reduced)return;vista.classList.remove("mm-reveal");void vista.offsetWidth;vista.classList.add("mm-reveal")}).observe(art,{attributes:true,attributeFilter:["hidden"]});
+musicStatus();update();
+window.MysteryManorCinematic={version:"2",status:function(){return{room:vista.dataset.room,witness:lastWitness,musicButton:play.textContent}}};
+})();
+
 </script>
 </body>
 </html>
