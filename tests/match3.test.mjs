@@ -1,7 +1,7 @@
 // Run with: node tests/match3.test.mjs
 import assert from "node:assert/strict";
 import { rng } from "../src/art/svg.js";
-import { makeBoard, findGroups, trySwap, findMove, findMoves, WARD_CELLS, shuffle, resolve, wardsLeft, KINDS } from "../src/puzzles/match3Logic.js";
+import { makeBoard, findGroups, trySwap, findMove, findMoves, WARD_CELLS, BOARD, shuffle, resolve, wardsLeft, KINDS } from "../src/puzzles/match3Logic.js";
 
 let passed = 0; const test = (name, fn) => { fn(); passed++; console.log("ok  " + name); };
 /** Builds a board from rows of digits; "." squares get kinds that never match anything nearby. */
@@ -13,7 +13,7 @@ function board(rows) {
 const fixed = () => 0.999;   // refills are always kind 5
 
 test("new boards start with no matches and at least one move", () => {
-  for (let s = 1; s <= 200; s++) { const b = makeBoard(7, 7, rng(s)); assert.equal(findGroups(b).cells.size, 0); assert.ok(findMove(b)); }
+  for (let s = 1; s <= 200; s++) { const b = makeBoard(BOARD, BOARD, rng(s)); assert.equal(findGroups(b).cells.size, 0); assert.ok(findMove(b)); }
 });
 test("a swap that makes nothing is refused and the board is unchanged", () => {
   const b = board(["....", "....", "...."]), before = JSON.stringify(b.g);
@@ -61,7 +61,7 @@ test("a stuck board can be shuffled into a playable one", () => {
 test("the ward puzzle is finished by a player who just plays random legal moves", () => {
   let worst = 0;
   for (let s = 1; s <= 40; s++) {
-    const r = rng(s * 7), b = makeBoard(7, 7, r, WARD_CELLS);
+    const r = rng(s * 7), b = makeBoard(BOARD, BOARD, r, WARD_CELLS);
     let moves = 0;
     while (wardsLeft(b) && moves < 400) { let ms = findMoves(b); if (!ms.length) { shuffle(b, r); ms = findMoves(b); } const m = ms[Math.floor(r() * ms.length)]; trySwap(b, m[0], m[1], r); moves++; }
     assert.equal(wardsLeft(b), 0, "seed " + s); worst = Math.max(worst, moves);

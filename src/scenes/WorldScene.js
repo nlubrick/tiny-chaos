@@ -50,6 +50,10 @@ export class WorldScene extends Phaser.Scene {
     this.add.image(gal.x0 + 2040 - 92, 196, "door-closed").setOrigin(0, 0).setDepth(3);
     this.add.image(att.x0 + 180 - 92, 196, "door-open").setOrigin(0, 0).setDepth(3);
 
+    // Painted portraits hung in the drawn frames
+    this.add.image(lib.x0 + 400, 162, "faces", 2).setDisplaySize(136, 194).setDepth(2.5);
+    this.add.image(hall.x0 + 990, 238, "faces", 0).setDisplaySize(120, 172).setDepth(2.5);
+
     this.panel = this.add.image(lib.x0 + 590, 332, "panel").setOrigin(0, 0).setDepth(3);
     this.panelOpen = 0; if (S.has("passageShown")) this._setPanel(1);
 
@@ -60,7 +64,7 @@ export class WorldScene extends Phaser.Scene {
     this.clockRunning = S.has("clockSolved"); this.clockMinutes = this.clockRunning ? 12 * 60 + 12 : 3 * 60 + 53;
 
     // The household
-    this.fern = this.add.image(hall.x0 + 1010, FLOOR_Y, "fern").setOrigin(FERN.originX, FERN.originY).setDepth(8);
+    this.fern = this.add.image(hall.x0 + 1110, FLOOR_Y, "fern").setOrigin(FERN.originX, FERN.originY).setDepth(8);
     this.lantern = this.add.image(this.fern.x - 62, FLOOR_Y - 130, "lantern").setOrigin(.5, 0).setScale(.62).setDepth(8.1);
     this.lanternGlow = this.add.image(this.lantern.x, this.lantern.y + 34, "glow").setDisplaySize(340, 340).setTint(0xffc56a).setBlendMode(Phaser.BlendModes.ADD).setDepth(12).setAlpha(.4);
     this.tweens.add({ targets: this.fern, scaleY: 1.012, duration: 2100, yoyo: true, repeat: -1, ease: "Sine.inOut" });

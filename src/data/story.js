@@ -1,7 +1,7 @@
-/** Every line of Chapter One. face: 0 Mallow, 1 Fern, 2 Miss Wisp, none for narration. */
+/** Every line of Chapter One. face: 0 Mallow, 1 Fern, "wisp" Miss Wisp, none for narration. */
 const M = t => ({ who: "Mallow", face: 0, text: t });
 const F = t => ({ who: "Fern", face: 1, text: t });
-const W = t => ({ who: "Miss Wisp", face: 2, text: t });
+const W = t => ({ who: "Miss Wisp", face: "wisp", text: t });
 const N = t => ({ who: "", text: t });
 
 export const SCRIPTS = {
@@ -18,6 +18,7 @@ export const SCRIPTS = {
     M("One thing at a time. Her desk first. She kept everything that mattered in that desk.")
   ],
   hearth: [
+    M("Her portrait, over the mantel. She always said it made her look stern. It does."),
     M("Warm. And there is mud on the hearthstones. She never wore her boots in here."),
     M("Someone has drawn a mark in the soot. A crescent moon and a small star."),
     M("The stone beside the fire is colder than the rest. I do not like that I noticed that.")
@@ -64,6 +65,7 @@ export const SCRIPTS = {
     F("Thirteen. I counted. That clock has twelve numbers on it and it struck thirteen."),
     F("And that noise from the library after. You go and look, Mallow. My knees aren't built for secret anything.")
   ],
+  catPortrait: [M("She had my portrait painted. I sat still for very nearly a minute. The artist asked for danger money.")],
   clockEarly: [M("The grandfather clock. Not ticking. It has ticked every second of my life, and now it is not.")],
   clockBefore: [M("The case is unlatched. Gears, a pendulum, and something stuck where it should not be.")],
   clockAfter: [M("Ticking again. It sounds pleased with itself.")],

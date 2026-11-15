@@ -1,4 +1,6 @@
-/** Conversations. Lines are { who, face, text }; face indexes the portrait strip (0 Mallow, 1 Fern, 2 Miss Wisp) or is omitted. */
+import { ctx } from "../ctx.js";
+
+/** Conversations. Lines are { who, face, text }; face is 0 Mallow or 1 Fern on the painted strip, a name in ctx.portraits ("wisp"), or omitted. */
 export class Dialogue {
   constructor(audio) {
     this.audio = audio;
@@ -19,7 +21,8 @@ export class Dialogue {
     const line = this.lines[this.i];
     this.who.textContent = line.who || "";
     if (line.face == null) this.portrait.classList.add("none");
-    else { this.portrait.classList.remove("none"); this.portrait.style.backgroundPosition = (line.face * 50) + "% 0"; }
+    else if (typeof line.face === "string") { this.portrait.classList.remove("none"); this.portrait.style.backgroundImage = `url(${ctx.portraits[line.face]})`; this.portrait.style.backgroundSize = "cover"; this.portrait.style.backgroundPosition = "center"; }
+    else { this.portrait.classList.remove("none"); this.portrait.style.backgroundImage = ""; this.portrait.style.backgroundSize = ""; this.portrait.style.backgroundPosition = (line.face * 50) + "% 0"; }
     this.full = line.text; this.shown = 0; this.text.textContent = "";
     clearInterval(this.timer);
     this.timer = setInterval(() => {

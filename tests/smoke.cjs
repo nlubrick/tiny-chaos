@@ -78,15 +78,15 @@ const puzzleGone = (p, key) => p.waitForFunction(k => !__mm.game.scene.isActive(
 
   await walkTo(p, 2040); await act(p, "Use the strange key"); await talk(p); await puzzleUp(p, "Match3"); await sleep(600);
   // Arrange a 2 x 2 on the live board, then make the swap with real taps.
-  await p.evaluate(() => { const s = __mm.game.scene.getScene("Match3"), g = s.board.g, set = (r, c, t) => { g[r][c].t = t; s.sprites.get(g[r][c].id).setFrame("p" + t); };
-    const k = [0, 1, 2, 3, 4, 5]; for (let r = 4; r < 7; r++) for (let c = 0; c < 4; c++) set(r, c, k[(r * 2 + c) % 3 + 3]);
-    set(5, 0, 0); set(5, 1, 0); set(6, 0, 0); set(6, 1, 1); set(6, 2, 0); });
-  const cell = (r, c) => [150 + c * 86 + 43, 96 + r * 86 + 43];
-  await stageTap(p, ...cell(6, 2)); await sleep(150); await stageTap(p, ...cell(6, 1));
+  await p.evaluate(() => { const s = __mm.game.scene.getScene("Match3"), g = s.board.g, set = (r, c, t) => { g[r][c].t = t; s.sprites.get(g[r][c].id).setTexture("pc" + t); };
+    const k = [0, 1, 2, 3, 4, 5]; for (let r = 3; r < 6; r++) for (let c = 0; c < 4; c++) set(r, c, k[(r * 2 + c) % 3 + 3]);
+    set(4, 0, 0); set(4, 1, 0); set(5, 0, 0); set(5, 1, 1); set(5, 2, 0); });
+  const cell = (r, c) => [236 + c * 112 + 56, 24 + r * 112 + 56];
+  await stageTap(p, ...cell(5, 2)); await sleep(150); await stageTap(p, ...cell(5, 1));
   await p.waitForFunction(() => !__mm.game.scene.getScene("Match3").locked, { timeout: 10000 });
-  check("matching four in a 2x2 square creates a Hex Bomb on the board", await p.evaluate(() => { const s = __mm.game.scene.getScene("Match3"); const h = s.board.g.flat().filter(q => q.s === "hex"); return h.length >= 1 && h.every(q => s.sprites.get(q.id).frame.name === "p8"); }));
+  check("matching four in a 2x2 square creates a Hex Bomb on the board", await p.evaluate(() => { const s = __mm.game.scene.getScene("Match3"); const h = s.board.g.flat().filter(q => q.s === "hex"); return h.length >= 1 && h.every(q => s.sprites.get(q.id).texture.key === "pc-hex"); }));
   const dud = await p.evaluate(async () => { const L = await import("/src/puzzles/match3Logic.js"), s = __mm.game.scene.getScene("Match3"), ok = new Set(L.findMoves(s.board).map(m => JSON.stringify(m)));
-    for (let r = 0; r < 7; r++) for (let c = 0; c < 6; c++) if (!ok.has(JSON.stringify([[r, c], [r, c + 1]]))) return { a: [r, c], z: [r, c + 1], ids: s.board.g.flat().map(q => q.id).join() }; return null; });
+    for (let r = 0; r < 6; r++) for (let c = 0; c < 5; c++) if (!ok.has(JSON.stringify([[r, c], [r, c + 1]]))) return { a: [r, c], z: [r, c + 1], ids: s.board.g.flat().map(q => q.id).join() }; return null; });
   if (dud) { await stageTap(p, ...cell(...dud.a)); await sleep(150); await stageTap(p, ...cell(...dud.z)); await sleep(900); }
   check("a swap that matches nothing is refused and slides back", !!dud && await p.evaluate(ids => { const s = __mm.game.scene.getScene("Match3"); return !s.locked && s.board.g.flat().map(q => q.id).join() === ids; }, dud.ids));
   let moves = 0;
@@ -96,13 +96,14 @@ const puzzleGone = (p, key) => p.waitForFunction(k => !__mm.game.scene.isActive(
     await sleep(200);
   }
   await puzzleGone(p, "Match3"); await settle(p);
+  check("match-3 squares are at least 56 CSS pixels on an iPhone-sized screen", await p.$eval("#stage canvas", c => c.getBoundingClientRect().width / 1560 * 112 >= 56));
   check("match-3 objective completes", await flag(p, "doorOpen"), moves + " moves");
   check("the library door is physically open afterwards", await p.evaluate(() => { const w = __mm.game.scene.getScene("World"); return w.libDoor.texture.key === "door-open"; }));
 
   await act(p, "West Hall"); await sleep(1200); await settle(p);
   a = await W(p); check("room transition to the West Hall", a.room === "hall");
   check("Fern calls out on first entering the hall", await flag(p, "sawHall"));
-  await walkTo(p, 1010); await act(p, "Talk to Fern"); await settle(p); check("meeting Fern sets its flag", await flag(p, "metFern"));
+  await walkTo(p, 1130); await act(p, "Talk to Fern"); await settle(p); check("meeting Fern sets its flag", await flag(p, "metFern"));
   await walkTo(p, 1780); await act(p, "Open the clock"); await talk(p); await puzzleUp(p, "Clock"); await sleep(600);
   await stageTap(p, 1150, 580); await sleep(200);
   check("the hands are locked until the gears are freed", await p.evaluate(() => __mm.game.scene.getScene("Clock").minutes === 233));

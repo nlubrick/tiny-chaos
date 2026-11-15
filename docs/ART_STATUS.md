@@ -5,10 +5,9 @@ Plain statement: **none of the new art in this branch is final painted artwork.*
 ## Painted art reused from the repo (finished)
 | File | Used for |
 |---|---|
-| `assets/mystery_manor_icon_atlas.webp` | The six match-3 pieces and the Hex Bomb |
-| `assets/mystery_manor_witnesses.webp` | Dialogue portraits: Mallow, Fern, Miss Wisp |
+| `assets/mystery_manor_witnesses.webp` | Dialogue portraits for Mallow and Fern. The cat portrait also hangs in the West Hall, and the dark-haired woman hangs over the library fireplace as the librarian. |
 
-`assets/mystery_manor_library_bg.webp` and the two `audio/*.adp` files are left in place and are not used by this build.
+`assets/mystery_manor_icon_atlas.webp` is no longer used: on a phone its six pieces were too dark and too alike to tell apart, so the match-3 now uses the vector pieces below. `assets/mystery_manor_library_bg.webp` and the two `audio/*.adp` files are also left in place, unused.
 
 ## Vector first pass (replace with painted art)
 | Texture key | Size | Anchor | What it is | Honest assessment |
@@ -22,13 +21,13 @@ Plain statement: **none of the new art in this branch is final painted artwork.*
 | `door-closed`, `door-open`, `runes`, `panel`, `clockface`, `pendulum` | various | | Things that change with the story | Simple but clear. The door "opens" by swapping to an open-door image; there is no swing animation. |
 | `desk-bg`, `ho-key`, `ho-letter`, `ho-seal`, `ho-watch`, `ho-specs`, `ho-cover` | 1560 x 720 and small | | Hidden-object scene | Top-down desk. Five targets, one partly covered. Easy to read; not richly cluttered like a commercial hidden-object scene. |
 | Clock puzzle gears, face, buttons | drawn with Phaser Graphics | | | Functional. The arrow buttons are plain text boxes. |
-| Match-3 board frame, ward overlay, line-charm marker | drawn with Phaser Graphics / `glow` | | | Functional. The line charm is a tinted piece with a glow bar, not its own painted icon. |
+| `pc0..5`, `pc-hex` | 128 x 128 | centre | Match-3 pieces: gold key, blue moon, green potion, red seal, white feather, purple crystal, and the Hex Bomb | Built for legibility: each kind differs in both colour and outline. Clean, not painted. |
+| Match-3 board frame, ward overlay, line-charm marker | drawn with Phaser Graphics / `glow` | | | Functional. The line charm is a tinted piece with a glow bar, not its own icon. |
 
 ## Known mismatches and gaps
-- **Miss Wisp's dialogue portrait** is the third face on the existing witness strip: a dark-haired living woman. It was the only third portrait available. She needs a ghost portrait that matches her world sprite.
+- **Miss Wisp's dialogue portrait** is now cropped from her own vector sprite, so it matches the ghost in the room but is not painted. She needs a painted ghost portrait.
 - **Mallow and Fern** in the world do not closely match their painted portraits.
-- **No librarian art.** She is never shown, which suits the chapter, but the portrait over the library fireplace is a generic sitter.
-- **Wall portraits** are procedurally generated generic figures.
+- **Gallery portraits** are generated vector sitters with soft shading. They are the weakest "people" in the build and are the first thing to replace with painted images.
 - **No character shadows cast by firelight**; Mallow has a simple contact shadow only.
 - **Title screen** has no illustration, only type on a gradient.
 - **Sound effects are synthesised placeholders** (footsteps, chimes, stone, thunder, purr-less mew). Music is the real licensed soundtrack and is untouched.

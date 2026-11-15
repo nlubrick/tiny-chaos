@@ -8,8 +8,9 @@
  *   four in a 2 x 2 square   -> leaves a Hex Bomb that blasts the 3 x 3 around it
  */
 export const KINDS = 6;
-/** Where the door's wards sit on the 7 x 7 board: kept off the corners, where matches are hardest to make. */
-export const WARD_CELLS = [[1, 1], [1, 3], [1, 5], [2, 2], [2, 4], [3, 1], [3, 3], [3, 5], [4, 3], [5, 1], [5, 3], [5, 5]];
+/** Board size, and where the door's wards sit: kept off the corners, where matches are hardest to make. */
+export const BOARD = 6;
+export const WARD_CELLS = [[1, 1], [1, 4], [2, 2], [2, 3], [3, 2], [3, 3], [4, 1], [4, 4]];
 const key = (r, c) => r * 100 + c;
 
 export function makeBoard(rows, cols, rand, wardCells = []) {

@@ -34,7 +34,8 @@ export const INTERACTABLES = [
 
   { id: "hallDoor", room: "hall", x: 180, states: [{ label: "Library", run: [["go", "library", 1920]] }] },
   { id: "frontDoor", room: "hall", x: 760, states: [{ label: "Inspect the seal", run: [["say", "frontDoor"]] }] },
-  { id: "fern", room: "hall", x: 1010, range: 170, states: [
+  { id: "catPortrait", room: "hall", x: 990, range: 90, states: [{ label: "Admire the portrait", run: [["say", "catPortrait"]] }] },
+  { id: "fern", room: "hall", x: 1110, range: 150, states: [
     { when: "!metFern", label: "Talk to Fern", run: [["say", "fernMeet"], ["set", "metFern"]] },
     { when: "!clockSolved", label: "Talk to Fern", run: [["say", "fernHint"]] },
     { when: "clockSolved", label: "Talk to Fern", run: [["say", "fernAfter"]] } ] },
@@ -86,6 +87,6 @@ export const FOREGROUND = [
 /** Puzzles by id: which scene runs them, what it is given, and the flag set when it is solved. */
 export const PUZZLES = {
   desk:  { scene: "HiddenObject", solved: "deskSolved",  after: [["say", "deskFound"]], config: { title: "The Librarian's Desk" } },
-  ward:  { scene: "Match3",       solved: "doorOpen",    after: [["sfx", "unlock"], ["say", "doorOpens"]], config: { title: "Break the Enchantment", wards: 12 } },
+  ward:  { scene: "Match3",       solved: "doorOpen",    after: [["sfx", "unlock"], ["say", "doorOpens"]], config: { title: "Break the Enchantment" } },
   clock: { scene: "Clock",        solved: "clockSolved", after: [], config: { title: "The Grandfather Clock" } }
 };
