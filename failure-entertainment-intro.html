@@ -27,26 +27,26 @@ button:focus-visible{outline:2px solid #fff1c4;outline-offset:4px}
 @keyframes crestFlicker{0%,15%,40%,100%{opacity:1}10%,31%{opacity:.22}}
 #crest{width:100%;height:100%;overflow:visible}
 #shieldLeft,#shieldRight{transform-box:fill-box;transform-origin:center}
-.playing #shieldLeft{animation:splitLeft 1.15s 1.45s cubic-bezier(.13,.7,.15,1) forwards}
-.playing #shieldRight{animation:splitRight 1.15s 1.45s cubic-bezier(.13,.7,.15,1) forwards}
-@keyframes splitLeft{0%,18%{transform:translate(0,0)}31%{transform:translate(-5px,1px) rotate(-1.8deg)}62%,100%{transform:translate(-2px,1px) rotate(-.8deg)}}
-@keyframes splitRight{0%,18%{transform:translate(0,0)}31%{transform:translate(5px,-1px) rotate(1.8deg)}62%,100%{transform:translate(2px,-1px) rotate(.8deg)}}
+.playing #shieldLeft{animation:splitLeft .72s 1.72s cubic-bezier(.1,.76,.2,1) forwards}
+.playing #shieldRight{animation:splitRight .72s 1.72s cubic-bezier(.1,.76,.2,1) forwards}
+@keyframes splitLeft{0%{transform:translate(0,0)}8%{transform:translate(-2px,0)}32%{transform:translate(-7px,2px) rotate(-2.5deg)}100%{transform:translate(-3px,1px) rotate(-1deg)}}
+@keyframes splitRight{0%{transform:translate(0,0)}8%{transform:translate(2px,0)}32%{transform:translate(7px,-2px) rotate(2.5deg)}100%{transform:translate(3px,-1px) rotate(1deg)}}
 #crack{opacity:0;stroke-dasharray:300;stroke-dashoffset:300;filter:drop-shadow(0 0 6px #ffe8ab9e)}
-.playing #crack{animation:crackReveal .65s 1.44s ease-in-out forwards}
-@keyframes crackReveal{0%{opacity:0;stroke-dashoffset:300}10%{opacity:1}100%{opacity:1;stroke-dashoffset:0}}
+.playing #crack{animation:crackReveal .46s 1.72s linear forwards}
+@keyframes crackReveal{0%{opacity:0;stroke-dashoffset:300}2%{opacity:1}100%{opacity:1;stroke-dashoffset:0}}
 #burst{position:absolute;width:200%;height:130%;left:-50%;top:-20%;opacity:0;border-radius:50%;z-index:-1;background:radial-gradient(ellipse,#ffeab7c2 0%,#cf9e6540 27%,transparent 65%);pointer-events:none}
-.playing #burst{animation:lightBurst .72s 1.9s ease-out forwards}
+.playing #burst{animation:lightBurst .46s 1.86s ease-out forwards}
 @keyframes lightBurst{0%{opacity:0;transform:scale(.3)}15%{opacity:.9}100%{opacity:0;transform:scale(2)}}
 #studio{position:relative;text-align:center;opacity:0;transform:translateY(15px);width:100%}
-.playing #studio{animation:wordEnter 1.1s 2.2s ease-out forwards}
+.playing #studio{animation:wordEnter 1.1s 2.48s ease-out forwards}
 @keyframes wordEnter{0%{opacity:0;filter:blur(8px);transform:translateY(16px)}100%{opacity:1;filter:blur(0);transform:translateY(0)}}
 #studio .failure{font-size:clamp(43px,10.3vw,83px);font-weight:500;letter-spacing:.07em;line-height:.99;color:#f9e3b8;text-shadow:0 2px 13px #9a764c51,0 9px 24px #000}
 .rule{display:flex;align-items:center;justify-content:center;gap:15px;margin-top:15px}
 .rule span{display:block;flex:1;max-width:100px;height:1px;background:linear-gradient(90deg,transparent,#cba06f)}
 .rule span:last-child{transform:scaleX(-1)}
 .rule b{font:700 clamp(12px,2.1vw,18px) Arial,sans-serif;letter-spacing:clamp(3px,.95vw,8px);white-space:nowrap;color:#d6b784}
-#tagline{font-size:clamp(14px,3.6vw,22px);font-style:italic;color:#ddc29d;text-align:center;opacity:0;transform:translateY(10px);line-height:1.35;margin:23px auto 0;max-width:95%;text-shadow:0 2px 9px #000}
-.playing #tagline{animation:tagEnter 1.35s 3.8s ease-out forwards}
+#tagline{font-size:clamp(19px,4.5vw,29px);font-style:normal;color:#ddc29d;text-align:center;opacity:0;transform:translateY(10px);line-height:1.35;margin:23px auto 0;max-width:95%;text-shadow:0 2px 9px #000}
+.playing #tagline{animation:tagEnter .9s 4.03s ease-out forwards}
 @keyframes tagEnter{0%{opacity:0;transform:translateY(12px);filter:blur(2px)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
 #prestart{position:absolute;inset:0;z-index:15;background:#060609ed;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:22px;text-align:center}
 #prestart[hidden]{display:none!important}
@@ -91,7 +91,7 @@ button:focus-visible{outline:2px solid #fff1c4;outline-offset:4px}
   <path d="M0 -133 L1 -126 M-100 -88 L-105 -96 M100 -88 L105 -96" stroke="#e4c292" stroke-width="2" opacity=".6"/>
  </svg></div>
  <div id="studio"><div class="failure">FAILURE</div><div class="rule"><span></span><b>ENTERTAINMENT</b><span></span></div></div>
- <p id="tagline">Failure has never been this much fun.</p>
+ <p id="tagline"><strong>6/10.</strong> Good enough.</p>
  </div>
  <div id="prestart"><div class="small">INDEPENDENT GAME STUDIO</div><h1>FAILURE<span>ENTERTAINMENT</span></h1><p>Tap below to play the cinematic studio introduction with sound.</p><button type="button" id="begin">▶ PLAY INTRO WITH SOUND</button></div>
  <button id="skip" type="button" aria-label="Skip intro">Skip</button>
@@ -105,33 +105,75 @@ button:focus-visible{outline:2px solid #fff1c4;outline-offset:4px}
 const stage=document.getElementById("stage"),start=document.getElementById("prestart"),play=document.getElementById("begin"),
 replay=document.getElementById("replay"),sound=document.getElementById("sound"),audio=document.getElementById("introAudio"),notice=document.getElementById("audioNotice");
 let soundOn=true,noticeTimer=null,timer=null,audioReady=false;
-const N=22050,duration=6.08;
+const N=22050,duration=6.7;
 function makeSound(){
- // A short original studio cue: low suspense swell, metal impact and chimes, resolving chord.
- const count=Math.floor(N*duration),samples=new Float32Array(count);
- function tone(at,len,freq,vol,kind){
-  const first=Math.floor(at*N),last=Math.min(count,Math.floor((at+len)*N));
-  for(let i=first;i<last;i++){
-   const t=(i-first)/N,phase=t*2*Math.PI*freq;
-   let env=kind==="bell"?Math.exp(-5*t/len):kind==="hit"?Math.exp(-8*t/len)*Math.min(1,t*120):Math.min(1,t*12)*Math.min(1,(len-t)*3);
-   const sig=kind==="hit"?Math.sin(phase*(1-t*.7)):Math.sin(phase)+.25*Math.sin(phase*2.01)+.1*Math.sin(phase*3.03);
-   samples[i]+=sig*env*vol;
+ // Original sinister logo score; audio and CSS share the crack at 1.72 seconds.
+ const CRACK_AT=1.72, TITLE_AT=2.48, TAG_AT=4.03;
+ const count=Math.floor(N*duration),mix=new Float32Array(count);let seed=0x6e210;
+ const rnd=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296*2-1};
+ function synth(at,dur,hz,amp,att=.2,rel=.5,metal=false){
+  const a=Math.floor(at*N),z=Math.min(count,Math.floor((at+dur)*N));
+  for(let i=a;i<z;i++){
+   const t=(i-a)/N,fade=Math.min(1,t/att,(dur-t)/rel),env=Math.max(0,Math.min(1,fade));
+   const phase=2*Math.PI*hz*t*(1+.003*Math.sin(2*Math.PI*.31*t));
+   const sig=Math.sin(phase)+(metal?.4:.16)*Math.sin(phase*(metal?1.49:2.004))+(metal?.15:0)*Math.sin(phase*2.77);
+   mix[i]+=amp*env*sig;
   }
  }
- function hiss(at,len,vol){let v=1;const first=Math.floor(at*N),last=Math.min(count,Math.floor((at+len)*N));for(let i=first;i<last;i++){const t=(i-first)/N;v=.88*v+.12*(Math.random()*2-1);samples[i]+=v*Math.exp(-t*12/len)*vol}}
- tone(.12,2.6,65.41,.09,"pad");tone(.1,2.4,98,.075,"pad");
- tone(.65,1.3,783.99,.18,"bell");tone(.78,1.2,523.25,.1,"bell");
- hiss(1.52,.55,.47);tone(1.56,1,81,.36,"hit");
- [164.81,246.94,329.63,493.88].forEach((f,i)=>tone(2.1,3.6,f,.052+(i===0?.01:0),"pad"));
- tone(2.26,1.8,659.25,.19,"bell");tone(3.25,1.8,987.77,.13,"bell");tone(4.45,1.3,329.63,.11,"bell");
- const pcm=new Int16Array(count);let peak=.001;
- for(let i=0;i<count;i++)peak=Math.max(peak,Math.abs(samples[i]));
- for(let i=0;i<count;i++){const tail=Math.min(1,(duration-i/N)/.22);pcm[i]=Math.round(Math.max(-1,Math.min(1,samples[i]/peak*.74*tail))*32767)}
- const buffer=new ArrayBuffer(44+pcm.length*2),v=new DataView(buffer);
- function txt(i,s){for(let j=0;j<s.length;j++)v.setUint8(i+j,s.charCodeAt(j))}
- txt(0,"RIFF");v.setUint32(4,36+pcm.length*2,true);txt(8,"WAVE");txt(12,"fmt ");v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,N,true);v.setUint32(28,N*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);txt(36,"data");v.setUint32(40,pcm.length*2,true);
+ function noise(at,dur,amp,rise=false,bright=false){
+  const a=Math.floor(at*N),z=Math.min(count,Math.floor((at+dur)*N));let lp=0,hp=0;
+  for(let i=a;i<z;i++){
+   const t=(i-a)/N,u=t/dur,v=rnd();
+   lp=lp*.96+v*.04;hp=hp*.4+v*.6;
+   let shape=rise?u*u*Math.min(1,(1-u)*20):Math.exp(-7*u);
+   const sig=bright?(hp-.45*lp)+.2*Math.sin(2*Math.PI*(900+120*t)*t):lp+.08*hp;
+   mix[i]+=sig*amp*shape;
+  }
+ }
+ function thud(at,amp){
+  let phase=0;const a=Math.floor(at*N),z=Math.min(count,Math.floor((at+.5)*N));
+  for(let i=a;i<z;i++){
+   const t=(i-a)/N;
+   phase+=2*Math.PI*(47+88*Math.exp(-t*10))/N;
+   mix[i]+=amp*Math.sin(phase)*Math.exp(-t*17);
+   mix[i]+=amp*.32*Math.sin(phase*3.15)*Math.exp(-t*13);
+  }
+ }
+ // Suffocating, detuned low drone and scrape leading into an abrupt fracture.
+ synth(.06,2.05,65.41,.15,.24,.32,true);
+ synth(.10,2.09,69.30,.085,.28,.32,true);
+ synth(.32,1.91,123.47,.05,.48,.40,true);
+ synth(.64,1.31,185,.025,.36,.28);
+ noise(.92,.78,.22,true);
+ // First metallic snap exactly aligned with the crack becoming visible.
+ noise(CRACK_AT,.27,.98,false,true);thud(CRACK_AT,.55);
+ noise(CRACK_AT+.083,.15,.47,false,true);
+ noise(CRACK_AT+.16,.14,.22,false,true);
+ // No triumphant melody: unresolved horror-organ cluster and room rumble.
+ thud(TITLE_AT,.38);
+ synth(TITLE_AT,3.46,87.31,.12,.09,.8,true);
+ synth(TITLE_AT+.08,3.22,103.83,.080,.17,.9,true);
+ synth(TITLE_AT+.1,3.24,123.47,.068,.18,.9,true);
+ synth(TITLE_AT+.23,2.76,174.61,.045,.32,.84);
+ noise(TITLE_AT+.12,1.4,.095);
+ // Dry, wry end card - restrained, not a cheerful flourish.
+ noise(TAG_AT,.25,.24,false,true);
+ synth(TAG_AT,1.92,130.81,.036,.1,.88,true);
+ synth(4.57,1.6,65.41,.029,.23,.8);
+ let peak=1e-5;for(let i=0;i<count;i++)peak=Math.max(peak,Math.abs(mix[i]));
+ const pcm=new Int16Array(count);
+ for(let i=0;i<count;i++){
+  const t=i/N,tail=Math.min(1,Math.max(0,(duration-t)/.25));
+  pcm[i]=Math.round(32767*Math.max(-1,Math.min(1,Math.tanh(mix[i]*1.3)*.83/Math.max(.8,peak)*tail)));
+ }
+ const buf=new ArrayBuffer(44+pcm.length*2),v=new DataView(buf);
+ const txt=(i,t)=>{for(let j=0;j<t.length;j++)v.setUint8(i+j,t.charCodeAt(j))};
+ txt(0,"RIFF");v.setUint32(4,36+pcm.length*2,true);txt(8,"WAVE");txt(12,"fmt ");
+ v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);
+ v.setUint32(24,N,true);v.setUint32(28,N*2,true);v.setUint16(32,2,true);
+ v.setUint16(34,16,true);txt(36,"data");v.setUint32(40,pcm.length*2,true);
  for(let i=0;i<pcm.length;i++)v.setInt16(44+i*2,pcm[i],true);
- return URL.createObjectURL(new Blob([buffer],{type:"audio/wav"}));
+ return URL.createObjectURL(new Blob([buf],{type:"audio/wav"}));
 }
 try{audio.src=makeSound();audio.load();audioReady=true}catch(e){audioReady=false}
 for(let i=0;i<48;i++){
@@ -146,16 +188,29 @@ function resetScene(){
  void stage.offsetWidth;
  stage.classList.add("playing");
 }
+let introRunId=0;
 function startIntro(){
- start.hidden=true;
- clearTimeout(timer);audio.pause();
+ const run=++introRunId;
+ start.hidden=true;clearTimeout(timer);audio.pause();
  try{audio.currentTime=0}catch(e){}
- resetScene();
+ ["crestwrap","studio","tagline"].forEach(id=>document.getElementById(id).removeAttribute("style"));
+ let began=false;
+ function begin(){
+  if(began||run!==introRunId)return;began=true;audio.onplaying=null;
+  // Do not start the visual timeline before sound playback is actually running.
+  resetScene();
+  timer=setTimeout(()=>stage.dispatchEvent(new CustomEvent("failure-intro-finished",{bubbles:true})),6900);
+ }
  if(soundOn&&audioReady){
-  const result=audio.play();
-  if(result&&result.catch)result.catch(()=>notify("If sound is blocked, open this link directly in Safari and tap Replay."));
- }else if(soundOn&&!audioReady)notify("Sound is unavailable, but the animation will still play.");
- timer=setTimeout(()=>{stage.dispatchEvent(new CustomEvent("failure-intro-finished",{bubbles:true}))},6200);
+  audio.onplaying=begin;
+  try{
+   const result=audio.play();
+   if(result?.then)result.then(begin).catch(()=>{
+    if(run!==introRunId)return;
+    notify("Sound blocked. Open this page directly in Safari and tap Replay.");begin();
+   });else begin();
+  }catch(e){notify("Sound unavailable; playing visual intro.");begin()}
+ }else{audio.onplaying=null;begin();if(soundOn&&!audioReady)notify("Sound unavailable in this browser.")}
 }
 function toggleSound(){
  soundOn=!soundOn;
@@ -163,17 +218,17 @@ function toggleSound(){
  if(soundOn&&stage.classList.contains("playing")&&audioReady){const p=audio.play();if(p?.catch)p.catch(()=>notify("Tap Replay to restart with sound."))}
 }
 function skipIntro(){
- start.hidden=true;clearTimeout(timer);audio.pause();stage.classList.add("playing");
+ start.hidden=true;clearTimeout(timer);introRunId++;audio.onplaying=null;audio.pause();stage.classList.add("playing");
  document.getElementById("crestwrap").style.cssText="opacity:1;transform:none;animation:none";
  document.getElementById("studio").style.cssText="opacity:1;transform:none;animation:none";
  document.getElementById("tagline").style.cssText="opacity:1;transform:none;animation:none";
 }
 play.addEventListener("click",startIntro);
-replay.addEventListener("click",()=>{["crestwrap","studio","tagline"].forEach(id=>document.getElementById(id).removeAttribute("style"));startIntro()});
+replay.addEventListener("click",startIntro);
 sound.addEventListener("click",toggleSound);
 document.getElementById("skip").addEventListener("click",skipIntro);
 document.addEventListener("visibilitychange",()=>{if(document.hidden)audio.pause()});
-window.FailureEntertainmentIntro={play:startIntro,setSound:function(v){if(soundOn!==!!v)toggleSound()},durationMs:6200};
+window.FailureEntertainmentIntro={play:startIntro,setSound:function(v){if(soundOn!==!!v)toggleSound()},durationMs:6900};
 })();
 </script>
 </body>
