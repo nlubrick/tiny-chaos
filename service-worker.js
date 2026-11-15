@@ -1,7 +1,7 @@
 /* Mystery Manor installable web app shell.
    First play online caches subsequent module loads; audio tracks stream from their
    credited host and are not falsely advertised as offline assets. */
-const CACHE="mystery-manor-ch1-app-v1";
+const CACHE="mystery-manor-ch1-app-v2";
 const CORE=[
  "./","./index.html","./manifest.webmanifest","./mystery-manor-icon.svg",
  "./studio-boot.js","./studio-credits-roll.js","./failure-entertainment-intro.html",
