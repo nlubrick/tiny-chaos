@@ -194,7 +194,82 @@ function attic() {
   const body = shell(pal, [1130], extra) + windowFrame(1130) + rug(1300, 560, "#141c38", "#5a7ad0");
   return { body, defs: DEFS(pal) };
 }
-export const ROOM_SVG = { library, hall, gallery, attic };
+/* ---------------- Chapter Two: under the house ---------------- */
+const CPAL = { wallTop: "#2a2b33", wallBot: "#15161c", motif: "#000", cloth: "#243a5a", clothD: "#0a1220", seed: 91 };
+/** Stone undercroft shell: block walls, a run of vault arches, flagstones. No windows. */
+function cellar(seed, extra, tint = "#5a7ad0") {
+  const r = rng(seed); let blocks = "", flags = "", vault = "";
+  for (let row = 0; row < 9; row++) { const y = 44 + row * 63; blocks += `<path d="M0 ${y}H${RW}" stroke="#000" stroke-width="3" opacity=".45"/><path d="M0 ${y + 3}H${RW}" stroke="#6a6c78" stroke-width="1" opacity=".18"/>`; for (let x = (row % 2) * 70 - 20 + r() * 20; x < RW; x += 120 + r() * 50) { blocks += `<path d="M${x} ${y}v63" stroke="#000" stroke-width="3" opacity=".4"/>`; if (r() < .25) blocks += `<rect x="${x + 4}" y="${y + 4}" width="${90 + r() * 30}" height="55" fill="#000" opacity="${.08 + r() * .12}"/>`; if (r() < .1) blocks += `<path d="M${x + 30} ${y + 63} q4 30 -2 ${50 + r() * 60}" stroke="#1c3a2a" stroke-width="${3 + r() * 4}" opacity=".5" fill="none" stroke-linecap="round"/>`; } }
+  for (let x = -100; x < RW; x += 550) vault += `<path d="M${x} 44 Q${x + 275} 250 ${x + 550} 44Z" fill="#0c0c12"/><path d="M${x} 44 Q${x + 275} 250 ${x + 550} 44" fill="none" stroke="#3a3b46" stroke-width="16"/><path d="M${x} 44 Q${x + 275} 250 ${x + 550} 44" fill="none" stroke="#000" stroke-width="3" opacity=".6"/><rect x="${x - 34}" y="44" width="68" height="${WALL_B - 44}" fill="url(#stoneD)" stroke="#000" stroke-opacity=".5" stroke-width="3"/><rect x="${x - 44}" y="${WALL_B - 40}" width="88" height="40" fill="url(#stone)" stroke="#000" stroke-opacity=".5" stroke-width="2"/><rect x="${x - 42}" y="150" width="84" height="22" fill="url(#stone)" stroke="#000" stroke-opacity=".5" stroke-width="2"/>`;
+  for (let i = 0; i < 4; i++) { const y = WALL_B + 6 + i * i * 6 + i * 12; flags += `<path d="M0 ${y}H${RW}" stroke="#000" stroke-width="${2 + i * .6}" opacity=".5"/>`; for (let x = r() * 80; x < RW; x += 110 + r() * 90 + i * 20) flags += `<path d="M${x} ${y}V${WALL_B + 6 + (i + 1) * (i + 1) * 6 + (i + 1) * 12}" stroke="#000" stroke-width="2" opacity=".45"/>`; }
+  return `<rect width="${RW}" height="${WALL_B}" fill="url(#wall)"/>${blocks}${vault}<rect width="${RW}" height="44" fill="#07070a"/>
+    ${extra}
+    <rect y="${WALL_B}" width="${RW}" height="${RH - WALL_B}" fill="url(#cfloor)"/>${flags}<rect y="${WALL_B}" width="${RW}" height="18" fill="#000" opacity=".45"/>
+    <rect width="${RW}" height="${RH}" fill="${tint}" opacity=".05"/>`;
+}
+const CDEFS = () => DEFS(CPAL) + lin("cfloor", [[0, "#26272e"], [1, "#0b0b0f"]]) + lin("iron", [[0, "#4a4c56"], [1, "#1a1b20"]]) + lin("water", [[0, "#2a5a8a", .85], [1, "#0c2440", .95]]) + rad("blue", [[0, "#8fb8ff", .5], [1, "#8fb8ff", 0]]);
+const torch = (x, y = 300) => `<circle cx="${x}" cy="${y - 30}" r="170" fill="url(#candle)"/><path d="M${x - 8} ${y + 60} L${x - 14} ${y} h28 L${x + 8} ${y + 60}z" fill="url(#iron)" stroke="#000" stroke-width="2"/><path d="M${x - 20} ${y} h40" stroke="#000" stroke-width="6" stroke-linecap="round"/><path d="M${x} ${y + 60} v16 h-22" stroke="url(#iron)" stroke-width="6" fill="none"/>`;
+const barrel = (x, s = 1) => `<g transform="translate(${x} ${WALL_B + 24}) scale(${s})"><path d="M-46 0 Q-62 -70 -46 -140 H46 Q62 -70 46 0Z" fill="url(#wood)" stroke="#120604" stroke-width="3"/><path d="M-52 -34 H52 M-52 -106 H52" stroke="url(#iron)" stroke-width="9"/><path d="M-20 -140 Q-28 -70 -20 0 M20 -140 Q28 -70 20 0" stroke="#120604" stroke-width="2" opacity=".6" fill="none"/></g>`;
+const crate = (x, y, w, h) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="url(#wood)" stroke="#120604" stroke-width="3"/><path d="M${x + 8} ${y + 8}L${x + w - 8} ${y + h - 8}M${x + w - 8} ${y + 8}L${x + 8} ${y + h - 8}" stroke="#2c140c" stroke-width="7"/><rect x="${x + 6}" y="${y + 6}" width="${w - 12}" height="${h - 12}" fill="none" stroke="#2c140c" stroke-width="5"/>`;
+const stoneArch = (x) => `<path d="M${x - 120} ${WALL_B} V270 Q${x - 120} 150 ${x} 150 Q${x + 120} 150 ${x + 120} 270 V${WALL_B}Z" fill="#040408"/><path d="M${x - 120} ${WALL_B} V270 Q${x - 120} 150 ${x} 150 Q${x + 120} 150 ${x + 120} 270 V${WALL_B}" fill="none" stroke="#17171d" stroke-width="30"/><path d="M${x - 120} ${WALL_B} V270 Q${x - 120} 150 ${x} 150 Q${x + 120} 150 ${x + 120} 270 V${WALL_B}" fill="none" stroke="url(#stone)" stroke-width="20"/>`;
+
+function stair() {
+  const extra = `
+    <!-- the way back up to the library -->
+    <path d="M40 ${WALL_B} V230 Q40 130 170 130 Q300 130 300 230 V${WALL_B}Z" fill="#050408"/>
+    ${[0, 1, 2, 3, 4, 5].map(i => `<rect x="${60 + i * 12}" y="${WALL_B - 60 - i * 58}" width="${240 - i * 12}" height="60" fill="${["#3a3b46", "#33343e", "#2c2d36", "#25262e", "#1e1f26", "#17181e"][i]}" stroke="#000" stroke-width="2"/>`).reverse().join("")}
+    <ellipse cx="170" cy="250" rx="90" ry="110" fill="#ffb050" opacity=".16" filter="url(#blur6)"/>
+    <path d="M40 ${WALL_B} V230 Q40 130 170 130 Q300 130 300 230 V${WALL_B}" fill="none" stroke="url(#stone)" stroke-width="22"/>
+    ${torch(470)} ${torch(1500)}
+    <!-- her shawl on a hook -->
+    <path d="M760 250 v-14 h18" stroke="url(#iron)" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M748 250 Q730 380 770 470 Q800 500 826 462 Q850 380 800 250Z" fill="#5a3a7a" stroke="#22102f" stroke-width="2.5"/><path d="M768 256 Q760 380 790 478 M790 254 Q800 370 812 470" stroke="#22102f" stroke-width="2" fill="none" opacity=".6"/><path d="M752 450 l-6 30 m16 -24 l-2 32 m18 -30 l2 32 m16 -36 l8 30 m8 -40 l12 26" stroke="#7a56a0" stroke-width="3" stroke-linecap="round"/>
+    ${barrel(980)} ${barrel(1090, .82)} ${crate(1180, 470, 130, 140)}
+    <!-- sluice channel and the gate arch -->
+    <rect x="1620" y="${WALL_B - 70}" width="240" height="70" fill="#07070a" stroke="#000" stroke-width="3"/><rect x="1626" y="${WALL_B - 44}" width="228" height="44" fill="url(#water)"/><path d="M1636 ${WALL_B - 40} q20 -6 40 0 t40 0 t40 0 t40 0 t40 0" stroke="#9fc8ff" stroke-width="2" fill="none" opacity=".5"/>
+    <path d="M1700 ${WALL_B - 70} v-150 h80 v150" fill="none" stroke="url(#iron)" stroke-width="12"/><circle cx="1740" cy="${WALL_B - 220}" r="34" fill="none" stroke="url(#iron)" stroke-width="10"/><path d="M1740 ${WALL_B - 254}v68M1706 ${WALL_B - 220}h68" stroke="url(#iron)" stroke-width="7"/>
+    ${stoneArch(2040)}<ellipse cx="2040" cy="420" rx="80" ry="160" fill="url(#blue)" opacity=".5"/>`;
+  return { body: cellar(101, extra), defs: CDEFS() };
+}
+function undercroft() {
+  const extra = `${stoneArch(180)}
+    ${torch(420)} ${torch(1560)}
+    <!-- someone has been living down here -->
+    <g transform="translate(680 0)"><path d="M-150 ${WALL_B + 20} q10 -40 60 -40 h200 q30 0 34 40z" fill="#4a3a2a" stroke="#1c140c" stroke-width="3"/><path d="M-150 ${WALL_B + 20} q10 -40 60 -40 q20 22 0 40z" fill="#6a1f2c" stroke="#1c140c" stroke-width="2"/>
+      <path d="M170 ${WALL_B + 22} v-52 q0 -14 14 -14 h18 v44 h30 q14 0 14 22z" fill="#2a1c12" stroke="#000" stroke-width="2.5"/><path d="M176 ${WALL_B + 22} h70" stroke="#5a4226" stroke-width="7"/><path d="M236 ${WALL_B + 10} q14 -6 26 2 q-10 8 -26 -2z" fill="#4a3420"/>
+      <rect x="-110" y="250" width="200" height="150" fill="#d8ccac" stroke="#8a7a5a" stroke-width="2" transform="rotate(-3 -10 325)"/><path d="M-90 290 q50 -30 90 10 q30 30 70 -6 M-80 350 h150 M-70 372 h110" stroke="#5a4a3a" stroke-width="2.5" fill="none" transform="rotate(-3 -10 325)"/><circle cx="30" cy="318" r="16" fill="none" stroke="#9a1c28" stroke-width="4"/><path d="M-12 240 l8 34" stroke="#b8b8c4" stroke-width="7" stroke-linecap="round"/><path d="M-18 232 l12 -4 l4 12 l-12 4z" fill="#2c140c"/></g>
+    ${bookshelf(960, 200, 13, 200)}
+    <!-- crates pushed to the sides of the aisle (the jam itself is a separate sprite) -->
+    ${crate(1210, 500, 100, 110)} ${crate(1640, 480, 120, 130)} ${crate(1650, 380, 100, 100)} ${barrel(1830, .9)}
+    ${stoneArch(2040)}<ellipse cx="2040" cy="420" rx="90" ry="170" fill="url(#blue)" opacity=".8"/>`;
+  return { body: cellar(202, extra), defs: CDEFS() };
+}
+function vault() {
+  const O = 1150; let stars = ""; const r = rng(77);
+  for (let i = 0; i < 70; i++) stars += `<circle cx="${420 + r() * 1460}" cy="${60 + r() * 150}" r="${1 + r() * 2.2}" fill="#cfe0ff" opacity="${.3 + r() * .6}"/>`;
+  const extra = `${stoneArch(180)}
+    <rect x="380" y="44" width="1540" height="190" fill="#070a1c" opacity=".85"/>${stars}<path d="M380 234 H1920" stroke="url(#gold)" stroke-width="5" opacity=".6"/>
+    <ellipse cx="${O}" cy="330" rx="620" ry="300" fill="url(#blue)" opacity=".7"/>
+    <!-- reading stand with her note -->
+    <g transform="translate(620 0)"><path d="M0 ${WALL_B + 20} V440" stroke="url(#wood)" stroke-width="16"/><path d="M-50 ${WALL_B + 24} Q0 ${WALL_B - 10} 50 ${WALL_B + 24}" stroke="#2c140c" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M-70 450 L60 410 L66 430 L-64 470Z" fill="url(#wood)" stroke="#120604" stroke-width="3"/><path d="M-46 438 L30 414 L36 432 L-40 456Z" fill="#f2e8cc" stroke="#8a7a5a" stroke-width="1.5"/><path d="M-36 440 l52 -16 M-34 447 l40 -12" stroke="#3a2a5a" stroke-width="2"/></g>
+    <!-- the orrery's base and arms: the rings are a turning sprite -->
+    <g transform="translate(${O} 0)"><path d="M-120 ${WALL_B + 20} L-60 500 H60 L120 ${WALL_B + 20}Z" fill="url(#stone)" stroke="#000" stroke-width="3"/><rect x="-80" y="480" width="160" height="24" rx="6" fill="url(#gold)" stroke="#3a2a0c" stroke-width="2"/><path d="M0 480 V330" stroke="url(#gold)" stroke-width="14"/><circle cx="0" cy="330" r="150" fill="#070a1c" opacity=".55"/></g>
+    ${barrel(1900, .8)} ${torch(2060, 280)}`;
+  return { body: cellar(303, extra, "#5a8aff"), defs: CDEFS() };
+}
+export function gateSvg() {  // 240 x 460 portcullis
+  let b = ""; for (let x = 20; x <= 220; x += 40) b += `<path d="M${x} 0V440 l-9 20 h18z" fill="url(#i)" stroke="#000" stroke-width="2"/>`;
+  for (let y = 60; y < 440; y += 110) b += `<rect x="6" y="${y}" width="228" height="16" fill="url(#i)" stroke="#000" stroke-width="2"/>`;
+  return { body: b, defs: lin("i", [[0, "#5a5c68"], [1, "#22232a"]], 1, 0) };
+}
+export function jamSvg() {  // 360 x 330 heap of crates blocking the aisle
+  const c = (x, y, w, h, a) => `<g transform="rotate(${a} ${x + w / 2} ${y + h / 2})"><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="url(#w)" stroke="#120604" stroke-width="3"/><path d="M${x + 8} ${y + 8}L${x + w - 8} ${y + h - 8}M${x + w - 8} ${y + 8}L${x + 8} ${y + h - 8}" stroke="#2c140c" stroke-width="7"/><rect x="${x + 6}" y="${y + 6}" width="${w - 12}" height="${h - 12}" fill="none" stroke="#2c140c" stroke-width="5"/></g>`;
+  return { body: c(10, 200, 130, 125, 0) + c(140, 190, 140, 135, 0) + c(250, 215, 105, 110, 4) + c(60, 80, 130, 120, -5) + c(185, 70, 120, 120, 7) + c(120, -20, 110, 105, -9), defs: lin("w", [[0, "#6a3a22"], [1, "#2c140c"]]) };
+}
+export function ringsSvg() {  // 360 x 360 orrery rings and planets
+  return { body: `<g fill="none" stroke="url(#g)"><ellipse cx="180" cy="180" rx="170" ry="60" stroke-width="6"/><ellipse cx="180" cy="180" rx="120" ry="150" stroke-width="5" transform="rotate(24 180 180)"/><ellipse cx="180" cy="180" rx="80" ry="34" stroke-width="5" transform="rotate(-30 180 180)"/></g><circle cx="180" cy="180" r="30" fill="url(#s)"/><circle cx="350" cy="180" r="13" fill="#8fb8ff" stroke="#1a2a5a" stroke-width="2"/><circle cx="98" cy="58" r="10" fill="#e38a7a" stroke="#5a1e2a" stroke-width="2"/><circle cx="248" cy="206" r="8" fill="#cfe0c0" stroke="#2f4a34" stroke-width="2"/><circle cx="34" cy="210" r="7" fill="#f0d08a" stroke="#6e4f1a" stroke-width="2"/>`, defs: lin("g", [[0, "#f0d08a"], [1, "#8a6a2c"]]) + rad("s", [[0, "#fff8d0"], [1, "#e0a020"]]) };
+}
+
+export const ROOM_SVG = { library, hall, gallery, attic, stair, undercroft, vault };
 
 /* ---------------- Shared pieces ---------------- */
 export function skySvg() {   // 1100 x 520, drawn large behind every window

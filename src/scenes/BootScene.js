@@ -23,7 +23,7 @@ export class BootScene extends Phaser.Scene {
     for (let i = 0; i < 4; i++) add("flame" + i, 60, 90, R.flameSvg(i));
     add("vignette", 780, 360, R.vignetteSvg()); add("curtain", 110, 400, R.curtainSvg());
     add("door-closed", 184, 414, R.doorSvg(false)); add("door-open", 184, 414, R.doorSvg(true)); add("runes", 184, 414, R.runesSvg());
-    add("panel", 172, 278, R.panelSvg()); add("clockface", 132, 132, R.clockFaceSvg()); add("pendulum", 40, 180, R.pendulumSvg()); add("plant", 300, 420, R.plantSvg());
+    add("panel", 172, 278, R.panelSvg()); add("gate", 240, 460, R.gateSvg()); add("jam", 360, 330, R.jamSvg()); add("rings", 360, 360, R.ringsSvg()); add("clockface", 132, 132, R.clockFaceSvg()); add("pendulum", 40, 180, R.pendulumSvg()); add("plant", 300, 420, R.plantSvg());
     for (const key in deskArt) add(key, deskArt[key].w, deskArt[key].h, deskArt[key].art());
     for (const key in PIECES) add(key, 128, 128, PIECES[key]());
     try { await Promise.all(jobs); } catch (e) { document.getElementById("title-status").textContent = "The artwork could not be drawn on this browser."; console.error(e); return; }

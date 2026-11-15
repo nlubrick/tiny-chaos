@@ -1,6 +1,6 @@
 import { ctx } from "../ctx.js";
 import { VIEW_W, VIEW_H, ROOM_W, FLOOR_Y } from "../config.js";
-import { ROOMS, WALK_MIN, WALK_MAX, INTERACTABLES, TRIGGERS, LIGHTS, WINDOWS, FOREGROUND, PUZZLES } from "../data/world.js";
+import { ROOMS, WALK_MIN, WALK_MAX, INTERACTABLES, TRIGGERS, LIGHTS, WINDOWS, FOREGROUND, PUZZLES, BLOCKERS } from "../data/world.js";
 import { SCRIPTS, CUTSCENE_LINES, CARDS } from "../data/story.js";
 import { MALLOW, FERN } from "../art/characters.js";
 
@@ -34,9 +34,10 @@ export class WorldScene extends Phaser.Scene {
     this.fireGlow = null;
     for (const L of LIGHTS) {
       const x = roomOf(L.room).x0 + L.x, tint = L.kind === "blue" ? 0x6f95ff : L.kind === "fire" ? 0xff8a3a : 0xffc56a;
-      const size = L.kind === "fire" ? 620 : L.kind === "blue" ? 520 : L.kind === "lamp" ? 300 : 230;
+      const size = L.kind === "fire" ? 620 : L.kind === "blue" ? 520 : L.kind === "torch" ? 460 : L.kind === "lamp" ? 300 : 230;
       const g = this.add.image(x, L.y, "glow").setDisplaySize(size, size).setTint(tint).setBlendMode(Phaser.BlendModes.ADD).setDepth(12).setAlpha(L.kind === "fire" ? .5 : .34);
       this.tweens.add({ targets: g, alpha: g.alpha * .72, scale: g.scale * 1.05, duration: 160 + Math.random() * 260, yoyo: true, repeat: -1, ease: "Sine.inOut", repeatDelay: Math.random() * 200 });
+      if (L.kind === "torch") this.add.sprite(x, L.y + 4, "flame0").setScale(.62).setOrigin(.5, 1).setDepth(4).play({ key: "flame", startFrame: Math.floor(Math.random() * 4) });
       if (L.kind === "candle") this.add.sprite(x, L.y - 2, "flame0").setScale(.32).setOrigin(.5, 1).setDepth(4).play({ key: "flame", startFrame: Math.floor(Math.random() * 4) });
       if (L.kind === "fire") { this.fireGlow = g; for (const [dx, s] of [[-34, .9], [0, 1.25], [36, .85]]) this.add.sprite(x + dx, WALL_FIRE_Y, "flame0").setScale(s).setOrigin(.5, 1).setDepth(4).play({ key: "flame", startFrame: Math.floor(Math.random() * 4) }); }
     }
@@ -56,6 +57,15 @@ export class WorldScene extends Phaser.Scene {
 
     this.panel = this.add.image(lib.x0 + 590, 332, "panel").setOrigin(0, 0).setDepth(3);
     this.panelOpen = 0; if (S.has("passageShown")) this._setPanel(1);
+
+    // Chapter Two fixtures
+    const st = roomOf("stair"), uc = roomOf("undercroft"), va = roomOf("vault");
+    this.gate = this.add.image(st.x0 + 2040, 160, "gate").setOrigin(.5, 0).setDisplaySize(226, 450).setDepth(3); this.gateScale = this.gate.scaleY; if (S.has("gateOpen")) this.gate.scaleY = this.gateScale * .08;
+    this.jam = this.add.image(uc.x0 + 1400, FLOOR_Y + 6, "jam").setOrigin(.5, 1).setScale(1.25).setDepth(9.5).setVisible(!S.has("aisleClear"));
+    this.rings = this.add.image(va.x0 + 1150, 330, "rings").setScale(.86).setDepth(3).setAlpha(S.has("orreryLit") ? 1 : .55);
+    this.ringsGlow = this.add.image(va.x0 + 1150, 330, "glow").setDisplaySize(700, 700).setTint(0x8fb8ff).setBlendMode(Phaser.BlendModes.ADD).setDepth(12).setAlpha(S.has("orreryLit") ? .5 : 0);
+    this.wisp2 = this.add.sprite(uc.x0 + 1040, 380, "wisp0").setDepth(8).setAlpha(S.has("wispBelow") ? .82 : 0).setFlipX(true).play("wisp");
+    this.tweens.add({ targets: this.wisp2, y: 356, duration: 2400, yoyo: true, repeat: -1, ease: "Sine.inOut" });
 
     this.clockX = hall.x0 + 1780;
     this.pendulum = this.add.image(this.clockX, 356, "pendulum").setOrigin(.5, 0).setDepth(3);
@@ -122,6 +132,10 @@ export class WorldScene extends Phaser.Scene {
   _storyChanged(flag) {
     if (flag === "doorOpen") { this.libDoor.setTexture("door-open"); this.tweens.add({ targets: this.runes, alpha: 0, scale: 1.2, duration: 900, onComplete: () => this.runes.setVisible(false) }); this.cameras.main.shake(260, .004); }
     if (flag === "clockSolved") { this.clockRunning = true; this.clockMinutes = 12 * 60 + 12; this._drawHands(); }
+    if (flag === "gateOpen") { this.tweens.add({ targets: this.gate, scaleY: this.gateScale * .08, duration: 1600, ease: "Sine.inOut" }); this.cameras.main.shake(500, .003); }
+    if (flag === "aisleClear") this.tweens.add({ targets: this.jam, alpha: 0, x: this.jam.x + 60, duration: 700, onComplete: () => this.jam.setVisible(false) });
+    if (flag === "orreryLit") { this.tweens.add({ targets: this.rings, alpha: 1, duration: 800 }); this.tweens.add({ targets: this.ringsGlow, alpha: .5, duration: 1500 }); }
+    if (flag === "wispBelow") this.tweens.add({ targets: this.wisp2, alpha: .82, duration: 1400 });
     if (flag === "sawWisp") this.tweens.add({ targets: this.wisp, alpha: .82, duration: 1400 }), this.tweens.add({ targets: this.wispGlow, alpha: .3, duration: 1400 });
   }
 
@@ -183,7 +197,8 @@ export class WorldScene extends Phaser.Scene {
     if (axis) { this.vx += axis * ACCEL * dt; if (Math.sign(this.vx) !== axis) this.vx += axis * DECEL * dt; this.facing = axis; }
     else { const d = DECEL * dt; this.vx = Math.abs(this.vx) <= d ? 0 : this.vx - Math.sign(this.vx) * d; }
     this.vx = Phaser.Math.Clamp(this.vx, -MAX_SPEED, MAX_SPEED);
-    const lo = this.current.x0 + WALK_MIN, hi = this.current.x0 + WALK_MAX;
+    const lo = this.current.x0 + WALK_MIN; let hi = this.current.x0 + WALK_MAX;
+    for (const b of BLOCKERS) if (b.room === this.current.id && !S.has(b.until)) hi = Math.min(hi, this.current.x0 + b.x - 150);
     this.player.x += this.vx * dt;
     if (this.player.x < lo) { this.player.x = lo; this.vx = 0; } else if (this.player.x > hi) { this.player.x = hi; this.vx = 0; }
 
@@ -217,7 +232,8 @@ export class WorldScene extends Phaser.Scene {
 
     // ambience
     const fx = roomOf("library").x0 + 400, near = this.current.id === "library" ? Math.max(0, 1 - Math.abs(this.player.x - fx) / 1300) : 0;
-    ctx.audio.loop("fire", .05 + near * .22); ctx.audio.loop("rain", this.current.id === "attic" ? .09 : .045);
+    ctx.audio.loop("fire", .05 + near * .22); ctx.audio.loop("rain", this.current.below ? 0 : this.current.id === "attic" ? .09 : .045);
+    if (S.has("orreryLit")) this.rings.angle += dt * 14;
     if (this.clockRunning) { this.pendulum.angle = Math.sin(time / 1000 * Math.PI) * 9; const s = Math.floor(time / 1000); if (s !== this.lastTick) { this.lastTick = s; if (this.current.id === "hall" && !this.busy) ctx.audio.sfx("tick", s % 2); } }
     this.lanternGlow.setPosition(this.lantern.x, this.lantern.y + 34);
   }
@@ -232,7 +248,7 @@ export class WorldScene extends Phaser.Scene {
   }
   _scheduleLightning() {
     this.time.delayedCall(7000 + Math.random() * 11000, () => {
-      if (!this.scene.isPaused()) {
+      if (!this.scene.isPaused() && !this.current.below) {
         this.tweens.add({ targets: this.flash, alpha: { from: .85, to: 0 }, duration: 520, ease: "Expo.out" });
         this.time.delayedCall(140, () => this.tweens.add({ targets: this.flash, alpha: { from: .6, to: 0 }, duration: 700 }));
         this.time.delayedCall(500 + Math.random() * 900, () => ctx.audio.sfx("thunder"));
