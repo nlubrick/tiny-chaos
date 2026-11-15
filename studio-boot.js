@@ -1,6 +1,8 @@
 /* Failure Entertainment studio intro launcher; keeps both games independent. */
 (function(){
   "use strict";
+  // Credit previews open directly, without playing the studio animation.
+  if(new URLSearchParams(location.search).has("credits"))return;
   const overlay=document.createElement("div");
   overlay.id="fe-studio-boot";
   overlay.setAttribute("role","dialog");
