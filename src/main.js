@@ -82,3 +82,8 @@ $("btn-restart").addEventListener("click", () => { ctx.state.reset(); location.r
 
 document.addEventListener("contextmenu", e => { if (!e.target.closest("a,input")) e.preventDefault(); });
 window.__mm = ctx;                               // handle for the automated tests
+
+/* Register the installable Mystery Manor app shell without affecting game startup. */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(err => console.warn("Offline app cache unavailable", err)));
+}
