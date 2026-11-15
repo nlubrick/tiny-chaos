@@ -120,3 +120,97 @@ button.ghost{border:1.5px solid var(--gold-deep);background:#120d14;color:var(--
 /* Rolling credits remain scrollable with Reduce Motion enabled; Pause is always available. */
 
 .fe-mm-credits .fe-mm-tagline{color:#d7b37a;font-size:clamp(18px,3.5vw,25px);margin:10px 0 8px}
+
+/* Portrait title screen occupies the PHONE, not the 1560:720 game canvas.
+   Previously the third Credits button overflowed that shallow canvas and
+   collided with the rotate hint beneath it. Landscape gameplay is unchanged. */
+@media (orientation:portrait){
+  #title{
+    position:fixed;
+    inset:0;
+    z-index:25;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    width:100vw;
+    height:100vh;
+    height:100dvh;
+    box-sizing:border-box;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
+    padding:clamp(90px,18dvh,205px) 20px calc(38px + var(--sab));
+    background:radial-gradient(ellipse at 50% 25%,#291622 0,#0b0810 56%,#050408 100%);
+  }
+  #title .title-inner{
+    width:min(100%,440px);
+    max-width:440px;
+    padding:0;
+    margin:0 auto;
+    flex:none;
+  }
+  #title .kicker{
+    font-size:clamp(10px,2.65vw,13px);
+    letter-spacing:clamp(1.8px,.9vw,3.8px);
+    line-height:1.5;
+  }
+  #title h1{
+    margin:13px 0 6px;
+    font-size:clamp(35px,9.2vw,57px);
+    letter-spacing:.3px;
+    line-height:1.14;
+  }
+  #title h2{
+    font-size:clamp(15px,4.2vw,21px);
+    line-height:1.4;
+    margin:0;
+  }
+  #title-status{
+    min-height:1.5em;
+    font-size:clamp(14px,3.9vw,18px);
+    line-height:1.5;
+    margin:22px 0 12px;
+  }
+  #title .title-btns{
+    width:100%;
+    max-width:420px;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+    align-items:center;
+    justify-items:stretch;
+    margin:14px auto 0;
+  }
+  #title .title-btns button{
+    box-sizing:border-box;
+    width:100%;
+    min-width:0;
+    min-height:56px;
+    padding:10px 9px;
+    font-size:clamp(17px,4.55vw,22px);
+    white-space:nowrap;
+  }
+  #title .title-btns #btn-credits-title{
+    grid-column:1/-1;
+    justify-self:center;
+    width:min(76%,240px);
+    margin:5px 0 0;
+  }
+  #title .fine{
+    clear:both;
+    display:block;
+    max-width:100%;
+    margin:22px auto 0;
+    font-size:clamp(13px,3.5vw,17px);
+    line-height:1.5;
+  }
+  /* Game-only guidance stays available when exploring in portrait,
+     but is never drawn over the full-screen title card. */
+  #app:has(#title:not([hidden])) > #rotate-hint{display:none;}
+}
+@media (orientation:portrait) and (max-height:620px){
+  #title{padding-top:calc(34px + var(--sat))}
+  #title .title-btns button{min-height:48px}
+  #title .fine{margin-top:12px}
+}
