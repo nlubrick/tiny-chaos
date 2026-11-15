@@ -444,6 +444,92 @@ body{background:#151622;padding:0 0 12px}
 .simple-room .simple-footer{padding-bottom:25px}
 .simple-room:not(.puzzle-active) .simple-footer>p:first-child{display:none}
 @media(max-width:390px){.story-page{min-height:145px;padding:14px 15px}.story-page p{font-size:18px}.story-stage{margin-top:12px}}
+
+/* REALISM PASS: photographic manor, mahogany, brass and deep jewel tones. */
+body{background:#0e1118}
+.simple-room{
+ background-color:#171a21;
+ background-image:
+  linear-gradient(180deg,#090a10a8 0%,#10101770 23%,#090c147a 48%,#090810ab 100%),
+  url("https://images.unsplash.com/photo-1748881882313-9b64c7693bf7?auto=format&fit=crop&w=950&q=85");
+ background-repeat:no-repeat;background-size:cover;
+ background-position:center center;
+ border:1px solid #705842;
+ box-shadow:0 12px 55px #020309,inset 0 0 30px #050509;
+}
+.simple-room .library-world{display:none}
+.simple-room:before{background:linear-gradient(180deg,#0c10165c,#1511121f 39%,#120d11ae 100%)}
+.simple-room .room-vignette{box-shadow:inset 0 0 115px 17px #070a1180}
+.simple-room .world-fog{opacity:.08}
+.simple-header .room-brand h1{color:#f0d8a4;text-shadow:0 2px 8px #05080e,0 0 23px #160e13}
+.simple-header .room-brand h1 em{color:#d0a875}
+.simple-header .room-eyebrow{color:#d7bd98}
+.simple-case{background:linear-gradient(90deg,#0e0d13e5,#302015be,#0e0d13e5);border-color:#ab865e87}
+.simple-case strong{color:#f0d8ae}
+.simple-case small,.simple-case p{color:#c7baa6}
+.simple-case .clue-tag{background:#1c1a1be0;border:1px solid #b79a6c;color:#ebd5a5}
+.music-now-playing{display:block;max-width:138px;margin:5px 0 0;text-align:right;font:800 8px/1.3 Arial,sans-serif;letter-spacing:.55px;color:#e9c98b;text-shadow:0 1px 4px #000}
+.audio-widget .sound{background:#191716e8;border-color:#ac8c5d;color:#f0d5a2}
+.audio-widget .music-volume{background:#18161af5;border-color:#977a59}
+.simple-speech{background:linear-gradient(140deg,#231b1ae9,#473427ee);border:1px solid #aa875fa8;color:#eee0c7;box-shadow:0 5px 19px #030507c9}
+.simple-speech:before{background:#33251f;border-color:#a0856b}
+.simple-speech .voice-eyebrow{color:#cfac70}
+.simple-speech .voice-content strong{color:#f2debb}
+.simple-speech .voice-content p{color:#d8c6b1}
+.simple-speech .voice-ask{background:linear-gradient(#715636,#3c2b23);border-color:#b89a6a;color:#f2ddb5}
+.one-witness{height:197px}
+.one-witness .cast-character{height:201px;width:180px}
+.one-witness .cast-character.selected .cast-figure{width:174px;height:183px}
+.one-witness .cast-character .cast-label{margin-top:-12px;background:linear-gradient(#3b2921e6,#1c1a21ef);border-color:#a88a63;color:#f2d6ad}
+.cast-character.selected .cast-glow{background:#ad74436a}
+.witness-photo{
+ display:block;position:relative;width:100%;height:100%;
+ border-radius:44% 44% 27% 27% / 22% 22% 12% 12%;
+ overflow:hidden;background-color:#201a20;
+ background-size:cover;background-repeat:no-repeat;background-position:center;
+ border:2px solid #ae8c68;
+ box-shadow:inset 0 0 26px #100e14,0 5px 16px #050a0dd1;
+ animation:photo-idle 6s ease-in-out infinite alternate;
+}
+.witness-photo:before{content:"";position:absolute;inset:0;pointer-events:none;
+ background:linear-gradient(180deg,#1c171d00 25%,#0f121a30 55%,#151011cb 100%);
+ z-index:1}
+.witness-photo:after{content:"";position:absolute;inset:0;pointer-events:none;border:1px solid #ebcda552;border-radius:inherit}
+.witness-photo-0{background-image:url("https://images.unsplash.com/photo-1707001853042-70d96b7a64f0?auto=format&fit=crop&w=430&h=480&q=85")}
+.witness-photo-1{background-image:url("https://images.unsplash.com/photo-1762426611094-ae4f8022dd54?auto=format&fit=crop&w=430&h=480&q=85")}
+.witness-photo-2{background-image:url("https://images.unsplash.com/photo-1725314060496-f4385a151dca?auto=format&fit=crop&w=430&h=480&q=85");filter:grayscale(.75) sepia(.12) hue-rotate(176deg);opacity:.85;box-shadow:0 0 21px #c6c9d76e,inset 0 0 26px #e6e5fc}
+.photo-breathe{position:absolute;inset:-6%;border-radius:50%;box-shadow:inset 0 0 30px #d2b28c18;animation:character-light 5s ease-in-out infinite alternate;pointer-events:none}
+.witness-photo-2 .photo-breathe{box-shadow:inset 0 0 31px #bad7fba3}
+@keyframes photo-idle{from{transform:translateY(2px) scale(1)}to{transform:translateY(-3px) scale(1.045)}}
+@keyframes character-light{from{opacity:.2}to{opacity:.75}}
+.dialog-portrait .witness-photo,.witness-portrait{height:100%;width:100%;border-radius:15px;border:0}
+.voice-avatar .witness-photo{width:100%;height:100%;border-radius:50%}
+.simple-desk{background:linear-gradient(140deg,#72503a,#392821 7%,#1f222c 45%,#423022 95%,#79563a);border-color:#866642;box-shadow:0 8px #1d1516,0 13px 25px #050508c7}
+.simple-desk:before{border-color:#bc95667a}
+.simple-desk .board-wrap{background:linear-gradient(140deg,#5b4b3c,#292c32);border-color:#947751;box-shadow:inset 0 3px 8px #110e0b,0 5px 13px #090a0f}
+.simple-desk .board{background:#151b21}
+.task-text>span,.puzzle-topline{color:#cdb38f}
+.task-text strong{color:#f0d7aa}
+.moves-chip{background:#12171ce8;border-color:#947951;color:#d0baa5}
+.moves-chip b{color:#f0d7a5}
+.tile:before{background:radial-gradient(circle at 31% 18%,#fff6d26b 0%,#fff9d700 24%),linear-gradient(140deg,var(--hi),var(--lo));border:1px solid #d9caa07d;box-shadow:inset 0 2px 3px #fff8,inset 0 -5px 9px #0b111b8c,0 3px 5px #0008}
+.tile svg{filter:drop-shadow(0 2px 2px #070c10bb) contrast(1.1) saturate(.88)}
+.tile.boo:before{background:radial-gradient(circle at 30% 20%,#fff3c4,#c7a869 28%,#66472b 76%,#281b20 100%);box-shadow:0 0 12px #e9b46b88,inset 0 0 12px #ffdda9}
+.story-stage{background:linear-gradient(150deg,#30271ffa,#181b24f5);border:1px solid #937955;box-shadow:0 7px 0 #241913,0 14px 21px #05080dcd;color:#f4dfbf}
+.story-progress{border-color:#a7885b65;color:#c1a377}
+.story-speaker{color:#e0b978}
+.story-page p{color:#eee2d0;text-shadow:0 1px 2px #0006}
+.story-continue{background:linear-gradient(#81613e,#433224);border-color:#b99c6e;box-shadow:0 4px #2c211b;color:#fbe5bc}
+.story-progress-note{color:#b6a18b}
+.story-clue-art{border-color:#a78659}
+.simple-footer,.simple-footer p{color:#bcae9b}
+.asset-credits{margin:12px 0 0;padding:8px;text-align:left;border-top:1px solid #b2917255;font:10px/1.45 Arial,sans-serif;color:#c5b49b}
+.asset-credits summary{cursor:pointer;color:#dbc7a6;letter-spacing:.2px}
+.asset-credits a{color:#dbc296;text-decoration:underline}
+.asset-credits p{font:10px/1.4 Arial,sans-serif;color:#c2b1a3;margin:6px 0!important}
+.dossier-dialog{background:linear-gradient(140deg,#e1cb9f,#b99e7d);border-color:#70523d}
+@media(max-width:390px){.one-witness{height:151px}.one-witness .cast-character{height:151px}.one-witness .cast-character.selected .cast-figure{height:140px;width:144px}.music-now-playing{max-width:115px;font-size:7px}}
+@media(prefers-reduced-motion:reduce){.witness-photo,.photo-breathe{animation:none!important}}
 </style>
 </head>
 <body>
@@ -574,7 +660,7 @@ body{background:#151622;padding:0 0 12px}
 <div class="world-fog world-fog-back"></div><div class="room-vignette"></div>
 <header class="room-header simple-header">
  <div class="room-brand"><span class="room-eyebrow">A LITTLE HAUNTED MYSTERY</span><h1>Mystery <em>Manor</em></h1></div>
- <div class="audio-widget"><button type="button" class="sound" id="sound" aria-pressed="false" disabled>♫ LOADING MUSIC</button><label class="music-volume" id="music-volume-box" hidden>VOL <input id="music-volume" aria-label="Music volume" type="range" min="0" max="100" value="45"></label><div id="music-fallback" class="music-fallback" hidden><span>Tap play here:</span><div id="music-controls"></div></div></div>
+ <div class="audio-widget"><button type="button" class="sound" id="sound" aria-pressed="false">♫ MUSIC OFF</button><span id="music-now-playing" class="music-now-playing">REAL INSTRUMENTS · Sneaky Adventure</span><label class="music-volume" id="music-volume-box" hidden>VOL <input id="music-volume" aria-label="Music volume" type="range" min="0" max="100" value="45"></label><div id="music-fallback" class="music-fallback" hidden><span id="music-error">Tap play here:</span><div id="music-controls"></div></div></div>
 </header>
 <section class="case room-case simple-case">
  <div class="case-left"><small id="chapter-label">LEVEL 1 OF 3</small><strong id="chapter-title">The Missing Librarian</strong><p id="chapter-copy">Find out what happened after midnight.</p></div>
@@ -613,7 +699,10 @@ body{background:#151622;padding:0 0 12px}
 <footer class="simple-footer">
  <p>Match three to uncover the clue. Match four in a line or square to make a <strong>Hex Bomb</strong>.</p>
  <p class="simple-case-note" id="story-footer">One room. One witness. One secret.</p>
- <div class="legacy-text" hidden><span id="score">0</span><span id="best">0</span><span id="story-title"></span><span id="story-text"></span></div>
+ <details class="asset-credits"><summary>Soundtrack & photo credits</summary>
+<p>Music: <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100644" target="_blank" rel="noopener noreferrer">Sneaky Adventure</a>, <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100419" target="_blank" rel="noopener noreferrer">Some Amount of Evil</a>, and <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100510" target="_blank" rel="noopener noreferrer">Machinations</a>, by Kevin MacLeod (incompetech.com), licensed <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>. Tracks are played unmodified.</p>
+<p>Photography courtesy of <a href="https://unsplash.com/photos/dark-old-interior-with-wood-paneled-walls-and-fireplace-Ry4eb1BM-OU" target="_blank" rel="noopener noreferrer">James Wainscoat</a>, <a href="https://unsplash.com/photos/a-close-up-of-a-black-cat-with-yellow-eyes-SVNUTpnIUxs" target="_blank" rel="noopener noreferrer">Łukasz Rawa</a>, <a href="https://unsplash.com/photos/an-elderly-man-wearing-a-flat-cap-looks-forward-JhhlCamZsP4" target="_blank" rel="noopener noreferrer">Domenico Adornato</a>, and <a href="https://unsplash.com/photos/a-black-and-white-photo-of-a-woman-in-the-dark-RuLFl0TLJMs" target="_blank" rel="noopener noreferrer">Vitaliy Shevchenko</a> / Unsplash.</p></details>
+<div class="legacy-text" hidden><span id="score">0</span><span id="best">0</span><span id="story-title"></span><span id="story-text"></span></div>
 </footer>
 </main></div>
 <div class="overlay dossier-overlay" id="casefile-overlay" role="dialog" aria-modal="true" aria-labelledby="dossier-heading">
@@ -639,7 +728,7 @@ body{background:#151622;padding:0 0 12px}
 "use strict";
 var $=function(id){return document.getElementById(id)};
 var N=7, iconIds=["pumpkin","ghost","hat","book","orb","potion","boo"];
-var palette=[["#ffb04d","#e96b37"],["#cda8ff","#8154b5"],["#a78bfc","#6845b8"],["#fc9baf","#b34c83"],["#96c8ff","#6961cc"],["#8bdfb1","#379d85"]];
+var palette=[["#ed9c4a","#a84e2a"],["#7b9f8e","#385f53"],["#a68bb5","#493d68"],["#b85159","#6a2938"],["#6c9dac","#28516f"],["#c5a35e","#746034"]];
 var chapters=[
 {name:"The Missing Librarian",place:"THE LIBRARY",short:"A Locked Library",copy:"The candles are still warm, but the librarian has vanished.",goal:{"3":12},moves:25,clue:"A spellbook has slipped off the shelf. Beneath it: soot brushed from a hidden seam along the fireplace.",footer:"Complete the board to discover the first clue."},
 {name:"The Stopped Clock",place:"THE WEST HALL",short:"The Clock Strikes Thirteen",copy:"Nobody has heard the grandfather clock chime for a century. Until tonight.",goal:{"0":13},moves:26,clue:"The clock stopped at 12:13. Behind its face is a mechanism linked to the fireplace. The front door's wax seal is intact.",footer:"Another clock, another secret. Who could have passed the sealed door?"},
@@ -695,81 +784,60 @@ function roomReaction(kind){
    warm pads and gentle echo. Generated once locally with no external audio requests. */
 /* Original 2-minute haunted manor ambience. The published parts use standard
    IMA ADPCM to reduce a 3.8 MB PCM soundtrack to under 1 MB over the network. */
-var musicState="loading",musicObjectUrl=null;
-var imaStep=[7,8,9,10,11,12,13,14,16,17,19,21,23,25,28,31,34,37,41,45,50,55,60,66,73,80,88,97,107,118,130,143,157,173,190,209,230,253,279,307,337,371,408,449,494,544,598,658,724,796,876,963,1060,1166,1282,1411,1552,1707,1878,2066,2272,2499,2749,3024,3327,3660,4026,4428,4871,5358,5894,6484,7132,7845,8630,9493,10442,11487,12635,13899,15289,16818,18500,20350,22385,24623,27086,29794,32767];
-var imaIndex=[-1,-1,-1,-1,2,4,6,8,-1,-1,-1,-1,2,4,6,8];
-function decodeAmbient(buffer){
- var bytes=new Uint8Array(buffer),view=new DataView(buffer);
- if(bytes[0]!==77||bytes[1]!==77||bytes[2]!==65||bytes[3]!==68)throw Error("Invalid ambience header");
- var rate=view.getUint32(4,true),count=view.getUint32(8,true),pred=view.getInt16(12,true),idx=bytes[14];
- if(rate!==16000||count<1||count>1100000||16+Math.ceil(count/2)>bytes.length||idx>88)throw Error("Invalid audio length");
- var samples=new Int16Array(count);
- for(var i=0;i<count;i++){
-  var nibble=(bytes[16+(i>>1)]>>((i&1)*4))&15,step=imaStep[idx];
-  var delta=Math.floor(step/8);
-  if(nibble&1)delta+=Math.floor(step/4);
-  if(nibble&2)delta+=Math.floor(step/2);
-  if(nibble&4)delta+=step;
-  pred+=(nibble&8)?-delta:delta;
-  pred=Math.max(-32768,Math.min(32767,pred));
-  idx=Math.max(0,Math.min(88,idx+imaIndex[nibble]));
-  samples[i]=pred;
- }
- return samples;
+
+/* A fresh, genuinely recorded instrumental score. No ADPCM synth files are
+   decoded anywhere in the music playback path. Licensed CC BY 4.0, credits below. */
+var mysteryTracks=[
+ {title:"Sneaky Adventure",url:"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Sneaky%20Adventure.mp3?v=mystery-real-2026-11-15"},
+ {title:"Some Amount of Evil",url:"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Some%20Amount%20of%20Evil.mp3?v=mystery-real-2026-11-15"},
+ {title:"Machinations",url:"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Machinations.mp3?v=mystery-real-2026-11-15"}
+];
+var mysteryTrackIndex=0;
+var musicState="ready";
+function musicLabel(on){
+ $("sound").textContent=on?"♫ MUSIC ON":"♫ MUSIC OFF";
+ $("sound").setAttribute("aria-pressed",on?"true":"false");
+ var title=$("music-now-playing");
+ if(title)title.textContent="REAL INSTRUMENTS · "+mysteryTracks[mysteryTrackIndex].title+(on?" ▶":"");
 }
-function assembleAmbient(parts){
- var rate=16000,count=parts.reduce(function(n,x){return n+x.length},0);
- var ab=new ArrayBuffer(44+count*2),v=new DataView(ab);
- function tag(o,s){for(var j=0;j<s.length;j++)v.setUint8(o+j,s.charCodeAt(j))}
- tag(0,"RIFF");v.setUint32(4,36+count*2,true);tag(8,"WAVE");
- tag(12,"fmt ");v.setUint32(16,16,true);v.setUint16(20,1,true);
- v.setUint16(22,1,true);v.setUint32(24,rate,true);v.setUint32(28,rate*2,true);
- v.setUint16(32,2,true);v.setUint16(34,16,true);tag(36,"data");v.setUint32(40,count*2,true);
- var pos=44;
- for(var k=0;k<parts.length;k++){
-  var part=parts[k];
-  for(var j=0;j<part.length;j++,pos+=2)v.setInt16(pos,Math.max(-32768,Math.min(32767,Math.round(part[j]*2.2))),true);
- }
- return new Blob([ab],{type:"audio/wav"});
-}
-function musicLabel(on){$("sound").textContent=on?"♫ MUSIC ON":"♫ MUSIC OFF";$("sound").setAttribute("aria-pressed",on?"true":"false")}
-async function prepareAmbient(){
- if(musicState==="ready")return;
- musicState="loading";$("sound").disabled=true;$("sound").textContent="♫ LOADING MUSIC";
- try{
-  var urls=["audio/manor-orchestral-ambience-1.adp?v=jazz-mystery-3","audio/manor-orchestral-ambience-2.adp?v=jazz-mystery-3"];
-  var files=await Promise.all(urls.map(async function(path){
-   var response=await fetch(path,{cache:"force-cache"});
-   if(!response.ok)throw Error("Audio load "+response.status);
-   return response.arrayBuffer();
-  }));
-  var blob=assembleAmbient(files.map(decodeAmbient));
-  if(musicObjectUrl)URL.revokeObjectURL(musicObjectUrl);
-  musicObjectUrl=URL.createObjectURL(blob);
-  musicAudio=new Audio();
-  musicAudio.src=musicObjectUrl;
-  musicAudio.preload="auto";musicAudio.loop=true;musicAudio.volume=.45;
-  musicState="ready";musicLabel(false);$("sound").disabled=false;
- }catch(error){
-  musicState="error";musicLabel(false);$("sound").disabled=false;
-  $("sound").textContent="♫ RETRY MUSIC";
- }
+function prepareAmbient(){
+ if(musicAudio)return;
+ musicAudio=new Audio();
+ musicAudio.src=mysteryTracks[mysteryTrackIndex].url;
+ musicAudio.preload="none";
+ musicAudio.volume=.4;
+ musicAudio.loop=false;
+ musicAudio.addEventListener("ended",function(){
+  mysteryTrackIndex=(mysteryTrackIndex+1)%mysteryTracks.length;
+  musicAudio.src=mysteryTracks[mysteryTrackIndex].url;
+  musicAudio.load();
+  musicLabel(true);
+  var next=musicAudio.play();
+  if(next&&next.catch)next.catch(function(){sound=false;musicLabel(false)});
+ });
+ musicAudio.addEventListener("error",function(){
+  if(!sound)return;
+  $("music-fallback").hidden=false;$("music-controls").innerHTML="";
+  musicAudio.controls=true;$("music-controls").appendChild(musicAudio);
+  $("music-error").textContent="The soundtrack couldn't stream. Check your connection or use the player here.";
+  sound=false;musicLabel(false);
+ });
+ musicLabel(false);
 }
 function startMusic(){
- if(musicState!=="ready"||!musicAudio){prepareAmbient();return}
  try{
-  /* Direct user gesture: no awaits before play() */
-  var p=musicAudio.play();
-  if(p&&p.then)p.then(function(){
+  prepareAmbient();
+  var promise=musicAudio.play(); /* direct user gesture on iPhone */
+  if(promise&&promise.then)promise.then(function(){
    sound=true;musicLabel(true);$("music-volume-box").hidden=false;$("music-fallback").hidden=true;
   }).catch(function(){
-   sound=false;musicLabel(false);$("music-volume-box").hidden=true;$("music-fallback").hidden=false;
-   $("music-controls").innerHTML="";
+   sound=false;musicLabel(false);$("music-volume-box").hidden=true;
+   $("music-fallback").hidden=false;$("music-controls").innerHTML="";
    musicAudio.controls=true;$("music-controls").appendChild(musicAudio);
-   message("Tap the audio player beneath the music button to start the ambience.");
+   $("music-error").textContent="Tap play below to start the new soundtrack.";
   });
-  else{sound=true;musicLabel(true);$("music-volume-box").hidden=false}
- }catch(error){sound=false;musicLabel(false);message("Music could not start. Try the music button again.")}
+  else {sound=true;musicLabel(true);$("music-volume-box").hidden=false}
+ }catch(err){sound=false;musicLabel(false);$("music-error").textContent="The soundtrack could not start.";$("music-fallback").hidden=false}
 }
 function stopMusic(){
  sound=false;musicLabel(false);
@@ -850,7 +918,7 @@ function paint(clear){
   board.innerHTML=s.board.map(function(p,i){
    if(!p)return '<div class="tile empty"></div>';
    var cl="tile"+(s.selected===i?" selected":"")+(s.hint.indexOf(i)>=0?" hint":"")+(s.matchReady&&s.matchReady.indexOf(i)>=0?" anticipate":"")+(clears.has(i)?" clearing":"")+(p.special?" boo":"")+(s.falls&&s.falls[i]?" falling":"")+(s.swapFX&&s.swapFX[i]?" swapping":"")+(s.invalid&&s.invalid.indexOf(i)>=0?" invalid":"");
-   var bg=p.special?["#ddbbff","#8354be"]:palette[p.type];
+   var bg=p.special?["#d3b776","#74523c"]:palette[p.type];
    var effect="";if(s.falls&&s.falls[i])effect+=";--fall:"+(-s.falls[i]*104)+"%";if(s.swapFX&&s.swapFX[i])effect+=";--from-x:"+s.swapFX[i].x+"%;--from-y:"+s.swapFX[i].y+"%";
    return '<button type="button" class="'+cl+'" data-i="'+i+'" style="--hi:'+bg[0]+';--lo:'+bg[1]+effect+'" aria-label="'+(p.special?"Hex Bomb special":iconIds[p.type])+' at row '+(Math.floor(i/N)+1)+' column '+(i%N+1)+'">'+tileSVG(p.type)+'</button>';
   }).join("");
@@ -882,7 +950,7 @@ function paint(clear){
     }
     if(p.special&&newIds.has(String(p.id))&&!s.falls)cl+=" conjure";
     node.className=cl;
-    var bg=p.special?["#ddbbff","#8354be"]:palette[p.type];
+    var bg=p.special?["#d3b776","#74523c"]:palette[p.type];
     node.style.setProperty("--hi",bg[0]);node.style.setProperty("--lo",bg[1]);
     if(s.falls&&s.falls[i]){node.style.setProperty("--fall",(-s.falls[i]*104)+"%");node.style.setProperty("--delay",((i%N)*22)+"ms")}
     if(s.swapFX&&s.swapFX[i]){
@@ -934,51 +1002,8 @@ return '<div class="goal">'+tileSVG(idx)+'<span class="gname">'+["Pumpkins","Gho
 
 /* Stage-sized vector characters. Every body part is a proper animated SVG shape. */
 function stageFigure(index){
- if(index===0)return '<svg viewBox="0 0 130 170" aria-hidden="true">'+
- '<defs><radialGradient id="cat-fur"><stop stop-color="#5b4a72"/><stop offset="1" stop-color="#242137"/></radialGradient><linearGradient id="cat-eye" x2="0" y2="1"><stop stop-color="#fff8ab"/><stop offset="1" stop-color="#eabf6c"/></linearGradient></defs>'+
- '<ellipse cx="65" cy="157" rx="52" ry="9" fill="#241b36" opacity=".4"/>'+
- '<path class="cat-tail" d="M90 139Q137 150 116 103Q106 82 119 72" fill="none" stroke="#252237" stroke-width="20" stroke-linecap="round"/>'+
- '<path d="M30 150Q20 104 42 89Q69 72 91 98Q108 118 101 152Z" fill="url(#cat-fur)" stroke="#78627e" stroke-width="2.8"/>'+
- '<path d="M29 63Q29 38 42 17L56 41Q67 34 76 41L95 17Q108 54 99 70Q99 107 65 111Q30 108 29 63Z" fill="#2a253d" stroke="#897289" stroke-width="3"/>'+
- '<path d="M36 37L43 27L51 46M82 43L94 29L95 51" fill="#c887a0"/>'+
- '<ellipse cx="48" cy="75" rx="12" ry="13" fill="url(#cat-eye)"/><ellipse cx="81" cy="75" rx="12" ry="13" fill="url(#cat-eye)"/>'+
- '<ellipse class="cast-eye" cx="49" cy="76" rx="3.2" ry="9" fill="#292138"/><ellipse class="cast-eye" cx="81" cy="76" rx="3.2" ry="9" fill="#292138"/>'+
- '<path d="M61 90L69 90L65 95Z" fill="#e9a3b8"/><path d="M65 95Q57 102 54 97M65 95Q74 104 77 98" fill="none" stroke="#e6c4c0" stroke-width="2.5"/>'+
- '<path d="M55 95L25 91M55 100L21 102M75 95L108 91M75 101L110 104" stroke="#c7aab4" stroke-width="2" stroke-linecap="round"/>'+
- '<path d="M44 109Q65 128 88 109" fill="none" stroke="#ad7b95" stroke-width="7"/><path d="M56 114L65 133L75 114Z" fill="#f1c07b" stroke="#f7deaf" stroke-width="2"/><circle cx="65" cy="122" r="4" fill="#fff1a9"/>'+
- '<ellipse cx="44" cy="150" rx="18" ry="10" fill="#343048" stroke="#8c748e" stroke-width="2"/><ellipse cx="88" cy="150" rx="18" ry="10" fill="#343048" stroke="#8c748e" stroke-width="2"/>'+
- '<path d="M45 150L44 156M83 149L84 156" stroke="#e2c2b8" stroke-width="2"/></svg>';
- if(index===1)return '<svg viewBox="0 0 130 170" aria-hidden="true">'+
- '<defs><linearGradient id="fern-coat" x2="0" y2="1"><stop stop-color="#92b88e"/><stop offset="1" stop-color="#49736d"/></linearGradient><linearGradient id="fern-skin" x2="0" y2="1"><stop stop-color="#ffe0b3"/><stop offset="1" stop-color="#d29f8e"/></linearGradient></defs>'+
- '<ellipse cx="65" cy="158" rx="50" ry="8" fill="#241b36" opacity=".36"/>'+
- '<path d="M36 153V127H52V158H29Z" fill="#42364e" stroke="#997d80" stroke-width="2"/><path d="M79 158V127H95V156L101 160H77Z" fill="#42364e" stroke="#997d80" stroke-width="2"/>'+
- '<path d="M43 94Q27 101 26 156H103Q102 103 82 94Z" fill="url(#fern-coat)" stroke="#c0c6a0" stroke-width="3"/>'+
- '<path d="M62 97L65 153L76 96" fill="#e7c89a" opacity=".75"/><path d="M65 111L59 138L70 138Z" fill="#96667c"/>'+
- '<path d="M42 98Q24 107 21 129L11 145L25 154L45 116" fill="#658977" stroke="#c5b49a" stroke-width="3"/>'+
- '<g class="fern-hand"><path d="M84 101Q101 106 110 123L113 145L101 154L90 132Z" fill="#658977" stroke="#c5b49a" stroke-width="3"/><ellipse cx="107" cy="150" rx="12" ry="8" fill="url(#fern-skin)"/></g>'+
- '<ellipse cx="17" cy="149" rx="12" ry="8" fill="url(#fern-skin)"/>'+
- '<path d="M45 52Q45 32 65 31Q88 31 88 54V78Q85 94 64 97Q43 92 42 72Z" fill="url(#fern-skin)" stroke="#dcac96" stroke-width="2"/>'+
- '<path d="M41 61Q33 32 48 27Q72 14 88 35Q96 47 88 62L80 45L53 46Z" fill="#5e4456"/>'+
- '<path d="M24 43L40 24L86 24L104 43Q65 55 24 43Z" fill="#6d8d73" stroke="#c9bb90" stroke-width="3"/><path d="M43 28L48 10Q67 2 83 12L88 29" fill="#75997a" stroke="#c9bb90" stroke-width="3"/>'+
- '<path d="M71 11Q76 -3 90 5Q84 18 71 11Z" fill="#91b477"/>'+
- '<ellipse class="cast-eye" cx="57" cy="66" rx="3.5" ry="4" fill="#4c3a50"/><ellipse class="cast-eye" cx="77" cy="66" rx="3.5" ry="4" fill="#4c3a50"/>'+
- '<path d="M56 56Q60 54 63 56M73 56Q78 55 81 56" stroke="#725262" stroke-width="2" fill="none"/>'+
- '<ellipse cx="50" cy="77" rx="7" ry="4" fill="#efacaa" opacity=".52"/><ellipse cx="85" cy="77" rx="7" ry="4" fill="#efacaa" opacity=".52"/>'+
- '<path d="M62 82Q68 85 74 81" fill="none" stroke="#b27980" stroke-width="2.5"/>'+
- '<path d="M31 113L20 125L8 118M100 137L115 123L123 137" fill="none" stroke="#d7ad86" stroke-width="3"/></svg>';
- return '<svg viewBox="0 0 130 170" aria-hidden="true">'+
- '<defs><linearGradient id="wisp-body" x2="0" y2="1"><stop stop-color="#fff6f2"/><stop offset=".55" stop-color="#e8d6fc"/><stop offset="1" stop-color="#a5b9e9"/></linearGradient><radialGradient id="wisp-glow"><stop stop-color="#c8d9ff" stop-opacity=".54"/><stop offset="1" stop-color="#c8aaf3" stop-opacity="0"/></radialGradient></defs>'+
- '<circle cx="65" cy="95" r="72" fill="url(#wisp-glow)" class="mm-halo"/>'+
- '<g class="ghost-float"><ellipse cx="65" cy="156" rx="41" ry="6" fill="#f9e1ff" opacity=".16"/>'+
- '<path d="M32 64Q28 17 65 17Q105 17 100 69V130Q101 146 116 148L98 157L79 147L65 162L51 148L31 159L18 149Q35 141 32 128Z" fill="url(#wisp-body)" stroke="#fff6ff" stroke-width="3"/>'+
- '<path d="M35 56Q24 23 65 15Q101 14 102 55Q93 38 84 37Q57 42 35 56" fill="#bca5e4" stroke="#f7e9ff" stroke-width="2"/>'+
- '<path d="M30 85Q13 91 16 111Q19 119 34 114M99 87Q118 89 115 110Q112 121 101 115" fill="none" stroke="#e1d1f7" stroke-width="12" stroke-linecap="round"/>'+
- '<ellipse class="cast-eye" cx="52" cy="76" rx="5" ry="8" fill="#625278"/><ellipse class="cast-eye" cx="80" cy="76" rx="5" ry="8" fill="#625278"/>'+
- '<ellipse cx="39" cy="91" rx="8" ry="5" fill="#eeaed2" opacity=".75"/><ellipse cx="94" cy="91" rx="8" ry="5" fill="#eeaed2" opacity=".75"/>'+
- '<path d="M58 98Q66 106 75 98" fill="none" stroke="#956d9e" stroke-width="3" stroke-linecap="round"/>'+
- '<path d="M30 50Q44 14 73 21" fill="none" stroke="#fff" stroke-width="5" opacity=".55"/>'+
- '<circle cx="30" cy="36" r="4" fill="#fff1c6"/><path d="M95 17L97 24L105 27L97 30L95 38L92 30L85 27L92 24Z" fill="#fff4ba"/>'+
- '<path d="M22 124L15 117L8 124M110 128L119 117L127 125" fill="none" stroke="#fff5ee" stroke-width="3"/></g></svg>';
+ var n=Math.max(0,Math.min(2,index));
+ return '<div class="witness-photo witness-photo-'+n+'" role="img" aria-label="'+["Mallow, a mysterious black cat","Fern, the older groundskeeper","Miss Wisp, a ghostly manor resident"][n]+'"><div class="photo-breathe"></div></div>';
 }
 var activeReactionTimer=null;
 function activateWitness(index,open){
@@ -1023,15 +1048,8 @@ function actionCaption(text){
 }
 
 function portrait(index){
- var body='<rect width="100" height="110" rx="12" fill="#765580"/><circle class="mm-halo" cx="76" cy="26" r="20" fill="#ecddbd" opacity=".75"/><path d="M0 100Q50 65 100 100V110H0Z" fill="#4e385f"/>';
- if(index===0){
- body+='<path d="M19 79Q12 43 28 25L35 9L51 27L69 9L81 30Q89 68 76 85L50 98Z" fill="#29263a" stroke="#c5a9b9" stroke-width="2"/><ellipse cx="39" cy="53" rx="8" ry="10" fill="#ffda84"/><ellipse cx="63" cy="53" rx="8" ry="10" fill="#ffda84"/><ellipse class="mm-eye" cx="40" cy="54" rx="2.5" ry="7" fill="#332b40"/><ellipse class="mm-eye" cx="62" cy="54" rx="2.5" ry="7" fill="#332b40"/><path class="mm-mouth" d="m46 68 5 4 5-4M43 76Q51 81 59 76M37 72L7 69M37 78L10 82M65 72L91 69M65 78L92 82" fill="none" stroke="#f6d6bd" stroke-width="2" stroke-linecap="round"/>';
- }else if(index===1){
- body+='<path d="M20 103V78Q24 65 51 65Q80 65 83 80V103Z" fill="#85a376" stroke="#d4d2a0" stroke-width="3"/><circle cx="51" cy="51" r="28" fill="#edbd9f"/><path d="M21 43Q20 23 51 23Q80 23 79 45" fill="#573f4b"/><path d="M13 35L25 19H75L87 35Z" fill="#65845a" stroke="#c4b77b" stroke-width="3"/><rect x="28" y="15" width="46" height="9" rx="4" fill="#648a62"/><circle class="mm-eye" cx="40" cy="50" r="3" fill="#483547"/><circle class="mm-eye" cx="63" cy="50" r="3" fill="#483547"/><path class="mm-mouth" d="M42 65Q51 72 60 65" fill="none" stroke="#b77b75" stroke-width="2.5"/>';
- }else{
- body+='<path d="M18 90V47Q16 16 51 17Q87 20 83 52V94L68 86L52 100L35 86Z" fill="#e7e0ff" opacity=".93" stroke="#c5b3fa" stroke-width="3"/><path d="M25 29Q35 14 51 20Q70 21 78 38" fill="none" stroke="#faf1ff" stroke-width="5" opacity=".7"/><ellipse class="mm-eye" cx="42" cy="55" rx="4" ry="7" fill="#63578a"/><ellipse class="mm-eye" cx="62" cy="55" rx="4" ry="7" fill="#63578a"/><path class="mm-mouth" d="M46 71Q52 76 58 71" fill="none" stroke="#977fab" stroke-width="2.5"/><ellipse cx="28" cy="69" rx="7" ry="4" fill="#eea7d0" opacity=".65"/><ellipse cx="75" cy="69" rx="7" ry="4" fill="#eea7d0" opacity=".65"/>';
- }
- return '<svg viewBox="0 0 100 110" aria-hidden="true">'+body+'</svg>';
+ var n=Math.max(0,Math.min(2,index));
+ return '<div class="witness-photo witness-photo-'+n+' witness-portrait" aria-label="'+["Mallow the cat","Fern the groundskeeper","Miss Wisp the ghost"][n]+'"><div class="photo-breathe"></div></div>';
 }
 function updateCaseFile(){
  var level=s?s.level:0;
