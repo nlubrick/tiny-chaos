@@ -122,6 +122,8 @@ export const CARDS = {
     <p>The librarian did not vanish. She left, by a door nobody was meant to know about.</p>
     <p>Someone else knew about it too.</p>
     <h3>Who is <em>the Collector</em>?</h3>
-    <p class="fine">Chapter Two: Beneath the Hearth, is not built yet.</p>
+    <p class="fine">End of Chapter One. Chapter Two: Beneath the Hearth, is coming in a future update.</p>
+    <div class="fe-chapter-acknowledgment">A FAILURE ENTERTAINMENT PRODUCTION <span>6/10. Good enough.</span></div>
+    <button class="ghost" type="button" data-credits>View chapter credits</button>
     <button class="gold" type="button" data-close>Keep exploring the manor</button>`
 };
