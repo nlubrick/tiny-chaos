@@ -1202,6 +1202,54 @@ function finish(win){
  }
  paint();
 }
+/* Spark fragments are drawn over each tile as it bursts. */
+function burstCells(indices,large){
+ if(!indices||!indices.length||!document.createElement)return;
+ if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+ var layer=$("fx-layer"),board=$("board");
+ if(!layer||!board||!layer.getBoundingClientRect)return;
+ var bounds=layer.getBoundingClientRect(),created=[];
+ for(var n=0;n<Math.min(indices.length,large?20:14);n++){
+  var i=indices[n],cell=board.children[i];
+  if(!cell||!cell.getBoundingClientRect)continue;
+  var rect=cell.getBoundingClientRect();
+  var x=rect.left+rect.width/2-bounds.left,y=rect.top+rect.height/2-bounds.top;
+  var type=s.board[i]?s.board[i].type:0;
+  var colors=["#ffd27e","#d6b5fa","#fff1ae","#f2a9cc","#a7e7ff","#b7ffd0","#fff1b3"];
+  var count=large?7:4;
+  for(var k=0;k<count;k++){
+   var angle=(k/count)*Math.PI*2+(i%4)*.3;
+   var length=(large?30:16)+(k%3)*7;
+   var p=document.createElement("span");
+   p.className="fx-spark"+(k%3===0?" star":k%4===0?" smoke":"");
+   p.style.left=x+"px";p.style.top=y+"px";
+   p.style.setProperty("--dx",(Math.cos(angle)*length)+"px");
+   p.style.setProperty("--dy",(Math.sin(angle)*length-(large?6:13))+"px");
+   p.style.setProperty("--rot",(45+k*55)+"deg");
+   p.style.setProperty("--spark-color",colors[type]||"#ffeab2");
+   layer.appendChild(p);created.push(p);
+  }
+ }
+ if(large){
+  var ring=document.createElement("span");ring.className="fx-ring";
+  var origin=indices[Math.floor(indices.length/2)],tile=board.children[origin];
+  if(tile&&tile.getBoundingClientRect){
+   var p=tile.getBoundingClientRect();
+   ring.style.left=(p.left+p.width/2-bounds.left)+"px";
+   ring.style.top=(p.top+p.height/2-bounds.top)+"px";
+   layer.appendChild(ring);created.push(ring);
+  }
+ }
+ setTimeout(function(){created.forEach(function(x){if(x.parentNode)x.parentNode.removeChild(x)})},800);
+}
+function comboBurst(n){
+ if(n<2||!document.createElement)return;
+ var layer=$("fx-layer"),span=document.createElement("span");
+ span.className="fx-combo";span.textContent="✧ "+n+"× COMBO! ✧";
+ layer.appendChild(span);setTimeout(function(){if(span.parentNode)span.parentNode.removeChild(span)},850);
+}
+
+
 function updateProgress(indices){
 for(var i=0;i<indices.length;i++){
 var idx=indices[i],p=s.board[idx];
