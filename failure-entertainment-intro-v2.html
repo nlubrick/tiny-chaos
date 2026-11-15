@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#060609">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Failure Entertainment | Studio Introduction</title>
+<style>
+:root{color-scheme:dark;--gold:#e5c38b;--goldlight:#fff2ca;--dim:#9f855f;background:#060609}
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#050608}
+body{font-family:Georgia,"Times New Roman",serif;color:#f6e4bf;-webkit-tap-highlight-color:transparent}
+button{font:inherit;cursor:pointer;touch-action:manipulation;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+button:focus-visible{outline:2px solid #fff1c4;outline-offset:4px}
+#stage{position:relative;display:flex;align-items:center;justify-content:center;isolation:isolate;overflow:hidden;height:100vh;height:100dvh;background:radial-gradient(ellipse at 50% 56%,#241d17 0%,#101016 39%,#060609 78%)}
+#stage:before{content:"";position:absolute;inset:-25%;background:radial-gradient(circle at 40% 38%,#e9bc7931 0%,transparent 27%),radial-gradient(circle at 62% 65%,#907a5830 0%,transparent 33%);filter:blur(35px);pointer-events:none;opacity:.4}
+#stage:after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 16vw 9vw #030305bd;pointer-events:none;z-index:8}
+#embers{position:absolute;inset:0;z-index:1;pointer-events:none}
+.ember{position:absolute;border-radius:100%;width:2px;height:2px;background:#f3d49b;box-shadow:0 0 8px 2px #f3b86eaa;opacity:0}
+.playing .ember{animation:float 4.5s ease-in-out infinite}
+@keyframes float{0%{transform:translateY(35px);opacity:0}22%{opacity:.55}75%{opacity:.38}100%{transform:translateY(-90px);opacity:0}}
+#content{width:100%;max-width:760px;min-height:470px;position:relative;z-index:3;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:0;padding:50px 20px 60px}
+#crestwrap{position:relative;width:clamp(126px,28vh,250px);height:clamp(175px,37vh,300px);margin-bottom:8px;filter:drop-shadow(0 7px 22px #000c);opacity:0;transform:translateY(20px) scale(.87)}
+.playing #crestwrap{animation:crestEnter 1.4s .1s ease-out forwards,crestFlicker .8s 1.67s steps(1,end) forwards}
+@keyframes crestEnter{0%{opacity:0;transform:translateY(28px) scale(.78)}70%{opacity:1}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes crestFlicker{0%,15%,40%,100%{opacity:1}10%,31%{opacity:.22}}
+#crest{width:100%;height:100%;overflow:visible}
+#shieldLeft,#shieldRight{transform-box:fill-box;transform-origin:center}
+.playing #shieldLeft{animation:splitLeft .72s 1.72s cubic-bezier(.1,.76,.2,1) forwards}
+.playing #shieldRight{animation:splitRight .72s 1.72s cubic-bezier(.1,.76,.2,1) forwards}
+@keyframes splitLeft{0%{transform:translate(0,0)}8%{transform:translate(-2px,0)}32%{transform:translate(-7px,2px) rotate(-2.5deg)}100%{transform:translate(-3px,1px) rotate(-1deg)}}
+@keyframes splitRight{0%{transform:translate(0,0)}8%{transform:translate(2px,0)}32%{transform:translate(7px,-2px) rotate(2.5deg)}100%{transform:translate(3px,-1px) rotate(1deg)}}
+#crack{opacity:0;stroke-dasharray:300;stroke-dashoffset:300;filter:drop-shadow(0 0 6px #ffe8ab9e)}
+.playing #crack{animation:crackReveal .46s 1.72s linear forwards}
+@keyframes crackReveal{0%{opacity:0;stroke-dashoffset:300}2%{opacity:1}100%{opacity:1;stroke-dashoffset:0}}
+#burst{position:absolute;width:200%;height:130%;left:-50%;top:-20%;opacity:0;border-radius:50%;z-index:-1;background:radial-gradient(ellipse,#ffeab7c2 0%,#cf9e6540 27%,transparent 65%);pointer-events:none}
+.playing #burst{animation:lightBurst .46s 1.86s ease-out forwards}
+@keyframes lightBurst{0%{opacity:0;transform:scale(.3)}15%{opacity:.9}100%{opacity:0;transform:scale(2)}}
+#studio{position:relative;text-align:center;opacity:0;transform:translateY(15px);width:100%}
+.playing #studio{animation:wordEnter 1.1s 2.48s ease-out forwards}
+@keyframes wordEnter{0%{opacity:0;filter:blur(8px);transform:translateY(16px)}100%{opacity:1;filter:blur(0);transform:translateY(0)}}
+#studio .failure{font-size:clamp(43px,10.3vw,83px);font-weight:500;letter-spacing:.07em;line-height:.99;color:#f9e3b8;text-shadow:0 2px 13px #9a764c51,0 9px 24px #000}
+.rule{display:flex;align-items:center;justify-content:center;gap:15px;margin-top:15px}
+.rule span{display:block;flex:1;max-width:100px;height:1px;background:linear-gradient(90deg,transparent,#cba06f)}
+.rule span:last-child{transform:scaleX(-1)}
+.rule b{font:700 clamp(12px,2.1vw,18px) Arial,sans-serif;letter-spacing:clamp(3px,.95vw,8px);white-space:nowrap;color:#d6b784}
+#tagline{font-size:clamp(19px,4.5vw,29px);font-style:normal;color:#ddc29d;text-align:center;opacity:0;transform:translateY(10px);line-height:1.35;margin:23px auto 0;max-width:95%;text-shadow:0 2px 9px #000}
+.playing #tagline{animation:tagEnter .9s 4.03s ease-out forwards}
+@keyframes tagEnter{0%{opacity:0;transform:translateY(12px);filter:blur(2px)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
+#prestart{position:absolute;inset:0;z-index:15;background:#060609ed;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:22px;text-align:center}
+#prestart[hidden]{display:none!important}
+#prestart .small{font:800 10px Arial,sans-serif;letter-spacing:3.6px;color:#c8a773}
+#prestart h1{margin:0;font:500 clamp(30px,8vw,58px)/1.12 Georgia,serif;letter-spacing:1px;color:#f7dfb6}
+#prestart h1 span{display:block;font:700 clamp(12px,2.5vw,17px) Arial,sans-serif;letter-spacing:clamp(3px,1vw,8px);color:#c6a67a;margin-top:9px}
+#prestart p{font:14px/1.5 Georgia,serif;color:#c4ae90;max-width:315px;margin:0}
+#begin,#replay{border:1px solid #f1d19c;background:linear-gradient(155deg,#e9c995,#b28957);color:#1b1721;font:800 14px Arial,sans-serif;letter-spacing:.7px;border-radius:11px;padding:16px 24px;min-height:55px;box-shadow:0 5px 0 #6b4d32,0 16px 30px #0009}
+#begin:active,#replay:active{transform:translateY(4px);box-shadow:0 1px 0 #6b4d32}
+#tools{position:absolute;z-index:12;bottom:max(22px,env(safe-area-inset-bottom));left:0;right:0;display:flex;gap:15px;justify-content:center;align-items:center;opacity:0;pointer-events:none;transition:opacity .5s}
+.playing #tools{opacity:1;pointer-events:auto}
+#replay{min-height:38px;padding:10px 15px;font-size:11px;box-shadow:0 2px 0 #6b4d32}
+#sound{background:#201d23d9;color:#dbc49e;border:1px solid #897451;border-radius:9px;min-height:41px;padding:8px 13px;font:800 11px Arial,sans-serif}
+#audioNotice{position:absolute;z-index:20;top:max(16px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);max-width:90%;background:#201722ee;border:1px solid #a1875f;border-radius:8px;padding:8px 14px;font:12px/1.4 Arial,sans-serif;text-align:center;color:#ffe3ae}
+#audioNotice[hidden]{display:none}
+#prestart{display:none!important}
+#enableSound{position:absolute;z-index:16;bottom:max(78px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);border:1px solid #d9b782;border-radius:9px;background:#201720dc;color:#f4dfb9;font:700 12px Arial,sans-serif;letter-spacing:.4px;padding:12px 17px;min-height:42px;white-space:nowrap;box-shadow:0 4px 22px #0009}
+#enableSound[hidden]{display:none!important}
+body.embedded #enableSound{bottom:max(24px,env(safe-area-inset-bottom))}
+body.embedded #tools,body.embedded #skip{display:none!important}
+#skip{position:absolute;z-index:13;right:18px;top:max(18px,env(safe-area-inset-top));font:800 11px Arial,sans-serif;border:0;background:transparent;color:#e3c896;opacity:.74;padding:10px;display:none}
+.playing #skip{display:block}
+@media(max-height:620px){#content{min-height:0;padding:40px 15px 60px}#crestwrap{height:30vh;width:25vh}#tagline{margin-top:12px}.rule{margin-top:8px}}
+@media(prefers-reduced-motion:reduce){.ember{animation:none!important}}
+</style>
+</head>
+<body>
+<main id="stage" aria-label="Failure Entertainment studio introduction">
+ <div id="embers" aria-hidden="true"></div>
+ <div id="content">
+ <div id="crestwrap"><div id="burst" aria-hidden="true"></div>
+ <svg id="crest" viewBox="-120 -145 240 287" role="img" aria-label="Antique gold shield with a lightning-shaped crack">
+  <defs>
+   <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#583821"/><stop offset=".17" stop-color="#d5aa74"/><stop offset=".32" stop-color="#fff0bc"/><stop offset=".55" stop-color="#9a6940"/><stop offset=".82" stop-color="#dfb785"/><stop offset="1" stop-color="#654028"/></linearGradient>
+   <linearGradient id="black" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#333035"/><stop offset=".48" stop-color="#0a0a11"/><stop offset="1" stop-color="#4a3930"/></linearGradient>
+  </defs>
+  <g id="shieldLeft" fill="url(#gold)" stroke="#f3d5a1" stroke-width="2">
+   <path d="M0 -125 Q-55 -121 -94 -94 L-90 -20 Q-85 66 0 125 L-9 69 L7 30 L-10 -8 L7 -51 Z"/>
+  </g>
+  <g id="shieldRight" fill="url(#gold)" stroke="#f3d5a1" stroke-width="2">
+   <path d="M0 -125 Q55 -121 94 -94 L90 -20 Q85 66 0 125 L-9 69 L7 30 L-10 -8 L7 -51 Z"/>
+  </g>
+  <path d="M0 -110 Q48 -106 80 -85 L76 -20 Q70 49 0 108 Q-70 49 -76 -20 L-80 -85 Q-48 -106 0 -110Z" fill="url(#black)" stroke="#d2a16e" stroke-width="1.5"/>
+  <path d="M-49 -62 L49 -62 M-45 -42 L45 -42" stroke="#d4a977" stroke-width="1" opacity=".55"/>
+  <path d="M-25 29 L-11 -1 L-2 18 L12 -23 L24 25" fill="none" stroke="#d1ad7b" stroke-width="3" stroke-linecap="round"/>
+  <path id="crack" d="M1 -120 L-10 -66 L10 -31 L-13 5 L16 43 L-7 72 L1 122" fill="none" stroke="#fff0c5" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M0 -133 L1 -126 M-100 -88 L-105 -96 M100 -88 L105 -96" stroke="#e4c292" stroke-width="2" opacity=".6"/>
+ </svg></div>
+ <div id="studio"><div class="failure">FAILURE</div><div class="rule"><span></span><b>ENTERTAINMENT</b><span></span></div></div>
+ <p id="tagline"><strong>6/10.</strong> Good enough.</p>
+ </div>
+ <div id="prestart"><div class="small">INDEPENDENT GAME STUDIO</div><h1>FAILURE<span>ENTERTAINMENT</span></h1><p>Tap below to play the cinematic studio introduction with sound.</p><button type="button" id="begin">▶ PLAY INTRO WITH SOUND</button></div>
+ <button id="skip" type="button" aria-label="Skip intro">Skip</button>
+ <button id="enableSound" type="button" hidden>Tap for sound</button>
+ <div id="tools"><button type="button" id="replay">↻ Replay</button><button type="button" id="sound" aria-pressed="true">♫ Sound on</button></div>
+ <div id="audioNotice" hidden></div>
+ <audio id="introAudio" preload="auto" playsinline style="display:none"></audio>
+</main>
+<script>
+(function(){
+"use strict";
+const stage=document.getElementById("stage"),start=document.getElementById("prestart"),play=document.getElementById("begin"),
+replay=document.getElementById("replay"),sound=document.getElementById("sound"),audio=document.getElementById("introAudio"),notice=document.getElementById("audioNotice");
+let soundOn=true,noticeTimer=null,timer=null,audioReady=false,animationStartedAt=0;
+const enableSound=document.getElementById("enableSound");
+if(new URLSearchParams(location.search).has("embedded"))document.body.classList.add("embedded");
+const N=22050,duration=6.7;
+function makeSound(){
+ // Original sinister logo score; audio and CSS share the crack at 1.72 seconds.
+ const CRACK_AT=1.72, TITLE_AT=2.48, TAG_AT=4.03;
+ const count=Math.floor(N*duration),mix=new Float32Array(count);let seed=0x6e210;
+ const rnd=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296*2-1};
+ function synth(at,dur,hz,amp,att=.2,rel=.5,metal=false){
+  const a=Math.floor(at*N),z=Math.min(count,Math.floor((at+dur)*N));
+  for(let i=a;i<z;i++){
+   const t=(i-a)/N,fade=Math.min(1,t/att,(dur-t)/rel),env=Math.max(0,Math.min(1,fade));
+   const phase=2*Math.PI*hz*t*(1+.003*Math.sin(2*Math.PI*.31*t));
+   const sig=Math.sin(phase)+(metal?.4:.16)*Math.sin(phase*(metal?1.49:2.004))+(metal?.15:0)*Math.sin(phase*2.77);
+   mix[i]+=amp*env*sig;
+  }
+ }
+ function noise(at,dur,amp,rise=false,bright=false){
+  const a=Math.floor(at*N),z=Math.min(count,Math.floor((at+dur)*N));let lp=0,hp=0;
+  for(let i=a;i<z;i++){
+   const t=(i-a)/N,u=t/dur,v=rnd();
+   lp=lp*.96+v*.04;hp=hp*.4+v*.6;
+   let shape=rise?u*u*Math.min(1,(1-u)*20):Math.exp(-7*u);
+   const sig=bright?(hp-.45*lp)+.2*Math.sin(2*Math.PI*(900+120*t)*t):lp+.08*hp;
+   mix[i]+=sig*amp*shape;
+  }
+ }
+ function thud(at,amp){
+  let phase=0;const a=Math.floor(at*N),z=Math.min(count,Math.floor((at+.5)*N));
+  for(let i=a;i<z;i++){
+   const t=(i-a)/N;
+   phase+=2*Math.PI*(47+88*Math.exp(-t*10))/N;
+   mix[i]+=amp*Math.sin(phase)*Math.exp(-t*17);
+   mix[i]+=amp*.32*Math.sin(phase*3.15)*Math.exp(-t*13);
+  }
+ }
+ // Suffocating, detuned low drone and scrape leading into an abrupt fracture.
+ synth(.06,2.05,65.41,.15,.24,.32,true);
+ synth(.10,2.09,69.30,.085,.28,.32,true);
+ synth(.32,1.91,123.47,.05,.48,.40,true);
+ synth(.64,1.31,185,.025,.36,.28);
+ noise(.92,.78,.22,true);
+ // First metallic snap exactly aligned with the crack becoming visible.
+ noise(CRACK_AT,.27,.98,false,true);thud(CRACK_AT,.55);
+ noise(CRACK_AT+.083,.15,.47,false,true);
+ noise(CRACK_AT+.16,.14,.22,false,true);
+ // No triumphant melody: unresolved horror-organ cluster and room rumble.
+ thud(TITLE_AT,.38);
+ synth(TITLE_AT,3.46,87.31,.12,.09,.8,true);
+ synth(TITLE_AT+.08,3.22,103.83,.080,.17,.9,true);
+ synth(TITLE_AT+.1,3.24,123.47,.068,.18,.9,true);
+ synth(TITLE_AT+.23,2.76,174.61,.045,.32,.84);
+ noise(TITLE_AT+.12,1.4,.095);
+ // Dry, wry end card - restrained, not a cheerful flourish.
+ noise(TAG_AT,.25,.24,false,true);
+ synth(TAG_AT,1.92,130.81,.036,.1,.88,true);
+ synth(4.57,1.6,65.41,.029,.23,.8);
+ let peak=1e-5;for(let i=0;i<count;i++)peak=Math.max(peak,Math.abs(mix[i]));
+ const pcm=new Int16Array(count);
+ for(let i=0;i<count;i++){
+  const t=i/N,tail=Math.min(1,Math.max(0,(duration-t)/.25));
+  pcm[i]=Math.round(32767*Math.max(-1,Math.min(1,Math.tanh(mix[i]*1.3)*.83/Math.max(.8,peak)*tail)));
+ }
+ const buf=new ArrayBuffer(44+pcm.length*2),v=new DataView(buf);
+ const txt=(i,t)=>{for(let j=0;j<t.length;j++)v.setUint8(i+j,t.charCodeAt(j))};
+ txt(0,"RIFF");v.setUint32(4,36+pcm.length*2,true);txt(8,"WAVE");txt(12,"fmt ");
+ v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);
+ v.setUint32(24,N,true);v.setUint32(28,N*2,true);v.setUint16(32,2,true);
+ v.setUint16(34,16,true);txt(36,"data");v.setUint32(40,pcm.length*2,true);
+ for(let i=0;i<pcm.length;i++)v.setInt16(44+i*2,pcm[i],true);
+ return URL.createObjectURL(new Blob([buf],{type:"audio/wav"}));
+}
+try{audio.src=makeSound();audio.load();audioReady=true}catch(e){audioReady=false}
+for(let i=0;i<48;i++){
+ const x=document.createElement("i");x.className="ember";x.style.left=(i*37.7)%100+"%";x.style.top=(i*13.8)%90+"%";
+ x.style.animationDelay=(-i*.157)+"s";x.style.animationDuration=(3.5+(i%7)*.43)+"s";
+ document.getElementById("embers").appendChild(x);
+}
+function notify(msg){notice.textContent=msg;notice.hidden=false;clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>notice.hidden=true,3800)}
+function resetScene(){
+ stage.classList.remove("playing");
+ // A synchronous layout flush ensures replay starts every CSS animation again.
+ void stage.offsetWidth;
+ stage.classList.add("playing");
+}
+let introRunId=0;
+function startIntro(){
+ const run=++introRunId;start.hidden=true;enableSound.hidden=true;
+ clearTimeout(timer);audio.pause();audio.onplaying=null;
+ try{audio.currentTime=0}catch(e){}
+ ["crestwrap","studio","tagline"].forEach(id=>document.getElementById(id).removeAttribute("style"));
+ let began=false;
+ const fallback=setTimeout(()=>{
+  if(began||run!==introRunId)return;
+  audio.pause();begin();if(soundOn&&audioReady)enableSound.hidden=false;
+ },1400);
+ function begin(){
+  if(began||run!==introRunId)return;
+  began=true;clearTimeout(fallback);audio.onplaying=null;
+  animationStartedAt=performance.now();
+  resetScene();
+  timer=setTimeout(()=>{
+   enableSound.hidden=true;
+   stage.dispatchEvent(new CustomEvent("failure-intro-finished",{bubbles:true}));
+   if(window.parent!==window)window.parent.postMessage({type:"failure-studio-intro-completed"},location.origin);
+  },6900);
+ }
+ if(soundOn&&audioReady){
+  audio.onplaying=begin;
+  try {
+   const result=audio.play();
+   if(result?.then)result.then(begin).catch(()=>{
+    if(run!==introRunId)return;
+    begin();enableSound.hidden=false;
+   });else begin();
+  }catch(e){begin();enableSound.hidden=false}
+ }else{begin()}
+}
+function activateSound(){
+ if(!audioReady)return;
+ soundOn=true;audio.muted=false;
+ // Joining a running sequence picks up the audio at the matching video time.
+ const elapsed=Math.max(0,(performance.now()-animationStartedAt)/1000);
+ try{audio.currentTime=Math.min(duration-.12,elapsed)}catch(e){}
+ const p=audio.play();
+ if(p?.then)p.then(()=>enableSound.hidden=true).catch(()=>notify("Sound is blocked on this device."));
+ else enableSound.hidden=true;
+}
+function toggleSound(){
+ soundOn=!soundOn;
+ sound.textContent=soundOn?"♫ Sound on":"♫ Sound off";sound.setAttribute("aria-pressed",String(soundOn));audio.muted=!soundOn;
+ if(soundOn&&stage.classList.contains("playing")&&audioReady){const p=audio.play();if(p?.catch)p.catch(()=>notify("Tap Replay to restart with sound."))}
+}
+function skipIntro(){
+ start.hidden=true;clearTimeout(timer);introRunId++;audio.onplaying=null;audio.pause();stage.classList.add("playing");
+ document.getElementById("crestwrap").style.cssText="opacity:1;transform:none;animation:none";
+ document.getElementById("studio").style.cssText="opacity:1;transform:none;animation:none";
+ document.getElementById("tagline").style.cssText="opacity:1;transform:none;animation:none";
+ if(window.parent!==window)window.parent.postMessage({type:"failure-studio-intro-completed"},location.origin);
+}
+play.addEventListener("click",startIntro);
+enableSound.addEventListener("click",activateSound);
+replay.addEventListener("click",startIntro);
+sound.addEventListener("click",toggleSound);
+document.getElementById("skip").addEventListener("click",skipIntro);
+document.addEventListener("visibilitychange",()=>{if(document.hidden)audio.pause()});
+window.FailureEntertainmentIntro={play:startIntro,setSound:function(v){if(soundOn!==!!v)toggleSound()},durationMs:6900};
+// Autoplay the studio logo on launch. Audio requires a user gesture on many iPhones;
+// the animation never waits for one and offers a nonblocking sound option instead.
+startIntro();
+})();
+</script>
+</body>
+</html>

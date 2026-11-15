@@ -6,9 +6,23 @@
 <meta name="theme-color" content="#07060c">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mystery Manor">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="application-name" content="Mystery Manor">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./mystery-manor-ios-icon.png?v=2">
+<meta name="mobile-web-app-capable" content="yes">
 <title>Mystery Manor: The Vanishing at Thorne House</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%2315101a%27/%3E%3Cpath d=%27M7 12 9 4l6 5h2l6-5 2 8a9 9 0 1 1-18 0z%27 fill=%27%23000%27 stroke=%27%23d9b46a%27/%3E%3Ccircle cx=%2712%27 cy=%2715%27 r=%272%27 fill=%27%23f4c531%27/%3E%3Ccircle cx=%2720%27 cy=%2715%27 r=%272%27 fill=%27%23f4c531%27/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="./mystery-manor-ios-icon.png?v=2">
 <link rel="stylesheet" href="src/ui.css">
+<style>
+/* Versioned override: old Home Screen installs may retain the previous CSS briefly. */
+.fe-mm-roll-viewport .fe-mm-credits{padding:clamp(70px,15dvh,150px) 6px clamp(150px,40dvh,340px)}
+.fe-mm-credits .fe-mm-tagline{color:#d7b37a;font-size:clamp(18px,3.5vw,25px);margin:10px 0 8px}
+@media(prefers-reduced-motion:reduce){.fe-mm-roll-viewport .fe-mm-credits{padding:clamp(70px,15dvh,150px) 6px clamp(150px,40dvh,340px)}}
+</style>
+<script src="./studio-credits-roll-v2.js" defer></script>
+<script src="./studio-boot-v2.js" defer></script>
 </head>
 <body>
 <div id="app">
@@ -39,7 +53,7 @@
         <h1>Mystery Manor</h1>
         <h2>The Vanishing at Thorne House</h2>
         <p id="title-status">Lighting the candles&hellip;</p>
-        <div class="title-btns"><button id="btn-begin" class="gold" type="button" disabled>Begin</button><button id="btn-continue" class="ghost" type="button" hidden>Continue</button></div>
+        <div class="title-btns"><button id="btn-begin" class="gold" type="button" disabled>Begin</button><button id="btn-continue" class="ghost" type="button" hidden>Continue</button><button id="btn-credits-title" class="ghost" type="button">Credits</button></div>
         <p class="fine">Best played sideways, with sound.</p>
       </div>
     </div>
@@ -60,12 +74,45 @@
             <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">Creative Commons Attribution 4.0</a>.
           </p>
         </details>
-        <div class="menu-btns"><button id="btn-restart" class="ghost" type="button">Start chapter again</button><button id="btn-close-menu" class="gold" type="button">Back to the manor</button></div>
+        <div class="menu-btns"><button id="btn-credits-menu" class="ghost" type="button">Credits</button><button id="btn-restart" class="ghost" type="button">Start chapter again</button><button id="btn-close-menu" class="gold" type="button">Back to the manor</button></div>
       </div>
     </div>
   </div>
   <p id="rotate-hint">Turn your phone sideways for the full view of the manor.</p>
 </div>
+
+<div id="credits-overlay" data-fe-credits-root role="dialog" aria-modal="true" aria-labelledby="credits-heading" hidden>
+  <div class="fe-mm-roll-viewport" data-fe-credits-scroll aria-label="Scrolling Mystery Manor chapter credits" tabindex="0">
+  <div class="fe-mm-credits">
+    <p class="fe-mm-kicker">A Failure Entertainment Production</p>
+    <p class="fe-mm-quip fe-mm-tagline">6/10. Good enough.</p>
+    <h1 id="credits-heading">Mystery Manor</h1>
+    <h2>The Vanishing at Thorne House</h2>
+    <p class="fe-mm-sub">Chapter One &middot; The Vanishing</p>
+    <h3>Credits</h3>
+    <dl>
+      <dt>Studio, Concept &amp; Creative Direction</dt><dd>Failure Entertainment</dd>
+      <dt>Game Design &amp; Development</dt><dd>Failure Entertainment, with AI assistance from Claude and ChatGPT</dd>
+      <dt>Characters &amp; Story</dt><dd>Mallow, Fern, Miss Wisp &amp; the world of Thorne House</dd>
+      <dt>Game Engine</dt><dd>Phaser 3</dd>
+      <dt>Music</dt><dd>
+        <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100644" target="_blank" rel="noopener noreferrer">Sneaky Adventure</a>,
+        <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100419" target="_blank" rel="noopener noreferrer">Some Amount of Evil</a>, and
+        <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100510" target="_blank" rel="noopener noreferrer">Machinations</a><br>
+        By Kevin MacLeod (<a href="https://incompetech.com" target="_blank" rel="noopener noreferrer">incompetech.com</a>). Tracks unmodified.
+        Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>.
+      </dd>
+    </dl>
+    <p class="fe-mm-thanks">Thank you for playing Chapter One.<br>The mystery continues beneath the hearth.</p>
+  </div>
+  </div>
+  <div class="fe-mm-credits-buttons">
+    <button type="button" class="ghost" data-fe-credits-pause aria-pressed="false">Pause</button>
+    <button type="button" class="ghost" data-fe-credits-replay>Replay</button>
+    <button type="button" class="gold" id="btn-close-credits">Return to Manor</button>
+  </div>
+</div>
+
 <script src="vendor/phaser.min.js"></script>
 <script type="module" src="src/main.js"></script>
 </body>

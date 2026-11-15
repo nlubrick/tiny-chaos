@@ -11,7 +11,7 @@ export class PinPuzzle extends BasePuzzle {
   constructor() { super("Pin"); }
   build() {
     this.bannerAt = { x: 1240, y: 34 };
-    this.note = this.add.text(980, 110, "", { ...serif, fontSize: "30px", color: "#e6d8bd", wordWrap: { width: 520 }, lineSpacing: 8 });
+    this.note = this.add.text(1040, 110, "", { ...serif, fontSize: "30px", color: "#e6d8bd", wordWrap: { width: 480 }, lineSpacing: 8 });
     this.layer = this.add.container(0, 0);
     this.reset();
   }
@@ -32,7 +32,7 @@ export class PinPuzzle extends BasePuzzle {
     this.stone = this.add.graphics({ x: FL.x + FL.w / 2, y: C_Y - 62 }); this.stone.fillStyle(0x7a7c88, 1).fillRoundedRect(-80, -56, 160, 112, 18).lineStyle(4, 0x1a1b20, 1).strokeRoundedRect(-80, -56, 160, 112, 18); L.add(this.stone);
     this.float = this.add.container(FL.x + FL.w / 2, LOW_B - 44); const fg = this.add.graphics(); fg.fillStyle(0xd9b46a, 1).fillRoundedRect(-70, -34, 140, 68, 30).lineStyle(4, 0x6e4f1a, 1).strokeRoundedRect(-70, -34, 140, 68, 30); this.float.add(fg); L.add(this.float);
     // gate indicator
-    this.gate = this.add.image(1440, 560, "gate").setScale(.42).setOrigin(.5, 1); L.add(this.gate); const arch = this.add.graphics(); arch.lineStyle(10, 0x6f6a70, 1).strokeRoundedRect(1384, 360, 112, 206, { tl: 50, tr: 50, bl: 0, br: 0 }); L.add(arch);
+    this.gate = this.add.image(1280, 640, "gate").setScale(.42).setOrigin(.5, 1); L.add(this.gate); const arch = this.add.graphics(); arch.lineStyle(10, 0x6f6a70, 1).strokeRoundedRect(1224, 440, 112, 206, { tl: 50, tr: 50, bl: 0, br: 0 }); L.add(arch);
     // pins: a bar and a big round handle
     this.pins = {};
     this.pin("A", SH.x - 12, A_Y, SH.w + 24, 0, SH.x - 80, A_Y, -1, 0);
@@ -46,7 +46,7 @@ export class PinPuzzle extends BasePuzzle {
     g.fillStyle(0xc9ccd6, 1).fillRoundedRect(bw ? bx : bx - 9, bh ? by : by - 9, bw || 18, bh || 18, 8); g.lineStyle(3, 0x1a1b20, 1).strokeRoundedRect(bw ? bx : bx - 9, bh ? by : by - 9, bw || 18, bh || 18, 8);
     g.lineStyle(14, 0xc9ccd6, 1).lineBetween(bw ? (dx < 0 ? bx : bx + bw) : bx, bh ? by : by, hx, hy);
     g.fillStyle(0xd8263a, 1).fillCircle(hx, hy, 40).lineStyle(6, 0xffffff, 1).strokeCircle(hx, hy, 40); g.fillStyle(0x07060c, 1).fillCircle(hx, hy, 14);
-    c.add(g); c.add(this.add.text(hx + (dx ? dx * 62 : 62), hy + (dy ? -4 : -62), id, { ...serif, fontSize: "30px", color: "#ffffff" }).setOrigin(.5));
+    c.add(g); c.add(this.add.text(hx, hy - 66, id, { ...serif, fontSize: "30px", color: "#ffffff" }).setOrigin(.5));
     const zone = this.add.zone(hx, hy, 130, 130).setInteractive({ useHandCursor: true }); zone.on("pointerdown", () => this.pull(id)); c.add(zone);
     this.layer.add(c); this.pins[id] = { c, dx, dy };
   }

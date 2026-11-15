@@ -1,0 +1,26 @@
+{
+  "name": "Mystery Manor: The Vanishing at Thorne House",
+  "short_name": "Mystery Manor",
+  "description": "Explore Thorne House, solve three different puzzles, and uncover the disappearance of its librarian. Chapter One by Failure Entertainment.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#07060c",
+  "theme_color": "#07060c",
+  "icons": [
+    {
+      "src": "./mystery-manor-ios-icon.png",
+      "sizes": "120x120",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./mystery-manor-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

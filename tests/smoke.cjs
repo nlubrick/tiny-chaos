@@ -8,12 +8,14 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 const results = []; let failed = 0;
 const check = (name, ok, extra = "") => { results.push((ok ? "PASS " : "FAIL ") + name + (extra ? "  [" + extra + "]" : "")); if (!ok) failed++; };
 
+/** Waits out the studio intro that plays over the title, then for the game to finish loading. */
+const ready = p => p.waitForFunction(() => !window.__feStudioIntroActive && !document.getElementById("fe-studio-boot") && !document.getElementById("btn-begin").disabled, { timeout: 90000 });
 async function open(browser, vp, errors) {
   const p = await browser.newPage(); await p.setViewport(vp);
   p.on("pageerror", e => errors.push("pageerror: " + e.message));
   p.on("console", m => { if (m.type() === "error" && !/ERR_FAILED|incompetech/.test(m.text())) errors.push("console: " + m.text()); });
   await p.setRequestInterception(true); p.on("request", r => r.url().includes("incompetech") ? r.abort() : r.continue());   // the sandbox has no route to the music host
-  await p.goto(URL); await p.waitForFunction(() => !document.getElementById("btn-begin").disabled, { timeout: 30000 });
+  await p.goto(URL); await ready(p);
   return p;
 }
 const W = p => p.evaluate(() => { const w = __mm.game.scene.getScene("World"); return { x: w.player.x, vx: w.vx, room: w.current && w.current.id, busy: w.busy, lx: w.current ? w.player.x - w.current.x0 : 0, paused: w.scene.isPaused(), panel: w.panelOpen }; });
@@ -42,7 +44,7 @@ const puzzleGone = (p, key) => p.waitForFunction(k => !__mm.game.scene.isActive(
 
   /* ---------- iPhone landscape, touch ---------- */
   let p = await open(browser, { width: 844, height: 390, hasTouch: true, isMobile: true, deviceScaleFactor: 2 }, errors);
-  await p.evaluate(() => localStorage.clear()); await p.reload(); await p.waitForFunction(() => !document.getElementById("btn-begin").disabled);
+  await p.evaluate(() => localStorage.clear()); await p.reload(); await ready(p);
   const audioEl = await p.evaluateHandle(() => __mm.audio.el);
   await p.tap("#btn-begin"); await sleep(1500);
   check("intro dialogue opens by itself", await visible(p, "#dialogue"));
@@ -176,14 +178,14 @@ const puzzleGone = (p, key) => p.waitForFunction(k => !__mm.game.scene.isActive(
   await p.tap("#music-toggle"); await p.tap("#btn-close-menu");
   check("the three tracks are the originals, in order", await p.evaluate(async () => { const c = await import("/src/config.js"); return c.MUSIC_TRACKS.map(t => t.title).join("|") === "Sneaky Adventure|Some Amount of Evil|Machinations"; }));
 
-  await p.reload(); await p.waitForFunction(() => !document.getElementById("btn-begin").disabled);
+  await p.reload(); await ready(p);
   check("a reload offers Continue", await visible(p, "#btn-continue")); await p.tap("#btn-continue"); await sleep(1800); await settle(p);
   check("solved puzzles and opened rooms are kept", (await flag(p, "doorOpen")) && (await flag(p, "clockSolved")) && (await flag(p, "gateOpen")) && (await flag(p, "orreryLit")) && (await W(p)).panel > .99);
   await p.close();
 
   /* ---------- iPhone portrait fallback ---------- */
   p = await open(browser, { width: 390, height: 844, hasTouch: true, isMobile: true, deviceScaleFactor: 2 }, errors);
-  await p.evaluate(() => localStorage.clear()); await p.reload(); await p.waitForFunction(() => !document.getElementById("btn-begin").disabled);
+  await p.evaluate(() => localStorage.clear()); await p.reload(); await ready(p);
   await p.tap("#btn-begin"); await sleep(1500); await settle(p);
   const inView = await p.evaluate(() => ["btn-left", "btn-right"].every(id => { const r = document.getElementById(id).getBoundingClientRect(); return r.left >= 0 && r.right <= innerWidth && r.top >= 0 && r.bottom <= innerHeight && r.width >= 44; }));
   check("portrait: arrows are on screen and finger-sized", inView);
@@ -193,7 +195,7 @@ const puzzleGone = (p, key) => p.waitForFunction(k => !__mm.game.scene.isActive(
 
   /* ---------- desktop keyboard ---------- */
   p = await open(browser, { width: 1280, height: 720 }, errors);
-  await p.evaluate(() => localStorage.clear()); await p.reload(); await p.waitForFunction(() => !document.getElementById("btn-begin").disabled);
+  await p.evaluate(() => localStorage.clear()); await p.reload(); await ready(p);
   await p.click("#btn-begin"); await sleep(1500);
   for (let i = 0; i < 20 && await visible(p, "#dialogue"); i++) { await p.keyboard.press("Enter"); await sleep(80); }
   await sleep(400); a = await W(p); await p.keyboard.down("d"); await sleep(800); await p.keyboard.up("d"); await sleep(500); b2 = await W(p);
@@ -205,7 +207,7 @@ const puzzleGone = (p, key) => p.waitForFunction(k => !__mm.game.scene.isActive(
 
   /* ---------- default WebGL renderer: boots, draws, first dialogue appears ---------- */
   URL = BASE; p = await open(browser, { width: 844, height: 390, hasTouch: true, isMobile: true }, errors);
-  await p.evaluate(() => localStorage.clear()); await p.reload(); await p.waitForFunction(() => !document.getElementById("btn-begin").disabled);
+  await p.evaluate(() => localStorage.clear()); await p.reload(); await ready(p);
   await p.tap("#btn-begin"); await p.waitForFunction(() => !document.getElementById("dialogue").hidden, { timeout: 60000 }).catch(() => {});
   check("WebGL renderer boots and reaches the intro", (await visible(p, "#dialogue")) && await p.evaluate(() => __mm.game.renderer.type === Phaser.WEBGL));
   await p.screenshot({ path: "/tmp/mm_webgl.png" }); await p.close();

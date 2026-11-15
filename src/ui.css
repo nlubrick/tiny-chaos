@@ -88,3 +88,35 @@ button.ghost{border:1.5px solid var(--gold-deep);background:#120d14;color:var(--
   #dlg-text{font-size:17px}
 }
 @media (prefers-reduced-motion:reduce){ #btn-act,#dlg-next{animation:none} #card,#card-inner p,#card-inner button{animation-duration:.01s} }
+
+/* Failure Entertainment: reusable studio credits and chapter end */
+#credits-overlay{position:fixed;inset:0;z-index:50;overflow:auto;overscroll-behavior:contain;background:radial-gradient(circle at 50% 20%,#30202b 0%,#09070e 57%,#050407 100%);color:var(--ink);padding:20px max(20px,env(safe-area-inset-right)) max(40px,env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}
+#credits-overlay[hidden]{display:none!important}
+.fe-mm-credits{width:min(100%,650px);margin:0 auto;padding:18px 4px;text-align:center}
+.fe-mm-credits .fe-mm-kicker{font:700 11px/1.7 Arial,sans-serif;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
+.fe-mm-credits h1{font-size:clamp(40px,8vw,67px);font-weight:400;line-height:1.05;color:#fae4bd;margin:8px 0 0}
+.fe-mm-credits h2{font-size:clamp(17px,3.6vw,26px);font-weight:400;font-style:italic;color:#cbb18a;margin:2px 0 0}
+.fe-mm-credits .fe-mm-sub{font-style:italic;color:var(--muted);margin:18px 0}
+.fe-mm-credits h3{font-size:29px;font-weight:400;color:var(--gold);margin:21px 0 12px}
+.fe-mm-credits dl{margin:0}
+.fe-mm-credits dt{font:700 11px/1.5 Arial,sans-serif;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-top:18px}
+.fe-mm-credits dd{font-size:clamp(14px,3vw,18px);line-height:1.6;color:#e4d4bd;margin:4px 0 0}
+.fe-mm-credits a{color:#f4d7a2;text-decoration:underline;text-underline-offset:3px}
+.fe-mm-thanks{font-size:18px;line-height:1.5;margin:26px auto;color:#e6cda7}
+.fe-mm-quip{font-style:italic;letter-spacing:.5px;color:#d9bc8d;margin:14px auto 24px}
+.fe-mm-credits button{margin:8px 0 20px}
+#card-inner .fe-chapter-acknowledgment{font:700 11px Arial,sans-serif;color:#d9b46a;letter-spacing:1.7px;margin:15px 0 8px}
+#card-inner .fe-chapter-acknowledgment span{display:block;font:italic 13px Georgia,serif;letter-spacing:normal;color:#d5b18a;margin:7px 0}
+#card-inner [data-credits]{margin:6px 7px 6px 0;min-height:40px;opacity:1;animation:fadein 1s forwards}
+#card-inner{max-height:min(85vh,680px);overflow-y:auto}
+
+/* Automatic chapter credits roll; links and text remain touch-scrollable and readable. */
+#credits-overlay{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px max(15px,env(safe-area-inset-right)) max(15px,env(safe-area-inset-bottom));overflow:hidden}
+.fe-mm-roll-viewport{width:min(100%,720px);height:min(75dvh,650px);min-height:130px;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#cba66e #141016;mask-image:linear-gradient(to bottom,transparent,#000 11%,#000 89%,transparent);-webkit-mask-image:linear-gradient(to bottom,transparent,#000 11%,#000 89%,transparent)}
+.fe-mm-roll-viewport .fe-mm-credits{padding:clamp(70px,15dvh,150px) 6px clamp(150px,40dvh,340px)}
+.fe-mm-credits-buttons{width:min(100%,710px);display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:10px}
+.fe-mm-credits-buttons button{min-height:42px;padding:8px 15px;font-size:clamp(12px,2.2vw,17px)}
+@media(max-height:460px){.fe-mm-roll-viewport{height:67dvh}.fe-mm-credits-buttons{padding:4px}.fe-mm-credits-buttons button{min-height:32px;padding:5px 11px}}
+/* Rolling credits remain scrollable with Reduce Motion enabled; Pause is always available. */
+
+.fe-mm-credits .fe-mm-tagline{color:#d7b37a;font-size:clamp(18px,3.5vw,25px);margin:10px 0 8px}

@@ -49,6 +49,29 @@ function start(fresh) {
 $("btn-begin").addEventListener("click", () => start(true));
 $("btn-continue").addEventListener("click", () => start(false));
 
+/* ---------- studio credits ---------- */
+const creditsOverlay=$("credits-overlay");
+let creditsPreviousMenuOpen=false;
+function openGameCredits(){
+  if(!creditsOverlay.hidden)return;
+  creditsPreviousMenuOpen=!!ctx.menuOpen;
+  ctx.menuOpen=true;
+  ctx.input.release();
+  creditsOverlay.hidden=false;
+  $("btn-close-credits").focus({preventScroll:true});
+}
+function closeGameCredits(){
+  if(creditsOverlay.hidden)return;
+  creditsOverlay.hidden=true;
+  ctx.menuOpen=creditsPreviousMenuOpen;
+}
+$("btn-credits-title").addEventListener("click",openGameCredits);
+$("btn-credits-menu").addEventListener("click",openGameCredits);
+$("btn-close-credits").addEventListener("click",closeGameCredits);
+window.addEventListener("mystery-manor-show-credits",openGameCredits);
+if(new URLSearchParams(location.search).has("credits"))openGameCredits();
+creditsOverlay.addEventListener("keydown",e=>{if(e.key==="Escape")closeGameCredits();});
+
 /* ---------- settings ---------- */
 const menu = $("menu"), mt = $("music-toggle");
 function syncMenu() { mt.setAttribute("aria-pressed", String(ctx.audio.musicOn)); mt.textContent = ctx.audio.musicOn ? "On" : "Off"; $("music-vol").value = Math.round(ctx.audio.musicVol * 100); $("sfx-vol").value = Math.round(ctx.audio.sfxVol * 100); }
@@ -62,3 +85,8 @@ $("btn-restart").addEventListener("click", () => { ctx.state.reset(); location.r
 
 document.addEventListener("contextmenu", e => { if (!e.target.closest("a,input")) e.preventDefault(); });
 window.__mm = ctx;                               // handle for the automated tests
+
+/* Register the installable Mystery Manor app shell without affecting game startup. */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(err => console.warn("Offline app cache unavailable", err)));
+}
