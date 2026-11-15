@@ -817,6 +817,97 @@ return '<div class="goal">'+tileSVG(idx)+'<span class="gname">'+["Pumpkins","Gho
 }).join("");
 }
 
+
+/* Stage-sized vector characters. Every body part is a proper animated SVG shape. */
+function stageFigure(index){
+ if(index===0)return '<svg viewBox="0 0 130 170" aria-hidden="true">'+
+ '<defs><radialGradient id="cat-fur"><stop stop-color="#5b4a72"/><stop offset="1" stop-color="#242137"/></radialGradient><linearGradient id="cat-eye" x2="0" y2="1"><stop stop-color="#fff8ab"/><stop offset="1" stop-color="#eabf6c"/></linearGradient></defs>'+
+ '<ellipse cx="65" cy="157" rx="52" ry="9" fill="#241b36" opacity=".4"/>'+
+ '<path class="cat-tail" d="M90 139Q137 150 116 103Q106 82 119 72" fill="none" stroke="#252237" stroke-width="20" stroke-linecap="round"/>'+
+ '<path d="M30 150Q20 104 42 89Q69 72 91 98Q108 118 101 152Z" fill="url(#cat-fur)" stroke="#78627e" stroke-width="2.8"/>'+
+ '<path d="M29 63Q29 38 42 17L56 41Q67 34 76 41L95 17Q108 54 99 70Q99 107 65 111Q30 108 29 63Z" fill="#2a253d" stroke="#897289" stroke-width="3"/>'+
+ '<path d="M36 37L43 27L51 46M82 43L94 29L95 51" fill="#c887a0"/>'+
+ '<ellipse cx="48" cy="75" rx="12" ry="13" fill="url(#cat-eye)"/><ellipse cx="81" cy="75" rx="12" ry="13" fill="url(#cat-eye)"/>'+
+ '<ellipse class="cast-eye" cx="49" cy="76" rx="3.2" ry="9" fill="#292138"/><ellipse class="cast-eye" cx="81" cy="76" rx="3.2" ry="9" fill="#292138"/>'+
+ '<path d="M61 90L69 90L65 95Z" fill="#e9a3b8"/><path d="M65 95Q57 102 54 97M65 95Q74 104 77 98" fill="none" stroke="#e6c4c0" stroke-width="2.5"/>'+
+ '<path d="M55 95L25 91M55 100L21 102M75 95L108 91M75 101L110 104" stroke="#c7aab4" stroke-width="2" stroke-linecap="round"/>'+
+ '<path d="M44 109Q65 128 88 109" fill="none" stroke="#ad7b95" stroke-width="7"/><path d="M56 114L65 133L75 114Z" fill="#f1c07b" stroke="#f7deaf" stroke-width="2"/><circle cx="65" cy="122" r="4" fill="#fff1a9"/>'+
+ '<ellipse cx="44" cy="150" rx="18" ry="10" fill="#343048" stroke="#8c748e" stroke-width="2"/><ellipse cx="88" cy="150" rx="18" ry="10" fill="#343048" stroke="#8c748e" stroke-width="2"/>'+
+ '<path d="M45 150L44 156M83 149L84 156" stroke="#e2c2b8" stroke-width="2"/></svg>';
+ if(index===1)return '<svg viewBox="0 0 130 170" aria-hidden="true">'+
+ '<defs><linearGradient id="fern-coat" x2="0" y2="1"><stop stop-color="#92b88e"/><stop offset="1" stop-color="#49736d"/></linearGradient><linearGradient id="fern-skin" x2="0" y2="1"><stop stop-color="#ffe0b3"/><stop offset="1" stop-color="#d29f8e"/></linearGradient></defs>'+
+ '<ellipse cx="65" cy="158" rx="50" ry="8" fill="#241b36" opacity=".36"/>'+
+ '<path d="M36 153V127H52V158H29Z" fill="#42364e" stroke="#997d80" stroke-width="2"/><path d="M79 158V127H95V156L101 160H77Z" fill="#42364e" stroke="#997d80" stroke-width="2"/>'+
+ '<path d="M43 94Q27 101 26 156H103Q102 103 82 94Z" fill="url(#fern-coat)" stroke="#c0c6a0" stroke-width="3"/>'+
+ '<path d="M62 97L65 153L76 96" fill="#e7c89a" opacity=".75"/><path d="M65 111L59 138L70 138Z" fill="#96667c"/>'+
+ '<path d="M42 98Q24 107 21 129L11 145L25 154L45 116" fill="#658977" stroke="#c5b49a" stroke-width="3"/>'+
+ '<g class="fern-hand"><path d="M84 101Q101 106 110 123L113 145L101 154L90 132Z" fill="#658977" stroke="#c5b49a" stroke-width="3"/><ellipse cx="107" cy="150" rx="12" ry="8" fill="url(#fern-skin)"/></g>'+
+ '<ellipse cx="17" cy="149" rx="12" ry="8" fill="url(#fern-skin)"/>'+
+ '<path d="M45 52Q45 32 65 31Q88 31 88 54V78Q85 94 64 97Q43 92 42 72Z" fill="url(#fern-skin)" stroke="#dcac96" stroke-width="2"/>'+
+ '<path d="M41 61Q33 32 48 27Q72 14 88 35Q96 47 88 62L80 45L53 46Z" fill="#5e4456"/>'+
+ '<path d="M24 43L40 24L86 24L104 43Q65 55 24 43Z" fill="#6d8d73" stroke="#c9bb90" stroke-width="3"/><path d="M43 28L48 10Q67 2 83 12L88 29" fill="#75997a" stroke="#c9bb90" stroke-width="3"/>'+
+ '<path d="M71 11Q76 -3 90 5Q84 18 71 11Z" fill="#91b477"/>'+
+ '<ellipse class="cast-eye" cx="57" cy="66" rx="3.5" ry="4" fill="#4c3a50"/><ellipse class="cast-eye" cx="77" cy="66" rx="3.5" ry="4" fill="#4c3a50"/>'+
+ '<path d="M56 56Q60 54 63 56M73 56Q78 55 81 56" stroke="#725262" stroke-width="2" fill="none"/>'+
+ '<ellipse cx="50" cy="77" rx="7" ry="4" fill="#efacaa" opacity=".52"/><ellipse cx="85" cy="77" rx="7" ry="4" fill="#efacaa" opacity=".52"/>'+
+ '<path d="M62 82Q68 85 74 81" fill="none" stroke="#b27980" stroke-width="2.5"/>'+
+ '<path d="M31 113L20 125L8 118M100 137L115 123L123 137" fill="none" stroke="#d7ad86" stroke-width="3"/></svg>';
+ return '<svg viewBox="0 0 130 170" aria-hidden="true">'+
+ '<defs><linearGradient id="wisp-body" x2="0" y2="1"><stop stop-color="#fff6f2"/><stop offset=".55" stop-color="#e8d6fc"/><stop offset="1" stop-color="#a5b9e9"/></linearGradient><radialGradient id="wisp-glow"><stop stop-color="#c8d9ff" stop-opacity=".54"/><stop offset="1" stop-color="#c8aaf3" stop-opacity="0"/></radialGradient></defs>'+
+ '<circle cx="65" cy="95" r="72" fill="url(#wisp-glow)" class="mm-halo"/>'+
+ '<g class="ghost-float"><ellipse cx="65" cy="156" rx="41" ry="6" fill="#f9e1ff" opacity=".16"/>'+
+ '<path d="M32 64Q28 17 65 17Q105 17 100 69V130Q101 146 116 148L98 157L79 147L65 162L51 148L31 159L18 149Q35 141 32 128Z" fill="url(#wisp-body)" stroke="#fff6ff" stroke-width="3"/>'+
+ '<path d="M35 56Q24 23 65 15Q101 14 102 55Q93 38 84 37Q57 42 35 56" fill="#bca5e4" stroke="#f7e9ff" stroke-width="2"/>'+
+ '<path d="M30 85Q13 91 16 111Q19 119 34 114M99 87Q118 89 115 110Q112 121 101 115" fill="none" stroke="#e1d1f7" stroke-width="12" stroke-linecap="round"/>'+
+ '<ellipse class="cast-eye" cx="52" cy="76" rx="5" ry="8" fill="#625278"/><ellipse class="cast-eye" cx="80" cy="76" rx="5" ry="8" fill="#625278"/>'+
+ '<ellipse cx="39" cy="91" rx="8" ry="5" fill="#eeaed2" opacity=".75"/><ellipse cx="94" cy="91" rx="8" ry="5" fill="#eeaed2" opacity=".75"/>'+
+ '<path d="M58 98Q66 106 75 98" fill="none" stroke="#956d9e" stroke-width="3" stroke-linecap="round"/>'+
+ '<path d="M30 50Q44 14 73 21" fill="none" stroke="#fff" stroke-width="5" opacity=".55"/>'+
+ '<circle cx="30" cy="36" r="4" fill="#fff1c6"/><path d="M95 17L97 24L105 27L97 30L95 38L92 30L85 27L92 24Z" fill="#fff4ba"/>'+
+ '<path d="M22 124L15 117L8 124M110 128L119 117L127 125" fill="none" stroke="#fff5ee" stroke-width="3"/></g></svg>';
+}
+var activeReactionTimer=null;
+function activateWitness(index,open){
+ if(!s||index<0||index>2)return;
+ if(index>maxUnlocked){
+  message(index===1?"Fern hasn't come into the library yet. Recover the first clue to meet her.":"The ghost will reveal herself after you investigate the west hall.");
+  var locked=document.querySelector('[data-person="'+index+'"]');
+  if(locked){locked.classList.add("nervous");setTimeout(function(){locked.classList.remove("nervous")},650)}
+  return;
+ }
+ s.activeWitness=index;
+ var w=witnesses[index];
+ $("witness-art").innerHTML=portrait(index);
+ $("witness-role").textContent=w.role;
+ $("witness-name").textContent=w.name;
+ $("witness-teaser").textContent=w.teaser;
+ document.querySelectorAll(".cast-character").forEach(function(el,i){
+  el.classList.toggle("selected",i===index);
+ });
+ if(open)talkToWitness();
+}
+function refreshCast(){
+ for(var i=0;i<3;i++){
+  var el=$("cast-figure-"+i);
+  if(el&&!el.dataset.loaded){el.innerHTML=stageFigure(i);el.dataset.loaded="1"}
+  var b=document.querySelector('[data-person="'+i+'"]');
+  if(b){b.classList.toggle("locked",i>maxUnlocked);b.classList.toggle("unlocked",i<=maxUnlocked)}
+ }
+ activateWitness(Math.min(s.activeWitness===undefined?s.level:s.activeWitness,maxUnlocked),false);
+}
+function characterReaction(type){
+ var idx=s&&s.activeWitness!==undefined?s.activeWitness:0;
+ var el=document.querySelector('[data-person="'+idx+'"]');if(!el)return;
+ if(activeReactionTimer)clearTimeout(activeReactionTimer);
+ el.classList.remove("reacting","nervous","victory");
+ var klass=type==="fail"?"nervous":type==="win"?"victory":"reacting";
+ void el.offsetWidth;el.classList.add(klass);
+ activeReactionTimer=setTimeout(function(){el.classList.remove(klass)},1100);
+}
+function actionCaption(text){
+ var label=$("action-caption");if(label)label.textContent=text;
+}
+
 function portrait(index){
  var body='<rect width="100" height="110" rx="12" fill="#765580"/><circle class="mm-halo" cx="76" cy="26" r="20" fill="#ecddbd" opacity=".75"/><path d="M0 100Q50 65 100 100V110H0Z" fill="#4e385f"/>';
  if(index===0){
@@ -844,8 +935,9 @@ function updateCaseFile(){
  $("deduce").textContent=caseSolved?"✓ CASE SOLVED":caseProgress<3?"🔒 Find All Three Clues to Solve the Case":"🔎 CONNECT THE CLUES · ACCUSE";
 }
 function talkToWitness(){
- var w=witnesses[s.level];
- showModal("💬",w.name+" Speaks",w.advice+"\n\n"+w.followup,"close","Back to Matching",undefined,s.level);
+ var id=s.activeWitness===undefined?s.level:s.activeWitness;
+ var w=witnesses[id];characterReaction("match");
+ showModal("💬",w.name+" Speaks",w.advice+"\n\n"+w.followup,"close","Back to Matching",undefined,id);
 }
 function reviewClue(i){
  if(i<0||i>=caseProgress)return;
@@ -855,10 +947,10 @@ function accuse(answer){
  if(caseProgress<3||caseSolved)return;
  $("deduce-overlay").classList.remove("open");
  if(answer==="passage"){
-  caseSolved=true;persist();updateCaseFile();
+  characterReaction("win");caseSolved=true;persist();updateCaseFile();
   showModal("🌙","The Mystery Is Solved!","The librarian was never kidnapped. She entered a hidden passage behind the fireplace to protect the enchanted star map. Mallow heard the stones move, Fern found an unbroken door seal, and Miss Wisp saw a living figure. You followed the evidence!","replay-case","Replay the Mystery ↻");
  }else{
-  s.ended=true;
+  characterReaction("fail");s.ended=true;
   showModal("🕸️","Wrong Accusation — Case Lost",answer==="ghost"?"The window was latched and the ghost had an alibi. The wrong accusation ends your investigation.":"The attic was empty, and no evidence pointed to the groundskeeper. The wrong accusation ends your investigation.","lose-case","Restart the Case ↻");
  }
 }
@@ -866,7 +958,7 @@ function accuse(answer){
 function initialize(level){
 token++;
 var c=chapters[level];
-s={level:level,board:[],score:0,moves:c.moves,left:Object.assign({},c.goal),hints:3,shuffles:2,selected:-1,hint:[],busy:false,ended:false,boomCount:0,falls:null,swapFX:null,invalid:[]};
+s={level:level,activeWitness:Math.min(level,maxUnlocked),board:[],score:0,moves:c.moves,left:Object.assign({},c.goal),hints:3,shuffles:2,selected:-1,hint:[],busy:false,ended:false,boomCount:0,falls:null,swapFX:null,invalid:[]};
 fillBoard();
 $("overlay").classList.remove("open");
 $("chapter-label").textContent="CHAPTER "+(level+1)+" · "+c.place;
@@ -876,7 +968,7 @@ $("story-title").textContent=c.short;
 $("story-text").textContent=c.copy;
 $("story-footer").textContent=c.footer;
 message("Swap two neighboring charms to make a match!");
-updateCaseFile();paint();
+updateCaseFile();refreshCast();actionCaption("SWAP CHARM → FIND MATCH → FOLLOW THE CLUES");paint();
 }
 var clueImages=["<svg viewBox=\"0 0 340 175\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"An open spellbook at the foot of a fireplace with a hidden stone seam\"><rect width=\"340\" height=\"175\" fill=\"#624963\"/><path d=\"M0 139H340V175H0Z\" fill=\"#463443\"/><g stroke=\"#a4888c\" opacity=\".38\" stroke-width=\"3\"><path d=\"M0 45H340M0 94H340M70 0V45M212 45V94\"/></g><path d=\"M195 153V61Q195 23 264 23Q324 23 327 65V152\" fill=\"#251729\" stroke=\"#c8a5a2\" stroke-width=\"11\"/><path d=\"M225 141Q220 104 250 87Q251 64 270 53Q291 79 284 103Q311 80 312 140Z\" fill=\"#ec9764\" stroke=\"#ffe0a3\" stroke-width=\"4\"/><path d=\"M199 38V154\" stroke=\"#22182a\" stroke-width=\"5\" stroke-dasharray=\"6 5\"/><path d=\"M15 144L111 111L180 139L81 171Z\" fill=\"#a45b7d\" stroke=\"#f1baa8\" stroke-width=\"4\"/><path d=\"M22 132Q65 110 111 133V160Q67 140 21 157Z\" fill=\"#ead4ae\" stroke=\"#a58277\" stroke-width=\"3\"/><path d=\"M111 133Q155 110 176 142V158Q142 139 111 160Z\" fill=\"#f2dbb4\" stroke=\"#a58277\" stroke-width=\"3\"/><path d=\"M39 134Q72 124 97 138M38 144Q64 133 94 149M124 134L159 146\" stroke=\"#b39686\" stroke-width=\"2\" fill=\"none\"/><g fill=\"#312233\"><circle cx=\"184\" cy=\"145\" r=\"5\"/><circle cx=\"181\" cy=\"128\" r=\"3\"/><circle cx=\"197\" cy=\"133\" r=\"2\"/></g><path d=\"M97 117L111 111L124 119\" fill=\"none\" stroke=\"#fff0d3\" opacity=\".8\"/></svg>","<svg viewBox=\"0 0 340 175\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"A grandfather clock frozen at twelve thirteen next to a sealed letter\"><rect width=\"340\" height=\"175\" fill=\"#615174\"/><path d=\"M0 157H340\" stroke=\"#89728b\" stroke-width=\"15\"/><path d=\"M16 172V14H145V172Z\" fill=\"#765167\" stroke=\"#cca184\" stroke-width=\"9\"/><circle cx=\"80\" cy=\"61\" r=\"38\" fill=\"#ebdac1\" stroke=\"#f1e5ce\" stroke-width=\"4\"/><circle cx=\"80\" cy=\"61\" r=\"30\" fill=\"none\" stroke=\"#ac8c85\" stroke-dasharray=\"3 5\" stroke-width=\"3\"/><path d=\"M80 61L80 34M80 61L100 50\" stroke=\"#74526d\" stroke-width=\"5\" stroke-linecap=\"round\"/><circle cx=\"80\" cy=\"61\" r=\"5\" fill=\"#aa7c79\"/><rect x=\"56\" y=\"110\" width=\"48\" height=\"46\" rx=\"8\" fill=\"#39253b\" stroke=\"#bd937b\" stroke-width=\"4\"/><path d=\"M80 114V136\" stroke=\"#e7ba80\" stroke-width=\"4\"/><circle cx=\"80\" cy=\"141\" r=\"10\" fill=\"#ddc18f\"/><path d=\"M191 28H316V150H191Z\" fill=\"#e8cdab\" stroke=\"#c19c8b\" stroke-width=\"7\"/><path d=\"M207 52L294 51M208 67L289 67M207 85L297 85\" stroke=\"#b3908e\" stroke-width=\"3\"/><path d=\"M211 31L302 120\" stroke=\"#d1a99e\" stroke-width=\"2\"/><circle cx=\"256\" cy=\"116\" r=\"20\" fill=\"#b34a71\" stroke=\"#eec49e\" stroke-width=\"3\"/><path d=\"M245 115L255 126L270 103\" stroke=\"#ffdbc5\" fill=\"none\" stroke-width=\"4\"/></svg>","<svg viewBox=\"0 0 340 175\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"A handwritten secret note and a glittering enchanted star map\"><rect width=\"340\" height=\"175\" fill=\"#534678\"/><circle cx=\"276\" cy=\"26\" r=\"24\" fill=\"#f6e4ba\"/><g fill=\"#f9e8c6\"><circle cx=\"232\" cy=\"58\" r=\"2\"/><circle cx=\"319\" cy=\"66\" r=\"2\"/><circle cx=\"179\" cy=\"23\" r=\"2\"/></g><path d=\"M24 22L198 18L218 161L42 163Z\" fill=\"#efd6ae\" stroke=\"#bb947f\" stroke-width=\"5\"/><path d=\"M52 49Q87 42 126 53L166 47M55 68L186 67M56 84L184 85M60 104L182 103M63 120L160 121\" stroke=\"#a78483\" fill=\"none\" stroke-width=\"3\" stroke-dasharray=\"14 5\"/><circle cx=\"175\" cy=\"142\" r=\"14\" fill=\"#ac5272\" stroke=\"#f7d7b2\" stroke-width=\"3\"/><path d=\"M175 133L178 141L186 144L180 148L181 156L175 151L169 155L171 147L165 142L172 140Z\" fill=\"#ffe2a8\"/><path d=\"M220 105L313 94L327 159L228 168Z\" fill=\"#6f6087\" stroke=\"#ddc2bf\" stroke-width=\"4\"/><path d=\"M237 140L253 121L272 135L292 111L311 129\" fill=\"none\" stroke=\"#f1d6a4\" stroke-width=\"3\" stroke-dasharray=\"5 4\"/><circle cx=\"237\" cy=\"140\" r=\"5\" fill=\"#e2bbe7\"/><circle cx=\"311\" cy=\"129\" r=\"5\" fill=\"#e2bbe7\"/></svg>"];
 function pictureClue(i){
@@ -898,6 +990,7 @@ function finish(win){
 s.ended=true;s.busy=false;
 best=Math.max(best,s.score);
 if(win){
+ characterReaction("win");
  caseProgress=Math.max(caseProgress,s.level+1);
  maxUnlocked=Math.max(maxUnlocked,Math.min(2,s.level+1));
  persist();
@@ -905,8 +998,10 @@ if(win){
  $("story-footer").textContent="✦ The evidence is recovered. A witness is ready to talk.";
  updateCaseFile();
  var last=s.level===2;
+ characterReaction("win");refreshCast();actionCaption("✦ A NEW CLUE HAS BEEN UNCOVERED!");
  showModal("📜","Clue "+(s.level+1)+" Recovered!",chapters[s.level].clue+"\n\n"+witnesses[s.level].name+" says:\n“"+witnesses[s.level].followup+"”",last?"see-case":"next",last?"Open the Case File →":"Next Level →",s.level);
 }else{
+ characterReaction("fail");actionCaption("☾ THE SPELL FADED — TRY THIS ROOM AGAIN");
  persist();
  showModal("🌙","The Spell Faded","You ran out of moves before uncovering the clue. Try the level again.","retry","Try Again ↻");
 }
@@ -987,6 +1082,7 @@ chain++;
 found.anchors.forEach(function(i){s.board[i]=piece(6)});
 if(found.anchors.length){message("👻 HEX BOMB! Four matching charms in a line or square!");tone(760)}
 message(found.anchors.length?"✨ A HEX BOMB IS APPEARING!":chain>1?"✨ CASCADE "+chain+"!":"✦ Matching charms — watch them burst!");
+ actionCaption(found.anchors.length?"✦ FOUR CONNECTED — HEX BOMB FORMED!":"✧ MATCH CONFIRMED — WATCH THE CHARM BURST");if(found.anchors.length)characterReaction("match");
 paint(found.remove);
 burstCells(found.remove,false);
 await sleep(285);if(activeToken!==token)return;
@@ -1000,7 +1096,7 @@ await sleep(525);if(activeToken!==token)return;
 s.falls=null;
 preferred=-1;
 }
-if(chain>1){message("✨ Magical cascade! "+chain+" matches in a row!");comboBurst(chain)}
+if(chain>1){message("✨ Magical cascade! "+chain+" matches in a row!");actionCaption("✧ CHAIN REACTION × "+chain);characterReaction("match");comboBurst(chain)}
 else if(chain===1)message("Beautiful match! Keep collecting clues.");
 }
 async function explode(index,activeToken){
@@ -1015,7 +1111,7 @@ var j=position(row,col);affected.add(j);
 if(s.board[j]&&s.board[j].special&&!triggered.has(j))queue.push(j);
 }
 }
-message("💥 HEX BOMB! Ghostly magic clears a 3×3 area!");
+message("💥 HEX BOMB! Ghostly magic clears a 3×3 area!");actionCaption("✦ HEX BOMB! ✦");characterReaction("match");
 var flash=document.querySelector(".board-wrap");flash.classList.remove("flash");void flash.offsetWidth;flash.classList.add("flash");
 tone(330);
 paint(Array.from(affected));burstCells(Array.from(affected),true);await sleep(330);if(activeToken!==token)return;
@@ -1046,7 +1142,7 @@ async function trySwap(a,b){
   s.swapFX={};s.swapFX[a]={x:dx,y:dy};s.swapFX[b]={x:-dx,y:-dy};
   swap(s.board,a,b);paint();await sleep(195);if(activeToken!==token)return;
   s.swapFX=null;s.invalid=[a,b];paint();
-  message("Those charms won't connect. Try another pair!");tone(210);
+  message("Those charms won't connect. Try another pair!");actionCaption("THAT SWAP DIDN'T MATCH — TRY AGAIN");characterReaction("fail");tone(210);
   await sleep(180);if(activeToken!==token)return;
   s.invalid=[];s.busy=false;paint();return;
  }
@@ -1101,12 +1197,22 @@ $("music-volume").addEventListener("input",function(){if(musicAudio)musicAudio.v
 $("modal-button").addEventListener("click",function(){
 var action=this.dataset.action;
 if(action==="next")initialize(Math.min(2,s.level+1));
-else if(action==="see-case"){$("overlay").classList.remove("open");updateCaseFile();$("deduce").scrollIntoView({behavior:"smooth",block:"center"});}
+else if(action==="see-case"){$("overlay").classList.remove("open");updateCaseFile();$("casefile-overlay").classList.add("open") }
 else if(action==="close")$("overlay").classList.remove("open");
 else if(action==="lose-case"||action==="replay-case"){caseProgress=0;maxUnlocked=0;caseSolved=false;persist();initialize(0);}
 else initialize(s.level);
 });
 $("witness-talk").addEventListener("click",talkToWitness);
+document.querySelectorAll("[data-person]").forEach(function(el){
+ el.addEventListener("click",function(){activateWitness(Number(this.dataset.person),true)});
+});
+$("casefile-open").addEventListener("click",function(){updateCaseFile();$("casefile-overlay").classList.add("open")});
+$("casefile-close").addEventListener("click",function(){$("casefile-overlay").classList.remove("open")});
+$("casefile-overlay").addEventListener("click",function(e){if(e.target===this)this.classList.remove("open")});
+document.addEventListener("keydown",function(e){
+ if(e.key==="Escape"){$("casefile-overlay").classList.remove("open");$("overlay").classList.remove("open");$("deduce-overlay").classList.remove("open")}
+});
+
 $("clue-list").addEventListener("click",function(e){var b=e.target.closest("[data-clue]");if(b)reviewClue(Number(b.dataset.clue))});
 $("deduce").addEventListener("click",function(){if(caseProgress===3&&!caseSolved)$("deduce-overlay").classList.add("open")});
 $("deduce-back").addEventListener("click",function(){$("deduce-overlay").classList.remove("open")});
