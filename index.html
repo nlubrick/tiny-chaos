@@ -447,7 +447,7 @@ function holdButton(id,key){
  // touch-action:none; preventing touchstart avoids selection/long-press menus.
  el.addEventListener("touchstart",function(e){if(e.cancelable)e.preventDefault();keys[key]=true;el.classList.add("pressed")},{passive:false});
  el.addEventListener("touchmove",function(e){if(e.cancelable)e.preventDefault()},{passive:false});
- el.addEventListener("touchend",function(e){if(e.cancelable)e.preventDefault();if(!activePointers.size){keys[key]=false;el.classList.remove("pressed")}},{passive:false});
+ el.addEventListener("touchend",function(e){if(e.cancelable)e.preventDefault();activePointers.clear();keys[key]=false;el.classList.remove("pressed")},{passive:false});
  el.addEventListener("touchcancel",function(e){if(e.cancelable)e.preventDefault();keys[key]=false;activePointers.clear();el.classList.remove("pressed")},{passive:false});
  el.addEventListener("contextmenu",function(e){e.preventDefault()});
  el.addEventListener("dragstart",function(e){e.preventDefault()});
