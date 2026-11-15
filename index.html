@@ -420,6 +420,30 @@ body{background:#151622;padding:0 0 12px}
 .simple-room .manor-voice:before{top:-7px}
 .dossier-dialog{max-width:430px}
 @media(max-width:390px){.simple-room{padding:0 11px 22px}.simple-header .room-brand h1{font-size:26px}.simple-header .sound{font-size:9px;padding:7px}.one-witness{height:140px}.one-witness .cast-character{height:145px}.one-witness .cast-character.selected .cast-figure{height:128px}.simple-speech{padding:9px;min-height:63px;margin-bottom:10px}.simple-desk{padding:9px 6px}.task-text strong{font-size:16px}.simple-case strong{font-size:18px}.simple-footer p{font-size:11px}}
+
+/* The story is the home screen; the match table appears only when it is needed. */
+.story-stage{position:relative;z-index:3;margin:16px 2px 25px;background:linear-gradient(145deg,#f1dfc0f7,#d8bdadf5);border:2px solid #f7dfbb;border-radius:18px;color:#4b354b;box-shadow:0 10px 0 #5b4057,0 19px 22px #110d2aa6;overflow:hidden}
+.story-stage[hidden],#puzzle-stage[hidden]{display:none!important}
+.story-progress{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 16px 9px;border-bottom:1px solid #ac8b8e7c;font:900 9px Arial,sans-serif;letter-spacing:1.2px;color:#815e72}
+.story-page{padding:18px 18px 15px;min-height:159px}
+.story-speaker{font:900 11px Arial,sans-serif;letter-spacing:2px;color:#976077}
+.story-page p{font:20px/1.5 Georgia,serif;color:#493047;margin:10px 0 0;text-wrap:pretty}
+.story-continue{display:flex;justify-content:center;align-items:center;width:calc(100% - 28px);margin:0 14px 13px;min-height:52px;border:1px solid #e6b68d;border-radius:11px;background:linear-gradient(120deg,#85546e,#5b425b);box-shadow:0 4px 0 #53384c;color:#fff0d1;font:900 13px Arial,sans-serif;letter-spacing:.45px}
+.story-progress-note{text-align:center;color:#795e6b;font:italic 11px Georgia,serif;margin:7px 18px 15px}
+.story-clue-art{margin:13px auto 0;width:calc(100% - 30px);max-width:370px;border:3px solid #e2b491;box-shadow:0 4px 12px #5c3b4b5a;border-radius:12px;overflow:hidden}
+.story-clue-art[hidden]{display:none}
+.story-clue-art svg{display:block;width:100%;height:auto}
+#puzzle-stage{animation:puzzle-enter .35s cubic-bezier(.16,.7,.21,1.02) both}
+@keyframes puzzle-enter{from{opacity:0;transform:translateY(32px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
+.puzzle-topline{display:flex;justify-content:space-between;gap:10px;color:#ffebbf;font:900 10px Arial,sans-serif;letter-spacing:1.5px;padding:2px 6px 7px}
+.simple-room.puzzle-active .one-witness{height:95px}
+.simple-room.puzzle-active .one-witness .cast-character{height:94px}
+.simple-room.puzzle-active .one-witness .cast-character.selected .cast-figure{height:81px;width:91px}
+.simple-room.puzzle-active .simple-speech{display:none}
+.simple-room.puzzle-active .simple-case{margin-bottom:5px}
+.simple-room .simple-footer{padding-bottom:25px}
+.simple-room:not(.puzzle-active) .simple-footer>p:first-child{display:none}
+@media(max-width:390px){.story-page{min-height:145px;padding:14px 15px}.story-page p{font-size:18px}.story-stage{margin-top:12px}}
 </style>
 </head>
 <body>
@@ -566,7 +590,15 @@ body{background:#151622;padding:0 0 12px}
  <div class="voice-content"><span class="voice-eyebrow" id="witness-role">YOUR WITNESS</span><strong id="witness-name">Mallow</strong><p id="witness-teaser">I heard something strange by the fireplace…</p></div>
  <button type="button" id="witness-talk" class="voice-ask" aria-label="Talk to witness">TALK <span>›</span></button>
 </section>
-<section class="desk-space simple-desk" aria-label="Match-three puzzle">
+<section class="story-stage" id="story-stage" aria-label="Interactive mystery story">
+  <div class="story-progress"><span id="story-scene-label">SCENE 1 · THE LIBRARY</span><span id="story-beat-label">01 / 03</span></div>
+  <div class="story-clue-art" id="story-clue-art" hidden></div>
+  <div class="story-page"><span class="story-speaker" id="story-speaker">THE STORY</span><p id="story-dialogue">A strange sound comes from the library...</p></div>
+  <button type="button" id="story-continue" class="story-continue">Continue the Story <span aria-hidden="true">›</span></button>
+  <p class="story-progress-note" id="story-action-note">Follow the conversation to discover your next puzzle.</p>
+</section>
+<section class="desk-space simple-desk" id="puzzle-stage" aria-label="Match-three puzzle" hidden>
+ <div class="puzzle-topline"><span>✦ PUZZLE CHALLENGE ✦</span><span id="puzzle-chapter">LEVEL 1</span></div>
   <div class="task-line"><div class="task-text"><span id="simple-goal-label">YOUR GOAL</span><strong id="simple-goal">Match the spellbooks</strong></div><div class="moves-chip">MOVES <b id="moves">26</b></div></div>
   <div class="board-wrap"><div id="board" class="board" aria-label="Seven by seven spooky match three game board"></div><div id="fx-layer" class="fx-layer" aria-hidden="true"></div></div>
   <div class="notice" id="notice" aria-live="polite">Swap two charms to make a match of three.</div>
@@ -1030,17 +1062,101 @@ function accuse(answer){
  $("deduce-overlay").classList.remove("open");
  if(answer==="passage"){
   characterReaction("win");caseSolved=true;persist();updateCaseFile();
-  showModal("🌙","The Mystery Is Solved!","The librarian was never kidnapped. She entered a hidden passage behind the fireplace to protect the enchanted star map. Mallow heard the stones move, Fern found an unbroken door seal, and Miss Wisp saw a living figure. You followed the evidence!","replay-case","Replay the Mystery ↻");
+  $("casefile-overlay").classList.remove("open");
+  s.storyPhase="solved";s.storyStep=0;setGameView(false);renderStory();
  }else{
   characterReaction("fail");s.ended=true;
   showModal("🕸️","Wrong Accusation — Case Lost",answer==="ghost"?"The window was latched and the ghost had an alibi. The wrong accusation ends your investigation.":"The attic was empty, and no evidence pointed to the groundskeeper. The wrong accusation ends your investigation.","lose-case","Restart the Case ↻");
  }
 }
 
+
+/* STORY FIRST: a short animated scene leads into each puzzle. The board appears
+   only when a character discovers a magical obstacle. After winning, the clue
+   is revealed in the story, which continues before the next puzzle. */
+var storyScenes=[
+ {name:"The Library Door",intro:[
+  {speaker:"THE MANOR",text:"At twelve minutes past midnight, every candle in the library went out. When they returned, the librarian had vanished."},
+  {speaker:"MALLOW",text:"I watched the door all night. Nobody came in. Nobody went out. But I heard the fireplace scrape across the floor."},
+  {speaker:"THE MANOR",text:"A page from her spellbook lies beneath a locked enchantment. Break the spell to find the first clue."}
+ ],after:[
+  {speaker:"CLUE FOUND",text:"Look closely. Soot lines a narrow seam behind the fireplace. Something heavy moved through that wall."},
+  {speaker:"MALLOW",text:"I knew it! She didn't use the door. Ask Fern about the old clock. It was chiming at a very strange hour."}
+ ]},
+ {name:"The Silent Clock",intro:[
+  {speaker:"THE MANOR",text:"The west hall smells of lavender and rain. Its grandfather clock has stopped at a time nobody remembers setting."},
+  {speaker:"FERN",text:"I sealed the front door with wax yesterday. The seal hasn't been touched. But there was mud near the fireplace."},
+  {speaker:"THE MANOR",text:"The clock's face is covered by another enchantment. Clear it to find out what happened that night."}
+ ],after:[
+  {speaker:"CLUE FOUND",text:"Behind the clock face is a tiny mechanism linked to the library fireplace. The front-door seal remains unbroken."},
+  {speaker:"FERN",text:"That mechanism shouldn't still work. If someone knows the old passage, they could move through the manor without opening a door."}
+ ]},
+ {name:"The Moonlit Attic",intro:[
+  {speaker:"THE MANOR",text:"A gust of cold air sends papers flying upstairs. A faint blue light shimmers through the attic ceiling."},
+  {speaker:"MISS WISP",text:"It's terribly rude how everyone blames ghosts! I saw a living figure by the fireplace, then heard stone sliding."},
+  {speaker:"THE MANOR",text:"An enchanted star map flickers above a pile of letters. One last spell protects the librarian's message."}
+ ],after:[
+  {speaker:"CLUE FOUND",text:"The librarian's own handwriting says: 'I have hidden the star map. I must reach the passage before the collector returns.'"},
+  {speaker:"MISS WISP",text:"Now you have the pieces. Did anyone kidnap her? Or did she choose to disappear? Think before you accuse anyone."}
+ ]}
+];
+function setGameView(show){
+ var room=$("manor-room"),board=$("puzzle-stage"),story=$("story-stage");
+ room.classList.toggle("puzzle-active",!!show);
+ board.hidden=!show;story.hidden=!!show;
+ var target=show?board:story;
+ if(target&&target.scrollIntoView)target.scrollIntoView({behavior:"smooth",block:show?"start":"center"});
+}
+function renderStory(){
+ if(!s)return;
+ var chapter=storyScenes[s.level],after=s.storyPhase==="after",intro=s.storyPhase==="intro";
+ var beats=after?chapter.after:chapter.intro;
+ var dialogue=beats[Math.min(beats.length-1,s.storyStep||0)];
+ if(s.storyPhase==="deduction"){
+  dialogue={speaker:"YOUR TURN, DETECTIVE",text:"Three witnesses. Three clues. One explanation fits them all. Open your notebook, review the evidence, and decide what happened."};
+  beats=[dialogue];
+ }
+ if(s.storyPhase==="solved"){
+  dialogue={speaker:"MYSTERY SOLVED",text:"The librarian hid the star map and disappeared into the secret passage. You followed every clue. But someone called the Collector is still out there…"};
+  beats=[dialogue];
+ }
+ $("story-scene-label").textContent=(after?"CLUE REVEAL · ":"SCENE · ")+chapter.name.toUpperCase();
+ $("story-beat-label").textContent=String(Math.min(beats.length,s.storyStep+1)).padStart(2,"0")+" / "+String(beats.length).padStart(2,"0");
+ $("story-speaker").textContent=dialogue.speaker;
+ $("story-dialogue").textContent=dialogue.text;
+ $("story-clue-art").hidden=!after;
+ $("story-clue-art").innerHTML=after?(clueImages[s.level]||""):"";
+ var last=s.storyStep>=beats.length-1;
+ var label=intro&&last?"Solve the Spell ✦":after&&last?(s.level===2?"Solve the Mystery 🔎":"Continue to Next Scene ›"):s.storyPhase==="deduction"?"Open Detective's Notebook ›":s.storyPhase==="solved"?"Replay the Case ↻":"Continue Story ›";
+ $("story-continue").innerHTML=label;
+ $("story-action-note").textContent=intro?"Follow the story. The puzzle appears when it's time to play.":after?"Clue "+(s.level+1)+" of 3 recovered.":"Review your clues before making your choice.";
+ $("witness-teaser").textContent=dialogue.speaker==="THE MANOR"?"The manor has a story to tell…":dialogue.text;
+}
+function storyContinue(){
+ if(!s||s.busy)return;
+ if(s.storyPhase==="intro"){
+  var intro=storyScenes[s.level].intro;
+  if(s.storyStep<intro.length-1){s.storyStep++;renderStory();characterReaction("match");return}
+  s.storyPhase="puzzle";setGameView(true);message("Match the target charms to uncover the clue.");return;
+ }
+ if(s.storyPhase==="after"){
+  var after=storyScenes[s.level].after;
+  if(s.storyStep<after.length-1){s.storyStep++;renderStory();characterReaction("match");return}
+  if(s.level<2){initialize(s.level+1);return}
+  s.storyPhase="deduction";s.storyStep=0;renderStory();return;
+ }
+ if(s.storyPhase==="deduction"){
+  updateCaseFile();$("casefile-overlay").classList.add("open");return;
+ }
+ if(s.storyPhase==="solved"){
+  caseProgress=0;maxUnlocked=0;caseSolved=false;persist();initialize(0);return;
+ }
+}
+
 function initialize(level){
 token++;
 var c=chapters[level];
-s={level:level,activeWitness:Math.min(level,maxUnlocked),matchReady:[],board:[],score:0,moves:c.moves,left:Object.assign({},c.goal),hints:3,shuffles:2,selected:-1,hint:[],busy:false,ended:false,boomCount:0,falls:null,swapFX:null,invalid:[]};
+s={level:level,storyPhase:"intro",storyStep:0,activeWitness:Math.min(level,maxUnlocked),matchReady:[],board:[],score:0,moves:c.moves,left:Object.assign({},c.goal),hints:3,shuffles:2,selected:-1,hint:[],busy:false,ended:false,boomCount:0,falls:null,swapFX:null,invalid:[]};
 fillBoard();
 $("overlay").classList.remove("open");
 $("chapter-label").textContent="LEVEL "+(level+1)+" OF 3";
@@ -1050,7 +1166,7 @@ $("story-title").textContent=c.short;
 $("story-text").textContent=c.copy;
 $("story-footer").textContent=c.footer;
 message("Swap two charms to match three.");
-updateCaseFile();refreshCast();$("extra-tools").hidden=true;$("menu-toggle").setAttribute("aria-expanded","false");actionCaption("MATCH 3 → FIND THE CLUE");paint();
+updateCaseFile();refreshCast();$("extra-tools").hidden=true;$("menu-toggle").setAttribute("aria-expanded","false");$("puzzle-chapter").textContent="LEVEL "+(level+1)+" OF 3";actionCaption("MATCH 3 → FIND THE CLUE");paint();setGameView(false);renderStory();
 }
 var clueImages=["<svg viewBox=\"0 0 340 175\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"An open spellbook at the foot of a fireplace with a hidden stone seam\"><rect width=\"340\" height=\"175\" fill=\"#624963\"/><path d=\"M0 139H340V175H0Z\" fill=\"#463443\"/><g stroke=\"#a4888c\" opacity=\".38\" stroke-width=\"3\"><path d=\"M0 45H340M0 94H340M70 0V45M212 45V94\"/></g><path d=\"M195 153V61Q195 23 264 23Q324 23 327 65V152\" fill=\"#251729\" stroke=\"#c8a5a2\" stroke-width=\"11\"/><path d=\"M225 141Q220 104 250 87Q251 64 270 53Q291 79 284 103Q311 80 312 140Z\" fill=\"#ec9764\" stroke=\"#ffe0a3\" stroke-width=\"4\"/><path d=\"M199 38V154\" stroke=\"#22182a\" stroke-width=\"5\" stroke-dasharray=\"6 5\"/><path d=\"M15 144L111 111L180 139L81 171Z\" fill=\"#a45b7d\" stroke=\"#f1baa8\" stroke-width=\"4\"/><path d=\"M22 132Q65 110 111 133V160Q67 140 21 157Z\" fill=\"#ead4ae\" stroke=\"#a58277\" stroke-width=\"3\"/><path d=\"M111 133Q155 110 176 142V158Q142 139 111 160Z\" fill=\"#f2dbb4\" stroke=\"#a58277\" stroke-width=\"3\"/><path d=\"M39 134Q72 124 97 138M38 144Q64 133 94 149M124 134L159 146\" stroke=\"#b39686\" stroke-width=\"2\" fill=\"none\"/><g fill=\"#312233\"><circle cx=\"184\" cy=\"145\" r=\"5\"/><circle cx=\"181\" cy=\"128\" r=\"3\"/><circle cx=\"197\" cy=\"133\" r=\"2\"/></g><path d=\"M97 117L111 111L124 119\" fill=\"none\" stroke=\"#fff0d3\" opacity=\".8\"/></svg>","<svg viewBox=\"0 0 340 175\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"A grandfather clock frozen at twelve thirteen next to a sealed letter\"><rect width=\"340\" height=\"175\" fill=\"#615174\"/><path d=\"M0 157H340\" stroke=\"#89728b\" stroke-width=\"15\"/><path d=\"M16 172V14H145V172Z\" fill=\"#765167\" stroke=\"#cca184\" stroke-width=\"9\"/><circle cx=\"80\" cy=\"61\" r=\"38\" fill=\"#ebdac1\" stroke=\"#f1e5ce\" stroke-width=\"4\"/><circle cx=\"80\" cy=\"61\" r=\"30\" fill=\"none\" stroke=\"#ac8c85\" stroke-dasharray=\"3 5\" stroke-width=\"3\"/><path d=\"M80 61L80 34M80 61L100 50\" stroke=\"#74526d\" stroke-width=\"5\" stroke-linecap=\"round\"/><circle cx=\"80\" cy=\"61\" r=\"5\" fill=\"#aa7c79\"/><rect x=\"56\" y=\"110\" width=\"48\" height=\"46\" rx=\"8\" fill=\"#39253b\" stroke=\"#bd937b\" stroke-width=\"4\"/><path d=\"M80 114V136\" stroke=\"#e7ba80\" stroke-width=\"4\"/><circle cx=\"80\" cy=\"141\" r=\"10\" fill=\"#ddc18f\"/><path d=\"M191 28H316V150H191Z\" fill=\"#e8cdab\" stroke=\"#c19c8b\" stroke-width=\"7\"/><path d=\"M207 52L294 51M208 67L289 67M207 85L297 85\" stroke=\"#b3908e\" stroke-width=\"3\"/><path d=\"M211 31L302 120\" stroke=\"#d1a99e\" stroke-width=\"2\"/><circle cx=\"256\" cy=\"116\" r=\"20\" fill=\"#b34a71\" stroke=\"#eec49e\" stroke-width=\"3\"/><path d=\"M245 115L255 126L270 103\" stroke=\"#ffdbc5\" fill=\"none\" stroke-width=\"4\"/></svg>","<svg viewBox=\"0 0 340 175\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"A handwritten secret note and a glittering enchanted star map\"><rect width=\"340\" height=\"175\" fill=\"#534678\"/><circle cx=\"276\" cy=\"26\" r=\"24\" fill=\"#f6e4ba\"/><g fill=\"#f9e8c6\"><circle cx=\"232\" cy=\"58\" r=\"2\"/><circle cx=\"319\" cy=\"66\" r=\"2\"/><circle cx=\"179\" cy=\"23\" r=\"2\"/></g><path d=\"M24 22L198 18L218 161L42 163Z\" fill=\"#efd6ae\" stroke=\"#bb947f\" stroke-width=\"5\"/><path d=\"M52 49Q87 42 126 53L166 47M55 68L186 67M56 84L184 85M60 104L182 103M63 120L160 121\" stroke=\"#a78483\" fill=\"none\" stroke-width=\"3\" stroke-dasharray=\"14 5\"/><circle cx=\"175\" cy=\"142\" r=\"14\" fill=\"#ac5272\" stroke=\"#f7d7b2\" stroke-width=\"3\"/><path d=\"M175 133L178 141L186 144L180 148L181 156L175 151L169 155L171 147L165 142L172 140Z\" fill=\"#ffe2a8\"/><path d=\"M220 105L313 94L327 159L228 168Z\" fill=\"#6f6087\" stroke=\"#ddc2bf\" stroke-width=\"4\"/><path d=\"M237 140L253 121L272 135L292 111L311 129\" fill=\"none\" stroke=\"#f1d6a4\" stroke-width=\"3\" stroke-dasharray=\"5 4\"/><circle cx=\"237\" cy=\"140\" r=\"5\" fill=\"#e2bbe7\"/><circle cx=\"311\" cy=\"129\" r=\"5\" fill=\"#e2bbe7\"/></svg>"];
 function pictureClue(i){
@@ -1069,74 +1185,23 @@ function showModal(icon,title,desc,action,label,pictureIndex,personIndex){
 $("modal-icon").textContent=icon;$("modal-title").textContent=title;$("modal-copy").textContent=desc;$("modal-button").dataset.action=action;$("modal-button").textContent=label;$("overlay").classList.add("open");
 }
 function finish(win){
-s.ended=true;s.busy=false;
-best=Math.max(best,s.score);
-if(win){
- characterReaction("win");
- caseProgress=Math.max(caseProgress,s.level+1);
- maxUnlocked=Math.max(maxUnlocked,Math.min(2,s.level+1));
- persist();
- $("story-text").textContent=chapters[s.level].clue;
- $("story-footer").textContent="✦ The evidence is recovered. A witness is ready to talk.";
- updateCaseFile();
- var last=s.level===2;
- refreshCast();roomReaction("clue");actionCaption("✦ A NEW CLUE HAS BEEN UNCOVERED!");
- showModal("📜","Clue "+(s.level+1)+" Recovered!",chapters[s.level].clue+"\n\n"+witnesses[s.level].name+" says:\n“"+witnesses[s.level].followup+"”",last?"see-case":"next",last?"Open the Case File →":"Next Level →",s.level);
-}else{
- characterReaction("fail");actionCaption("☾ THE SPELL FADED — TRY THIS ROOM AGAIN");
- persist();
- showModal("🌙","The Spell Faded","You ran out of moves before uncovering the clue. Try the level again.","retry","Try Again ↻");
-}
-paint();
-}
-
-/* Spark fragments are drawn over each tile as it bursts. */
-function burstCells(indices,large){
- if(!indices||!indices.length||!document.createElement)return;
- if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
- var layer=$("fx-layer"),board=$("board");
- if(!layer||!board||!layer.getBoundingClientRect)return;
- var bounds=layer.getBoundingClientRect(),created=[];
- for(var n=0;n<Math.min(indices.length,large?20:14);n++){
-  var i=indices[n],cell=board.children[i];
-  if(!cell||!cell.getBoundingClientRect)continue;
-  var rect=cell.getBoundingClientRect();
-  var x=rect.left+rect.width/2-bounds.left,y=rect.top+rect.height/2-bounds.top;
-  var type=s.board[i]?s.board[i].type:0;
-  var colors=["#ffd27e","#d6b5fa","#fff1ae","#f2a9cc","#a7e7ff","#b7ffd0","#fff1b3"];
-  var count=large?7:4;
-  for(var k=0;k<count;k++){
-   var angle=(k/count)*Math.PI*2+(i%4)*.3;
-   var length=(large?30:16)+(k%3)*7;
-   var p=document.createElement("span");
-   p.className="fx-spark"+(k%3===0?" star":k%4===0?" smoke":"");
-   p.style.left=x+"px";p.style.top=y+"px";
-   p.style.setProperty("--dx",(Math.cos(angle)*length)+"px");
-   p.style.setProperty("--dy",(Math.sin(angle)*length-(large?6:13))+"px");
-   p.style.setProperty("--rot",(45+k*55)+"deg");
-   p.style.setProperty("--spark-color",colors[type]||"#ffeab2");
-   layer.appendChild(p);created.push(p);
-  }
+ s.ended=!!win;s.busy=false;
+ best=Math.max(best,s.score);
+ if(win){
+  caseProgress=Math.max(caseProgress,s.level+1);
+  maxUnlocked=Math.max(maxUnlocked,Math.min(2,s.level+1));
+  persist();updateCaseFile();refreshCast();
+  characterReaction("win");roomReaction("clue");
+  s.storyPhase="after";s.storyStep=0;
+  s.ended=false;
+  setGameView(false);renderStory();
+ }else{
+  s.ended=true;
+  characterReaction("fail");
+  showModal("🌙","The Spell Faded","You ran out of moves before finding the clue. Try the puzzle again.","retry-puzzle","Try Puzzle Again ↻");
  }
- if(large){
-  var ring=document.createElement("span");ring.className="fx-ring";
-  var origin=indices[Math.floor(indices.length/2)],tile=board.children[origin];
-  if(tile&&tile.getBoundingClientRect){
-   var p=tile.getBoundingClientRect();
-   ring.style.left=(p.left+p.width/2-bounds.left)+"px";
-   ring.style.top=(p.top+p.height/2-bounds.top)+"px";
-   layer.appendChild(ring);created.push(ring);
-  }
- }
- setTimeout(function(){created.forEach(function(x){if(x.parentNode)x.parentNode.removeChild(x)})},800);
+ paint();
 }
-function comboBurst(n){
- if(n<2||!document.createElement)return;
- var layer=$("fx-layer"),span=document.createElement("span");
- span.className="fx-combo";span.textContent="✧ "+n+"× COMBO! ✧";
- layer.appendChild(span);setTimeout(function(){if(span.parentNode)span.parentNode.removeChild(span)},850);
-}
-
 function updateProgress(indices){
 for(var i=0;i<indices.length;i++){
 var idx=indices[i],p=s.board[idx];
@@ -1287,8 +1352,10 @@ if(action==="next")initialize(Math.min(2,s.level+1));
 else if(action==="see-case"){$("overlay").classList.remove("open");updateCaseFile();$("casefile-overlay").classList.add("open") }
 else if(action==="close")$("overlay").classList.remove("open");
 else if(action==="lose-case"||action==="replay-case"){caseProgress=0;maxUnlocked=0;caseSolved=false;persist();initialize(0);}
+else if(action==="retry-puzzle"){initialize(s.level);s.storyPhase="puzzle";setGameView(true);}
 else initialize(s.level);
 });
+$("story-continue").addEventListener("click",storyContinue);
 $("witness-talk").addEventListener("click",talkToWitness);
 document.querySelectorAll("[data-person]").forEach(function(el){
  el.addEventListener("click",function(){activateWitness(Number(this.dataset.person),true)});
